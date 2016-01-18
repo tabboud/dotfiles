@@ -329,6 +329,7 @@ let g:ctrlp_working_path_mode = 2
 " Settings for MacVim
 if (has("gui_running"))
     set guioptions=egmrt
+    set guifont=Source\ Code\ Pro:h13
     set background=dark
     colorscheme base16-eighties
     let g:airline_left_sep=''
