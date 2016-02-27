@@ -158,7 +158,7 @@ nmap <silent> <leader>bn :bn<cr>
 
 " shortcut to save (even in insert mode)
 nmap <leader>w :w<cr>
-imap <leader>w <esc>:w<cr>
+"imap <leader>w <esc>:w<cr>
 
 " shortcut to quit
 nmap <leader>q :q<cr>
