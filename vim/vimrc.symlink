@@ -111,7 +111,7 @@ let base16colorspace=256  " Access colors present in 256 colorspace"
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
 " Set background and theme (environment variables - see .zshrc)
 set background=dark
-colorscheme base16-tomorrow
+colorscheme Tomorrow-Night-Eighties
 
 " Delete trailing whitespace on write. "
 " autocmd FileType c,cpp,python,markdown autocmd BufWritePre <buffer> :%s/\s\+$//e
