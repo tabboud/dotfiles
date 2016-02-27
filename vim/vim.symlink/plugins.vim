@@ -28,6 +28,7 @@ Plugin 'ryanoasis/vim-devicons' " Icons
 Plugin 'majutsushi/tagbar.git'
 Plugin 'mhinz/vim-startify'
 Plugin 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
+Plugin 'chriskempson/base16-vim'
 
 call vundle#end()
 filetype plugin indent on
