@@ -9,10 +9,10 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " utilities
-Plugin 'ctrlp/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 "Plugin 'mileszs/ack.vim'
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/syntastic'
 Plugin 'ervandew/supertab'
