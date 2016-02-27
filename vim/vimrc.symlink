@@ -15,7 +15,6 @@ set backspace=indent,eol,start
 let mapleader = "\<Space>"
 let g:mapleader = "\<Space>"
 
-
 set history=100     " change history to 100
 set textwidth=80
 
@@ -37,7 +36,7 @@ set clipboard=unnamed
 set ttyfast
 
 " toggle invisible characters
-set invlist
+"set invlist
 set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
 highlight SpecialKey ctermbg=none " make the highlighting of tabs less annoying
 set showbreak=↪
@@ -112,6 +111,7 @@ let base16colorspace=256  " Access colors present in 256 colorspace"
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
 " Set background and theme (environment variables - see .zshrc)
 set background=dark
+colorscheme base16-tomorrow
 
 " Delete trailing whitespace on write. "
 " autocmd FileType c,cpp,python,markdown autocmd BufWritePre <buffer> :%s/\s\+$//e
@@ -305,7 +305,7 @@ nmap <silent> <leader>y :NERDTreeFind<cr>
 let g:airline_powerline_fonts=1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_theme='base16'
+let g:airline_theme='base16_eighties'
 let g:airline#extensions#tabline#enabled = 1        " Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t'    " Show just the filename
 
@@ -338,5 +338,5 @@ if (has("gui_running"))
     let g:airline_left_sep=''
     let g:airline_right_sep=''
     let g:airline_powerline_fonts=0
-    let g:airline_theme='base16'
+    let g:airline_theme='base16_eighties'
 endif
