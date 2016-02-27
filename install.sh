@@ -26,6 +26,12 @@ if [ "$(uname)" == "Darwin" ]; then
 
     echo "Updating OSX settings..."
     source installosx.sh
+elif [ "$(uname)" == "Linux" ]; then
+    # assumes ubuntu
+    sudo apt-get -y install zsh
 fi
+
+# Install oh-my-zsh
+curl -L http://install.ohmyz.sh | sh
 
 echo "<== Done"
