@@ -7,6 +7,9 @@ set -g history-limit 20000
 # automatically renumber tmux windows
 set -g renumber-windows on
 
+# Enable mosuse mode (only works on tmux2.1+)
+set -g mouse on
+
 # unbind default prefix and set it to Ctrl+a
 unbind C-b
 set -g prefix C-a
@@ -15,7 +18,7 @@ bind C-a send-prefix
 # Rather than constraining window size to the maximum size of any client
 # connected to the *session*, constrain window size to the maximum size of any
 # client connected to *that window*. Much more reasonable.
-setw -g aggressive-resize on
+setw -g aggressive-resize off
 
 # make delay shorter
 set -sg escape-time 0
@@ -53,6 +56,12 @@ bind j select-pane -D
 bind k select-pane -U
 bind l select-pane -R
 
+# switch panes using Alt-arrow keys without prefix
+bind -n M-Left select-pane -L
+bind -n M-Right select-pane -R
+bind -n M-Up select-pane -U
+bind -n M-Down select-pane -D
+
 bind -r C-h select-window -t :-
 bind -r C-l select-window -t :+
 
@@ -61,14 +70,6 @@ bind -r H resize-pane -L 10
 bind -r J resize-pane -D 10
 bind -r K resize-pane -U 10
 bind -r L resize-pane -R 10
-
-# enable mouse support for switching panes/windows
-# NOTE: This breaks selecting/copying text on OSX
-# To select text as expected, hold Option to disable it (iTerm2)
-setw -g mode-mouse on
-set -g mouse-select-pane on
-set -g mouse-resize-pane on
-set -g mouse-select-window on
 
 # maximizing and restoring windows
 unbind Up
