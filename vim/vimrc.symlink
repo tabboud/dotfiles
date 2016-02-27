@@ -36,7 +36,7 @@ set clipboard=unnamed
 set ttyfast
 
 " toggle invisible characters
-set invlist
+"set invlist
 set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
 highlight SpecialKey ctermbg=none " make the highlighting of tabs less annoying
 set showbreak=↪
@@ -110,8 +110,8 @@ endif
 let base16colorspace=256  " Access colors present in 256 colorspace"
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
 " Set background and theme (environment variables - see .zshrc)
-execute "set background=".$BACKGROUND
-execute "colorscheme ".$THEME
+set background=dark
+colorscheme base16-tomorrow
 
 " Delete trailing whitespace on write. "
 " autocmd FileType c,cpp,python,markdown autocmd BufWritePre <buffer> :%s/\s\+$//e
@@ -197,9 +197,6 @@ map <leader>ev :e! ~/.vimrc<cr>
 map <leader>evp :e! ~/.vim/plugins.vim<cr>
 " edit gitconfig
 map <leader>eg :e! ~/.gitconfig<cr>
-
-" clear highlighted search
-noremap <space> :set hlsearch! hlsearch?<cr>
 
 " activate spell-checking alternatives
 nmap ;s :set invspell spelllang=en<cr>
@@ -302,7 +299,7 @@ nmap <silent> <leader>y :NERDTreeFind<cr>
 let g:airline_powerline_fonts=1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_theme='base16'
+let g:airline_theme='base16_eighties'
 let g:airline#extensions#tabline#enabled = 1        " Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t'    " Show just the filename
 
@@ -335,5 +332,5 @@ if (has("gui_running"))
     let g:airline_left_sep=''
     let g:airline_right_sep=''
     let g:airline_powerline_fonts=0
-    let g:airline_theme='base16'
+    let g:airline_theme='base16_eighties'
 endif
