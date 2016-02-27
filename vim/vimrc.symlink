@@ -12,8 +12,9 @@ set autoread " detect when a file is changed
 set backspace=indent,eol,start
 
 " set a map leader for more key combos
-let mapleader = ','
-let g:mapleader = ','
+let mapleader = "\<Space>"
+let g:mapleader = "\<Space>"
+
 
 set history=100     " change history to 100
 set textwidth=80
@@ -110,8 +111,7 @@ endif
 let base16colorspace=256  " Access colors present in 256 colorspace"
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
 " Set background and theme (environment variables - see .zshrc)
-execute "set background=".$BACKGROUND
-execute "colorscheme ".$THEME
+set background=dark
 
 " Delete trailing whitespace on write. "
 " autocmd FileType c,cpp,python,markdown autocmd BufWritePre <buffer> :%s/\s\+$//e
@@ -154,8 +154,7 @@ inoremap jk <esc>
 " remove extra whitespace
 nmap <leader><space> :%s/\s\+$<cr>
 
-" wipeout buffer
-nmap <silent> <leader>b :bw<cr>
+nmap <silent> <leader>bn :bn<cr>
 
 " shortcut to save (even in insert mode)
 nmap <leader>w :w<cr>
@@ -168,7 +167,7 @@ nmap <leader>q :q<cr>
 noremap Q <NOP>
 
 " disable macros
-map q <NOP>
+" map q <NOP>
 
 " Toggle invisible characters
 nmap <leader>l :set list!<cr>
@@ -181,6 +180,10 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
+" Center the screen after next search
+nnoremap n nzz
+nnoremap N Nzz
 
 " Sublime stle indentation
 "vmap <c-]> >gv " Can't map c-] in terminal vim
@@ -199,7 +202,7 @@ map <leader>evp :e! ~/.vim/plugins.vim<cr>
 map <leader>eg :e! ~/.gitconfig<cr>
 
 " clear highlighted search
-noremap <space> :set hlsearch! hlsearch?<cr>
+" noremap <space> :set hlsearch! hlsearch?<cr>
 
 " activate spell-checking alternatives
 nmap ;s :set invspell spelllang=en<cr>
@@ -329,6 +332,7 @@ let g:ctrlp_working_path_mode = 2
 " Settings for MacVim
 if (has("gui_running"))
     set guioptions=egmrt
+    set guifont=Sauce\ Code\ Pro:h13
     set background=dark
     colorscheme base16-eighties
     let g:airline_left_sep=''

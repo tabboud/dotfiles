@@ -19,13 +19,14 @@ Plugin 'ervandew/supertab'
 "Plugin 'klen/python-mode'
 "Plugin 'fatih/vim-go'
 "Plugin 'tclem/vim-arduino'
-"Plugin 'zeis/vim-kolor"
-Plugin 'chriskempson/base16-vim'
 Plugin 'tpope/vim-fugitive'     " Git for vim
 Plugin 'tpope/vim-commentary'   " Toggle comments like sublime
 Plugin 'tpope/vim-surround'     " Quickly change surrounding quotations
 Plugin 'airblade/vim-gitgutter' " Git gitter
-
+Plugin 'ryanoasis/vim-devicons' " Icons
+Plugin 'majutsushi/tagbar.git'
+Plugin 'mhinz/vim-startify'
+Plugin 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
 
 call vundle#end()
 filetype plugin indent on
