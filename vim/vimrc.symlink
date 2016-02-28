@@ -103,6 +103,9 @@ set tm=500
 " switch syntax highlighting on
 syntax on
 
+" Set syntax highlighting for various filetypes
+au BufNewFile,BufRead *.ns set syntax=tcl
+
 if has('vim_starting')
     set encoding=utf-8
 endif
@@ -193,6 +196,10 @@ vmap <leader>[ <gv
 vmap <leader>] >gv
 nmap <leader>[ <<
 nmap <leader>] >>
+
+" Center the screen after next search
+nnoremap n nzz
+nnoremap N Nzz
 
 " edit ~/.vimrc
 map <leader>ev :e! ~/.vimrc<cr>
@@ -313,6 +320,7 @@ let g:SuperTabCrMapping = 0
 
 " map fuzzyfinder (CtrlP) plugin
 nmap <silent> <leader>r :CtrlPBuffer<cr>
+nmap <silent> <leader>p :CtrlP<cr>
 let g:ctrlp_map='<leader>t'
 let g:ctrlp_dotfiles=1
 let g:ctrlp_working_path_mode = 'ra'

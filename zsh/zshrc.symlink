@@ -33,5 +33,5 @@ source $BASE16_SHELL
 
 # Virtualenv Settings
 export WORKON_HOME=$HOME/.virtualenvs
-#source /usr/local/bin/virtualenvwrapper.sh
+source /usr/local/bin/virtualenvwrapper.sh
 

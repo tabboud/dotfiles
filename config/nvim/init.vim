@@ -9,6 +9,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle'}
 Plug 'Raimondi/delimitMate'   " Complete quotes, parens, etc.
 Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'ervandew/supertab'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'       " Git for vim
@@ -127,6 +128,9 @@ set tm=500
 
 " switch syntax highlighting on
 syntax on
+
+" Set syntax highlighting for various filetypes
+au BufNewFile,BufRead *.ns set syntax=tcl
 
 if has('vim_starting')
     set encoding=utf-8

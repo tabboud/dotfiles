@@ -8,7 +8,10 @@ else # OS X `ls`
     colorflag="-G"
 fi
 
+# Editors
 alias vim="nvim"
+#alias emacs="/usr/local/Cellar/emacs/24.5/bin/emacs"
+#alias emacsclient="/usr/local/Cellar/emacs/24.5/bin/emacsclient"
 
 # Filesystem aliases
 alias ..='cd ..'

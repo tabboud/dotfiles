@@ -25,6 +25,7 @@ Plugin 'tpope/vim-commentary'   " Toggle comments like sublime
 Plugin 'tpope/vim-surround'     " Quickly change surrounding quotations
 Plugin 'airblade/vim-gitgutter' " Git gitter
 Plugin 'ryanoasis/vim-devicons' " Icons
+Plugin 'Raimondi/delimitMate'   " Match parenthesis and quotes
 Plugin 'majutsushi/tagbar.git'
 Plugin 'mhinz/vim-startify'
 Plugin 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
