@@ -91,4 +91,4 @@ bind-key -t vi-copy Enter copy-pipe "reattach-to-user-namespace pbcopy"
 ### Color & Style Settings ###
 ##############################
 
-#source ~/.dotfiles/tmux/theme.sh
+source ~/.dotfiles/tmux/theme.sh
