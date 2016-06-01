@@ -1,0 +1,246 @@
+;; -*- mode: emacs-lisp -*-
+;; This file is loaded by Spacemacs at startup.
+;; It must be stored in your home directory.
+
+(defun dotspacemacs/layers ()
+  "Configuration Layers declaration.
+You should not put any user code in this function besides modifying the variable
+values."
+  (setq-default
+   dotspacemacs-distribution 'spacemacs
+   dotspacemacs-configuration-layer-path '()
+   dotspacemacs-configuration-layers
+   '(
+     ;; ----------------------------------------------------------------
+     ;; Example of useful layers you may want to use right away.
+     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
+     ;; <M-m f e R> (Emacs style) to install them.
+     ;; ----------------------------------------------------------------
+     auto-completion
+     ;; better-defaults
+     emacs-lisp
+     git
+     ;; markdown
+      org
+      (git :variables
+           git-gutter-use-fringe t)
+      (shell :variables
+             shell-default-height 30
+             shell-default-position 'bottom)
+     ;; spell-checking
+     ;; syntax-checking
+     ;; version-control
+     )
+   dotspacemacs-additional-packages '(
+                                      base16-theme
+                                      powerline
+                                      color-theme-sanityinc-tomorrow
+                                      )
+   dotspacemacs-excluded-packages '()
+   dotspacemacs-delete-orphan-packages t))
+
+(defun dotspacemacs/init ()
+  "Initialization function.
+This function is called at the very startup of Spacemacs initialization
+before layers configuration.
+You should not put any user code in there besides modifying the variable
+values."
+  ;; This setq-default sexp is an exhaustive list of all the supported
+  ;; spacemacs settings.
+  (setq-default
+   dotspacemacs-elpa-https t
+   dotspacemacs-elpa-timeout 5
+   dotspacemacs-check-for-update t
+   dotspacemacs-editing-style 'vim
+   dotspacemacs-verbose-loading nil
+   dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-lists '(recents projects)
+   dotspacemacs-startup-recent-list-size 5
+   dotspacemacs-scratch-mode 'text-mode
+   dotspacemacs-themes '(sanityinc-tomorrow-eighties
+                         monokai
+                         spacemacs-dark
+                         spacemacs-light
+                         solarized-light
+                         solarized-dark
+                         leuven
+                         zenburn)
+   dotspacemacs-colorize-cursor-according-to-state t
+   dotspacemacs-default-font '("Source Code Pro"
+                               :size 14
+                               :weight normal
+                               :width normal
+                               :powerline-scale 1.1)
+   dotspacemacs-leader-key "SPC"
+   dotspacemacs-emacs-leader-key "M-m"
+   dotspacemacs-major-mode-leader-key ","
+   dotspacemacs-major-mode-emacs-leader-key "C-M-m"
+   dotspacemacs-distinguish-gui-tab nil
+   dotspacemacs-command-key ":"
+   dotspacemacs-remap-Y-to-y$ t
+   dotspacemacs-default-layout-name "Default"
+   dotspacemacs-display-default-layout nil
+   dotspacemacs-auto-resume-layouts nil
+   dotspacemacs-auto-save-file-location 'cache
+   dotspacemacs-max-rollback-slots 5
+   dotspacemacs-use-ido nil
+   dotspacemacs-helm-resize nil
+   dotspacemacs-helm-no-header nil
+   dotspacemacs-helm-position 'bottom
+   dotspacemacs-enable-paste-micro-state nil
+   dotspacemacs-which-key-delay 0.4
+   dotspacemacs-which-key-position 'bottom
+   dotspacemacs-loading-progress-bar t
+   dotspacemacs-fullscreen-at-startup nil
+   dotspacemacs-fullscreen-use-non-native nil
+   dotspacemacs-maximized-at-startup nil
+   dotspacemacs-active-transparency 90
+   dotspacemacs-inactive-transparency 90
+   dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-line-numbers nil
+   dotspacemacs-smartparens-strict-mode nil
+   dotspacemacs-highlight-delimiters 'all
+   dotspacemacs-persistent-server nil
+   dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
+   dotspacemacs-default-package-repository nil
+   dotspacemacs-whitespace-cleanup nil
+   ))
+
+;;TDA - My functions to scroll down/up by 3 lines
+(defun scroll-lines-down()
+  (interactive)
+  (evil-scroll-line-down 3)
+  )
+(defun scroll-lines-up()
+  (interactive)
+  (evil-scroll-line-up 3)
+  )
+(defun dotspacemacs/user-init ()
+  )
+
+(defun dotspacemacs/user-config ()
+  (global-linum-mode) ; Enable line numbers
+  ;; Make linums relative by default
+  (with-eval-after-load 'linum
+    (linum-relative-toggle))
+
+  ;; Smooth scrolling
+  ;(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+  ;(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+  ;(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+
+  ;; remap c-e and c-y to move 3 spaces
+  (define-key evil-motion-state-map (kbd "C-e") 'scroll-lines-down)
+  (define-key evil-motion-state-map (kbd "C-y") 'scroll-lines-up)
+
+  (setq-default c-basic-offset 4)
+
+  ; Ignore the boring files in helm-mini buffer list (use <SPACE>-bl)
+  ;; (setq helm-ff-skip-boring-files t)
+  ;; (setq helm-boring-file-regexp-list '("\\.$" "\\.\\.$"))
+  (defun helm-mini-filtered ()
+    (interactive)
+    (let ((helm-boring-buffer-regexp-list spacemacs-useless-buffers-regexp))
+      (helm-mini)))
+  (evil-leader/set-key "bl" 'helm-mini-filtered)
+
+  ; Python mode hooks for tabs
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (setq tab-width 4)
+              (setq python-indent 4)
+              (setq python-indent-offset 4)
+              )
+            )
+
+  )
+
+;; Do not write anything past this comment. This is where Emacs will
+;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   (vector "#c5c8c6" "#cc6666" "#b5bd68" "#f0c674" "#81a2be" "#b294bb" "#8abeb7" "#373b41"))
+ '(compilation-message-face (quote default))
+ '(cua-global-mark-cursor-color "#2aa198")
+ '(cua-normal-cursor-color "#839496")
+ '(cua-overwrite-cursor-color "#b58900")
+ '(cua-read-only-cursor-color "#859900")
+ '(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
+ '(custom-safe-themes
+   (quote
+    ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "50e7f9d112e821e42bd2b8410d50de966c35c7434dec12ddea99cb05dd368dd8" "e8e744a1b0726814ac3ab86ad5ccdf658b9ff1c5a63c4dc23841007874044d4a" "d1a42ed39a15a843cccadf107ee0242b5f78bfbb5b70ba3ce19f3ea9fda8f52d" "38ba6a938d67a452aeb1dada9d7cdeca4d9f18114e9fc8ed2b972573138d4664" "68d36308fc6e7395f7e6355f92c1dd9029c7a672cbecf8048e2933a053cf27e6" "03e3e79fb2b344e41a7df897818b7969ca51a15a67dc0c30ebbdeb9ea2cd4492" "f245c9f24b609b00441a6a336bcc556fe38a6b24bfc0ca4aedd4fe23d858ba31" "b6db49cec08652adf1ff2341ce32c7303be313b0de38c621676122f255ee46db" default)))
+ '(fci-rule-color "#373b41" t)
+ '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
+ '(highlight-symbol-colors
+   (--map
+    (solarized-color-blend it "#002b36" 0.25)
+    (quote
+     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
+ '(highlight-symbol-foreground-color "#93a1a1")
+ '(highlight-tail-colors
+   (quote
+    (("#073642" . 0)
+     ("#546E00" . 20)
+     ("#00736F" . 30)
+     ("#00629D" . 50)
+     ("#7B6000" . 60)
+     ("#8B2C02" . 70)
+     ("#93115C" . 85)
+     ("#073642" . 100))))
+ '(hl-bg-colors
+   (quote
+    ("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00")))
+ '(hl-fg-colors
+   (quote
+    ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
+ '(magit-diff-use-overlays nil)
+ '(package-selected-packages
+   (quote
+    (go-mode color-theme-sanityinc-tomorrow-eighties-theme color-theme-sanityinc-tomorrow php-mode base16-theme zenburn-theme xterm-color ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe use-package toc-org spacemacs-theme spaceline solarized-theme smeargle shell-pop restart-emacs rainbow-delimiters quelpa popwin persp-mode pcre2el paradox page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file neotree multi-term move-text monokai-theme magit-gitflow macrostep lorem-ipsum linum-relative leuven-theme info+ indent-guide ido-vertical-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger flx-ido fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-jumper evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help elisp-slime-nav define-word company-statistics company-quickhelp clean-aindent-mode buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+ '(pos-tip-background-color "#073642")
+ '(pos-tip-foreground-color "#93a1a1")
+ '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
+ '(term-default-bg-color "#002b36")
+ '(term-default-fg-color "#839496")
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#cc6666")
+     (40 . "#de935f")
+     (60 . "#f0c674")
+     (80 . "#b5bd68")
+     (100 . "#8abeb7")
+     (120 . "#81a2be")
+     (140 . "#b294bb")
+     (160 . "#cc6666")
+     (180 . "#de935f")
+     (200 . "#f0c674")
+     (220 . "#b5bd68")
+     (240 . "#8abeb7")
+     (260 . "#81a2be")
+     (280 . "#b294bb")
+     (300 . "#cc6666")
+     (320 . "#de935f")
+     (340 . "#f0c674")
+     (360 . "#b5bd68"))))
+ '(vc-annotate-very-old-color nil)
+ '(weechat-color-list
+   (quote
+    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
+ '(xterm-color-names
+   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
+ '(xterm-color-names-bright
+   ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"]))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
