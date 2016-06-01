@@ -9,7 +9,7 @@ else # OS X `ls`
 fi
 
 # Editors
-alias vim="nvim"
+#alias vim="nvim"
 alias emacs="/usr/local/Cellar/emacs/HEAD/bin/emacs"
 alias emacsclient="/usr/local/Cellar/emacs/HEAD/bin/emacsclient"
 
