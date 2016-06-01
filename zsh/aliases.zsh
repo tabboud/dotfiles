@@ -10,8 +10,8 @@ fi
 
 # Editors
 alias vim="nvim"
-#alias emacs="/usr/local/Cellar/emacs/24.5/bin/emacs"
-#alias emacsclient="/usr/local/Cellar/emacs/24.5/bin/emacsclient"
+alias emacs="/usr/local/Cellar/emacs/HEAD/bin/emacs"
+alias emacsclient="/usr/local/Cellar/emacs/HEAD/bin/emacsclient"
 
 # Filesystem aliases
 alias ..='cd ..'
