@@ -33,5 +33,7 @@ source $BASE16_SHELL
 
 # Virtualenv Settings
 export WORKON_HOME=$HOME/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+source $HOME/.local/bin/virtualenvwrapper.sh
 
+# Convert caps_lock to control
+setxkbmap -option ctrl:nocaps
