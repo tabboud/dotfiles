@@ -12,6 +12,7 @@ fi
 #alias vim="nvim"
 alias emacs="/usr/local/Cellar/emacs/HEAD/bin/emacs"
 alias emacsclient="/usr/local/Cellar/emacs/HEAD/bin/emacsclient"
+alias ec="emacsclient -c -n"
 
 # Filesystem aliases
 alias ..='cd ..'
@@ -44,6 +45,7 @@ alias trimcopy="tr -d '\n' | pbcopy"
 
 # Recursively delete `.DS_Store` files
 alias cleanup="find . -name '*.DS_Store' -type f -ls -delete"
+alias cleanpyc="find . -name '*.pyc' -type f -ls -delete"
 
 # File size
 alias fs="stat -f \"%z bytes\""
