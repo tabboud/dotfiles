@@ -1,0 +1,29 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Anaconda",
+		"Base16 Color Schemes",
+		"BracketHighlighter",
+		"CTags",
+		"Git",
+		"GitGutter",
+		"Origami",
+		"Package Control",
+		"Scratchpad",
+		"SFTP",
+		"SideBarEnhancements",
+		"Sublime Bookmarks",
+		"SublimeLinter",
+		"SublimeLinter-pep8",
+		"SublimeLinter-pyflakes",
+		"SublimeREPL",
+		"Theme - Afterglow",
+		"TodoReview",
+		"TrailingSpaces",
+		"Vintageous"
+	]
+}
