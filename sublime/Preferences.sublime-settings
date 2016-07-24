@@ -1,6 +1,5 @@
 {
 	"anaconda_linting": false,
-	"color_scheme": "Packages/User/SublimeLinter/base16-eighties (SL).tmTheme",
 	"detect_indentation": false,
 	"draw_white_space": "all",
 	"enable_tab_scrolling": false,
