@@ -9,7 +9,6 @@ TAPS=(
 FORMULAS=(
     autoconf
     automake
-    caskroom/cask/brew-cask
     ctags
     coreutils
     git
