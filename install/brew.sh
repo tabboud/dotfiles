@@ -1,17 +1,55 @@
 #!/bin/sh
+# Install homebrew packages
 
-# cli tools
-brew install the_silver_searcher
-brew install tree
-brew install wget
+TAPS=(
+    caskroom/cask
+)
 
-# development tools
-brew install git
-brew install tig
+FORMULAS=(
+    autoconf
+    automake
+    caskroom/cask/brew-cask
+    ctags
+    coreutils
+    git
+    go
+    macvim
+    pkg-config
+    python
+    python3
+    the_silver_searcher
+    tig
+    tree
+    vim
+    wget
+    zsh
+)
+
+CASKS=(
+    iterm2
+    dropbox
+    firefox
+    google-chrome
+    sourcetree
+    sublime-text3
+)
+# Others
+#vagrant, virtualbox
+
+for tap in ${TAPS[@]}
+do
+    brew tap $tap
+done
+
+brew install ${FORMULAS[@]}
+brew update
+brew cask install ${CASKS[@]}
+
+# Installs that need flags
 brew install tmux --HEAD
-brew install zsh
-brew cask install iterm2
+brew install emacs --with-cocoa
+brew linkapps emacs
 
-brew cask install dropbox
+brew cleanup
 
 exit 0
