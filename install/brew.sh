@@ -53,4 +53,3 @@ brew linkapps emacs
 
 brew cleanup
 
-exit 0
