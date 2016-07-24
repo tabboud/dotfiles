@@ -30,6 +30,9 @@ Plugin 'majutsushi/tagbar.git'
 Plugin 'mhinz/vim-startify'
 Plugin 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
 Plugin 'chriskempson/base16-vim'
+Plugin 'toyamarinyon/vim-swift.git'
+Plugin 'fatih/vim-go'
+Plugin 'leafgarland/typescript-vim'
 
 call vundle#end()
 filetype plugin indent on
