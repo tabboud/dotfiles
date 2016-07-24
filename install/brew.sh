@@ -3,6 +3,7 @@
 
 TAPS=(
     caskroom/cask
+    caskroom/versions
 )
 
 FORMULAS=(
@@ -32,7 +33,7 @@ CASKS=(
     iterm2
     sourcetree
     spectacle
-    sublime-text3
+    sublime-text
 )
 # Others
 #vagrant, virtualbox
