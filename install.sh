@@ -25,7 +25,7 @@ if [ "$(uname)" == "Darwin" ]; then
     source install/brew.sh
 
     echo "Updating OSX settings..."
-    source installosx.sh
+    source install/osx.sh
 
     echo "Linking sublime settings"
     source install/link_sublime.sh
