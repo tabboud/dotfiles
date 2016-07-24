@@ -26,6 +26,9 @@ if [ "$(uname)" == "Darwin" ]; then
 
     echo "Updating OSX settings..."
     source installosx.sh
+
+    echo "Linking sublime settings"
+    source install/link_sublime.sh
 elif [ "$(uname)" == "Linux" ]; then
     # assumes ubuntu
     sudo apt-get -y install zsh
