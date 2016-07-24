@@ -26,11 +26,12 @@ FORMULAS=(
 )
 
 CASKS=(
-    iterm2
     dropbox
     firefox
     google-chrome
+    iterm2
     sourcetree
+    spectacle
     sublime-text3
 )
 # Others
