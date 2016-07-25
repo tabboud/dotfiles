@@ -26,6 +26,7 @@ FORMULAS=(
 )
 
 CASKS=(
+    alfred
     dropbox
     firefox
     google-chrome
