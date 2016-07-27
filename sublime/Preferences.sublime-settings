@@ -16,7 +16,6 @@
 		"*~"
 	],
 	"findreplace_small": true,
-	"font_face": "Hack",
 	"font_size": 12.0,
 	"highlight_line": true,
 	"ignored_packages":
