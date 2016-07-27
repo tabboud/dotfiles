@@ -3,10 +3,12 @@
 ## Contents
 
 + vim configuration
++ emacs configuration
++ sublime text configuration
 + tmux configuration
 + git configuration
 + osx configuration
-+ Homebrew files (Brewfile.sh)
++ Homebrew files (brew.sh)
 
 ## Install
 
