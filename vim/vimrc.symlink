@@ -1,10 +1,45 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
+" => Plugins (vim-plug)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Auto install vim-plug if it's not installed
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/bundle')
+
+" utilities
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle']} "Loads when opening NERDTree
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+"Plug 'scrooloose/syntastic'
+Plug 'w0rp/ale' " Asynchronous linting engine
+Plug 'ervandew/supertab'
+"Plug 'groenewege/vim-less'
+"Plug 'klen/python-mode'
+"Plug 'tclem/vim-arduino'
+"Plug 'tpope/vim-fugitive'     " Git for vim
+Plug 'tpope/vim-commentary'   " Toggle comments like sublime
+Plug 'tpope/vim-surround'     " Quickly change surrounding quotations
+Plug 'airblade/vim-gitgutter' " Git gitter
+Plug 'ryanoasis/vim-devicons' " Icons
+Plug 'Raimondi/delimitMate'   " Match parenthesis and quotes
+Plug 'majutsushi/tagbar'
+Plug 'mhinz/vim-startify'
+Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
+Plug 'chriskempson/base16-vim'
+Plug 'toyamarinyon/vim-swift', {'for': ['swift']} " Loads only when editing swift code
+Plug 'fatih/vim-go', {'for': ['go']} " Loads only when editing go code
+Plug 'leafgarland/typescript-vim', {'for': ['typescript']} " Loads only when editing typescript code
+
+call plug#end()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" load plugins from vundle only if using vim
-source ~/.vim/plugins.vim
-
 set nocompatible " not compatible with vi
 set autoread " detect when a file is changed
 
@@ -90,7 +125,6 @@ set smartcase           " case-sensitive if expresson contains a capital letter
 set hlsearch
 set incsearch           " set incremental search, like modern browsers
 set nolazyredraw        " don't redraw while executing macros
-noremap <CR> :noh<CR><CR>
 
 set showmatch " show matching braces
 set mat=2 " how many tenths of a second to blink
@@ -118,6 +152,23 @@ colorscheme Tomorrow-Night-Eighties
 
 " Delete trailing whitespace on write. "
 " autocmd FileType c,cpp,python,markdown autocmd BufWritePre <buffer> :%s/\s\+$//e
+
+" Go Settings 
+"autocmd FileType go nmap <leader>r  <Plug>(go-run)
+" run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#cmd#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
+autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+"map <C-n> :cnext<CR>
+"map <C-m> :cprevious<CR>
+"nnoremap <leader>a :cclose<CR>
 
 set number              " show line numbers
 set relativenumber      " show relative line numbers
@@ -183,10 +234,6 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-
-" Center the screen after next search
-nnoremap n nzz
-nnoremap N Nzz
 
 " Sublime stle indentation
 "vmap <c-]> >gv " Can't map c-] in terminal vim
@@ -318,6 +365,17 @@ let g:airline#extensions#tabline#fnamemod = ':t'    " Show just the filename
 
 let g:SuperTabCrMapping = 0
 
+" Tagbar settings
+if has("unix")
+  let s:uname = system("uname -s")
+  if s:uname == "Darwin"
+	let g:tagbar_ctags_bin='/usr/local/Cellar/ctags/5.8_1/bin/ctags'  " Set the path for exhuberant_ctags
+  endif
+endif
+
+" Toggle TagBar
+nmap <silent> <leader>d :TagbarToggle<cr>
+
 " map fuzzyfinder (CtrlP) plugin
 nmap <silent> <leader>r :CtrlPBuffer<cr>
 nmap <silent> <leader>p :CtrlP<cr>
@@ -340,9 +398,8 @@ let g:ctrlp_working_path_mode = 2
 " Settings for MacVim
 if (has("gui_running"))
     set guioptions=egmrt
-    set guifont=Sauce\ Code\ Pro:h13
     set background=dark
-    colorscheme base16-eighties
+    set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h11
     let g:airline_left_sep=''
     let g:airline_right_sep=''
     let g:airline_powerline_fonts=0
@@ -351,4 +408,6 @@ endif
 
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 match OverLength /\%91v.\+/
+
+noremap <CR> :noh<CR><CR>
 
