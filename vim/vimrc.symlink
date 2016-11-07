@@ -148,6 +148,12 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" Copy file to a split
+map <silent> <C-h> :call WinMove('h')<cr>
+map <silent> <C-j> :call WinMove('j')<cr>
+map <silent> <C-k> :call WinMove('k')<cr>
+map <silent> <C-l> :call WinMove('l')<cr>
+
 " Sublime stle indentation
 "vmap <c-]> >gv " Can't map c-] in terminal vim
 "vmap <c-[> <gv
@@ -231,6 +237,21 @@ function! ToggleNumbers()
         set number
     else
         set relativenumber
+    endif
+endfunction
+
+" Window movement shortcuts
+" move to the window in the direction shown, or create a new window
+function! WinMove(key)
+    let t:curwin = winnr()
+    exec "wincmd ".a:key
+    if (t:curwin == winnr())
+        if (match(a:key,'[jk]'))
+            wincmd v
+        else
+            wincmd s
+        endif
+        exec "wincmd ".a:key
     endif
 endfunction
 
