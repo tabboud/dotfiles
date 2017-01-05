@@ -1,5 +1,6 @@
 {
 	"anaconda_linting": false,
+	"color_scheme": "Packages/User/SublimeLinter/Afterglow-monokai (SL).tmTheme",
 	"detect_indentation": false,
 	"draw_white_space": "all",
 	"enable_tab_scrolling": false,
@@ -16,10 +17,14 @@
 		"*~"
 	],
 	"findreplace_small": true,
-	"font_size": 12.0,
+	"font_size": 14.0,
 	"highlight_line": true,
 	"ignored_packages":
 	[
+		"Anaconda",
+		"GoSublime",
+		"Sublime Bookmarks",
+		"TodoReview",
 		"Vintage"
 	],
 	"line_padding_bottom": 0.25,

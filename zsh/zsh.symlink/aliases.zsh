@@ -9,10 +9,13 @@ else # OS X `ls`
 fi
 
 # Editors
-#alias vim="nvim"
-alias emacs="/usr/local/Cellar/emacs/HEAD/bin/emacs"
-alias emacsclient="/usr/local/Cellar/emacs/HEAD/bin/emacsclient"
+alias vim="nvim"
+alias emacs="/Applications/Emacs.app/Contents/MacOS/Emacs"
+alias emacsclient="/usr/local/bin/emacsclient"
 alias ec="emacsclient -c -n"
+alias ect="emacsclient -nw"
+
+alias ctags="/usr/local/Cellar/ctags/5.8_1/bin/ctags"
 
 # Filesystem aliases
 alias ..='cd ..'
@@ -56,4 +59,10 @@ alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; rm -rfv ~/.Trash"
 # Hide/show all desktop icons (useful when presenting)
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+
+# Always use a pager for ag
+alias ag="ag --pager=less"
+
+# Go to go directory quicker
+alias god='/Users/tabboud/dev/go/src/github.com/tdabboud'
 

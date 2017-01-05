@@ -1,3 +1,5 @@
 1. Add the install script for linux (ubuntu)
 2. Add command line args for the install.sh with usage
+3. Auto detect the iterm profile if on a mac, so that we can set the terminal to the correct theme
+4. add a command to switch to a light/dark theme in both zsh and vim
 

@@ -11,12 +11,15 @@ FORMULAS=(
     automake
     ctags
     coreutils
+    flake8
+    fzf
     git
     go
     macvim
     pkg-config
     python
     python3
+    reattach-to-user-namespace
     the_silver_searcher
     tig
     tree
@@ -27,8 +30,8 @@ FORMULAS=(
 
 CASKS=(
     alfred
+    dash
     dropbox
-    firefox
     google-chrome
     iterm2
     sourcetree
