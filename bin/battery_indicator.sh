@@ -1,26 +1,99 @@
-#!/bin/bash
-# modified from http://ficate.com/blog/2012/10/15/battery-life-in-the-land-of-tmux/
+#!/usr/bin/env bash
 
-HEART='♥ '
+# For default behavior
+setDefaults() {
+  pmset_on=0
+  output_tmux=1
+  ascii=0
+  ascii_bar='=========='
+  good_color="1;32"
+  middle_color="1;33"
+  warn_color="0;31"
+  connected=0
+  battery_path=/sys/class/power_supply/BAT0
+}
 
-if [[ `uname` == 'Linux' ]]; then
-  current_charge=$(cat /proc/acpi/battery/BAT1/state | grep 'remaining capacity' | awk '{print $3}')
-  total_charge=$(cat /proc/acpi/battery/BAT1/info | grep 'last full capacity' | awk '{print $4}')
-else
-  battery_info=`ioreg -rc AppleSmartBattery`
-  current_charge=$(echo $battery_info | grep -o '"CurrentCapacity" = [0-9]\+' | awk '{print $3}')
-  total_charge=$(echo $battery_info | grep -o '"MaxCapacity" = [0-9]\+' | awk '{print $3}')
-fi
+setDefaults
 
-charged_slots=$(echo "((($current_charge/$total_charge)*10)/3)+1" | bc -l | cut -d '.' -f 1)
-if [[ $charged_slots -gt 3 ]]; then
-  charged_slots=3
-fi
+battery_charge() {
+    case $(uname -s) in
+        "Darwin")
+            if ((pmset_on)) && hash pmset 2>/dev/null; then
+                if [ "$(pmset -g batt | grep -o 'AC Power')" ]; then
+                    BATT_CONNECTED=1
+                else
+                    BATT_CONNECTED=0
+                fi
+                BATT_PCT=$(pmset -g batt | grep -o '[0-9]*%' | tr -d %)
+            else
+                while read key value; do
+                    case $key in
+                        "MaxCapacity")
+                            maxcap=$value;;
+                        "CurrentCapacity")
+                            curcap=$value;;
+                        "ExternalConnected")
+                            if [ $value == "No" ]; then
+                                BATT_CONNECTED=0
+                            else
+                                BATT_CONNECTED=1
+                            fi
+                        ;;
+                        esac
+                    if [[ -n "$maxcap" && -n $curcap ]]; then
+                        BATT_PCT=$(( 100 * curcap / maxcap))
+                    fi
+                done < <(ioreg -n AppleSmartBattery -r | grep -o '"[^"]*" = [^ ]*' | sed -e 's/= //g' -e 's/"//g' | sort)
+            fi
+            ;;
+        "Linux")
+            case $(cat /etc/*-release) in
+                *"Arch Linux"*)
+                    battery_state=$(cat $battery_path/energy_now)
+                    battery_full=$battery_path/energy_full
+                    battery_current=$battery_path/energy_now
+                    ;;
+                *)
+                    battery_state=$(cat $battery_path/status)
+                    battery_full=$battery_path/charge_full
+                    battery_current=$battery_path/charge_now
+                    ;;
+            esac
 
-echo -n '#[fg=colour196]'
-for i in `seq 1 $charged_slots`; do echo -n "$HEART"; done
+            if [ $battery_state == 'Discharging' ]; then
+                BATT_CONNECTED=0
+            else
+                BATT_CONNECTED=1
+            fi
+			now=$(cat $battery_current)
+			full=$(cat $battery_full)
+			BATT_PCT=$((100 * $now / $full))
+            ;;
+    esac
+}
 
-if [[ $charged_slots -lt 3 ]]; then
-  echo -n '#[fg=colour254]'
-  for i in `seq 1 $(echo "3-$charged_slots" | bc)`; do echo -n "$HEART"; done
-fi
+# Apply the correct color to the battery status prompt
+apply_colors() {
+    # Green
+    if [[ $BATT_PCT -ge 75 ]]; then
+        COLOR="#[fg=$good_color]"
+    # Yellow
+    elif [[ $BATT_PCT -ge 25 ]] && [[ $BATT_PCT -lt 75 ]]; then
+        COLOR="#[fg=$middle_color]"
+    # Red
+    elif [[ $BATT_PCT -lt 25 ]]; then
+        COLOR="#[fg=$warn_color]"
+    fi
+}
+
+print_status() {
+    printf "%s%s %s%s" "$COLOR" "[$BATT_PCT%]" "#[default]"
+}
+
+output_tmux=1
+good_color="green"
+middle_color="yellow"
+warn_color="red"
+battery_charge
+apply_colors
+print_status
