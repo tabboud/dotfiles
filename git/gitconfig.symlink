@@ -4,8 +4,6 @@
     email = tdabboud@hotmail.com
 [github]
     user = tdabboud
-[init]
-    templatedir = ~/.dotfiles/git/templates
 [alias]
     # list all aliases
     la = "!git config -l | grep alias | cut -c 7-"
@@ -47,5 +45,15 @@
     aa = !git ls-files -d | xargs git rm && git ls-files -m -o --exclude-standard | xargs git add
     # remove grep - Remove found files that are NOT under version control
     rg = "!sh -c 'git ls-files --others --exclude-standard | grep $1 | xargs rm' -"
+
+	# git codereview aliases
+	change = codereview change
+	gofmt = codereview gofmt
+	mail = codereview mail
+	pending = codereview pending
+	submit = codereview submit
+	sync = codereview sync
 [core]
-	editor = /usr/bin/vim
+	editor = /usr/local/bin/nvim
+[http]
+	cookiefile = /Users/tabboud/.gitcookies

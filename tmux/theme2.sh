@@ -40,19 +40,19 @@ setw -g window-status-attr reverse
 set -g status-left ''
 
 # loud or quiet?
-set-option -g visual-activity off
-set-option -g visual-bell off
-set-option -g visual-silence off
-set-window-option -g monitor-activity off
-set-option -g bell-action none
+#set-option -g visual-activity off
+#set-option -g visual-bell off
+#set-option -g visual-silence off
+#set-window-option -g monitor-activity off
+#set-option -g bell-action none
 
-set -g default-terminal "screen-256color"
+#set -g default-terminal "screen-256color"
 
 # The modes {
 setw -g clock-mode-colour colour135
 setw -g mode-attr bold
-setw -g mode-fg colour196
-setw -g mode-bg colour238
+#setw -g mode-fg colour196
+#setw -g mode-bg colour238
 
 # }
 # The panes {
