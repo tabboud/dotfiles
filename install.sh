@@ -11,17 +11,7 @@ source install/link.sh
 if [ "$(uname)" == "Darwin" ]; then
     echo "Installing on OSX"
 
-    echo "Checking if homebrew is installed..."
-    brew=`which brew`
-    if [ -z "$brew" ]
-    then
-        echo "Installing homebrew..."
-        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    else
-        echo "Homebrew already installed."
-    fi
-
-    echo "Brewing all the things..."
+    echo "Brewing Everything..."
     source install/brew.sh
 
     echo "Updating OSX settings..."
@@ -35,6 +25,6 @@ elif [ "$(uname)" == "Linux" ]; then
 fi
 
 # Install oh-my-zsh
-curl -L http://install.ohmyz.sh | sh
+#curl -L http://install.ohmyz.sh | sh
 
 echo "<== Done"

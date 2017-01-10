@@ -41,19 +41,33 @@ CASKS=(
 # Others
 #vagrant, virtualbox
 
-for tap in ${TAPS[@]}
-do
-    brew tap $tap
-done
+function brewEverything {
+    for tap in ${TAPS[@]}
+    do
+        brew tap $tap
+    done
 
-brew install ${FORMULAS[@]}
-brew update
-brew cask install ${CASKS[@]}
+    brew install ${FORMULAS[@]}
+    brew update
+    brew cask install ${CASKS[@]}
 
-# Installs that need flags
-brew install tmux --HEAD
-brew install emacs --with-cocoa
-brew linkapps emacs
+    # Installs that need flags
+    brew install tmux --HEAD
+    brew install emacs --with-cocoa
+    brew linkapps emacs
 
-brew cleanup
+    brew cleanup
+}
+
+
+# Check if Homebrew is installed
+brew=`which brew`
+if [ -z "$brew" ]; then
+    echo "Installing homebrew..."
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+else
+    echo "Homebrew already installed."
+fi
+
+brewEverything
 
