@@ -54,6 +54,6 @@
 	submit = codereview submit
 	sync = codereview sync
 [core]
-	editor = /usr/local/bin/nvim
+	editor = /usr/local/bin/vim
 [http]
 	cookiefile = /Users/tabboud/.gitcookies

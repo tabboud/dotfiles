@@ -1,8 +1,11 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # export PATH=$PATH:/usr/local/bin
 
 # abort if we're already inside a TMUX session
-[ "$TMUX" == "" ] || exit 0
+if [ ! -z "$TMUX" ]; then
+    echo "Already in a tmux session"
+    exit 0
+fi
 # startup a "default" session if non currently exists
 # tmux has-session -t _default || tmux new-session -s _default -d
 
