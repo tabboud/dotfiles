@@ -7,16 +7,14 @@ endif
 
 call plug#begin('~/.vim/bundle')
 
-" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'w0rp/ale'                 " Asynchronous linting engine
 Plug 'ervandew/supertab'
 Plug 'tpope/vim-commentary'     " Toggle comments like sublime
-Plug 'tpope/vim-surround'       " Quickly change surrounding quotations
-Plug 'tpope/vim-speeddating'    " use ctrl-A ctrl-X to increment dates and times
-Plug 'tpope/vim-obsession'      " Save a session for the current state of vim
-Plug 'tpope/vim-fugitive'      " Save a session for the current state of vim
+" Plug 'tpope/vim-surround'       " Quickly change surrounding quotations
+" Plug 'tpope/vim-speeddating'    " use ctrl-A ctrl-X to increment dates and times
+" Plug 'tpope/vim-obsession'      " Save a session for the current state of vim
+Plug 'tpope/vim-fugitive'      " Git commands
 Plug 'airblade/vim-gitgutter'   " Git gitter
 Plug 'ryanoasis/vim-devicons'   " Icons
 Plug 'Raimondi/delimitMate'     " Match parenthesis and quotes
@@ -31,9 +29,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 " Colorthemes
-Plug 'junegunn/seoul256.vim'
-Plug 'morhetz/gruvbox'
 Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
-Plug 'chriskempson/base16-vim'
 
 call plug#end()

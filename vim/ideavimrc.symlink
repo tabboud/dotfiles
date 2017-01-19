@@ -18,7 +18,7 @@ nmap <leader>g :action GotoDeclaration<cr>
 
 " Cycle between buffer
 nmap <leader>b :action Back<cr>
-nmap <leader>f :action Forward<cr>
+nmap <leader>n :action Forward<cr>
 
 " Similar to fzf buffer search and project search
 nmap <leader>p :action GotoFile<cr>
@@ -32,3 +32,12 @@ nmap <leader>d :action ShowErrorDescription<cr>
 " IdeaVim uses 'a' for alt instead of Vim's 'm'
 nmap <a-j> 15gj
 nmap <a-k> 15gk
+
+" scroll the viewport faster
+nnoremap <C-e> 3<C-e>
+nnoremap <C-y> 3<C-y>
+
+" Use relative line numbers
+set relativenumber
+set number
+
