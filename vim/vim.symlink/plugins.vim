@@ -16,6 +16,7 @@ Plug 'tpope/vim-commentary'     " Toggle comments like sublime
 Plug 'tpope/vim-surround'       " Quickly change surrounding quotations
 Plug 'tpope/vim-speeddating'    " use ctrl-A ctrl-X to increment dates and times
 Plug 'tpope/vim-obsession'      " Save a session for the current state of vim
+Plug 'tpope/vim-fugitive'      " Save a session for the current state of vim
 Plug 'airblade/vim-gitgutter'   " Git gitter
 Plug 'ryanoasis/vim-devicons'   " Icons
 Plug 'Raimondi/delimitMate'     " Match parenthesis and quotes

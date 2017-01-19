@@ -1,1 +1,3 @@
 set mouse = true
+set main-view = line-number:no,interval=5 id:no date:relative author:full commit-title:yes,graph,refs,overflow=no
+set wrap-lines = yes
