@@ -79,11 +79,19 @@ function hl() {
     echo $src | highlight -O rtf --syntax $1 --font Inconsoloata --style $style --line-number --font-size 24 | pbcopy
 }
 
+function set_background() {
+    echo "Setting background to: $THEME.$BACKGROUND..."
+    BASE16_SHELL="$DOTFILES/config/base16-shell/$THEME.$BACKGROUND.sh"
+    source $BASE16_SHELL
+}
+
 # set the background color to light
 function light() {
-    export BACKGROUND="light" && reload!
+    export BACKGROUND="light"
+    set_background
 }
 
 function dark() {
-    export BACKGROUND="dark" && reload!
+    export BACKGROUND="dark"
+    set_background
 }
