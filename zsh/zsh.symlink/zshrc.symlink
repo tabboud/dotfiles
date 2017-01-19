@@ -30,7 +30,7 @@ for config ($DOTFILES/zsh/**/*.zsh) source $config
 # Base16 Shell
 export THEME="base16-eighties"
 export BACKGROUND="dark"
-set_background() # Set the background given the theme (see functions.zsh)
+set_background # Set the background given the theme (see functions.zsh)
 
 # Virtualenv Settings
 export WORKON_HOME=$HOME/.virtualenvs
