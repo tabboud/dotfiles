@@ -50,6 +50,9 @@ export PATH=$PATH:$GOROOT:$GOPATH/bin
 # Groovy Stuff
 export GROOVY_HOME=/usr/local/opt/groovy/libexec
 
-
 # FZF config
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Use ag instead of find for fzf
+export FZF_DEFAULT_COMMAND='ag -g ""'
+
