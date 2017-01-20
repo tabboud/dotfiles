@@ -25,8 +25,11 @@ Plug 'fatih/vim-go', {'for': ['go']}                    " Loads only when editin
 Plug 'jpalardy/vim-slime'                               " Send commands to a repl on another tmux pane
 Plug 'qpkorr/vim-bufkill'       " Bring sanity to closing buffers
 Plug 'scrooloose/nerdtree',  { 'on': 'NERDTreeToggle'}
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+" Only load fzf when we are in the terminal
+" Load ctrlp when we are in a gui vim
+Plug 'junegunn/fzf', has('gui_running') ? { 'on': [] } : { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim', has('gui_running') ? { 'on': [] } : {}
+Plug 'ctrlpvim/ctrlp.vim', has('gui_running') ? {} : { 'on': [] }
 
 " Colorthemes
 Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
