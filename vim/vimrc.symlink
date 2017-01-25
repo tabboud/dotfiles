@@ -1,4 +1,4 @@
-source $HOME/.vim/plugins.vim
+ source $HOME/.vim/plugins.vim
 
 source $HOME/.vim/bundle/scopesearch.vim
 
@@ -100,7 +100,12 @@ let base16colorspace=256  " Access colors present in 256 colorspace"
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
 " Set background and theme (environment variables - see .zshrc)
 set background=dark
-colorscheme Tomorrow-Night-Eighties
+try
+    colorscheme Tomorrow-Night-Eighties
+catch
+    colorscheme slate
+endtry
+
 "set termguicolors
 
 set number              " show line numbers
@@ -213,6 +218,9 @@ map gn :bn<cr>
 map gp :bp<cr>
 map gd :bd<cr>  
 
+" Search a visual selection by pressing <Alt-/>
+vnoremap ÷ <Esc>/\%V
+
 " }}}
 
 " Section AutoGroups {{{
@@ -318,7 +326,7 @@ let g:go_highlight_build_constraints = 1
 let g:go_fmt_command = "goimports"
 "let g:go_list_type = "quickfix"
 " Enable experimental so that folds are not closed
-let g:go_fmt_experimental = 1
+" let g:go_fmt_experimental = 1
 
 " CtrlP & FZF Settings
 if (has("gui_running"))
@@ -401,6 +409,18 @@ if (has("nvim"))
     nnoremap <A-j> <C-w>j
     nnoremap <A-k> <C-w>k
     nnoremap <A-l> <C-w>l
+
+    " deoplete settings
+	let g:deoplete#enable_at_startup = 1
+	let g:deoplete#ignore_sources = {}
+	let g:deoplete#ignore_sources._ = ['buffer', 'member', 'tag', 'file', 'neosnippet']
+	let g:deoplete#sources#go#sort_class = ['func', 'type', 'var', 'const']
+	let g:deoplete#sources#go#align_class = 1
+
+	" Use partial fuzzy matches like YouCompleteMe
+	call deoplete#custom#set('_', 'matchers', ['matcher_fuzzy'])
+	call deoplete#custom#set('_', 'converters', ['converter_remove_paren'])
+	call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
 endif
 " }}}
 
