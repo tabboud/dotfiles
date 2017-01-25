@@ -30,6 +30,7 @@ Plug 'scrooloose/nerdtree',  { 'on': 'NERDTreeToggle'}
 Plug 'junegunn/fzf', has('gui_running') ? { 'on': [] } : { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim', has('gui_running') ? { 'on': [] } : {}
 Plug 'ctrlpvim/ctrlp.vim', has('gui_running') ? {} : { 'on': [] }
+Plug 'kchmck/vim-coffee-script' ", {'for': ['coffeescript']}
 
 " Async Autocomplete (Only works with nvim)
 Plug 'Shougo/deoplete.nvim'

@@ -389,7 +389,7 @@ if (has("gui_running"))
     colorscheme Tomorrow-Night-Eighties
     " let g:airline_left_sep=''
     " let g:airline_right_sep=''
-    let g:airline_powerline_fonts=0
+    let g:airline_powerline_fonts=1
     let g:airline_theme='base16_eighties'
 endif
 " }}}
@@ -421,6 +421,9 @@ if (has("nvim"))
 	call deoplete#custom#set('_', 'matchers', ['matcher_fuzzy'])
 	call deoplete#custom#set('_', 'converters', ['converter_remove_paren'])
 	call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
+
+    " incremental searching
+    set icm=nosplit
 endif
 " }}}
 
