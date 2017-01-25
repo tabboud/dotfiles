@@ -22,15 +22,16 @@ Plug 'majutsushi/tagbar'        " Tags side bar browser
 Plug 'mhinz/vim-startify'
 Plug 'toyamarinyon/vim-swift', {'for': ['swift']}       " Loads only when editing swift code
 Plug 'fatih/vim-go', {'for': ['go']}                    " Loads only when editing go code
-Plug 'jpalardy/vim-slime'                               " Send commands to a repl on another tmux pane
+Plug 'kchmck/vim-coffee-script', {'for': ['coffeescript']}
+" Plug 'jpalardy/vim-slime'                               " Send commands to a repl on another tmux pane
 Plug 'qpkorr/vim-bufkill'       " Bring sanity to closing buffers
 Plug 'scrooloose/nerdtree',  { 'on': 'NERDTreeToggle'}
+
 " Only load fzf when we are in the terminal
 " Load ctrlp when we are in a gui vim
 Plug 'junegunn/fzf', has('gui_running') ? { 'on': [] } : { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim', has('gui_running') ? { 'on': [] } : {}
 Plug 'ctrlpvim/ctrlp.vim', has('gui_running') ? {} : { 'on': [] }
-Plug 'kchmck/vim-coffee-script' ", {'for': ['coffeescript']}
 
 " Async Autocomplete (Only works with nvim)
 Plug 'Shougo/deoplete.nvim'

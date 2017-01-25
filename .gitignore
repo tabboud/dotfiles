@@ -2,4 +2,5 @@
 vim/vim.symlink/bundle/*
 vim/vim.symlink/.netrwhist
 vim/vim.symlink/autoload
+vim/vim.symlink/sessions
 config/nvim/.netrwhist

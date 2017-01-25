@@ -290,6 +290,10 @@ endfunction
 
 " Section Plugins {{{
 
+" Vim Startify
+" set the session directory
+let g:startify_session_dir = '$HOME/.vim/session'
+
 " Vim-Bufkill
 map <C-c> :BD<cr>
 
