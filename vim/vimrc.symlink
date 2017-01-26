@@ -1,6 +1,6 @@
  source $HOME/.vim/plugins.vim
 
-source $HOME/.vim/bundle/scopesearch.vim
+" source $HOME/.vim/bundle/scopesearch.vim
 
 " Section General {{{
 set nocompatible    " not compatible with vi
@@ -234,7 +234,7 @@ augroup configgroup
 
     " automatically resize panes on resize
     autocmd VimResized * exe 'normal! \<c-w>='
-    autocmd BufWritePost .vimrc,.vimrc.local,init.vim source %
+    " autocmd BufWritePost .vimrc,.vimrc.local,init.vim source %
 
     autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
