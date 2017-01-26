@@ -4,6 +4,7 @@
 TAPS=(
     caskroom/cask
     caskroom/versions
+    neovim/neovim
 )
 
 FORMULAS=(
@@ -16,6 +17,7 @@ FORMULAS=(
     git
     go
     macvim
+    neovim
     pkg-config
     python
     python3
