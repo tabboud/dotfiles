@@ -2,6 +2,7 @@
 COLOR_RED='\033[0;31m'
 COLOR_GREEN='\033[0;32m'
 COLOR_NONE='\033[0m'
+COLOR_YELLOW='\033[1;33m'
 
 echo "==> Installing dotfiles"
 
@@ -28,7 +29,6 @@ elif [ "$(uname)" == "Linux" ]; then
 fi
 
 # Install oh-my-zsh
-echo "Run the following to install oh-my-zsh"
-echo "curl -L http://install.ohmyz.sh | sh"
+echo -e "Run the following to install oh-my-zsh:\n\t${COLOR_YELLOW}curl -L http://install.ohmyz.sh | sh${COLOR_NONE}"
 
 echo -e "${COLOR_GREEN}✔ All Done!${COLOR_NONE}"
