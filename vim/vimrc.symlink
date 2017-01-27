@@ -221,6 +221,9 @@ map gd :bd<cr>
 " Search a visual selection by pressing <Alt-/>
 vnoremap ÷ <Esc>/\%V
 
+" Copy relative path of current file
+noremap <silent> <F4> :let @+=expand("%")<CR>
+
 " }}}
 
 " Section AutoGroups {{{
