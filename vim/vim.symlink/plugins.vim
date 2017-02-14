@@ -14,7 +14,6 @@ Plug 'tpope/vim-commentary'     " Toggle comments like sublime
 " Plug 'tpope/vim-surround'       " Quickly change surrounding quotations
 " Plug 'tpope/vim-speeddating'    " use ctrl-A ctrl-X to increment dates and times
 " Plug 'tpope/vim-obsession'      " Save a session for the current state of vim
-Plug 'tpope/vim-fugitive'      " Git commands
 Plug 'airblade/vim-gitgutter'   " Git gitter
 Plug 'ryanoasis/vim-devicons'   " Icons
 Plug 'Raimondi/delimitMate'     " Match parenthesis and quotes
@@ -22,7 +21,7 @@ Plug 'majutsushi/tagbar'        " Tags side bar browser
 Plug 'mhinz/vim-startify'
 Plug 'toyamarinyon/vim-swift', {'for': ['swift']}       " Loads only when editing swift code
 Plug 'fatih/vim-go', {'for': ['go']}                    " Loads only when editing go code
-Plug 'kchmck/vim-coffee-script', {'for': ['coffeescript']}
+Plug 'kchmck/vim-coffee-script'     " Coffee syntax highlighting
 " Plug 'jpalardy/vim-slime'                               " Send commands to a repl on another tmux pane
 Plug 'qpkorr/vim-bufkill'       " Bring sanity to closing buffers
 Plug 'scrooloose/nerdtree',  { 'on': 'NERDTreeToggle'}
