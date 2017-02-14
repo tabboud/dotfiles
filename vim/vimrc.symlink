@@ -90,17 +90,16 @@ if has('vim_starting')
     set encoding=utf-8
 endif
 
-let base16colorspace=256  " Access colors present in 256 colorspace"
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
-" Set background and theme (environment variables - see .zshrc)
 set background=dark
-try
-    colorscheme Tomorrow-Night-Eighties
-catch
-    colorscheme slate
-endtry
+" Set vim to the same colorscheme as the terminal
+" if filereadable(expand("~/.vimrc_background"))
+"   let base16colorspace=256
+"   source ~/.vimrc_background
+" endif
+colorscheme Tomorrow-Night-Eighties
 
-"set termguicolors
+set termguicolors
 
 set number              " show line numbers
 set relativenumber      " show relative line numbers
