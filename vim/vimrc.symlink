@@ -1,7 +1,5 @@
  source $HOME/.vim/plugins.vim
 
-" source $HOME/.vim/bundle/scopesearch.vim
-
 " Section General {{{
 set nocompatible    " not compatible with vi
 set autoread        " detect when a file is changed
@@ -222,6 +220,7 @@ augroup configgroup
 
     " Set syntax highlighting for various filetypes
     au BufNewFile,BufRead *.ns set syntax=tcl
+    au BufNewFile,BufRead *.macro set syntax=groovy
 
     " automatically resize panes on resize
     autocmd VimResized * exe 'normal! \<c-w>='
