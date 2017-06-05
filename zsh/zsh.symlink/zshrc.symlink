@@ -2,6 +2,7 @@ export DOTFILES=$HOME/.dotfiles
 export ZSH=$HOME/.oh-my-zsh
 export ZSH_DIR=$HOME/.zsh
 export PATH=/usr/local/bin:$PATH
+export EDITOR=nvim
 
 # add /usr/local/sbin
 if [[ -d /usr/local/sbin ]]; then
@@ -30,18 +31,18 @@ for config ($DOTFILES/zsh/**/*.zsh) source $config
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 # set the background theme
-base16_eighties
+# base16_eighties
 
 # Virtualenv Settings
 export WORKON_HOME=$HOME/.virtualenvs
-#source /usr/local/bin/virtualenvwrapper.sh
+source /usr/local/bin/virtualenvwrapper.sh
 
 # Convert caps_lock to control
 #setxkbmap -option ctrl:nocaps
 export PATH=/Library/TeX/texbin:$PATH
 
 # Go Stuff
-# export GOROOT=/usr/local/Cellar/go/1.7
+# export GOROOT=/usr/local/Cellar/go/1.8/libexec
 export GOPATH=$HOME/dev/go
 export PATH=$PATH:$GOROOT:$GOPATH/bin
 #source /usr/local/dev-env/bin/profile

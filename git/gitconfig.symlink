@@ -14,6 +14,7 @@
     s = status --short
     ss  = status
     br = branch -v
+    r = remote -v
 
     l = log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
     # show a pretty log graph

@@ -9,9 +9,9 @@ else # OS X `ls`
 fi
 
 # Editors
-# alias vim="nvim"
-alias emacs="/Applications/Emacs.app/Contents/MacOS/Emacs"
-alias emacsclient="/usr/local/bin/emacsclient"
+alias vim="nvim"
+alias emacs="/usr/local/Cellar/emacs-plus/25.2/bin/emacs"
+alias emacsclient="/usr/local/Cellar/emacs-plus/25.2/bin/emacsclient"
 alias ec="emacsclient -c -n"
 alias ect="emacsclient -nw"
 
@@ -67,4 +67,7 @@ alias ag="ag --pager=less"
 alias god='$HOME/dev/go/src/github.com/tdabboud'
 # Go to my notes directory
 alias cdnotes='cd $HOME/dev/notes'
+
+# Launch Pyspark and Jupyter
+alias launchPyspark='docker run -v /Users/tabboud/dev/repos/github.com/tdabboud/jupyter-notebooks:/home/jovyan/work -p 8888:8888 jupyter/pyspark-notebook'
 
