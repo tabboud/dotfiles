@@ -3,6 +3,8 @@ export ZSH=$HOME/.oh-my-zsh
 export ZSH_DIR=$HOME/.zsh
 export PATH=/usr/local/bin:$PATH
 export EDITOR=nvim
+export HISTSIZE=1000
+export SAVEHIST=1000
 
 # add /usr/local/sbin
 if [[ -d /usr/local/sbin ]]; then
