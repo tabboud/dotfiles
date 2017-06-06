@@ -376,8 +376,10 @@ endif
 
 " Section Neovim {{{
 if (has("nvim"))
-    " Change cursor when in insert mode
-    let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+    " switch cursor to line when in insert mode, and block when not
+    set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+      \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+      \,sm:block-blinkwait175-blinkoff150-blinkon175
     " use ESC to go back to normal mode from terminal
     tnoremap <Esc> <C-\><C-n>
     " Switch panes easier with Alt+{h,j,k,l} when in terminal and normal mode
