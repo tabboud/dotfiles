@@ -55,3 +55,24 @@ function extract() {
     fi
 }
 
+function suspended_jobs() {
+    local sj
+    sj=$(jobs 2>/dev/null | tail -n 1)
+    if [[ $sj == "" ]]; then
+        echo ""
+    else
+        echo "%{$FG[208]%}✱%f"
+    fi
+}
+
+# Run either gradlew or godelw
+function gd() {
+    # check for gradlew
+    if [ -f "gradlew" ]; then
+        ./gradlew $@
+    elif [ -f "godelw" ]; then
+        ./godelw $@
+    else
+        echo "neither ./gradlew or ./godelw found!"
+    fi
+}

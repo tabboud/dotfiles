@@ -27,7 +27,10 @@ alias l="ls -lah ${colorflag}"
 alias la="ls -AF ${colorflag}"
 alias ll="ls -lFh ${colorflag}"
 alias lld="ls -l | grep ^d"
+alias ls="ls ${colorflag}"
 alias rmf="rm -rf"
+
+alias g="git"
 
 # Helpers
 alias grep='grep --color=auto'
@@ -65,6 +68,7 @@ alias ag="ag --pager=less"
 
 # Go to go directory quicker
 alias god='$HOME/dev/go/src/github.com/tdabboud'
+alias godp='$HOME/dev/go/src/github.palantir.build'
 # Go to my notes directory
 alias cdnotes='cd $HOME/dev/notes'
 
