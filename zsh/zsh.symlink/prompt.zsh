@@ -76,6 +76,7 @@ precmd() {
 PROMPT_SYMBOL='❯'
 
 # Use the command 'spectrum_ls' on oh-my-zsh to get the color_code numbers for below
-export PROMPT='%(?.%F{002}.%F{001})$PROMPT_SYMBOL%f '
-export RPROMPT='`git_dirty`%F{245}$vcs_info_msg_0_%f `upstream_branch``git_arrows``suspended_jobs`'
+export PROMPT='`git_dirty`%F{245}$vcs_info_msg_0_%f `git_arrows`%(?.%F{002}.%F{001})$PROMPT_SYMBOL%f '
+export RPROMPT='`suspended_jobs`'
+# export RPROMPT='`git_dirty`%F{245}$vcs_info_msg_0_%f `upstream_branch``git_arrows``suspended_jobs`'
 
