@@ -3,14 +3,7 @@ export ZSH_DIR=$HOME/.zsh
 export EDITOR=nvim
 export HISTSIZE=1000
 export SAVEHIST=1000
-
-export PATH=/usr/local/bin:$PATH
-# add /usr/local/sbin
-if [[ -d /usr/local/sbin ]]; then
-    export PATH=/usr/local/sbin:$PATH
-fi
-# adding path directory for custom scripts
-export PATH=$DOTFILES/bin:$PATH
+export PATH=$DOTFILES/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 # source all .zsh files inside of the $DOTFILES/zsh/ directory
 for config ($DOTFILES/zsh/**/*.zsh) source $config
@@ -18,41 +11,22 @@ for config ($DOTFILES/zsh/**/*.zsh) source $config
 # Base16 Shell
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
-# set the background theme
-# base16_eighties
 
 # Virtualenv Settings
 export WORKON_HOME=$HOME/.virtualenvs
 export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
 source /usr/local/bin/virtualenvwrapper_lazy.sh
 
-# Convert caps_lock to control
-#setxkbmap -option ctrl:nocaps
-
 # Go Stuff
-export GOROOT=/usr/local/Cellar/go/1.8.3/libexec
+export GOROOT=$(go env GOROOT)
 export GOPATH=$HOME/dev/go
 export PATH=$PATH:$GOROOT:$GOPATH/bin
-
-# Groovy Stuff
-export GROOVY_HOME=/usr/local/opt/groovy/libexec
 
 # FZF config
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Use ag instead of find for fzf
 export FZF_DEFAULT_COMMAND='ag -g ""'
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-# export PATH="$PATH:$HOME/.rvm/bin"
-# source $HOME/.rvm/scripts/rvm
-
-# Tmuxinator
-# source $HOME/.bin/tmuxinator.zsh
-
-# Make the up/down arrows search zsh history
-bindkey '^[[A' up-line-or-search
-bindkey '^[[B' down-line-or-search
 
 # Load all custom settings
 # ~/.path   -> extend the PATH env variable

@@ -28,6 +28,7 @@ FORMULAS=(
     vim
     wget
     zsh
+    zsh-completions
 )
 
 CASKS=(
