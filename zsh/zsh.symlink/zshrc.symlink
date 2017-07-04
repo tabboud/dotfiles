@@ -27,13 +27,11 @@ source /usr/local/bin/virtualenvwrapper.sh
 
 # Convert caps_lock to control
 #setxkbmap -option ctrl:nocaps
-# export PATH=/Library/TeX/texbin:$PATH
 
 # Go Stuff
 export GOROOT=/usr/local/Cellar/go/1.8.3/libexec
 export GOPATH=$HOME/dev/go
 export PATH=$PATH:$GOROOT:$GOPATH/bin
-#source /usr/local/dev-env/bin/profile
 
 # Groovy Stuff
 export GROOVY_HOME=/usr/local/opt/groovy/libexec
@@ -45,8 +43,8 @@ export GROOVY_HOME=/usr/local/opt/groovy/libexec
 export FZF_DEFAULT_COMMAND='ag -g ""'
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-source $HOME/.rvm/scripts/rvm
+# export PATH="$PATH:$HOME/.rvm/bin"
+# source $HOME/.rvm/scripts/rvm
 
 # Tmuxinator
 # source $HOME/.bin/tmuxinator.zsh
@@ -54,3 +52,14 @@ source $HOME/.rvm/scripts/rvm
 # Make the up/down arrows search zsh history
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
+
+# Load all custom settings
+# ~/.path   -> extend the PATH env variable
+# ~/.custom -> custom settings
+for file in ~/.{path,custom}; do
+	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
+		source "$file"
+	fi
+done
+unset file
+
