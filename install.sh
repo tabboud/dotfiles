@@ -31,7 +31,4 @@ elif [ "$(uname)" == "Linux" ]; then
     sudo apt-get -y install zsh
 fi
 
-# Install oh-my-zsh
-echo -e "Run the following to install oh-my-zsh:\n\t${COLOR_YELLOW}curl -L http://install.ohmyz.sh | sh${COLOR_NONE}"
-
 echo -e "${COLOR_GREEN}✔ All Done!${COLOR_NONE}"
