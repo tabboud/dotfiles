@@ -7,7 +7,7 @@ export PATH=$DOTFILES/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 # oh-my-zsh settings
 export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME=""
+ZSH_THEME="robbyrussell"
 DISABLE_AUTO_UPDATE=true
 source $ZSH/oh-my-zsh.sh
 
@@ -24,7 +24,7 @@ export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
 source /usr/local/bin/virtualenvwrapper_lazy.sh
 
 # Go Stuff
-export GOROOT=$(go env GOROOT)
+# export GOROOT=$(go env GOROOT)
 export GOPATH=$HOME/dev/go
 export PATH=$PATH:$GOROOT:$GOPATH/bin
 
@@ -44,3 +44,6 @@ for file in ~/.{path,custom}; do
 done
 unset file
 
+function timeit() {
+    /usr/bin/time /usr/local/bin/zsh -ic exit
+}
