@@ -1,22 +1,23 @@
 export DOTFILES=$HOME/.dotfiles
-export ZSH_DIR=$HOME/.zsh
+export ZSH=$HOME/.zsh
 export EDITOR=nvim
 export HISTSIZE=1000
 export SAVEHIST=1000
 export PATH=$DOTFILES/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
-# oh-my-zsh settings
-export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME=""
-DISABLE_AUTO_UPDATE=true
-source $ZSH/oh-my-zsh.sh
+# prezto config
+# source ~/.zprezto/init.zsh
+
+function timeit(){
+    /usr/bin/time zsh -ic exit
+}
 
 # source all .zsh files inside of the $DOTFILES/zsh/ directory
 for config ($DOTFILES/zsh/**/*.zsh) source $config
 
 # Base16 Shell
 BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+source $BASE16_SHELL/scripts/base16-eighties.sh
 
 # Virtualenv Settings (Lazy Loaded)
 export WORKON_HOME=$HOME/.virtualenvs
@@ -24,11 +25,12 @@ export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
 source /usr/local/bin/virtualenvwrapper_lazy.sh
 
 # Go Stuff
-export GOROOT=$(go env GOROOT)
+# export GOROOT=$(go env GOROOT)
 export GOPATH=$HOME/dev/go
 export PATH=$PATH:$GOROOT:$GOPATH/bin
 
 # FZF config
+#TODO: LAZY LOAD this source
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Use ag instead of find for fzf
@@ -37,7 +39,7 @@ export FZF_DEFAULT_COMMAND='ag -g ""'
 # Load all custom settings
 # ~/.path   -> extend the PATH env variable
 # ~/.custom -> custom settings
-for file in ~/.{path,custom}; do
+for file in ~/.{path,localrc}; do
 	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
 		source "$file"
 	fi

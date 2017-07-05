@@ -19,5 +19,5 @@ Configurations for:
 
 ## Custom Settings
 
-Place all custom shell/exports/env settings in a file named `~/.custom`
+Place all custom shell/exports/env settings in a file named `~/.localrc`
 
