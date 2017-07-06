@@ -31,6 +31,7 @@ setopt completeinword
 setopt noshwordsplit
 # allow use of comments in interactive code
 setopt interactivecomments
+setopt interactive
 
 setopt extended_glob
 
@@ -40,9 +41,18 @@ setopt nobeep
 # don't push the same dir twice.
 setopt pushd_ignore_dups
 
+setopt complete_aliases
+
 # Don't send SIGHUP to background processes when the shell exits.
-#setopt nohup
+setopt nohup
+setopt no_bg_nice
 
 # Make the up and down arrow keys search history
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
+
+setopt alwaystoend
+setopt monitor
+setopt pushdminus
+setopt sharehistory
+setopt zle
