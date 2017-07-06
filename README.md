@@ -19,5 +19,6 @@ Configurations for:
 
 ## Custom Settings
 
-Place all custom shell/exports/env settings in a file named `~/.custom`
+- Git specific settings go in: `~/.gitconfig.local`
+- Shell/exports/env settings go in: `~/.custom.local`
 
