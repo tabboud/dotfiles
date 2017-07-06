@@ -37,7 +37,7 @@ export FZF_DEFAULT_COMMAND='ag -g ""'
 # Load all custom settings
 # ~/.path   -> extend the PATH env variable
 # ~/.custom -> custom settings
-for file in ~/.{path,custom}; do
+for file in ~/.{path,custom.local}; do
 	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
 		source "$file"
 	fi
