@@ -1,9 +1,12 @@
 export DOTFILES=$HOME/.dotfiles
 export ZSH=$HOME/.zsh
 export EDITOR=nvim
-export HISTFILE=~/.zsh_history
-export HISTSIZE=1000
-export SAVEHIST=1000
+
+# History
+HISTFILE=~/.zsh_history
+HISTSIZE=1000
+SAVEHIST=1000
+
 export PATH=$DOTFILES/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 # prezto config
