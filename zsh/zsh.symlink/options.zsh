@@ -43,8 +43,6 @@ setopt notify
 # whenever a command completion is attempted, make sure the entire command path
 # is hashed first.
 setopt hash_list_all
-# not just at the end
-setopt completeinword
 # use zsh style word splitting
 setopt noshwordsplit
 # allow use of comments in interactive code
@@ -69,7 +67,6 @@ setopt no_bg_nice
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
 
-setopt alwaystoend
 setopt monitor
 setopt pushdminus
 setopt sharehistory

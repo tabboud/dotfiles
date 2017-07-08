@@ -10,6 +10,7 @@ fi
 
 # Utilities
 alias o='open'
+alias t='zshStartTime'
 
 # Editors
 alias vim="nvim"

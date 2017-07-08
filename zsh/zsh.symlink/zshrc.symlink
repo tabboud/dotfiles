@@ -1,20 +1,7 @@
-export DOTFILES=$HOME/.dotfiles
-export ZSH=$HOME/.zsh
-export EDITOR=nvim
-
 # History
 HISTFILE=~/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
-
-export PATH=$DOTFILES/bin:/usr/local/bin:/usr/local/sbin:$PATH
-
-# prezto config
-# source ~/.zprezto/init.zsh
-
-function timeit(){
-    /usr/bin/time zsh -ic exit
-}
 
 # source all .zsh files inside of the $DOTFILES/zsh/ directory
 for config ($DOTFILES/zsh/**/*.zsh) source $config
