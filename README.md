@@ -4,6 +4,7 @@
 
 Configurations for:
 + vim
++ zsh (using oh-my-zsh)
 + emacs
 + sublime text
 + tmux
