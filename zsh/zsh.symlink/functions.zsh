@@ -76,3 +76,8 @@ function gd() {
         echo "neither ./gradlew or ./godelw found!"
     fi
 }
+
+# Time how long it takes to start zsh
+function zshStartTime(){
+    /usr/bin/time /usr/local/bin/zsh -ic exit
+}

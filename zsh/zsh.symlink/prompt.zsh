@@ -1,6 +1,9 @@
 # heavily inspired by the wonderful pure theme
 # https://github.com/sindresorhus/pure
 
+# expand parameters on prompt
+setopt prompt_subst
+
 # needed to get things like current git branch
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git # You can add hg too if needed: `git hg`

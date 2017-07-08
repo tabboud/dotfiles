@@ -8,6 +8,10 @@ else # OS X `ls`
     colorflag="-G"
 fi
 
+# Utilities
+alias o='open'
+alias t='zshStartTime'
+
 # Editors
 alias vim="nvim"
 alias emacs="/usr/local/Cellar/emacs-plus/25.2/bin/emacs"
