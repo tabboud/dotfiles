@@ -10,9 +10,9 @@ Keys = {
   ["specialTriggers"] = {
   },
   ["triggers"] = {
-    ["iTerm"] = {{{"alt"}, "1"}, {hyper, "S"}},
-    ["Google Chrome"] = {{{"alt"}, "2"}, {hyper, "F"}},
-    ["Slack"] = {{{"alt"}, "3"}, {hyper, "B"}},
+    ["iTerm"] = {{{"cmd"}, "1"}, {hyper, "S"}},
+    ["Google Chrome"] = {{{"cmd"}, "2"}, {hyper, "F"}},
+    ["Slack"] = {{{"cmd"}, "3"}, {hyper, "B"}},
     -- ["Dash"] = {{{"cmd", "shift"}, "E"}, {hyper, "E"}},
   },
 }
