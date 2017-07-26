@@ -7,8 +7,10 @@ endif
 
 call plug#begin('~/.vim/bundle')
 
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+Plug 'ap/vim-buftabline'
 Plug 'ervandew/supertab'
 Plug 'tpope/vim-commentary'     " Toggle comments like sublime
 " Plug 'tpope/vim-surround'       " Quickly change surrounding quotations
@@ -43,5 +45,6 @@ Plug 'ctrlpvim/ctrlp.vim', has('gui_running') ? {} : { 'on': [] }
 
 " Colorthemes
 Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
+Plug 'chriskempson/base16-vim'
 
 call plug#end()

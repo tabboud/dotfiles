@@ -1,4 +1,4 @@
- source $HOME/.vim/plugins.vim
+source $HOME/.vim/plugins.vim
 
 " Section General {{{
 set nocompatible    " not compatible with vi
@@ -264,6 +264,16 @@ function! WinMove(key)
     endif
 endfunction
 
+function! InGitRepo()
+    let cmd = 'git ls-files'
+    let output = system(cmd)
+    if !v:shell_error
+        return 1 " In a git repo
+    else
+        return 0 " not in a git repo
+    endif
+endfunction
+
 " }}}
 
 " Section Plugins {{{
@@ -323,13 +333,15 @@ else
     " FZF Settings
     let g:fzf_layout = { 'down': '~25%' }
 
-    if isdirectory(".git")
-        " if in a git project, use :GFiles
-        nmap <silent> <leader>p :GFiles<cr>
-    else
-        " otherwise, use :FZF
-        nmap <silent> <leader>p :FZF<cr>
-    endif
+    nmap <silent> <leader>p :GFiles<cr>
+    " TODO: This only works if we start out in a git project
+    " if InGitRepo()
+    "     " if in a git project, use :GFiles
+    "     nmap <silent> <leader>p :GFiles<cr>
+    " else
+    "     " otherwise, use :FZF
+    "     nmap <silent> <leader>p :FZF<cr>
+    " endif
 
     nmap <silent> <leader>r :Buffers<cr>
 
@@ -358,6 +370,11 @@ endif
 " Vim-Slime Settings
 let g:slime_target = "tmux"
 let g:slime_paste_file = "$HOME/.slime_paste"
+
+" lightline configs
+let g:lightline = {
+    \ 'colorscheme': 'jellybeans',
+    \ }
 
 " }}}
 
