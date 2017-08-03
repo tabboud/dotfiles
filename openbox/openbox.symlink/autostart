@@ -15,3 +15,8 @@
 # If you want to use XFCE config tools...
 #
 #xfce-mcs-manager &
+
+tint2 &
+pcmanfm --desktop &
+# compton -b -c &
+
