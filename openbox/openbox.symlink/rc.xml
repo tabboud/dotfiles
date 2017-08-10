@@ -342,33 +342,33 @@
         <command>rofi -show run</command>
       </action>
   </keybind>
-      <keybind key="A-Left">
-          <action name="Window Thirds Left"/>
-        <action name="MoveResizeTo">
-            <x>0</x>
-            <y>0</y>
-            <width>33%</width>
-            <height>100%</height>
-        </action>
-    </keybind>
-      <keybind key="A-Down">
-          <action name="Window Thirds Middle"/>
-        <action name="MoveResizeTo">
-            <x>33%</x>
-            <y>0</y>
-            <width>33%</width>
-            <height>100%</height>
-        </action>
-    </keybind>
-      <keybind key="A-Right">
-          <action name="Window Thirds Right"/>
-        <action name="MoveResizeTo">
-            <x>66%</x>
-            <y>0</y>
-            <width>33%</width>
-            <height>100%</height>
-        </action>
-    </keybind>
+      <!-- <keybind key="A-Left"> -->
+      <!--     <action name="Window Thirds Left"/> -->
+      <!--   <action name="MoveResizeTo"> -->
+      <!--       <x>0</x> -->
+      <!--       <y>0</y> -->
+      <!--       <width>33%</width> -->
+      <!--       <height>100%</height> -->
+      <!--   </action> -->
+    <!-- </keybind> -->
+      <!-- <keybind key="A-Down"> -->
+      <!--     <action name="Window Thirds Middle"/> -->
+      <!--   <action name="MoveResizeTo"> -->
+      <!--       <x>33%</x> -->
+      <!--       <y>0</y> -->
+      <!--       <width>33%</width> -->
+      <!--       <height>100%</height> -->
+      <!--   </action> -->
+    <!-- </keybind> -->
+      <!-- <keybind key="A-Right"> -->
+      <!--     <action name="Window Thirds Right"/> -->
+      <!--   <action name="MoveResizeTo"> -->
+      <!--       <x>66%</x> -->
+      <!--       <y>0</y> -->
+      <!--       <width>33%</width> -->
+      <!--       <height>100%</height> -->
+      <!--   </action> -->
+    <!-- </keybind> -->
   </keyboard>
   <mouse>
     <dragThreshold>1</dragThreshold>
