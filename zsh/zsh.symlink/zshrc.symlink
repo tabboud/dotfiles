@@ -47,3 +47,7 @@ for file in ~/.{path,custom.local}; do
 	fi
 done
 unset file
+
+# remap capslock to ctrl
+setxkbmap -layout us -option ctrl:nocaps
+
