@@ -17,3 +17,4 @@ local log = hs.logger.new("My Config")
 keys.deactivateKeys()
 keys.activateKeys()
 
+hs.notify.new({title='Hammerspoon', informativeText='Ready to rock 🤘'}):send()

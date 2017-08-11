@@ -2,6 +2,7 @@ local alert = require "hs.alert"
 local hotkey = require "hs.hotkey"
 
 hyper = {"cmd", "alt", "ctrl", "shift"}
+shortcutKey = {"alt"}
 local shortcuts = {
   ["normal"] = {},
 }
@@ -10,9 +11,10 @@ Keys = {
   ["specialTriggers"] = {
   },
   ["triggers"] = {
-    ["iTerm"] = {{{"cmd"}, "1"}, {hyper, "S"}},
-    ["Google Chrome"] = {{{"cmd"}, "2"}, {hyper, "F"}},
-    ["Slack"] = {{{"cmd"}, "3"}, {hyper, "B"}},
+    ["iTerm"] = {{shortcutKey, "1"}, {hyper, "S"}},
+    ["Google Chrome"] = {{shortcutKey, "2"}, {hyper, "F"}},
+    ["Slack"] = {{shortcutKey, "3"}, {hyper, "B"}},
+    ["Microsoft Outlook"] = {{shortcutKey, "4"}, {hyper, "O"}},
     -- ["Dash"] = {{{"cmd", "shift"}, "E"}, {hyper, "E"}},
   },
 }
