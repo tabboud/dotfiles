@@ -31,6 +31,7 @@ alias l="ls -lh ${colorflag}"
 alias la="ls -AF ${colorflag}"
 alias ll="ls -lFh ${colorflag}"
 alias lld="ls -l | grep ^d"
+alias ltr="ls -ltr ${colorflag}"
 alias ls="ls ${colorflag}"
 alias rmf="rm -rf"
 
