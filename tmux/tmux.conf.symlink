@@ -73,6 +73,11 @@ bind -r L resize-pane -R 10
 # set vi mode for copy mode
 setw -g mode-keys vi
 
+# Switch windows
+# usage: "SHIFT+arrow" (without prefix key)
+bind -n S-Left  previous-window
+bind -n S-Right next-window
+
 ##############################
 ### Color & Style Settings ###
 ##############################
