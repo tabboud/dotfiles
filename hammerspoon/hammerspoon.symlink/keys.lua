@@ -15,6 +15,7 @@ Keys = {
     ["Google Chrome"] = {{shortcutKey, "2"}, {hyper, "F"}},
     ["Slack"] = {{shortcutKey, "3"}, {hyper, "B"}},
     ["Microsoft Outlook"] = {{shortcutKey, "4"}, {hyper, "O"}},
+    ["IntelliJ IDEA CE"] = {{shortcutKey, "0"}, {hyper, "I"}}
     -- ["Dash"] = {{{"cmd", "shift"}, "E"}, {hyper, "E"}},
   },
 }
