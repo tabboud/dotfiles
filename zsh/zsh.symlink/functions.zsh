@@ -12,6 +12,7 @@ function colours() {
 
 # Create a new directory and enter it
 function md() {
+    echo "mkdir -p \"$@\" && cd \"$@\""
     mkdir -p "$@" && cd "$@"
 }
 
