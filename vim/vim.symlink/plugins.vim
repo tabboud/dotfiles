@@ -13,7 +13,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'ap/vim-buftabline'
 Plug 'ervandew/supertab'
 Plug 'tpope/vim-commentary'     " Toggle comments like sublime
-" Plug 'tpope/vim-surround'       " Quickly change surrounding quotations
+Plug 'tpope/vim-surround'       " Quickly change surrounding quotations
 " Plug 'tpope/vim-speeddating'    " use ctrl-A ctrl-X to increment dates and times
 " Plug 'tpope/vim-obsession'      " Save a session for the current state of vim
 Plug 'airblade/vim-gitgutter'   " Git gitter
@@ -31,6 +31,10 @@ Plug 'scrooloose/nerdtree',  { 'on': 'NERDTreeToggle'}
 
 " Languages
 Plug 'derekwyatt/vim-scala', {'for': ['scala']}                    " Loads only when editing go code
+" Markdown live-preview
+Plug 'miyakogi/livemark.vim'
+Plug 'leafgarland/typescript-vim'
+
 
 " Only load fzf when we are in the terminal
 " Load ctrlp when we are in a gui vim

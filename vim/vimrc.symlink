@@ -274,6 +274,10 @@ function! InGitRepo()
     endif
 endfunction
 
+" Format json inside vim (can use python or jq)
+com -bang FormatJSON %!python -m json.tool
+" com -bang FormatJSON %!jq '.'
+
 " }}}
 
 " Section Plugins {{{
@@ -375,6 +379,9 @@ let g:slime_paste_file = "$HOME/.slime_paste"
 let g:lightline = {
     \ 'colorscheme': 'jellybeans',
     \ }
+
+" Vim-livedown (markdown previewer)
+let g:livemark_browser = "chrome"
 
 " }}}
 
