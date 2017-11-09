@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+import glob
+import os
+import sys
+
+def main(root_dir, index_filename='index.md'):
+    """ Create the index.md file
+        given the root directory
+    """
+    abs_root_path = os.path.abspath(root_dir)
+    index_file_path = os.path.join(abs_root_path, index_filename)
+
+    # Check for another index file
+    if os.path.isfile(index_file_path):
+        answer = input('(%s) already exists. Overwrite (y/N)? ' % index_filename)
+        if answer != 'y':
+            return
+
+    # Find all md files
+    md_file_paths = []
+    file_search_str = os.path.join(abs_root_path, '**', '*.md')
+    for filename in glob.iglob(file_search_str, recursive=True):
+        md_file_paths.append(filename)
+
+    if len(md_file_paths) == 0:
+        print('No .md files found!')
+        return
+
+    # Write index file
+    with open(index_file_path, 'w') as f:
+        # Header
+        f.write('# Index\n\n')
+        for md_file_path in md_file_paths:
+            f.write('[%s](%s)\n\n' % (md_file_path, md_file_path))
+
+    print('Successfully wrote %s' % index_filename)
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('USAGE: %s <path-to-root>' % sys.argv[0])
+        sys.exit(1)
+    main(sys.argv[1])
+
