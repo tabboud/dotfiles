@@ -16,6 +16,7 @@ FORMULAS=(
     fzf
     git
     go
+    httpie
     macvim
     neovim
     pkg-config

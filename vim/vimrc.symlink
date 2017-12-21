@@ -62,12 +62,15 @@ set ruler   " show the cursor position all the time
 set modeline
 set title " set terminal title
 set lazyredraw        " don't redraw while executing macros
+" set cursorcolumn
+" set cursorline
 
 " Searching
 set ignorecase          " case insensitive searching
 set smartcase           " case-sensitive if expresson contains a capital letter
 set hlsearch
 set incsearch           " set incremental search, like modern browsers
+" set nowrapscan          " stop at the top/end when searching, i.e. dont wrap
 
 set showmatch " show matching braces
 set mat=2 " how many tenths of a second to blink
@@ -84,6 +87,7 @@ endif
 " Coloring
 " set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
 set background=dark
+" set background=light
 
 if &term =~ '256color'
     " disable background color erase
@@ -97,6 +101,7 @@ endif
 
 syntax on
 colorscheme Tomorrow-Night-Eighties     " Set the colorscheme
+" colorscheme slate
 
 set number              " show line numbers
 set relativenumber      " show relative line numbers
@@ -209,6 +214,12 @@ vnoremap ÷ <Esc>/\%V
 " Copy relative path of current file
 noremap <silent> <F4> :let @+=expand("%")<CR>
 
+" Preview markdown buffer in internet via bcat and pandoc
+" nmap <leader>vv :!pandoc -t html --smart  % \|bcat<cr><cr>
+
+" Add a check mark
+" nnoremap <leader>t i<C-k>OK<Esc>
+
 " }}}
 
 " Section AutoGroups {{{
@@ -246,6 +257,10 @@ augroup vimrcEx
                 \   exe "normal! g`\"" |
                 \ endif
 augroup END
+
+" Insert a ✓ with leader-t only in Markdown files
+autocmd FileType markdown nnoremap <buffer> <leader>t i<C-k>OK<Esc>
+
 " }}}
 
 " Section Functions {{{
@@ -382,6 +397,21 @@ let g:lightline = {
 
 " Vim-livedown (markdown previewer)
 let g:livemark_browser = "chrome"
+
+" Night-and-Day Settings
+" let hour = strftime("%H") " Set the background light from 7am to 7pm
+" if 7 <= hour && hour < 19
+"   set background=light
+" else " Set to dark from 7pm to 7am
+"   set background=dark
+" endif
+" colorscheme solarized " Use the awesome solarized color scheme
+" DONT USE THESE
+" let g:nd_themes = [
+"   \ ['4:00',  'Tomorrow-Night-Eighties', 'light' ],
+"   \ ['11:00', 'base16-solarized-light', 'light' ],
+"   \ ['18:00', 'base16-solarized-light', 'dark'  ],
+"   \ ]
 
 " }}}
 

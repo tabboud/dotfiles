@@ -32,7 +32,9 @@ Plug 'scrooloose/nerdtree',  { 'on': 'NERDTreeToggle'}
 " Languages
 Plug 'derekwyatt/vim-scala', {'for': ['scala']}                    " Loads only when editing go code
 " Markdown live-preview
-Plug 'miyakogi/livemark.vim'
+" Plug 'miyakogi/livemark.vim'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 Plug 'leafgarland/typescript-vim'
 
 

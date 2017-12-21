@@ -80,3 +80,8 @@ alias cdnotes='cd $HOME/dev/notes'
 # Launch Pyspark and Jupyter
 alias launchPyspark='docker run -v /Users/tabboud/dev/repos/github.com/tdabboud/jupyter-notebooks:/home/jovyan/work -p 8888:8888 jupyter/pyspark-notebook'
 
+alias highlight='highlight $1 --out-format xterm256 --style zenburn '
+
+alias goland='open -a /Applications/GoLand.app'
+
+alias mux='tmuxinator'

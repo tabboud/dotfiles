@@ -1,3 +1,18 @@
 set mouse = true
 set main-view = line-number:no,interval=5 id:no date:relative author:full commit-title:yes,graph,refs,overflow=no
 set wrap-lines = yes
+
+# --------------------
+# Vim keybindings
+# --------------------
+# bind generic h scroll-left
+bind generic j move-down
+bind generic k move-up
+bind generic l scroll-right
+
+bind generic g none
+bind generic gg move-first-line
+bind main    G move-last-line
+bind generic G move-last-line
+bind generic <C-f> move-page-down
+bind generic <C-b> move-page-up

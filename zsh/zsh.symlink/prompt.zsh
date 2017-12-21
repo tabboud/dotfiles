@@ -84,3 +84,6 @@ export PROMPT='`git_dirty` %F{245}%(4~|.../%3~|%~)%F{011}$vcs_info_msg_0_%f `git
 export RPROMPT='`suspended_jobs`'
 # export RPROMPT='`git_dirty`%F{245}$vcs_info_msg_0_%f `upstream_branch``git_arrows``suspended_jobs`'
 
+export OLDPROMPT=$PROMPT
+export EMPTY_PROMPT='`git_dirty` %F{245}$PROMPT_SYMBOL%f'
+
