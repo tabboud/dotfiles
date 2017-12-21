@@ -23,3 +23,7 @@ Configurations for:
 - Git specific settings go in: `~/.gitconfig.local`
 - Shell/exports/env settings go in: `~/.custom.local`
 
+## Un-Install
+
+- To uninstall run the following: `./install/unlink.sh`
+
