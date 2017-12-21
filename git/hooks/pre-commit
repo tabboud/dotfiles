@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# pre-commit for my dotfiles so that
-# we don't make commits from my palantir email
+# don't make commits from your work email
 
 DEBUG=0
 COLOR_RED='\033[0;31m'
 COLOR_GREEN='\033[0;32m'
 COLOR_NONE='\033[0m'
 
+WORK_EMAIL_DOMAIN="palantir.com"
 REPO_EMAIL=$(git config --get user.email)
 EMAIL_DOMAIN=$(echo ${REPO_EMAIL} | cut -f2 -d@)
 
@@ -15,8 +15,8 @@ if [ $DEBUG -eq 1 ]; then
     printf "EMAIL_DOMAIN: %s\n" "${EMAIL_DOMAIN}"
 fi
 
-if [ "$EMAIL_DOMAIN" == "palantir.com" ]; then
-    >&2 echo -e "${COLOR_RED}✘ Don't commit with your Palantir email.${COLOR_NONE}"
+if [ "$EMAIL_DOMAIN" == "$WORK_EMAIL_DOMAIN" ]; then
+    >&2 echo -e "${COLOR_RED}✘ Don't commit with your work email.${COLOR_NONE}"
     exit 1
 else
     echo -e "${COLOR_GREEN}✔ Ready to commit!${COLOR_NONE}"
