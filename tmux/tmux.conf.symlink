@@ -84,4 +84,4 @@ bind -n S-Right next-window
 source ~/.dotfiles/tmux/theme2.sh
 
 # Source tmux-resurrect
-run-shell $HOME/.tmux/tmux-resurrect/resurrect.tmux
+# run-shell $HOME/.tmux/tmux-resurrect/resurrect.tmux
