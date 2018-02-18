@@ -42,3 +42,10 @@ for hook in $DOTFILES/git/hooks/*; do
         ln -s $hook $target
     fi
 done
+
+target=$HOME/.config/nvim/init.vim
+if [ -e $target ]; then
+    echo "nvim symlink already exists...Skipping"
+else
+    ln -s $HOME/.vimrc $target
+fi
