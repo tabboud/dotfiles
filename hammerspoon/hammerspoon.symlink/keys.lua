@@ -11,14 +11,16 @@ Keys = {
   },
   ["triggers"] = {
     ["iTerm"] = {{shortcutKey, "t"}},
-    ["Google Chrome"] = {{shortcutKey, "i"}},
+    ["Firefox"] = {{shortcutKey, "i"}},
     ["Slack"] = {{shortcutKey, "s"}},
     ["Microsoft Outlook"] = {{shortcutKey, "o"}},
     ["IntelliJ IDEA CE"] = {{shortcutKey, "0"}},
-    ["Messages"] = {{shortcutKey, "m"}},
+    ["YakYak"] = {{shortcutKey, "m"}},
+    ["Wunderlist"] = {{shortcutKey, "w"}},
     -- ["Dash"] = {{{"cmd", "shift"}, "E"}, {hyper, "E"}},
   },
 }
+
 
 function Keys.keyFor(name)
   local keys = Keys.triggers[name]
