@@ -62,7 +62,7 @@ set ruler   " show the cursor position all the time
 set modeline
 set title " set terminal title
 set lazyredraw        " don't redraw while executing macros
-" set cursorcolumn
+set cursorcolumn
 " set cursorline
 
 " Searching
