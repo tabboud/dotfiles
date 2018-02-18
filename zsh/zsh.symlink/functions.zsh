@@ -82,3 +82,12 @@ function gd() {
 function zshStartTime(){
     /usr/bin/time /usr/local/bin/zsh -ic exit
 }
+
+# git functions
+function git_current_branch() {
+  git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///'
+}
+
+function gup() {
+    git pull origin $(git_current_branch)
+}
