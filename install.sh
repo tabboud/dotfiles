@@ -16,7 +16,7 @@ function bootstrap() {
 
     if [ "$OS" == "Darwin" ]; then
         echo "Brewing Everything..."
-        bash install/brew.sh everything
+        bash install/brew.sh all
 
         echo "Updating OSX settings..."
         bash install/osx.sh
