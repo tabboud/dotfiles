@@ -1,0 +1,6 @@
+[submodule "iterm2/.config/base16-shell"]
+	path = iterm2/.config/base16-shell
+	url = http://github.com/chriskempson/base16-shell.git
+[submodule "intellij/.config/intellij/base16-idea"]
+	path = intellij/.config/intellij/base16-idea
+	url = http://github.com/adilosa/base16-idea.git
