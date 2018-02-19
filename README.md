@@ -6,7 +6,6 @@ Configurations for:
 + vim
 + zsh (using oh-my-zsh)
 + emacs
-+ sublime text
 + tmux
 + git
 + osx
@@ -17,6 +16,12 @@ Configurations for:
 1. `git clone https://github.com/tdabboud/dotfiles.git ~/.dotfiles`
 2. `cd ~/.dotfiles`
 3. `./install.sh <command>`
+```
+Where <command> is one of:
+  * bootstrap -- install software packages
+  * dotfiles  -- link all dotfiles
+  * all       -- all of the above
+ ```
 
 ## Custom Settings
 
