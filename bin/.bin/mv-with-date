@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# move a file and prefix it with the current date/time
+now=$(date '+%Y_%m_%d__%H_%M_%S')
+
+fileToMove=$1
+
+mv $1 "${now}_$1"
+

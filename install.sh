@@ -1,34 +1,33 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 COLOR_RED='\033[0;31m'
 COLOR_GREEN='\033[0;32m'
 COLOR_NONE='\033[0m'
 COLOR_YELLOW='\033[1;33m'
 
-echo "==> Installing dotfiles"
-
 echo "Initializing submodule(s)..."
 git submodule update --init --recursive
 
-echo "Linking all dotfiles..."
-source install/link.sh
 
 if [ "$(uname)" == "Darwin" ]; then
-    echo "Installing on OSX"
+    echo "Installing stow..."
+    bash install/brew.sh install-stow
+
+    echo "Linking all dotfiles..."
+    bash install/run_stow.sh osx
 
     echo "Brewing Everything..."
-    source install/brew.sh
+    bash install/brew.sh everything
 
     echo "Updating OSX settings..."
-    source install/osx.sh
-
-    echo "Linking sublime settings"
-    source install/link_sublime.sh
+    bash install/osx.sh
 
     echo "Link in the iTerm font"
     source install/link_iterm_fonts.sh
 elif [ "$(uname)" == "Linux" ]; then
-    # assumes ubuntu
-    sudo apt-get -y install zsh
+    echo "Linking all dotfiles..."
+    bash install/run_stow.sh linux
 fi
 
 echo -e "${COLOR_GREEN}✔ All Done!${COLOR_NONE}"
+
