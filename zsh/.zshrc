@@ -1,7 +1,7 @@
 export DOTFILES=$HOME/.dotfiles
 export ZSH_DIR=$HOME/.zsh
 export EDITOR=nvim
-export PATH=$DOTFILES/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=$HOME/.bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 # oh-my-zsh settings
 export ZSH=$HOME/.oh-my-zsh
@@ -15,7 +15,7 @@ HISTSIZE=1000
 SAVEHIST=1000
 
 # source all .zsh files inside of the $DOTFILES/zsh/ directory
-for config ($DOTFILES/zsh/**/*.zsh) source $config
+for config ($HOME/.zsh/**/*.zsh) source $config
 
 # Base16 Shell
 BASE16_SHELL=$HOME/.config/base16-shell/

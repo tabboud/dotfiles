@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # link any iterm fonts into $HOME/Library/Fonts
 
-FONTS_DIR=$HOME/.dotfiles/iterm/fonts
+FONTS_DIR=$HOME/.config/iterm2/fonts
 OSX_FONTS_DIR="${HOME}/Library/Fonts"
 
 echo -e "\nCreating Font Symlinks"

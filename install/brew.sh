@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Install homebrew packages
 
 TAPS=(
@@ -23,6 +23,7 @@ FORMULAS=(
     python
     python3
     reattach-to-user-namespace
+    stow
     the_silver_searcher
     tig
     tree
@@ -34,18 +35,16 @@ FORMULAS=(
 
 CASKS=(
     alfred
-    dash
-    dropbox
     google-chrome
+    firefox
     iterm2
     sourcetree
     spectacle
-    sublime-text
 )
 # Others
 #vagrant, virtualbox
 
-function brewEverything {
+function brewAll() {
     for tap in ${TAPS[@]}
     do
         brew tap $tap
@@ -63,15 +62,54 @@ function brewEverything {
     brew cleanup
 }
 
+function brewInstallStow() {
+    brew install stow
+}
 
-# Check if Homebrew is installed
-brew=`which brew`
-if [ -z "$brew" ]; then
-    echo "Installing homebrew..."
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-else
-    echo "Homebrew already installed."
+function checkOrInstall() {
+    # Check if Homebrew is installed or install it
+    brew=$(which brew)
+    if [ -z "$brew" ]; then
+        echo "Installing homebrew..."
+        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    else
+        echo "Homebrew already installed."
+    fi
+}
+
+
+function usage() {
+cat<<EOD
+Usage:
+    all -- brew install all casks and packages 
+    install-stow -- install stow only
+EOD
+  exit 1
+}
+
+if [[ "$#" == "0" ]]; then
+  usage
 fi
 
-brewEverything
+command="$1"
+if [[ "$command" == "" ]]; then
+  echo "first argument must be a command"
+  usage
+fi
+
+checkOrInstall
+
+case "$command" in 
+  all)
+    brewAll 
+    ;;
+  install-stow)
+    brewInstallStow
+    ;;
+  *)
+    usage
+    ;;
+esac
+
+exit 0
 
