@@ -16,7 +16,7 @@ Configurations for:
 
 1. `git clone https://github.com/tdabboud/dotfiles.git ~/.dotfiles`
 2. `cd ~/.dotfiles`
-3. `./install.sh`
+3. `./install.sh <command>`
 
 ## Custom Settings
 
@@ -25,5 +25,5 @@ Configurations for:
 
 ## Un-Install
 
-- To uninstall run the following: `./install/unlink.sh`
+- To remove all linked dotfiles, run the following: `./install.sh uninstall`
 
