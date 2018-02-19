@@ -17,34 +17,42 @@ declare -a LINUX=(
     tint2
 )
 
-function linkAll() {
-    runStow "${COMMON[@]}"
-    runStow "${OSX[@]}"
-    runStow "${LINUX[@]}"
+function all() {
+    runStow $1 "${COMMON[@]}"
+    runStow $1 "${OSX[@]}"
+    runStow $1 "${LINUX[@]}"
 }
 
-function linkOSX () {
-    runStow "${OSX[@]}"
+function osx () {
+    runStow $1 "${COMMON[@]}"
+    runStow $1 "${OSX[@]}"
 }
 
-function linkLinux() {
-    runStow "${LINUX[@]}"
+function linux() {
+    runStow $1 "${COMMON[@]}"
+    runStow $1 "${LINUX[@]}"
 }
 
 function runStow() {
+    option=$1 && shift
     arr=("$@")
     for package in "${arr[@]}"; do
-        # stow -R $package
-        stow -n $package
+        if [ "$option" == "link" ]; then
+            stow -R $package
+        else
+            stow -D $package
+        fi
     done
 }
 
 function usage() {
 cat<<EOD
 Usage:
-    linux -- link linux packages
-    osx -- link osx packages
-    all -- link all packages
+    linux [option] -- link linux packages
+    osx   [option] -- link osx packages
+    all   [option] -- link all packages
+
+    option -> link (default) or unlink
 EOD
   exit 1
 }
@@ -59,15 +67,18 @@ if [[ "$command" == "" ]]; then
   usage
 fi
 
+# link (default) or unlink
+option=${2:-"link"}
+
 case "$command" in 
   all)
-    linkAll
+    all $option
     ;;
   osx)
-    linkOSX
+    osx $option 
     ;;
   linux)
-    linkLinux
+    linux $option
     ;;
   *)
     usage
