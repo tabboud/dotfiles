@@ -1,7 +1,7 @@
 export DOTFILES=$HOME/.dotfiles
 export ZSH_DIR=$HOME/.zsh
 export EDITOR=nvim
-export PATH=$DOTFILES/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 # oh-my-zsh settings
 export ZSH=$HOME/.oh-my-zsh
