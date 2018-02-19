@@ -32,11 +32,15 @@ function bootstrap() {
 }
 
 function dotfiles() {
-    echo "Linking all dotfiles..."
     if [ "$OS" == "Darwin" ]; then
-        bash install/brew.sh install-stow
+        if [ ! $(type -p stow) ]; then
+            echo "stow is not installed. Going to install..."
+            bash install/brew.sh install-stow
+        fi
+        echo "Linking osx dotfiles..."
         bash install/run_stow.sh osx
     elif [ "$OS" == "Linux" ]; then
+        echo "Linking linux dotfiles..."
         bash install/run_stow.sh linux
     else
         echo "Unsupported OS type!"
