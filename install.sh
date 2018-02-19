@@ -53,12 +53,19 @@ function all() {
     bootstrap
 }
 
+function uninstall() {
+    echo "Removing all dotfiles..."
+    bash install/run_stow.sh all unlink
+}
+
 function usage() {
 cat<<EOD
 Usage:
     bootstrap   [options] -- Just install software packages
     dotfiles    [options] -- Just link all dotfiles
     all         [options] -- Install software and link dotfiles
+
+    uninstall   [options] -- uninstall all dotfiles
 EOD
   exit 1
 }
@@ -82,6 +89,9 @@ case "$command" in
     ;;
   bootstrap)
     bootstrap
+    ;;
+  uninstall)
+    uninstall
     ;;
   *)
     usage
