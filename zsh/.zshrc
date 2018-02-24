@@ -18,7 +18,7 @@ SAVEHIST=1000
 for config ($HOME/.zsh/**/*.zsh) source $config
 
 # Base16 Shell
-BASE16_SHELL=$HOME/.config/base16-shell/
+BASE16_SHELL=$HOME/.config/base16-shell
 source $BASE16_SHELL/scripts/base16-eighties.sh
 
 # Virtualenv Settings (Lazy Loaded)
