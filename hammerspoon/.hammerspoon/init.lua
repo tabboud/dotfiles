@@ -17,6 +17,9 @@ local log = hs.logger.new("My Config")
 keys.deactivateKeys()
 keys.activateKeys()
 
+-- Reload config
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function() hs.reload() end)
+
 -- Install / Use Spoons
 hs.loadSpoon("SpoonInstall")
 spoon.SpoonInstall:andUse("WindowHalfsAndThirds",
