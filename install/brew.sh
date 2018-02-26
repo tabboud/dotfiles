@@ -18,6 +18,7 @@ FORMULAS=(
     go
     httpie
     macvim
+    mas         # mac-app-store cli
     neovim
     pkg-config
     python
