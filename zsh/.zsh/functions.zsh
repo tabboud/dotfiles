@@ -91,3 +91,7 @@ function git_current_branch() {
 function gup() {
     git pull origin $(git_current_branch)
 }
+
+function gpo() {
+    git push origin $(git_current_branch)
+}
