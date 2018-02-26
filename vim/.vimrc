@@ -218,7 +218,7 @@ noremap <silent> <F4> :let @+=expand("%")<CR>
 " nmap <leader>vv :!pandoc -t html --smart  % \|bcat<cr><cr>
 
 " Add a check mark
-" nnoremap <leader>t i<C-k>OK<Esc>
+nnoremap <leader>t i<C-k>OK<Esc>
 
 " }}}
 
