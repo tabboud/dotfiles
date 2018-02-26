@@ -12,11 +12,12 @@ Keys = {
   ["triggers"] = {
     ["iTerm"] = {{shortcutKey, "t"}},
     ["Firefox"] = {{shortcutKey, "i"}},
+    ["Google Chrome"] = {{shortcutKey, "c"}},
     ["Slack"] = {{shortcutKey, "s"}},
     ["Microsoft Outlook"] = {{shortcutKey, "o"}},
     ["IntelliJ IDEA CE"] = {{shortcutKey, "0"}},
     ["YakYak"] = {{shortcutKey, "m"}},
-    ["Wunderlist"] = {{shortcutKey, "w"}},
+    ["Todoist"] = {{shortcutKey, "w"}},
     -- ["Dash"] = {{{"cmd", "shift"}, "E"}, {hyper, "E"}},
   },
 }
