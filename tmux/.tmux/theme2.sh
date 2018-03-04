@@ -3,8 +3,13 @@
 ######################
 
 # panes
-set -g pane-border-fg black
-set -g pane-active-border-fg brightred
+# set -g pane-border-fg black
+# set -g pane-active-border-fg brightred
+
+# Do not color split separators
+set -g pane-border-style fg=default
+set -g pane-active-border-style fg=default
+set -g pane-active-border-style bg=default
 
 ## Status bar design
 # status line
