@@ -12,7 +12,12 @@
   <item label="Web browser">
     <action name="Execute"><execute>x-www-browser</execute></action>
   </item>
-  <!-- This requires the presence of the 'menu' package to work -->
+  <item label="File Manager">
+      <action name="Execute">
+          <execute>pcmanfm</execute>
+      </action>
+  </item>
+  <!-- This requires thecpresence of the 'menu' package to work -->
   <menu id="/Debian" />
   <separator />
   <menu id="client-list-menu" />

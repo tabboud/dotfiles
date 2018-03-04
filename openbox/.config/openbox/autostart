@@ -16,7 +16,10 @@
 #
 #xfce-mcs-manager &
 
-tint2 &
-pcmanfm --desktop &
-# compton -b -c &
+nitrogen --restore
+compton -b -c &
+
+# sleep to let the compositor start
+sleep 3s && tint2 &
+
 

@@ -178,6 +178,12 @@
   </dock>
   <keyboard>
     <chainQuitKey>C-g</chainQuitKey>
+    <!-- Keybinding for rofi -->
+    <keybind key="W-space">
+      <action name="Execute">
+          <command>rofi -sidebar-mode -modi run,drun,window -show drun</command>
+      </action>
+    </keybind>
     <!-- Keybindings for desktop switching -->
     <keybind key="C-A-Left">
       <action name="GoToDesktop">
