@@ -85,9 +85,7 @@ if has('vim_starting')
 endif
 
 " Coloring
-" set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
-set background=dark
-" set background=light
+set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
 
 if &term =~ '256color'
     " disable background color erase
@@ -100,8 +98,14 @@ if (has('mac') && empty($TMUX) && has("termguicolors"))
 endif
 
 syntax on
-colorscheme Tomorrow-Night-Eighties     " Set the colorscheme
-" colorscheme slate
+
+" set the colorscheme based on terminal background for base16-shell
+if filereadable(expand("~/.vimrc_background"))
+    let base16colorspace=256
+    source $HOME/.vimrc_background
+else
+    colorscheme Tomorrow-Night-Eighties
+endif
 
 set number              " show line numbers
 set relativenumber      " show relative line numbers
@@ -261,6 +265,10 @@ augroup END
 " Insert a ✓ with leader-t only in Markdown files
 autocmd FileType markdown nnoremap <buffer> <leader>t i<C-k>OK<Esc>
 
+" Set the right tab settings for yml filers
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
+
 " }}}
 
 " Section Functions {{{
@@ -336,6 +344,9 @@ let g:go_fmt_command = "goimports"
 "let g:go_list_type = "quickfix"
 " Enable experimental so that folds are not closed
 let g:go_fmt_experimental = 1
+let g:go_fmt_fail_silently = 0
+let g:go_autodetect_gopath = 1
+let g:go_term_enabled = 1
 
 " CtrlP & FZF Settings
 if (has("gui_running"))
@@ -453,10 +464,15 @@ if (has("nvim"))
 	let g:deoplete#sources#go#sort_class = ['func', 'type', 'var', 'const']
 	let g:deoplete#sources#go#align_class = 1
 
-	" Use partial fuzzy matches like YouCompleteMe
-	" call deoplete#custom#set('_', 'matchers', ['matcher_fuzzy'])
-	" call deoplete#custom#set('_', 'converters', ['converter_remove_paren'])
-	" call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
+    " Use partial fuzzy matches like YouCompleteMe
+    call deoplete#custom#set('_', 'matchers', ['matcher_fuzzy'])
+    call deoplete#custom#set('_', 'converters', ['converter_remove_paren'])
+    call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
+
+    " don't show the preview window for deoplete
+    set completeopt-=preview
+    " Scroll down
+    let g:SuperTabDefaultCompletionType = "<c-n>"
 
     " incremental searching
     set icm=nosplit

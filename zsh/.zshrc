@@ -17,9 +17,9 @@ SAVEHIST=1000
 # source all .zsh files inside of the $DOTFILES/zsh/ directory
 for config ($HOME/.zsh/**/*.zsh) source $config
 
-# Base16 Shell
+# Base16 Shell / Terminal Theme
 BASE16_SHELL=$HOME/.config/base16-shell
-source $BASE16_SHELL/scripts/base16-eighties.sh
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
 # Virtualenv Settings (Lazy Loaded)
 export WORKON_HOME=$HOME/.virtualenvs

@@ -82,6 +82,6 @@ alias launchPyspark='docker run -v /Users/tabboud/dev/repos/github.com/tdabboud/
 
 alias highlight='highlight $1 --out-format xterm256 --style zenburn '
 
-alias goland='open -a /Applications/GoLand.app'
+alias goland='open -a $HOME/Applications/JetBrains\ Toolbox/GoLand.app'
 
 alias mux='tmuxinator'

@@ -88,10 +88,10 @@ function git_current_branch() {
   git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///'
 }
 
-function gup() {
+function gpull() {
     git pull origin $(git_current_branch)
 }
 
-function gpo() {
+function gpush() {
     git push origin $(git_current_branch)
 }
