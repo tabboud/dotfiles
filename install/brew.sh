@@ -39,8 +39,10 @@ CASKS=(
     google-chrome
     firefox
     iterm2
-    sourcetree
+    itsycal         # Menubar calendar
+   sourcetree
     spectacle
+    vanilla         # Hide menubar icons
 )
 # Others
 #vagrant, virtualbox
