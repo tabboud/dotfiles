@@ -41,6 +41,8 @@
     # remove grep - Remove found files that are NOT under version control
     rg = "!sh -c 'git ls-files --others --exclude-standard | grep $1 | xargs rm' -"
 
+    brsort = branch --sort=-committerdate
+
 	# git codereview aliases
 	change = codereview change
 	gofmt = codereview gofmt

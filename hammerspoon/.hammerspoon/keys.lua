@@ -10,7 +10,8 @@ Keys = {
   ["specialTriggers"] = {
   },
   ["triggers"] = {
-    ["iTerm"] = {{shortcutKey, "t"}},
+    -- ["iTerm"] = {{shortcutKey, "t"}},
+    ["Alacritty"] = {{shortcutKey, "t"}},
     ["Firefox"] = {{shortcutKey, "i"}},
     ["Google Chrome"] = {{shortcutKey, "c"}},
     ["Slack"] = {{shortcutKey, "s"}},
@@ -18,6 +19,8 @@ Keys = {
     ["IntelliJ IDEA CE"] = {{shortcutKey, "0"}},
     ["YakYak"] = {{shortcutKey, "m"}},
     ["Todoist"] = {{shortcutKey, "w"}},
+    ["Emacs"] = {{shortcutKey, "e"}},
+    ["GoLand"] = {{shortcutKey, "g"}},
     -- ["Dash"] = {{{"cmd", "shift"}, "E"}, {hyper, "E"}},
   },
 }

@@ -21,14 +21,14 @@ keys.activateKeys()
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function() hs.reload() end)
 
 -- Install / Use Spoons
-hs.loadSpoon("SpoonInstall")
-spoon.SpoonInstall:andUse("WindowHalfsAndThirds",
-               {
-                 config = {
-                   use_frame_correctness = true
-                 },
-                 hotkeys = 'default'
-               }
-)
+-- hs.loadSpoon("SpoonInstall")
+-- spoon.SpoonInstall:andUse("WindowHalfsAndThirds",
+--                {
+--                  config = {
+--                    use_frame_correctness = true
+--                  },
+--                  hotkeys = 'default',
+--                }
+-- )
 
 hs.notify.new({title='Hammerspoon', informativeText='Ready to rock 🤘'}):send()
