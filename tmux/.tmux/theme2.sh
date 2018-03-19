@@ -3,8 +3,8 @@
 ######################
 
 # panes
-# set -g pane-border-fg black
-# set -g pane-active-border-fg brightred
+set -g pane-border-fg black
+set -g pane-active-border-fg brightred
 
 # Do not color split separators
 set -g pane-border-style fg=default
@@ -41,9 +41,6 @@ setw -g window-status-bg green
 setw -g window-status-fg black
 setw -g window-status-attr reverse
 
-# Info on left (I don't have a session display for now)
-set -g status-left ''
-
 # loud or quiet?
 #set-option -g visual-activity off
 #set-option -g visual-bell off
@@ -60,14 +57,7 @@ setw -g mode-attr bold
 #setw -g mode-bg colour238
 
 # }
-# The panes {
 
-set -g pane-border-bg colour235
-set -g pane-border-fg colour238
-set -g pane-active-border-bg colour236
-set -g pane-active-border-fg colour51
-
-# }
 # The statusbar {
 
 set -g status-position bottom
@@ -76,7 +66,7 @@ set -g status-fg colour137
 set -g status-attr dim
 set -g status-left ''
 #set -g status-right '#[fg=colour233,bg=colour241,bold] %d/%m #[fg=colour233,bg=colour245,bold] %H:%M:%S '
-set -g status-right 'Batt: #(~/.dotfiles/bin/battery_indicator.sh) | %a %h-%d %H:%M '
+set -g status-right 'Batt: #(~/.bin/battery_indicator.sh) | %a %h-%d %H:%M '
 set -g status-right-length 50
 set -g status-left-length 20
 
