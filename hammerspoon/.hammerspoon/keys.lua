@@ -10,8 +10,8 @@ Keys = {
   ["specialTriggers"] = {
   },
   ["triggers"] = {
-    -- ["iTerm"] = {{shortcutKey, "t"}},
-    ["Alacritty"] = {{shortcutKey, "t"}},
+    ["iTerm"] = {{shortcutKey, "t"}},
+    -- ["Alacritty"] = {{shortcutKey, "t"}},
     ["Firefox"] = {{shortcutKey, "i"}},
     ["Google Chrome"] = {{shortcutKey, "c"}},
     ["Slack"] = {{shortcutKey, "s"}},

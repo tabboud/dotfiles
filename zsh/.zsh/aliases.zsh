@@ -72,7 +72,7 @@ alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && k
 alias ag="ag --pager=less"
 
 # Go to go directory quicker
-alias god='$HOME/dev/go/src/github.com/tdabboud'
+alias god='$HOME/dev/go/src/github.com'
 alias godp='$HOME/dev/go/src/github.palantir.build'
 # Go to my notes directory
 alias cdnotes='cd $HOME/dev/notes'

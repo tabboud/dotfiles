@@ -26,6 +26,9 @@
     # list all branches
     bra = branch -a
 
+    # delete a local branch
+    del = branch -D
+
     # grep commands
 
     # 'diff grep'

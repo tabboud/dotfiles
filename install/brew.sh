@@ -40,7 +40,8 @@ CASKS=(
     firefox
     iterm2
     itsycal         # Menubar calendar
-   sourcetree
+    skitch          # Screenshot tool
+    sourcetree
     spectacle
     vanilla         # Hide menubar icons
 )
