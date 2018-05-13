@@ -74,8 +74,9 @@ alias ag="ag --pager=less"
 # Go to go directory quicker
 alias god='$HOME/dev/go/src/github.com'
 alias godp='$HOME/dev/go/src/github.palantir.build'
-# Go to my notes directory
-alias cdnotes='cd $HOME/dev/notes'
+
+# Open the notes directory in the $EDITOR
+alias notes='cd $HOME/dev/notes && $EDITOR .'
 
 # Launch Pyspark and Jupyter
 alias launchPyspark='docker run -v /Users/tabboud/dev/repos/github.com/tdabboud/jupyter-notebooks:/home/jovyan/work -p 8888:8888 jupyter/pyspark-notebook'
