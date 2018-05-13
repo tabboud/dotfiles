@@ -332,6 +332,10 @@ let g:tagbar_ctags_bin='/usr/local/Cellar/ctags/5.8_1/bin/ctags'  " Set the path
 " Toggle TagBar
 nmap <silent> <leader>d :TagbarToggle<cr>
 
+" Markdown Settings
+" use 2 tabs
+let g:vim_markdown_new_list_item_indent = 2
+
 " Vim-Go Settings
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
