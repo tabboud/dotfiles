@@ -464,11 +464,6 @@ if (has("nvim"))
 	let g:deoplete#sources#go#sort_class = ['func', 'type', 'var', 'const']
 	let g:deoplete#sources#go#align_class = 1
 
-    " Use partial fuzzy matches like YouCompleteMe
-    call deoplete#custom#set('_', 'matchers', ['matcher_fuzzy'])
-    call deoplete#custom#set('_', 'converters', ['converter_remove_paren'])
-    call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])
-
     " don't show the preview window for deoplete
     set completeopt-=preview
     " Scroll down
