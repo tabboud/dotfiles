@@ -336,21 +336,51 @@ nmap <silent> <leader>d :TagbarToggle<cr>
 " use 2 tabs
 let g:vim_markdown_new_list_item_indent = 2
 
-" Vim-Go Settings
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_types = 1
-"let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-" Automatically import packages on save
-let g:go_fmt_command = "goimports"
-"let g:go_list_type = "quickfix"
-" Enable experimental so that folds are not closed
-let g:go_fmt_experimental = 1
+"" Vim-Go Settings
 let g:go_fmt_fail_silently = 0
+let g:go_fmt_command = "goimports"
+" Enable experimental so that folds are not closed (might not need)
+let g:go_fmt_experimental = 1
 let g:go_autodetect_gopath = 1
 let g:go_term_enabled = 1
+let g:go_snippet_engine = "neosnippet"  " enable snippets
+let g:go_list_type = "quickfix"
+" let g:go_auto_type_info = 1 " show type information
+
+" highlights
+let g:go_highlight_array_whitespace_error = 0
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 0
+let g:go_highlight_space_tab_error = 0
+let g:go_highlight_trailing_whitespace_error = 0
+let g:go_highlight_fields       = 1
+let g:go_highlight_functions    = 1
+let g:go_highlight_methods      = 1
+let g:go_highlight_operators    = 0
+let g:go_highlight_types        = 1
+
+augroup go
+  autocmd!
+
+  autocmd FileType go nmap <silent> <Leader>v <Plug>(go-def-vertical)
+  autocmd FileType go nmap <silent> <Leader>s <Plug>(go-def-split)
+  autocmd FileType go nmap <silent> <Leader>i <Plug>(go-info)
+  autocmd FileType go nmap <silent> <Leader>gd <Plug>(go-doc)
+  " autocmd FileType go nmap <silent> <Leader>l <Plug>(go-metalinter)
+
+  " autocmd FileType go nmap <silent> <leader>t  <Plug>(go-test)
+  " autocmd FileType go nmap <silent> <leader>r  <Plug>(go-run)
+  autocmd FileType go nmap <silent> <leader>r  <Plug>(go-build)
+  autocmd FileType go nmap <silent> <leader>c  <Plug>(go-coverag✓e)
+
+  " Show a list of interfaces which is implemented by the type under your cursor
+  autocmd FileType go nmap <Leader>s <Plug>(go-implements)
+
+  " Open alternate files (i.e. the xxx_test.go file from the xxx.go file)
+  autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+  autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+  autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+augroup END
 
 " CtrlP & FZF Settings
 if (has("gui_running"))
@@ -449,27 +479,37 @@ if (has("nvim"))
     set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
       \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
       \,sm:block-blinkwait175-blinkoff150-blinkon175
-    " use ESC to go back to normal mode from terminal
-    tnoremap <Esc> <C-\><C-n>
-    " Switch panes easier with Alt+{h,j,k,l} when in terminal and normal mode
-    tnoremap <A-h> <C-\><C-n><C-w>h
-    tnoremap <A-j> <C-\><C-n><C-w>j
-    tnoremap <A-k> <C-\><C-n><C-w>k
-    tnoremap <A-l> <C-\><C-n><C-w>l
-    nnoremap <A-h> <C-w>h
-    nnoremap <A-j> <C-w>j
-    nnoremap <A-k> <C-w>k
-    nnoremap <A-l> <C-w>l
 
-    " deoplete settings
+    "==== deoplete settings
 	let g:deoplete#enable_at_startup = 1
+
+    " neocomplete like
+    set completeopt+=noinsert
+    set completeopt+=noselect
+    set completeopt-=preview    " don't show the preview window
+
+    " Skip the check of neovim module
+    let g:python3_host_skip_check = 1
+
+    " setting the path here improves performance by not having to look it up
+    let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+	let g:deoplete#sources#go#sort_class = ['func', 'type', 'var', 'const']
 	let g:deoplete#ignore_sources = {}
 	let g:deoplete#ignore_sources._ = ['buffer', 'member', 'tag', 'file', 'neosnippet']
-	let g:deoplete#sources#go#sort_class = ['func', 'type', 'var', 'const']
 	let g:deoplete#sources#go#align_class = 1
 
-    " don't show the preview window for deoplete
-    set completeopt-=preview
+    call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy'])
+    call deoplete#custom#source('_', 'converters', ['converter_remove_paren'])
+    call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
+    "===END deoplete settings
+
+    "===== NeoSnippet settings
+    let g:neosnippet#enable_completed_snippet = 1
+    imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    xmap <C-k>     <Plug>(neosnippet_expand_target)
+    "===END neosnippet settings
+
     " Scroll down
     let g:SuperTabDefaultCompletionType = "<c-n>"
 
