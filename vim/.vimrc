@@ -319,6 +319,23 @@ nmap <silent> <leader>k :NERDTreeToggle<cr>
 " Find current file
 nmap <silent> <leader>f :NERDTreeFind<cr>
 
+" Auto track the current buffer in NERDTree
+function! AutoNTFinder()
+    if !exists('g:NERDTree')
+        return
+    endif
+    if g:NERDTree.IsOpen() && &buftype == ''
+        let l:winnr = winnr()
+        let l:altwinnr = winnr('#')
+
+        :NERDTreeFind
+
+        execute l:altwinnr . 'wincmd w'
+        execute l:winnr . 'wincmd w'
+    endif
+endfunction
+autocmd BufEnter * call AutoNTFinder()
+
 " Airline Options
 let g:airline_powerline_fonts=1
 let g:airline_theme='base16_eighties'
@@ -331,6 +348,35 @@ let g:SuperTabCrMapping = 0
 let g:tagbar_ctags_bin='/usr/local/Cellar/ctags/5.8_1/bin/ctags'  " Set the path for exhuberant_ctags
 " Toggle TagBar
 nmap <silent> <leader>d :TagbarToggle<cr>
+
+" Tagbar settings for go
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
 
 " Markdown Settings
 " use 2 tabs
