@@ -25,6 +25,15 @@ function f() {
     find . -name "$1"
 }
 
+# find piped to grep
+function findinfiles() {
+    if [[ "$#" -ne 2 ]]; then
+        echo "USAGE: findinfiles <file_pattern> <grep_pattern>"
+        return
+    fi
+    find . -type f -iname "$1" -print0 | xargs -0 ag "$2"
+}
+
 # get gzipped size
 function gz() {
     echo "orig size    (bytes): "

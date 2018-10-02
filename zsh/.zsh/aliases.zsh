@@ -14,8 +14,6 @@ alias t='zshStartTime'
 
 # Editors
 alias vim="nvim"
-alias emacs="/usr/local/Cellar/emacs-plus/25.2/bin/emacs"
-alias emacsclient="/usr/local/Cellar/emacs-plus/25.2/bin/emacsclient"
 alias ec="emacsclient -c -n"
 alias ect="emacsclient -nw"
 

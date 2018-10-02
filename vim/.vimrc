@@ -62,7 +62,7 @@ set ruler   " show the cursor position all the time
 set modeline
 set title " set terminal title
 set lazyredraw        " don't redraw while executing macros
-set cursorcolumn
+" set cursorcolumn
 " set cursorline
 
 " Searching
@@ -98,6 +98,11 @@ if (has('mac') && empty($TMUX) && has("termguicolors"))
 endif
 
 syntax on
+
+" disable syntax highlighting after 128 columns, and min-lines set to 256
+set synmaxcol=128
+" syntax sync minlines=256
+set re=1
 
 " set the colorscheme based on terminal background for base16-shell
 if filereadable(expand("~/.vimrc_background"))
@@ -242,6 +247,7 @@ augroup configgroup
     " autocmd BufWritePost .vimrc,.vimrc.local,init.vim source %
 
     autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+    autocmd FileType *.md setlocal ts=2 sts=2 sw=2 expandtab cuc
 
     autocmd BufNewFile,BufRead,BufWrite *.md syntax match Comment /\%^---\_.\{-}---$/
 
@@ -266,8 +272,8 @@ augroup END
 autocmd FileType markdown nnoremap <buffer> <leader>t i<C-k>OK<Esc>
 
 " Set the right tab settings for yml filers
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab cuc
+autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab cuc
 
 " }}}
 
@@ -380,30 +386,33 @@ let g:tagbar_type_go = {
 
 " Markdown Settings
 " use 2 tabs
-let g:vim_markdown_new_list_item_indent = 2
+" let g:vim_markdown_new_list_item_indent = 2
 
 "" Vim-Go Settings
 let g:go_fmt_fail_silently = 0
 let g:go_fmt_command = "goimports"
 " Enable experimental so that folds are not closed (might not need)
 let g:go_fmt_experimental = 1
-let g:go_autodetect_gopath = 1
+" let g:go_autodetect_gopath = 1
 let g:go_term_enabled = 1
 let g:go_snippet_engine = "neosnippet"  " enable snippets
 let g:go_list_type = "quickfix"
 " let g:go_auto_type_info = 1 " show type information
 
+" freezing during save. see (https://github.com/fatih/vim-go/issues/144)
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+
 " highlights
 let g:go_highlight_array_whitespace_error = 0
-let g:go_highlight_build_constraints = 1
+let g:go_highlight_build_constraints = 0
 let g:go_highlight_extra_types = 0
 let g:go_highlight_space_tab_error = 0
 let g:go_highlight_trailing_whitespace_error = 0
-let g:go_highlight_fields       = 1
-let g:go_highlight_functions    = 1
-let g:go_highlight_methods      = 1
+let g:go_highlight_fields       = 0
+let g:go_highlight_functions    = 0
+let g:go_highlight_methods      = 0
 let g:go_highlight_operators    = 0
-let g:go_highlight_types        = 1
+let g:go_highlight_types        = 0
 
 augroup go
   autocmd!
@@ -416,8 +425,8 @@ augroup go
 
   " autocmd FileType go nmap <silent> <leader>t  <Plug>(go-test)
   " autocmd FileType go nmap <silent> <leader>r  <Plug>(go-run)
-  autocmd FileType go nmap <silent> <leader>r  <Plug>(go-build)
-  autocmd FileType go nmap <silent> <leader>c  <Plug>(go-coverag✓e)
+  autocmd FileType go nmap <silent> <leader>b  <Plug>(go-build)
+  autocmd FileType go nmap <silent> <leader>c  <Plug>(go-coverage)
 
   " Show a list of interfaces which is implemented by the type under your cursor
   autocmd FileType go nmap <Leader>s <Plug>(go-implements)
@@ -443,7 +452,11 @@ else
     " FZF Settings
     let g:fzf_layout = { 'down': '~25%' }
 
-    nmap <silent> <leader>p :GFiles<cr>
+    " custom :GFiles call to ignore the vendor directory
+    command! MyGFiles call fzf#run(fzf#wrap({'source': 'git ls-files --exclude-standard --cached --others | grep -v vendor/'}))
+    nmap <silent> <leader>p :MyGFiles<cr>
+    " nmap <silent> <leader>p :GFiles<cr>
+
     " TODO: This only works if we start out in a git project
     " if InGitRepo()
     "     " if in a git project, use :GFiles
@@ -510,7 +523,8 @@ let g:livemark_browser = "chrome"
 if (has("gui_running"))
     set guioptions=egmrt
     set background=dark
-    set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h14
+    " set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h14
+    set guifont=Inconsolata\ Nerd\ Font:h14
     colorscheme Tomorrow-Night-Eighties
     " let g:airline_left_sep=''
     " let g:airline_right_sep=''

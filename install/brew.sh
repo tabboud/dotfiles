@@ -16,6 +16,7 @@ FORMULAS=(
     fzf
     git
     go
+    grip        # github markdown preview
     httpie
     macvim
     mas         # mac-app-store cli

@@ -27,6 +27,9 @@
     # list all branches
     bra = branch -a
 
+    # list all branches but sort by committerdate and colorize
+    brs =  for-each-ref --sort=committerdate refs/heads/ --format='%(color: red)%(committerdate:short) %(color: cyan)%(refname:short)'
+
     # delete a local branch
     del = branch -D
 
