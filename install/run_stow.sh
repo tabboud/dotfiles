@@ -13,6 +13,7 @@ declare -a OSX=(
     iterm2
 )
 declare -a LINUX=(
+    awesome
     openbox
     tint2
 )
