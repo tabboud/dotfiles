@@ -229,6 +229,9 @@ noremap <silent> <F4> :let @+=expand("%")<CR>
 " Add a check mark
 nnoremap <leader>t i<C-k>OK<Esc>
 
+" Auto insert bracket and place cursor on next line
+inoremap { {<CR><BS>}<Esc>ko
+
 " }}}
 
 " Section AutoGroups {{{
