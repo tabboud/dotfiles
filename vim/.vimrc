@@ -50,30 +50,27 @@ set foldnestmax=10 " deepest fold is 10 levels
 set nofoldenable " don't fold by default
 set foldlevel=99
 
-set scrolloff=8 " set 8 lines to the cursors - when moving vertical
-set wildmenu " enhanced command line completion
-set hidden " current buffer can be put into background
-set showcmd " show incomplete commands
-set noshowmode " don't show which mode disabled for PowerLine
-set wildmode=list:longest " complete files like a shell
+set scrolloff=8     " set 8 lines to the cursors - when moving vertical
+set wildmenu        " enhanced command line completion
+set hidden          " current buffer can be put into background
+set showcmd         " show incomplete commands
+set noshowmode      " don't show which mode disabled for PowerLine
 set shell=$SHELL
-set cmdheight=1 " command bar height
-set ruler   " show the cursor position all the time
+set cmdheight=1     " command bar height
+set ruler           " show the cursor position all the time
 set modeline
-set title " set terminal title
-set lazyredraw        " don't redraw while executing macros
-" set cursorcolumn
-" set cursorline
+set title           " set terminal title
+set lazyredraw      " don't redraw while executing macros
+set wildmode=list:longest " complete files like a shell
 
 " Searching
-set ignorecase          " case insensitive searching
-set smartcase           " case-sensitive if expresson contains a capital letter
+set ignorecase      " case insensitive searching
+set smartcase       " case-sensitive, if expresson contains a capital letter
+set incsearch       " set incremental search, like modern browsers
 set hlsearch
-set incsearch           " set incremental search, like modern browsers
-" set nowrapscan          " stop at the top/end when searching, i.e. dont wrap
 
-set showmatch " show matching braces
-set mat=2 " how many tenths of a second to blink
+set showmatch       " show matching braces
+set mat=2           " how many tenths of a second to blink
 
 " error bells
 set noerrorbells
@@ -85,7 +82,7 @@ if has('vim_starting')
 endif
 
 " Coloring
-set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
+set t_Co=256        " Explicitly tell vim that the terminal supports 256 colors
 
 if &term =~ '256color'
     " disable background color erase
@@ -101,7 +98,7 @@ syntax on
 
 " disable syntax highlighting after 128 columns, and min-lines set to 256
 set synmaxcol=128
-" syntax sync minlines=256
+syntax sync minlines=256
 set re=1
 
 " set the colorscheme based on terminal background for base16-shell
@@ -116,13 +113,13 @@ set number              " show line numbers
 set relativenumber      " show relative line numbers
 set linebreak           " set soft wrapping
 set showbreak=…         " show ellipsis at breaking
-set autoindent " automatically set indent of new line
+set autoindent          " automatically set indent of new line
 set smartindent
 set nobackup
 set nowritebackup
 set noswapfile
-set laststatus=2 " show the satus line all the time
-set updatetime=2000 " wait 2 seconds before updating (this is for gitgutter)
+set laststatus=2        " show the satus line all the time
+set updatetime=2000     " wait 2 seconds before updating (this is for gitgutter)
 
 " }}}
 
@@ -205,32 +202,16 @@ nnoremap <silent> k gk
 nnoremap <silent> ^ g^
 nnoremap <silent> $ g$
 
-" search for word under the cursor
-" nnoremap <leader>/ "fyiw :/<c-r>f<cr>
-
-" Delete a buffer in a split window, but dont close the split
-" TODO: Write a mapping for this
-" $ :bp|bd#
-
 " Faster buffer switching
 map gn :bn<cr>
 map gp :bp<cr>
-map gd :bd<cr>  
+map gd :bd<cr>
 
 " Search a visual selection by pressing <Alt-/>
 vnoremap ÷ <Esc>/\%V
 
 " Copy relative path of current file
 noremap <silent> <F4> :let @+=expand("%")<CR>
-
-" Preview markdown buffer in internet via bcat and pandoc
-" nmap <leader>vv :!pandoc -t html --smart  % \|bcat<cr><cr>
-
-" Add a check mark
-nnoremap <leader>t i<C-k>OK<Esc>
-
-" Auto insert bracket and place cursor on next line
-inoremap { {<CR><BS>}<Esc>ko
 
 " }}}
 
@@ -274,7 +255,7 @@ augroup END
 " Insert a ✓ with leader-t only in Markdown files
 autocmd FileType markdown nnoremap <buffer> <leader>t i<C-k>OK<Esc>
 
-" Set the right tab settings for yml filers
+" Set the right tab settings and cursorcolumn for yml files
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab cuc
 autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab cuc
 
@@ -293,16 +274,6 @@ function! WinMove(key)
             wincmd s
         endif
         exec "wincmd ".a:key
-    endif
-endfunction
-
-function! InGitRepo()
-    let cmd = 'git ls-files'
-    let output = system(cmd)
-    if !v:shell_error
-        return 1 " In a git repo
-    else
-        return 0 " not in a git repo
     endif
 endfunction
 
@@ -345,12 +316,6 @@ function! AutoNTFinder()
 endfunction
 autocmd BufEnter * call AutoNTFinder()
 
-" Airline Options
-let g:airline_powerline_fonts=1
-let g:airline_theme='base16_eighties'
-let g:airline#extensions#tabline#enabled = 1        " Enable the list of buffers
-let g:airline#extensions#tabline#fnamemod = ':t'    " Show just the filename
-
 let g:SuperTabCrMapping = 0
 
 " Tagbar Settings
@@ -387,20 +352,13 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
 \ }
 
-" Markdown Settings
-" use 2 tabs
-" let g:vim_markdown_new_list_item_indent = 2
-
 "" Vim-Go Settings
 let g:go_fmt_fail_silently = 0
 let g:go_fmt_command = "goimports"
-" Enable experimental so that folds are not closed (might not need)
-let g:go_fmt_experimental = 1
 " let g:go_autodetect_gopath = 1
 let g:go_term_enabled = 1
 let g:go_snippet_engine = "neosnippet"  " enable snippets
 let g:go_list_type = "quickfix"
-" let g:go_auto_type_info = 1 " show type information
 
 " freezing during save. see (https://github.com/fatih/vim-go/issues/144)
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
@@ -460,15 +418,6 @@ else
     nmap <silent> <leader>p :MyGFiles<cr>
     " nmap <silent> <leader>p :GFiles<cr>
 
-    " TODO: This only works if we start out in a git project
-    " if InGitRepo()
-    "     " if in a git project, use :GFiles
-    "     nmap <silent> <leader>p :GFiles<cr>
-    " else
-    "     " otherwise, use :FZF
-    "     nmap <silent> <leader>p :FZF<cr>
-    " endif
-
     nmap <silent> <leader>r :Buffers<cr>
 
     " Insert mode completion
@@ -491,34 +440,10 @@ else
       \                 <bang>0)
 endif
 
-
-
-" Vim-Slime Settings
-let g:slime_target = "tmux"
-let g:slime_paste_file = "$HOME/.slime_paste"
-
 " lightline configs
 let g:lightline = {
     \ 'colorscheme': 'jellybeans',
     \ }
-
-" Vim-livedown (markdown previewer)
-let g:livemark_browser = "chrome"
-
-" Night-and-Day Settings
-" let hour = strftime("%H") " Set the background light from 7am to 7pm
-" if 7 <= hour && hour < 19
-"   set background=light
-" else " Set to dark from 7pm to 7am
-"   set background=dark
-" endif
-" colorscheme solarized " Use the awesome solarized color scheme
-" DONT USE THESE
-" let g:nd_themes = [
-"   \ ['4:00',  'Tomorrow-Night-Eighties', 'light' ],
-"   \ ['11:00', 'base16-solarized-light', 'light' ],
-"   \ ['18:00', 'base16-solarized-light', 'dark'  ],
-"   \ ]
 
 " }}}
 
