@@ -21,6 +21,8 @@ Plug 'mhinz/vim-startify'
 Plug 'qpkorr/vim-bufkill'           " Bring sanity to closing buffers
 Plug 'scrooloose/nerdtree',  { 'on': 'NERDTreeToggle'}
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'benmills/vimux'           " tmux interactions from vim
+Plug 'benmills/vimux-golang'    " vimux bindings to run tests for go
 
 " Languages
 Plug 'fatih/vim-go', {'for': ['go']}    " Loads only when editing go code
