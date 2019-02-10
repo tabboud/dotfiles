@@ -469,9 +469,9 @@ function! VimuxRunFromGitroot(...)
     call VimuxRunCommand(l:cmd)
 endfunction
 
-map <Leader>gc :call VimuxRunFromGitroot("godelw", "check", "compiles")<cr>
-map <Leader>gf :call VimuxRunFromGitroot("godelw", "format")<cr>
-map <Leader>ga :call VimuxRunFromGitroot("godelw", "check")<cr>
+map <Leader>gc :call VimuxRunFromGitroot("./godelw", "check", "compiles")<cr>
+map <Leader>gf :call VimuxRunFromGitroot("./godelw", "format")<cr>
+map <Leader>ga :call VimuxRunFromGitroot("./godelw", "check")<cr>
 map <Leader>gl :call VimuxRunLastCommand()<cr>
 
 " }}}
