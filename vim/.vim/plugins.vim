@@ -28,6 +28,7 @@ Plug 'benmills/vimux-golang'    " vimux bindings to run tests for go
 Plug 'fatih/vim-go', {'for': ['go']}    " Loads only when editing go code
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
+Plug 'cespare/vim-toml'
 
 " Only load fzf when we are in the terminal
 " Load ctrlp when we are in a gui vim
@@ -46,5 +47,6 @@ Plug 'Shougo/neosnippet-snippets'
 " Colorthemes
 Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
 Plug 'chriskempson/base16-vim'
+Plug 'Lokaltog/vim-monotone'
 
 call plug#end()
