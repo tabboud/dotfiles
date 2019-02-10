@@ -105,12 +105,19 @@ set synmaxcol=128
 set re=1
 
 " set the colorscheme based on terminal background for base16-shell
-if filereadable(expand("~/.vimrc_background"))
-    let base16colorspace=256
-    source $HOME/.vimrc_background
-else
-    colorscheme Tomorrow-Night-Eighties
-endif
+" if filereadable(expand("~/.vimrc_background"))
+"   let base16colorspace=256
+"   source $HOME/.vimrc_background
+" else
+"   colorscheme Tomorrow-Night-Eighties
+" endif
+
+" Default monotone settings
+let g:monotone_color = [5, 32, 82] " Sets theme color to bright green
+let g:monotone_contrast_factor = 1
+let g:monotone_secondary_hue_offset = 0 " Offset secondary colors by 200 degrees
+let g:monotone_emphasize_comments = 0 " Don't Emphasize comments
+colorscheme monotone
 
 set number              " show line numbers
 set relativenumber      " show relative line numbers
@@ -215,7 +222,7 @@ nnoremap <silent> $ g$
 " Faster buffer switching
 map gn :bn<cr>
 map gp :bp<cr>
-map gd :bd<cr>  
+map gd :bd<cr>
 
 " Search a visual selection by pressing <Alt-/>
 vnoremap ÷ <Esc>/\%V
@@ -398,6 +405,8 @@ let g:go_term_enabled = 1
 let g:go_snippet_engine = "neosnippet"  " enable snippets
 let g:go_list_type = "quickfix"
 " let g:go_auto_type_info = 1 " show type information
+" use lisp-case for :GoAddTags
+let g:go_addtags_transform = 'lispcase'
 
 " freezing during save. see (https://github.com/fatih/vim-go/issues/144)
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
@@ -423,7 +432,7 @@ augroup go
   autocmd FileType go nmap <silent> <Leader>gd <Plug>(go-doc)
   " autocmd FileType go nmap <silent> <Leader>l <Plug>(go-metalinter)
 
-  " autocmd FileType go nmap <silent> <leader>t  <Plug>(go-test)
+  autocmd FileType go nmap <silent> <leader>t  <Plug>(go-test-func)
   " autocmd FileType go nmap <silent> <leader>r  <Plug>(go-run)
   autocmd FileType go nmap <silent> <leader>b  <Plug>(go-build)
   autocmd FileType go nmap <silent> <leader>c  <Plug>(go-coverage)
