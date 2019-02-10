@@ -55,6 +55,7 @@ set wildmenu        " enhanced command line completion
 set hidden          " current buffer can be put into background
 set showcmd         " show incomplete commands
 set noshowmode      " don't show which mode disabled for PowerLine
+set confirm         " prompt to save, rather than flag an error
 set shell=$SHELL
 set cmdheight=1     " command bar height
 set ruler           " show the cursor position all the time
@@ -130,7 +131,7 @@ let mapleader = "\<Space>"
 let g:mapleader = "\<Space>"
 
 " remap esc
-inoremap jk <esc>
+inoremap kj <esc>
 
 " Stop the window from popping up
 map q: :q
@@ -444,6 +445,23 @@ endif
 let g:lightline = {
     \ 'colorscheme': 'jellybeans',
     \ }
+
+" vimux settings
+
+" runs the provided cmd args through vimux,
+" but first prepends a 'cd' to the root of
+" the git repository
+function! VimuxRunFromGitroot(...)
+    let l:root = system("git rev-parse --show-toplevel | tr -d '\\n'")
+    let l:args = join(a:000)
+    let l:cmd = join(["cd", l:root, "&&", l:args])
+    call VimuxRunCommand(l:cmd)
+endfunction
+
+map <Leader>gc :call VimuxRunFromGitroot("godelw", "check", "compiles")<cr>
+map <Leader>gf :call VimuxRunFromGitroot("godelw", "format")<cr>
+map <Leader>ga :call VimuxRunFromGitroot("godelw", "check")<cr>
+map <Leader>gl :call VimuxRunLastCommand()<cr>
 
 " }}}
 
