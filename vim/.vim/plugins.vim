@@ -26,9 +26,8 @@ Plug 'benmills/vimux-golang'    " vimux bindings to run tests for go
 
 " Languages
 Plug 'fatih/vim-go', {'for': ['go']}    " Loads only when editing go code
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
-Plug 'cespare/vim-toml'
+Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
+Plug 'cespare/vim-toml', {'for': ['toml']}
 
 " Only load fzf when we are in the terminal
 " Load ctrlp when we are in a gui vim
