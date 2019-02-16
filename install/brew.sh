@@ -10,20 +10,15 @@ TAPS=(
 FORMULAS=(
     autoconf
     automake
-    ctags
     coreutils
-    flake8
+    ctags
     fzf
     git
     go
     grip        # github markdown preview
     httpie
-    macvim
-    mas         # mac-app-store cli
     neovim
     pkg-config
-    python
-    python3
     reattach-to-user-namespace
     stow
     the_silver_searcher
@@ -37,17 +32,15 @@ FORMULAS=(
 
 CASKS=(
     alfred
-    google-chrome
     firefox
+    google-chrome
     iterm2
     itsycal         # Menubar calendar
+    kitty           # terminal
     skitch          # Screenshot tool
-    sourcetree
-    spectacle
+    spectacle       # window snapping
     vanilla         # Hide menubar icons
 )
-# Others
-#vagrant, virtualbox
 
 function brewAll() {
     for tap in ${TAPS[@]}
@@ -61,8 +54,6 @@ function brewAll() {
 
     # Installs that need flags
     brew install tmux --HEAD
-    brew install emacs --with-cocoa
-    brew linkapps emacs
 
     brew cleanup
 }
@@ -86,7 +77,7 @@ function checkOrInstall() {
 function usage() {
 cat<<EOD
 Usage:
-    all -- brew install all casks and packages 
+    all -- brew install all casks and packages
     install-stow -- install stow only
 EOD
   exit 1
@@ -104,9 +95,9 @@ fi
 
 checkOrInstall
 
-case "$command" in 
+case "$command" in
   all)
-    brewAll 
+    brewAll
     ;;
   install-stow)
     brewInstallStow
