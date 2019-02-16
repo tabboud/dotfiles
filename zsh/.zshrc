@@ -24,7 +24,7 @@ BASE16_SHELL=$HOME/.config/base16-shell
 # Virtualenv Settings (Lazy Loaded)
 export WORKON_HOME=$HOME/.virtualenvs
 export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
-source /usr/local/bin/virtualenvwrapper_lazy.sh
+# source /usr/local/bin/virtualenvwrapper_lazy.sh
 
 # Go Stuff
 # export GOROOT=$(go env GOROOT)
