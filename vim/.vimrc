@@ -115,7 +115,7 @@ let g:monotone_color = [5, 32, 82] " Sets theme color to bright green
 let g:monotone_contrast_factor = 1
 let g:monotone_secondary_hue_offset = 0 " Offset secondary colors by 200 degrees
 let g:monotone_emphasize_comments = 0 " Don't Emphasize comments
-colorscheme monotone
+colorscheme off
 
 set number              " show line numbers
 set relativenumber      " show relative line numbers

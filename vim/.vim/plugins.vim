@@ -47,5 +47,7 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
 Plug 'chriskempson/base16-vim'
 Plug 'Lokaltog/vim-monotone'
+Plug 'tdabboud/vim-colors-off'
+Plug 'andreypopp/vim-colors-plain'
 
 call plug#end()
