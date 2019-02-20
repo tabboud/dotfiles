@@ -14,6 +14,7 @@ Plug 'tpope/vim-commentary'     " Toggle comments like sublime
 Plug 'tpope/vim-surround'       " Quickly change surrounding quotations
 Plug 'airblade/vim-gitgutter'   " Git gitter
 Plug 'tpope/vim-fugitive'       " Git for vim
+Plug 'tpope/vim-rhubarb'        " Browse github from fugitive
 Plug 'ryanoasis/vim-devicons'   " Icons
 Plug 'Raimondi/delimitMate'     " Match parenthesis and quotes
 Plug 'majutsushi/tagbar'        " Tags side bar browser

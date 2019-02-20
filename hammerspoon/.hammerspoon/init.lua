@@ -20,6 +20,14 @@ keys.activateKeys()
 -- Reload config
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function() hs.reload() end)
 
+-- Show date time and battery
+hs.hotkey.bind({"cmd", "ctrl"}, "D", function()
+  local seconds = 3
+  local message = os.date("%I:%M%p") .. "\n" .. os.date("%a %b %d") .. "\nBattery: " ..
+     hs.battery.percentage() .. "%"
+  hs.alert.show(message, seconds)
+end)
+
 -- Install / Use Spoons
 -- hs.loadSpoon("SpoonInstall")
 -- spoon.SpoonInstall:andUse("WindowHalfsAndThirds",
