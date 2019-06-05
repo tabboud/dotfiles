@@ -17,20 +17,6 @@ SAVEHIST=1000
 # source all .zsh files inside of the $DOTFILES/zsh/ directory
 for config ($HOME/.zsh/**/*.zsh) source $config
 
-# Base16 Shell / Terminal Theme
-BASE16_SHELL=$HOME/.config/base16-shell
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
-
-# Virtualenv Settings (Lazy Loaded)
-export WORKON_HOME=$HOME/.virtualenvs
-export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
-# source /usr/local/bin/virtualenvwrapper_lazy.sh
-
-# Go Stuff
-# export GOROOT=$(go env GOROOT)
-export GOPATH=$HOME/dev/go
-export PATH=$PATH:$GOROOT:$GOPATH/bin
-
 # FZF config
 #TODO: LAZY LOAD this source
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

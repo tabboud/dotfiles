@@ -29,6 +29,7 @@ Plug 'benmills/vimux-golang'    " vimux bindings to run tests for go
 Plug 'fatih/vim-go', {'for': ['go']}    " Loads only when editing go code
 Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
 Plug 'cespare/vim-toml', {'for': ['toml']}
+Plug 'hashivim/vim-terraform'
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
 
 " Only load fzf when we are in the terminal
@@ -49,7 +50,6 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
 Plug 'chriskempson/base16-vim'
 Plug 'Lokaltog/vim-monotone'
-Plug 'tdabboud/vim-colors-off'
 Plug 'andreypopp/vim-colors-plain'
 
 call plug#end()

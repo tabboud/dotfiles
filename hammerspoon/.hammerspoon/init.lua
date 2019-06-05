@@ -7,11 +7,14 @@ require("hs.screen")
 require("hs.window")
 require("hs.alert")
 
+-- ctrlTap module
+-- require("ctrltap")
+
 local keys = require "keys"
 require "triggers"
 
 -- Logging
-local log = hs.logger.new("My Config")
+local log = hs.logger.new("My Config", "info")
 
 -- Add Fast Application Switching
 keys.deactivateKeys()
@@ -38,5 +41,9 @@ end)
 --                  hotkeys = 'default',
 --                }
 -- )
+
+
+-- Load ControlEscape which maps capslock to ESC when tapped and ctrl when held
+hs.loadSpoon('ControlEscape'):start()
 
 hs.notify.new({title='Hammerspoon', informativeText='Ready to rock 🤘'}):send()
