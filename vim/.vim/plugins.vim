@@ -30,6 +30,7 @@ Plug 'fatih/vim-go', {'for': ['go']}    " Loads only when editing go code
 Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
 Plug 'cespare/vim-toml', {'for': ['toml']}
 Plug 'hashivim/vim-terraform'
+Plug 'rust-lang/rust.vim', {'for': ['rust']}
 
 " Only load fzf when we are in the terminal
 " Load ctrlp when we are in a gui vim
