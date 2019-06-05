@@ -95,28 +95,13 @@ if (has('mac') && empty($TMUX) && has("termguicolors"))
     set termguicolors
 endif
 
+set synmaxcol=128           " disable  syntax highlighting after 128 columns
+syntax sync minlines=256    " start highlighting from 256 lines backwards
+set re=1                    " use explicit old regexpengine, which seems to be faster
 syntax on
 
-" disable syntax highlighting after 128 columns, and min-lines set to 256
-set synmaxcol=128
-syntax sync minlines=256
-set re=1
-
-" set the colorscheme based on terminal background for base16-shell
-" if filereadable(expand("~/.vimrc_background"))
-"   let base16colorspace=256
-"   source $HOME/.vimrc_background
-" else
-"   colorscheme Tomorrow-Night-Eighties
-" endif
-
-" Default monotone settings
-" let g:monotone_color = [5, 32, 82] " Sets theme color to bright green
-" let g:monotone_contrast_factor = 1
-" let g:monotone_secondary_hue_offset = 0 " Offset secondary colors by 200 degrees
-" let g:monotone_emphasize_comments = 0 " Don't Emphasize comments
 set background=dark
-colorscheme off
+colorscheme default
 
 set number              " show line numbers
 set relativenumber      " show relative line numbers
@@ -184,8 +169,8 @@ nmap <leader>[ <<
 nmap <leader>] >>
 
 " Center the screen after next search
-nnoremap n nzz
-nnoremap N Nzz
+nnoremap n nzzzv
+nnoremap N Nzzzv
 
 " Center the screen after moving to next function
 nnoremap ]] ]]zz
@@ -290,6 +275,17 @@ endfunction
 com -bang FormatJSON %!python -m json.tool
 " com -bang FormatJSON %!jq '.'
 
+" Visual Mode */# from Scrooloose {{{
+function! s:VSetSearch()
+  let temp = @@
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  let @@ = temp
+endfunction
+
+vnoremap * :<c-u>call <sid>vsetsearch()<cr>//<cr><c-o>
+vnoremap # :<c-u>call <sid>vsetsearch()<cr>??<cr><c-o>
+
 " }}}
 
 " Section Plugins {{{
@@ -371,6 +367,7 @@ let g:go_list_type = "quickfix"
 " let g:go_auto_type_info = 1 " show type information
 " use lisp-case for :GoAddTags
 let g:go_addtags_transform = 'lispcase'
+let g:go_fmt_experimental = 1
 
 
 " freezing during save. see (https://github.com/fatih/vim-go/issues/144)

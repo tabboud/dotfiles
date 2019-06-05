@@ -104,3 +104,37 @@ function gpull() {
 function gpush() {
     git push origin $(git_current_branch)
 }
+
+function gpushf() {
+    git push -f origin $(git_current_branch)
+}
+
+# gupdate will checkout the provided branch
+# run a git pull
+# and checkout the existing branch
+function gupdate() {
+    local current=$(git_current_branch)
+
+    # always checkout the current branch even if a failure occured
+    # trap git checkout current RETURN
+    git checkout $1 && \
+    gpull && \
+    git checkout $current
+}
+
+# list all changed files. Use in combination with vim,
+# to edit all files that have changed
+function changedFiles() {
+    git status --porcelain | sed -ne 's/^ M //p'
+}
+
+# list out all directly imported packages
+function getGoImports() {
+    go list -f '{{ join .Imports "\n" }}' ./...
+}
+
+# List dependencies for go pkgs
+# deps ./... | grep palantir | vim -
+function deps() {
+    go list -f '{{ join .Deps  "\n"}}' $1 | sort | uniq
+}
