@@ -215,11 +215,6 @@ noremap <silent> <F4> :let @+=expand("%")<CR>
 augroup configgroup
     autocmd!
 
-    " Set syntax highlighting for various filetypes
-    au BufNewFile,BufRead *.ns set syntax=tcl
-    au BufNewFile,BufRead *.macro set syntax=groovy
-    au BufNewFile,BufRead *.mesa set syntax=groovy
-
     " automatically resize panes on resize
     autocmd VimResized * exe 'normal! \<c-w>='
     " autocmd BufWritePost .vimrc,.vimrc.local,init.vim source %
@@ -319,7 +314,8 @@ function! AutoNTFinder()
         execute l:winnr . 'wincmd w'
     endif
 endfunction
-autocmd BufEnter * call AutoNTFinder()
+" Disabled auto finding
+" autocmd BufEnter * call AutoNTFinder()
 
 let g:SuperTabCrMapping = 0
 
@@ -362,13 +358,11 @@ let g:go_fmt_fail_silently = 0
 let g:go_fmt_command = "goimports"
 " let g:go_autodetect_gopath = 1
 let g:go_term_enabled = 1
-let g:go_snippet_engine = "neosnippet"  " enable snippets
 let g:go_list_type = "quickfix"
 " let g:go_auto_type_info = 1 " show type information
 " use lisp-case for :GoAddTags
 let g:go_addtags_transform = 'lispcase'
 let g:go_fmt_experimental = 1
-
 
 " freezing during save. see (https://github.com/fatih/vim-go/issues/144)
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
@@ -387,17 +381,6 @@ let g:go_highlight_types        = 0
 
 augroup go
   autocmd!
-
-  autocmd FileType go nmap <silent> <Leader>v <Plug>(go-def-vertical)
-  autocmd FileType go nmap <silent> <Leader>s <Plug>(go-def-split)
-  autocmd FileType go nmap <silent> <Leader>i <Plug>(go-info)
-  autocmd FileType go nmap <silent> <Leader>gd <Plug>(go-doc)
-  " autocmd FileType go nmap <silent> <Leader>l <Plug>(go-metalinter)
-
-  autocmd FileType go nmap <silent> <leader>t  <Plug>(go-test-func)
-  " autocmd FileType go nmap <silent> <leader>r  <Plug>(go-run)
-  autocmd FileType go nmap <silent> <leader>b  <Plug>(go-build)
-  autocmd FileType go nmap <silent> <leader>c  <Plug>(go-coverage)
 
   " Show a list of interfaces which is implemented by the type under your cursor
   autocmd FileType go nmap <Leader>s <Plug>(go-implements)
@@ -454,24 +437,6 @@ endif
 let g:lightline = {
     \ 'colorscheme': 'jellybeans',
     \ }
-
-" vimux settings
-
-" runs the provided cmd args through vimux,
-" but first prepends a 'cd' to the root of
-" the git repository
-function! VimuxRunFromGitroot(...)
-    let l:root = system("git rev-parse --show-toplevel | tr -d '\\n'")
-    let l:args = join(a:000)
-    let l:cmd = join(["cd", l:root, "&&", l:args])
-    call VimuxRunCommand(l:cmd)
-endfunction
-
-map <Leader>gc :call VimuxRunFromGitroot("./godelw", "check", "compiles")<cr>
-map <Leader>gf :call VimuxRunFromGitroot("./godelw", "format")<cr>
-map <Leader>ga :call VimuxRunFromGitroot("./godelw", "check")<cr>
-map <Leader>gl :call VimuxRunLastCommand()<cr>
-map <Leader>gt :call GolangTestFocused()<cr>
 
 " }}}
 
