@@ -33,10 +33,6 @@ Plug 'junegunn/fzf', has('gui_running') ? { 'on': [] } : { 'dir': '~/.fzf', 'do'
 Plug 'junegunn/fzf.vim', has('gui_running') ? { 'on': [] } : {}
 Plug 'ctrlpvim/ctrlp.vim', has('gui_running') ? {} : { 'on': [] }
 
-" Async Autocomplete (Only works with nvim)
-Plug 'Shougo/deoplete.nvim'
-Plug 'zchee/deoplete-go', { 'do': 'make', 'for': ['go']}       " Go autocomplete
-
 " Colorthemes
 Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
 Plug 'Lokaltog/vim-monotone'
