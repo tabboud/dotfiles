@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 declare -a COMMON=(
+    bash
     bin
     emacs
     git
