@@ -42,7 +42,7 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color) color_prompt=yes;;
+    xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -118,7 +118,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-
 ###############
 # Custom Config
 ###############
@@ -128,4 +127,7 @@ source $DOTFILES/shell/*
 
 # Reload the bashrc config
 alias reload!='source $HOME/.bashrc'
+
+# fzf config
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
