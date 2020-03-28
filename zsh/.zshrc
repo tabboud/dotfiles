@@ -1,6 +1,6 @@
 export DOTFILES=$HOME/.dotfiles
 export ZSH_DIR=$HOME/.zsh
-export EDITOR=nvim
+export EDITOR=vim
 export PATH=$HOME/.bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 # oh-my-zsh settings
@@ -39,4 +39,14 @@ os_name=$(uname -s)
 if [[ "$os_name" == "Linux" ]]; then
     setxkbmap -layout us -option ctrl:nocaps
 fi
+
+# Source the common aliases and functions
+source $DOTFILES/shell/*
+
+#####################
+# zsh specific alias
+#####################
+
+# Reload the zsh config
+alias reload!='source $HOME/.zshrc'
 
