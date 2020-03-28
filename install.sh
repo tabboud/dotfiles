@@ -16,13 +16,13 @@ function bootstrap() {
 
     if [ "$OS" == "Darwin" ]; then
         echo "Brewing Everything..."
-        bash install/brew.sh all
+        bash scripts/brew.sh all
 
         echo "Updating OSX settings..."
-        bash install/osx.sh
+        bash scripts/osx.sh
 
         echo "Link in the iTerm font"
-        source install/link_iterm_fonts.sh
+        source scripts/link_iterm_fonts.sh
     elif [ "$OS" == "Linux" ]; then
         echo "nothing to do"
     else
@@ -35,13 +35,13 @@ function dotfiles() {
     if [ "$OS" == "Darwin" ]; then
         if [ ! $(type -p stow) ]; then
             echo "stow is not installed. Going to install..."
-            bash install/brew.sh install-stow
+            bash scripts/brew.sh install-stow
         fi
         echo "Linking osx dotfiles..."
-        bash install/run_stow.sh osx
+        bash scripts/run_stow.sh osx
     elif [ "$OS" == "Linux" ]; then
         echo "Linking linux dotfiles..."
-        bash install/run_stow.sh linux
+        bash scripts/run_stow.sh linux
     else
         echo "Unsupported OS type!"
         exit 1
@@ -55,7 +55,7 @@ function all() {
 
 function uninstall() {
     echo "Removing all dotfiles..."
-    bash install/run_stow.sh all unlink
+    bash scripts/run_stow.sh all unlink
 }
 
 function usage() {
