@@ -461,36 +461,6 @@ if (has("nvim"))
       \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
       \,sm:block-blinkwait175-blinkoff150-blinkon175
 
-    "==== deoplete settings
-	let g:deoplete#enable_at_startup = 1
-
-    " neocomplete like
-    set completeopt+=noinsert
-    set completeopt+=noselect
-    set completeopt-=preview    " don't show the preview window
-
-    " Skip the check of neovim module
-    let g:python3_host_skip_check = 1
-
-    " setting the path here improves performance by not having to look it up
-    let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
-	let g:deoplete#sources#go#sort_class = ['func', 'type', 'var', 'const']
-	let g:deoplete#ignore_sources = {}
-	let g:deoplete#ignore_sources._ = ['buffer', 'member', 'tag', 'file', 'neosnippet']
-	let g:deoplete#sources#go#align_class = 1
-
-    call deoplete#custom#source('_', 'matchers', ['matcher_fuzzy'])
-    call deoplete#custom#source('_', 'converters', ['converter_remove_paren'])
-    call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
-    "===END deoplete settings
-
-    "===== NeoSnippet settings
-    let g:neosnippet#enable_completed_snippet = 1
-    imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    xmap <C-k>     <Plug>(neosnippet_expand_target)
-    "===END neosnippet settings
-
     " Scroll down
     let g:SuperTabDefaultCompletionType = "<c-n>"
 
