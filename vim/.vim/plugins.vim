@@ -11,25 +11,20 @@ Plug 'itchyny/lightline.vim'
 Plug 'ap/vim-buftabline'
 Plug 'ervandew/supertab'
 Plug 'tpope/vim-commentary'     " Toggle comments like sublime
-Plug 'tpope/vim-surround'       " Quickly change surrounding quotations
-Plug 'airblade/vim-gitgutter'   " Git gitter
+Plug 'airblade/vim-gitgutter'   " Git gutter
 Plug 'tpope/vim-fugitive'       " Git for vim
-Plug 'tpope/vim-rhubarb'        " Browse github from fugitive
 Plug 'ryanoasis/vim-devicons'   " Icons
 Plug 'Raimondi/delimitMate'     " Match parenthesis and quotes
 Plug 'majutsushi/tagbar'        " Tags side bar browser
 Plug 'mhinz/vim-startify'
-Plug 'qpkorr/vim-bufkill'           " Bring sanity to closing buffers
+Plug 'qpkorr/vim-bufkill'       " Bring sanity to closing buffers
 Plug 'scrooloose/nerdtree',  { 'on': 'NERDTreeToggle'}
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'benmills/vimux'           " tmux interactions from vim
-Plug 'benmills/vimux-golang'    " vimux bindings to run tests for go
 
 " Languages
 Plug 'fatih/vim-go', {'for': ['go']}    " Loads only when editing go code
 Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
 Plug 'cespare/vim-toml', {'for': ['toml']}
-Plug 'hashivim/vim-terraform'
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
 
 " Only load fzf when we are in the terminal
@@ -42,13 +37,8 @@ Plug 'ctrlpvim/ctrlp.vim', has('gui_running') ? {} : { 'on': [] }
 Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-go', { 'do': 'make', 'for': ['go']}       " Go autocomplete
 
-" Snippets
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
-
 " Colorthemes
 Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
-Plug 'chriskempson/base16-vim'
 Plug 'Lokaltog/vim-monotone'
 Plug 'andreypopp/vim-colors-plain'
 
