@@ -1,3 +1,6 @@
+# Cross platform utility functions
+#
+
 # print available colors and their numbers
 function colours() {
     for i in {0..255}; do
@@ -85,11 +88,6 @@ function gd() {
     else
         echo "neither ./gradlew or ./godelw found!"
     fi
-}
-
-# Time how long it takes to start zsh
-function zshStartTime(){
-    /usr/bin/time /usr/local/bin/zsh -ic exit
 }
 
 # git functions

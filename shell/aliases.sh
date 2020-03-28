@@ -1,5 +1,5 @@
-# Reload the zsh config
-alias reload!='source ~/.zshrc'
+# Cross platform aliases
+#
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -7,17 +7,6 @@ if ls --color > /dev/null 2>&1; then # GNU `ls`
 else # OS X `ls`
     colorflag="-G"
 fi
-
-# Utilities
-alias o='open'
-alias t='zshStartTime'
-
-# Editors
-alias vim="nvim"
-alias ec="emacsclient -c -n"
-alias ect="emacsclient -nw"
-
-alias ctags="/usr/local/Cellar/ctags/5.8_1/bin/ctags"
 
 # Filesystem aliases
 alias ..='cd ..'
@@ -77,5 +66,3 @@ alias godp='$GOPATH/src/github.palantir.build'
 alias notes='cd $NOTES && $EDITOR .'
 
 alias highlight='highlight $1 --out-format xterm256 --style zenburn '
-
-alias goland='open -a $HOME/Applications/JetBrains\ Toolbox/GoLand.app'
