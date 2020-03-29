@@ -34,14 +34,19 @@ for file in ~/.{path,custom.local}; do
 done
 unset file
 
+# Load all shell specific settings
+# ~/.aliases.sh     -> common aliases
+# ~/.functions.sh   -> common functions
+for file in $DOTFILES/shell/*; do
+    source "$file"
+done
+unset file
+
 os_name=$(uname -s)
 # remap capslock to ctrl on linux
 if [[ "$os_name" == "Linux" ]]; then
     setxkbmap -layout us -option ctrl:nocaps
 fi
-
-# Source the common aliases and functions
-source $DOTFILES/shell/*
 
 #####################
 # zsh specific alias
