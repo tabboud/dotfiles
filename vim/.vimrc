@@ -59,7 +59,7 @@ set confirm         " prompt to save, rather than flag an error
 set shell=$SHELL
 set cmdheight=1     " command bar height
 set ruler           " show the cursor position all the time
-set modeline
+set nomodeline      " disable to prevent errors on certain text (vim:, ex:, ...)
 set title           " set terminal title
 set lazyredraw      " don't redraw while executing macros
 set wildmode=list:longest " complete files like a shell

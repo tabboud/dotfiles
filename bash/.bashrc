@@ -122,8 +122,13 @@ fi
 # Custom Config
 ###############
 
-# Source the common aliases and functions
-source $DOTFILES/shell/*
+# Load all shell specific settings
+# ~/.aliases.sh     -> common aliases
+# ~/.functions.sh   -> common functions
+for file in $DOTFILES/shell/*; do
+    source "$file"
+done
+unset file
 
 # Reload the bashrc config
 alias reload!='source $HOME/.bashrc'
