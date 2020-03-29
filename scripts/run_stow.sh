@@ -4,7 +4,6 @@ declare -a COMMON=(
     bin
     emacs
     git
-    intellij
     tmux
     vim
     zsh
@@ -73,12 +72,12 @@ fi
 # link (default) or unlink
 option=${2:-"link"}
 
-case "$command" in 
+case "$command" in
   all)
     all $option
     ;;
   osx)
-    osx $option 
+    osx $option
     ;;
   linux)
     linux $option
