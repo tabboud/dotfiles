@@ -36,7 +36,6 @@ CASKS=(
     google-chrome
     iterm2
     itsycal         # Menubar calendar
-    kitty           # terminal
     skitch          # Screenshot tool
     spectacle       # window snapping
     vanilla         # Hide menubar icons

@@ -11,10 +11,8 @@ declare -a COMMON=(
 declare -a OSX=(
     hammerspoon
     iterm2
-    kitty
 )
 declare -a LINUX=(
-    awesome
     openbox
     tint2
 )
