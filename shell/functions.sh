@@ -136,3 +136,15 @@ function getGoImports() {
 function deps() {
     go list -f '{{ join .Deps  "\n"}}' $1 | sort | uniq
 }
+
+# listDeleted lists the local branches that
+# are removed from the remote tracking repo.
+function listDeleted() {
+    git fetch -p && git branch -vv | awk '/: gone]/{print $1}'
+}
+
+# mkdirDate creates a new director with the current date
+# ex: 2019-11-01
+function mkdirDate() {
+    mkdir $(date +%Y-%m-%d)
+}
