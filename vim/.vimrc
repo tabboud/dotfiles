@@ -63,6 +63,8 @@ set nomodeline      " disable to prevent errors on certain text (vim:, ex:, ...)
 set title           " set terminal title
 set lazyredraw      " don't redraw while executing macros
 set wildmode=list:longest " complete files like a shell
+" set completeopt+=popup,longest,menuone
+set completeopt=longest,menuone
 
 " Searching
 set ignorecase      " case insensitive searching
@@ -83,26 +85,17 @@ if has('vim_starting')
 endif
 
 " Coloring
-set t_Co=256        " Explicitly tell vim that the terminal supports 256 colors
-
 if &term =~ '256color'
     " disable background color erase
     set t_ut=
 endif
-
-" enable 24 bit color support if supported
-if (has('mac') && empty($TMUX) && has("termguicolors"))
-    set termguicolors
-endif
-
-set synmaxcol=128           " disable  syntax highlighting after 128 columns
+set synmaxcol=120           " disable  syntax highlighting after 120 columns
+set colorcolumn=120         " Draw a vertical line at 120 characters
 syntax sync minlines=256    " start highlighting from 256 lines backwards
 set re=1                    " use explicit old regexpengine, which seems to be faster
-syntax on
-
 set background=dark
 colorscheme default
-
+set t_Co=256            " Explicitly tell vim that the terminal supports 256 colors
 set number              " show line numbers
 set relativenumber      " show relative line numbers
 set linebreak           " set soft wrapping
@@ -147,8 +140,14 @@ noremap Q <NOP>
 " Toggle invisible characters
 nmap <leader>l :set list!<cr>
 
+" Toggle wrapping
+nmap <leader>n :set nowrap!<cr>
+
 " Toggle comments (must highlight first)
 map <leader>/ :Commentary<cr>
+
+" Insert current time as a markdown header
+map <leader>D :put =strftime('# %a %Y-%m-%d %H:%M:%S%z')<CR>
 
 " Change how you move across splits
 nnoremap <C-h> <C-w>h
@@ -281,6 +280,14 @@ endfunction
 vnoremap * :<c-u>call <sid>vsetsearch()<cr>//<cr><c-o>
 vnoremap # :<c-u>call <sid>vsetsearch()<cr>??<cr><c-o>
 
+" create a go doc comment based on the word under the cursor
+function! s:create_go_doc_comment()
+  norm "zyiw
+  execute ":put! z"
+  execute ":norm I// \<Esc>$"
+endfunction
+nnoremap <leader>ui :<C-u>call <SID>create_go_doc_comment()<CR>
+
 " }}}
 
 " Section Plugins {{{
@@ -314,6 +321,18 @@ function! AutoNTFinder()
         execute l:winnr . 'wincmd w'
     endif
 endfunction
+
+" Toggle NERDTree window position
+function! ToggleNERDTreeWinPos()
+    let l:pos = get(g:, 'NERDTreeWinPos', 'default')
+    if pos ==# "left"
+        let g:NERDTreeWinPos="right"
+    else
+        let g:NERDTreeWinPos="left"
+    endif
+endfunction
+nnoremap <leader>c :call ToggleNERDTreeWinPos()<CR>
+
 " Disabled auto finding
 " autocmd BufEnter * call AutoNTFinder()
 
@@ -354,15 +373,15 @@ let g:tagbar_type_go = {
 \ }
 
 "" Vim-Go Settings
-let g:go_fmt_fail_silently = 0
+let g:go_fmt_fail_silently = 1
 let g:go_fmt_command = "goimports"
 " let g:go_autodetect_gopath = 1
 let g:go_term_enabled = 1
 let g:go_list_type = "quickfix"
-" let g:go_auto_type_info = 1 " show type information
+let g:go_auto_type_info = 1 " show type information
 " use lisp-case for :GoAddTags
 let g:go_addtags_transform = 'lispcase'
-let g:go_fmt_experimental = 1
+let g:go_fmt_experimental = 1       " Dont collapse folds on save
 
 " freezing during save. see (https://github.com/fatih/vim-go/issues/144)
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
@@ -389,49 +408,39 @@ augroup go
   autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
   autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
   autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+
+  " autocomplete on .
+  autocmd filetype go inoremap <buffer> . .<C-x><C-o>
 augroup END
 
-" CtrlP & FZF Settings
-if (has("gui_running"))
-    nmap <silent> <leader>r :CtrlPBuffer<cr>
-    nmap <silent> <leader>p :CtrlP<cr>
-    let g:ctrlp_map='<leader>t'
-    let g:ctrlp_dotfiles=1
-    let g:ctrlp_working_path_mode = 'ra'
-    " only show files that are not ignored by git
-    let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-    " search the nearest ancestor that contains .git, .hg, .svn
-    let g:ctrlp_working_path_mode = 2
-else
-    " FZF Settings
-    let g:fzf_layout = { 'down': '~25%' }
+" FZF Settings
+let g:fzf_layout = { 'down': '~25%' }
 
-    " custom :GFiles call to ignore the vendor directory
-    command! MyGFiles call fzf#run(fzf#wrap({'source': 'git ls-files --exclude-standard --cached --others | grep -v vendor/'}))
-    nmap <silent> <leader>p :MyGFiles<cr>
-    " nmap <silent> <leader>p :GFiles<cr>
+" custom :GFiles call to ignore the vendor directory
+command! MyGFiles call fzf#run(fzf#wrap({'source': 'git ls-files --exclude-standard --cached --others | grep -v vendor/'}))
+nmap <silent> <leader>p :MyGFiles<cr>
+" nmap <silent> <leader>p :GFiles<cr>
 
-    nmap <silent> <leader>r :Buffers<cr>
+nmap <silent> <leader>r :Buffers<cr>
 
-    " Insert mode completion
-    imap <c-x><c-k> <plug>(fzf-complete-word)
-    imap <c-x><c-f> <plug>(fzf-complete-path)
-    " imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-    imap <c-x><c-l> <plug>(fzf-complete-line)
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+" imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
 
-    " Augmenting Ag command using fzf#vim#with_preview function
-    "   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
-    "   * Preview script requires Ruby
-    "   * Install Highlight or CodeRay to enable syntax highlighting
-    "
-    "   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
-    "   :Ag! - Start fzf in fullscreen and display the preview window above
-    autocmd VimEnter * command! -bang -nargs=* Ag
-      \ call fzf#vim#ag(<q-args>,
-      \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-      \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-      \                 <bang>0)
-endif
+" Augmenting Ag command using fzf#vim#with_preview function
+"   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
+"   * Preview script requires Ruby
+"   * Install Highlight or CodeRay to enable syntax highlighting
+"
+"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+"   :Ag! - Start fzf in fullscreen and display the preview window above
+autocmd VimEnter * command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
 
 " lightline configs
 let g:lightline = {
@@ -444,11 +453,7 @@ let g:lightline = {
 if (has("gui_running"))
     set guioptions=egmrt
     set background=dark
-    " set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h14
-    set guifont=Inconsolata\ Nerd\ Font:h14
     colorscheme Tomorrow-Night-Eighties
-    " let g:airline_left_sep=''
-    " let g:airline_right_sep=''
     let g:airline_powerline_fonts=1
     let g:airline_theme='base16_eighties'
 endif
