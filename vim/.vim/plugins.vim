@@ -20,6 +20,8 @@ Plug 'mhinz/vim-startify'
 Plug 'qpkorr/vim-bufkill'       " Bring sanity to closing buffers
 Plug 'scrooloose/nerdtree',  { 'on': 'NERDTreeToggle'}
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 " Languages
 Plug 'fatih/vim-go', {'for': ['go']}    " Loads only when editing go code
@@ -27,15 +29,23 @@ Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
 Plug 'cespare/vim-toml', {'for': ['toml']}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
 
-" Only load fzf when we are in the terminal
-" Load ctrlp when we are in a gui vim
-Plug 'junegunn/fzf', has('gui_running') ? { 'on': [] } : { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim', has('gui_running') ? { 'on': [] } : {}
-Plug 'ctrlpvim/ctrlp.vim', has('gui_running') ? {} : { 'on': [] }
-
 " Colorthemes
 Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
 Plug 'Lokaltog/vim-monotone'
 Plug 'andreypopp/vim-colors-plain'
+Plug 'fatih/molokai'
+Plug 'rakr/vim-one'
+Plug 'yorickpeterse/vim-paper'
+Plug 'ajgrf/parchment'
+Plug 'chiendo97/intellij.vim'
+
+" Autocompletion
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'prabirshrestha/async.vim'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'mattn/vim-lsp-settings'
+
+" Plug 'Shougo/deoplete.nvim'
+" Plug 'lighttiger2505/deoplete-vim-lsp'
 
 call plug#end()
