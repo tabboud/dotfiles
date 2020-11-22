@@ -12,12 +12,13 @@ Keys = {
   ["triggers"] = {
     ["iTerm"] = {{shortcutKey, "t"}},
     -- ["Alacritty"] = {{shortcutKey, "t"}},
-    ["Firefox"] = {{shortcutKey, "i"}},
-    ["Google Chrome"] = {{shortcutKey, "c"}},
+    -- ["Firefox"] = {{shortcutKey, "i"}},
+    ["Google Chrome"] = {{shortcutKey, "i"}},
     ["Slack"] = {{shortcutKey, "s"}},
-    ["Messages"] = {{shortcutKey, "m"}},
-    ["Microsoft Outlook"] = {{shortcutKey, "o"}},
+    -- ["Messages"] = {{shortcutKey, "m"}},
+    -- ["Microsoft Outlook"] = {{shortcutKey, "o"}},
     ["GoLand"] = {{shortcutKey, "g"}},
+    ["IntelliJ IDEA Community"] = {{shortcutKey, "0"}},
     ["Quip"] = {{shortcutKey, "q"}},
   },
 }
