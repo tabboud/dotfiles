@@ -106,7 +106,7 @@ set re=1                    " use explicit old regexpengine, which seems to be f
 " Gruvbox settings
 " let g:gruvbox_contrast_light = 'hard'
 set background=dark
-colorscheme default
+colorscheme gruvbox
 set t_Co=256            " Explicitly tell vim that the terminal supports 256 colors
 set number              " show line numbers
 set relativenumber      " show relative line numbers

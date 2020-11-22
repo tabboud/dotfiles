@@ -40,6 +40,7 @@ Plug 'rakr/vim-one'
 Plug 'ajgrf/parchment'
 Plug 'chiendo97/intellij.vim'
 Plug 'JaySandhu/xcode-vim'
+Plug 'morhetz/gruvbox'
 
 " Autocompletion
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
