@@ -5,7 +5,9 @@ export PATH=$HOME/.bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 # oh-my-zsh settings
 export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME=""
+# ZSH_THEME="robbyrussell"
+# bira uses the -> notation, but is missing the git coloring
+# ZSH_THEME="bira"
 DISABLE_AUTO_UPDATE=true
 source $ZSH/oh-my-zsh.sh
 
@@ -15,7 +17,7 @@ HISTSIZE=1000
 SAVEHIST=1000
 
 # source all .zsh files inside of the $DOTFILES/zsh/ directory
-for config ($HOME/.zsh/**/*.zsh) source $config
+# for config ($HOME/.zsh/**/*.zsh) source $config
 
 # FZF config
 #TODO: LAZY LOAD this source
