@@ -22,12 +22,14 @@ Plug 'scrooloose/nerdtree',  { 'on': 'NERDTreeToggle'}
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-unimpaired'
 
 " Languages
 Plug 'fatih/vim-go', {'for': ['go']}    " Loads only when editing go code
 Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
 Plug 'cespare/vim-toml', {'for': ['toml']}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
+Plug 'autozimu/LanguageClient-neovim', {'branch': 'next','do': 'bash install.sh'}
 
 " Colorthemes
 Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
@@ -35,9 +37,9 @@ Plug 'Lokaltog/vim-monotone'
 Plug 'andreypopp/vim-colors-plain'
 Plug 'fatih/molokai'
 Plug 'rakr/vim-one'
-Plug 'yorickpeterse/vim-paper'
 Plug 'ajgrf/parchment'
 Plug 'chiendo97/intellij.vim'
+Plug 'JaySandhu/xcode-vim'
 
 " Autocompletion
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}

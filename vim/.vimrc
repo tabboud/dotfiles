@@ -24,6 +24,10 @@ set expandtab
 if has('mouse')
     set mouse=a
 endif
+if !has('nvim')         " Not supported in NVIM
+    set ttymouse=sgr    " Set ttymouse to get hover working in the terminal
+    set balloondelay=250
+endif
 
 " Use the system clipboard
 set clipboard=unnamed
@@ -63,8 +67,14 @@ set nomodeline      " disable to prevent errors on certain text (vim:, ex:, ...)
 set title           " set terminal title
 set lazyredraw      " don't redraw while executing macros
 set wildmode=list:longest " complete files like a shell
-" set completeopt+=popup,longest,menuone
-set completeopt=longest,menuone
+set completeopt+=longest,noinsert " noinsert forces the autocomplete to not fill the first argument
+" set completeopt=longest,menuone
+" Suggestion: show info for completion candidates in a popup menu
+if has("patch-8.1.1904")
+  " set completeopt+=popup
+    set completeopt+=popup,longest,menuone
+  " set completepopup=align:menu,border:off,highlight:Pmenu
+endif
 
 " Searching
 set ignorecase      " case insensitive searching
@@ -93,6 +103,8 @@ set synmaxcol=120           " disable  syntax highlighting after 120 columns
 set colorcolumn=120         " Draw a vertical line at 120 characters
 syntax sync minlines=256    " start highlighting from 256 lines backwards
 set re=1                    " use explicit old regexpengine, which seems to be faster
+" Gruvbox settings
+" let g:gruvbox_contrast_light = 'hard'
 set background=dark
 colorscheme default
 set t_Co=256            " Explicitly tell vim that the terminal supports 256 colors
@@ -106,7 +118,14 @@ set nobackup
 set nowritebackup
 set noswapfile
 set laststatus=2        " show the satus line all the time
-set updatetime=2000     " wait 2 seconds before updating (this is for gitgutter)
+set updatetime=500     " wait 2 seconds before updating (this is for gitgutter and govim)
+set cursorline
+set cursorcolumn
+" Suggestion: Turn on the sign column so you can see error marks on lines
+" where there are quickfix errors. Some users who already show line number
+" might prefer to instead have the signs shown in the number column; in which
+" case set signcolumn=number
+set signcolumn=yes
 
 " }}}
 
@@ -291,10 +310,20 @@ nnoremap <leader>ui :<C-u>call <SID>create_go_doc_comment()<CR>
 " }}}
 
 " Section Plugins {{{
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
 
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 " Vim Startify
 " set the session directory
 let g:startify_session_dir = '$HOME/.vim/session'
+" Don't run Startify at vim startup time (use :Startify to enter)
+let g:startify_disable_at_vimenter = 1
 
 " Vim-Bufkill
 map <C-c> :BD<cr>
@@ -373,48 +402,76 @@ let g:tagbar_type_go = {
 \ }
 
 "" Vim-Go Settings
-let g:go_fmt_fail_silently = 1
-let g:go_fmt_command = "goimports"
-" let g:go_autodetect_gopath = 1
-let g:go_term_enabled = 1
-let g:go_list_type = "quickfix"
-let g:go_auto_type_info = 1 " show type information
-" use lisp-case for :GoAddTags
-let g:go_addtags_transform = 'lispcase'
-let g:go_fmt_experimental = 1       " Dont collapse folds on save
+function! VimgoSettings()
+    let g:go_fmt_fail_silently = 1
+    let g:go_fmt_command = "goimports"
+    " let g:go_autodetect_gopath = 1
+    let g:go_term_enabled = 1
+    let g:go_list_type = "quickfix"
+    let g:go_auto_type_info = 1 " show type information
+    " use lisp-case for :GoAddTags
+    let g:go_addtags_transform = 'lispcase'
+    let g:go_fmt_experimental = 1       " Dont collapse folds on save
+    let g:go_auto_sameids = 1       " highlight all instances of an id
 
-" freezing during save. see (https://github.com/fatih/vim-go/issues/144)
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 
-" highlights
-let g:go_highlight_array_whitespace_error = 0
-let g:go_highlight_build_constraints = 0
-let g:go_highlight_extra_types = 0
-let g:go_highlight_space_tab_error = 0
-let g:go_highlight_trailing_whitespace_error = 0
-let g:go_highlight_fields       = 0
-let g:go_highlight_functions    = 0
-let g:go_highlight_methods      = 0
-let g:go_highlight_operators    = 0
-let g:go_highlight_types        = 0
+    " freezing during save. see (https://github.com/fatih/vim-go/issues/144)
+    let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 
-augroup go
-  autocmd!
+    " highlights
+    let g:go_highlight_array_whitespace_error = 0
+    let g:go_highlight_build_constraints = 0
+    let g:go_highlight_extra_types = 0
+    let g:go_highlight_space_tab_error = 0
+    let g:go_highlight_trailing_whitespace_error = 0
+    let g:go_highlight_fields       = 0
+    let g:go_highlight_functions    = 0
+    let g:go_highlight_methods      = 0
+    let g:go_highlight_operators    = 0
+    let g:go_highlight_types        = 0
 
-  " Show a list of interfaces which is implemented by the type under your cursor
-  autocmd FileType go nmap <Leader>s <Plug>(go-implements)
+    augroup go
+      autocmd!
 
-  " Open alternate files (i.e. the xxx_test.go file from the xxx.go file)
-  autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-  autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
-  autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+      " Show a list of interfaces which is implemented by the type under your cursor
+      autocmd FileType go nmap <Leader>s <Plug>(go-implements)
 
-  " autocomplete on .
-  autocmd filetype go inoremap <buffer> . .<C-x><C-o>
-augroup END
+      " Open alternate files (i.e. the xxx_test.go file from the xxx.go file)
+      autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+      autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+      autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+
+      " autocomplete on .
+      autocmd filetype go inoremap <buffer> . .<C-x><C-o>
+    augroup END
+
+endfunction
+
+"" govim settings
+function! GovimSettings()
+    " Suggestion: Turn on syntax highlighting for .go files. You might prefer to
+    " turn on syntax highlighting for all files, in which case
+    "
+    " syntax on
+    "
+    " will suffice, no autocmd required.
+    autocmd! BufEnter,BufNewFile *.go,go.mod syntax on
+    autocmd! BufLeave *.go,go.mod syntax off
+
+    " filetype plugin on
+    " filetype indent on
+
+endfunction
+
+" Toggle between vim-go and govim based on env var
+call VimgoSettings()
+" call GovimSettings()
 
 " FZF Settings
+" Launch fzf in a terminal buffer
 let g:fzf_layout = { 'down': '~25%' }
+" Use the following to launch fzf in a popup window
+" let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
 " custom :GFiles call to ignore the vendor directory
 command! MyGFiles call fzf#run(fzf#wrap({'source': 'git ls-files --exclude-standard --cached --others | grep -v vendor/'}))
@@ -447,15 +504,37 @@ let g:lightline = {
     \ 'colorscheme': 'jellybeans',
     \ }
 
+
+" LanguageClient-Neovim Settings
+  let g:LanguageClient_serverCommands = {
+        \ 'go': ['gopls'],
+        \ 'gomod': ['gopls'],
+        \ }
+  nmap <silent>mn                 <Plug>(lcn-menu)
+  " nmap <silent>K            :call <SID>show_documentation()<CR>
+  nmap <silent>R            <Plug>(lcn-rename)
+  nmap <silent>E            <Plug>(lcn-explain-error)
+  nmap <silent>gd           <Plug>(lcn-definition)
+  nmap <silent>gr           <Plug>(lcn-references)
+  nmap <silent>gi           <Plug>(lcn-implementation)
+  nmap <silent>ga           <Plug>(lcn-code-action)
+  vmap <silent>ga           <Plug>(lcn-code-action)
+  nmap <silent>gl           <Plug>(lcn-code-lens-action)
+  nmap <silent>,.           <Plug>(lcn-symbols)
+  nmap <silent>F            <Plug>(lcn-format-sync)
+  nmap <silent><c-s><c-s>   <Plug>(lcn-highlight)
+  " nmap <c-]>        <Plug>(lcn-diagnostics-next)
+  " nmap <c-[>        <Plug>(lcn-diagnostics-prev)
 " }}}
 
 " Section MacVim {{{
 if (has("gui_running"))
     set guioptions=egmrt
-    set background=dark
-    colorscheme Tomorrow-Night-Eighties
+    set background=light
+    colorscheme xcode
     let g:airline_powerline_fonts=1
     let g:airline_theme='base16_eighties'
+    set guifont=HackNerdFontComplete-Regular:h14
 endif
 " }}}
 
