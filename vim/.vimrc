@@ -94,7 +94,7 @@ set colorcolumn=120         " Draw a vertical line at 120 characters
 syntax sync minlines=256    " start highlighting from 256 lines backwards
 set re=1                    " use explicit old regexpengine, which seems to be faster
 set background=dark
-colorscheme default
+colorscheme gruvbox
 set t_Co=256            " Explicitly tell vim that the terminal supports 256 colors
 set number              " show line numbers
 set relativenumber      " show relative line numbers
