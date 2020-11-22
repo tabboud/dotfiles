@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+COLOR_RED='\033[0;31m'
+COLOR_GREEN='\033[0;32m'
+COLOR_NONE='\033[0m'
+COLOR_YELLOW='\033[1;33m'
+
+
+function createPR() {
+    echo "Creating PR"
+
+    # title
+    echo -e "${COLOR_YELLOW}Enter a title for the PR: ${COLOR_NONE}"
+    read title
+
+    # body
+    echo -e "${COLOR_YELLOW}Enter a body for the PR: ${COLOR_NONE}"
+    read body
+    prBody=$(echo -e "==COMMIT_MSG==\n$body\n==COMMIT_MSG==")
+
+    # labels
+    noChangelogLabel=""
+    echo -e "${COLOR_YELLOW}Add the 'no-changelog' label? [y/n]: ${COLOR_NONE}"
+    read noChangelog
+    case $noChangelog in
+        [yY])
+            noChangelogLabel='--label "no-changelog"'
+            ;;
+        [nN])
+            ;;
+        *)
+            echo "must specify 'y' or 'n'"
+            exit 1
+            ;;
+    esac
+
+    mergeWhenReadyLabel=""
+    echo -e "${COLOR_YELLOW}Add the 'merge-when-ready' label? [y/n]: ${COLOR_NONE}"
+    read mergeWhenReady
+    case $mergeWhenReady in
+        [yY])
+            mergeWhenReadyLabel='--label "merge-when-ready"'
+            ;;
+        [nN])
+            ;;
+        *)
+            echo "must specify 'y' or 'n'"
+            exit 1
+            ;;
+    esac
+
+    # build command and make the request
+    if [[ ! -z "$noChangelogLabel" && ! -z "$mergeWhenReadyLabel" ]]; then
+        # both enabled
+        gh pr create --title "${title}" --body "${prBody}" --label "no changelog" --label "merge when ready"
+    elif [[ ! -z "$noChangelogLabel" ]]; then
+        # only no changelog
+        gh pr create --title "${title}" --body "${prBody}" --label "no changelog"
+    elif [[ ! -z "$mergeWhenReadyLabel" ]]; then
+        # only merge when ready
+        gh pr create --title "${title}" --body "${prBody}" --label "merge when ready"
+    else
+        # no labels
+        gh pr create --title "${title}" --body "${prBody}"
+    fi
+
+}
+
+createPR
+
+echo -e "${COLOR_GREEN}✔ All Done!${COLOR_NONE}"
+exit 0

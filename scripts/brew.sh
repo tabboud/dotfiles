@@ -20,6 +20,7 @@ FORMULAS=(
     neovim
     pkg-config
     reattach-to-user-namespace
+    sd          # search and displace
     stow
     the_silver_searcher
     tig
