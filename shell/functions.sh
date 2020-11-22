@@ -148,3 +148,55 @@ function listDeleted() {
 function mkdirDate() {
     mkdir $(date +%Y-%m-%d)
 }
+
+# etmp creates a new temp file and opens it using the $EDITOR.
+# The filename will be printed out before opening.
+function etmp() {
+    tempFile=$(mktemp)
+    echo "Tempfile: $tempFile"
+    $EDITOR $tempFile
+}
+
+
+# gheclone will run git clone from anywhere on the system
+# and put it into the GOPATH structure.
+# The env GHE_ORG must be set to use ghe clone
+#
+# Alternatively:
+# gheclone <ghe-org>/repo
+# ghclone tabboud/dotfiles
+function gheclone() {
+    if [[ "$#" -ne 1 ]]; then
+        echo "USAGE: gheclone <org>/<repo>"
+        return
+    fi
+
+    _internalClone "${GHE_ORG}" $1
+}
+
+function ghclone() {
+    if [[ "$#" -ne 1 ]]; then
+        echo "USAGE: ghclone <org>/<repo>"
+        return
+    fi
+
+    _internalClone "github.com" $1
+}
+
+function _internalClone() {
+    local account=$1
+    local repo=$2
+    local dest="/Volumes/git/go/src/$account/$repo"
+
+    # Ensure the repo is not already cloned
+    if [ -e "$dest" ]; then
+        echo "$dest: already exists"
+        return
+    fi
+
+    mkdir -p "$dest"
+
+    git clone git@$account:$repo $dest
+
+    cd $dest
+}

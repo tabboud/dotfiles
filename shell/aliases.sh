@@ -23,6 +23,7 @@ alias ls="ls ${colorflag}"
 alias rmf="rm -rf"
 
 alias g="git"
+alias gs="git status"
 
 # Helpers
 alias grep='grep --color=auto'
