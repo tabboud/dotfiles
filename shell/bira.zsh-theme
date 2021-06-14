@@ -19,7 +19,8 @@ local current_time='[%D{%y/%m/%f}|%@]'
 PROMPT="╭─${user_host}${current_dir} ${git_branch}
 ╰─%B${user_symbol}%b "
 # RPROMPT="%B${return_code}%b"
-RPROMPT="${current_time}"
+# RPROMPT="${current_time}"
+RPROMPT=""
 
 # ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[yellow]%}‹"
 # ZSH_THEME_GIT_PROMPT_SUFFIX="› %{$reset_color%}"
