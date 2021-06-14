@@ -67,3 +67,5 @@ alias godp='$GOPATH/src/github.palantir.build'
 alias notes='cd $NOTES && $EDITOR .'
 
 alias highlight='highlight $1 --out-format xterm256 --style zenburn '
+
+alias ghco='gh pr checkout $1'
