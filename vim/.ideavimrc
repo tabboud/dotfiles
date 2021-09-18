@@ -1,6 +1,7 @@
 set ignorecase
 set smartcase
 set scrolloff=3         " 3 lines above/below cursor when scrolling
+set showmode            " show the current vim mode (Insert, Visual, etc.) on the status line
 
 " Integrate with system clipboard
 set clipboard=unnamedplus,unnamed

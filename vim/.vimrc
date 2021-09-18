@@ -95,18 +95,18 @@ if has('vim_starting')
 endif
 
 " Coloring
-if &term =~ '256color'
-    " disable background color erase
-    set t_ut=
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
 endif
+
 set synmaxcol=120           " disable  syntax highlighting after 120 columns
 set colorcolumn=120         " Draw a vertical line at 120 characters
 syntax sync minlines=256    " start highlighting from 256 lines backwards
 set re=1                    " use explicit old regexpengine, which seems to be faster
-" Gruvbox settings
-" let g:gruvbox_contrast_light = 'hard'
 set background=dark
-colorscheme gruvbox
+colorscheme Tomorrow-Night-Eighties
 set t_Co=256            " Explicitly tell vim that the terminal supports 256 colors
 set number              " show line numbers
 set relativenumber      " show relative line numbers
@@ -368,7 +368,7 @@ nnoremap <leader>c :call ToggleNERDTreeWinPos()<CR>
 let g:SuperTabCrMapping = 0
 
 " Tagbar Settings
-let g:tagbar_ctags_bin='/usr/local/Cellar/ctags/5.8_1/bin/ctags'  " Set the path for exhuberant_ctags
+let g:tagbar_ctags_bin='/usr/local/Cellar/ctags/5.8_2/bin/ctags'  " Set the path for exhuberant_ctags
 " Toggle TagBar
 nmap <silent> <leader>d :TagbarToggle<cr>
 
@@ -414,6 +414,9 @@ function! VimgoSettings()
     let g:go_fmt_experimental = 1       " Dont collapse folds on save
     let g:go_auto_sameids = 1       " highlight all instances of an id
 
+    " Disable gopls
+    let g:go_gopls_enabled = 1
+    let g:go_info_mode = 'gopls' "guru'
 
     " freezing during save. see (https://github.com/fatih/vim-go/issues/144)
     let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
@@ -452,19 +455,22 @@ function! GovimSettings()
     " Suggestion: Turn on syntax highlighting for .go files. You might prefer to
     " turn on syntax highlighting for all files, in which case
     "
-    " syntax on
+    syntax on
     "
     " will suffice, no autocmd required.
-    autocmd! BufEnter,BufNewFile *.go,go.mod syntax on
-    autocmd! BufLeave *.go,go.mod syntax off
+    " autocmd! BufEnter,BufNewFile *.go,go.mod syntax on
+    " autocmd! BufLeave *.go,go.mod syntax off
 
     " filetype plugin on
     " filetype indent on
 
+    " show hover info on <leader>h
+    nmap <silent> <buffer> <Leader>h : <C-u>call GOVIMHover()<CR>
+
 endfunction
 
 " Toggle between vim-go and govim based on env var
-call VimgoSettings()
+" call VimgoSettings()
 " call GovimSettings()
 
 " FZF Settings
@@ -525,16 +531,27 @@ let g:lightline = {
   nmap <silent><c-s><c-s>   <Plug>(lcn-highlight)
   " nmap <c-]>        <Plug>(lcn-diagnostics-next)
   " nmap <c-[>        <Plug>(lcn-diagnostics-prev)
+
+
+" Deoplete
+if has('nvim')
+    let g:deoplete#enable_at_startup = 0
+endif
+
+" fzf-project config
+let g:fzfSwitchProjectWorkspaces = [ '$GOPATH/src']
+let g:fzfSwitchProjectProjectDepth = 3
+
 " }}}
 
 " Section MacVim {{{
 if (has("gui_running"))
     set guioptions=egmrt
     set background=light
-    colorscheme xcode
+    colorscheme intellij
     let g:airline_powerline_fonts=1
     let g:airline_theme='base16_eighties'
-    set guifont=HackNerdFontComplete-Regular:h14
+    set guifont=JetBrainsMonoNerdFontComplete-Regular:h14
 endif
 " }}}
 
@@ -550,6 +567,81 @@ if (has("nvim"))
 
     " incremental searching
     set icm=nosplit
+
+    " Enable go-imports when using the NVIM LSP
+    let g:goimports = 1
+
+    " Configure NVIM LSP
+lua << EOF
+
+-- Lua plugins
+
+-- nvim_lsp object
+local nvim_lsp = require'lspconfig'
+
+-- gopls configuration
+nvim_lsp.gopls.setup{
+  settings = {
+    gopls = {
+      gofumpt = true,
+      analyses = {
+        shadow = true,
+        unusedparams = true,
+      },
+      staticcheck = false,
+    }
+  }
+}
+
+---------------------------------------------------------------------
+-- Treesitter
+---------------------------------------------------------------------
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+  },
+}
+EOF
+" Code navigation shortcuts
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+" nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+" nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+" nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
+
+" Set updatetime for CursorHold
+" 300ms of no cursor movement to trigger CursorHold
+" set updatetime=300
+" Show diagnostic popup on cursor hold
+autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+
+" Goto previous/next diagnostic warning/error
+nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+
+" Enable type inlay hints
+autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
+\ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+
+
+" NVIM terminal settings
+" exit terminal mode with (<c-\><c-n>) and move up one window
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-l> <C-\><C-n><C-w>l
+" remap fzf for the above commands
+" au FileType fzf tnoremap <buffer> <C-j> <C-j>
+" au FileType fzf tnoremap <buffer> <C-k> <C-k>
+" au FileType fzf tnoremap <buffer> <C-h> <C-h>
+" au FileType fzf tnoremap <buffer> <C-l> <C-l>
+
+
 endif
 " }}}
 

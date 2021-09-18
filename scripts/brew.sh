@@ -12,14 +12,14 @@ FORMULAS=(
     automake
     coreutils
     ctags
+    fd          # find replacement written in rust
     fzf
     git
     go
-    grip        # github markdown preview
-    httpie
     neovim
     pkg-config
     reattach-to-user-namespace
+    ripgrep     # search files
     sd          # search and displace
     stow
     the_silver_searcher
@@ -32,14 +32,14 @@ FORMULAS=(
 )
 
 CASKS=(
+    1password
     alfred
-    firefox
     google-chrome
+    hammerspoon
     iterm2
     itsycal         # Menubar calendar
-    skitch          # Screenshot tool
-    spectacle       # window snapping
-    vanilla         # Hide menubar icons
+    rectangle       # window snapping
+    spotify
 )
 
 function brewAll() {

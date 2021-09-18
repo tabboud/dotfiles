@@ -13,6 +13,7 @@ Plug 'ervandew/supertab'
 Plug 'tpope/vim-commentary'     " Toggle comments like sublime
 Plug 'airblade/vim-gitgutter'   " Git gutter
 Plug 'tpope/vim-fugitive'       " Git for vim
+Plug 'tpope/vim-rhubarb'        " Adds GH support for vim-fugitive :GBrowse to navigate to a file on GH from vim
 Plug 'ryanoasis/vim-devicons'   " Icons
 Plug 'Raimondi/delimitMate'     " Match parenthesis and quotes
 Plug 'majutsushi/tagbar'        " Tags side bar browser
@@ -25,30 +26,48 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-unimpaired'
 
 " Languages
-Plug 'fatih/vim-go', {'for': ['go']}    " Loads only when editing go code
+" Plug 'fatih/vim-go', {'for': ['go']}    " Loads only when editing go code
+if !has('nvim')         " Not supported in NVIM
+    Plug 'govim/govim', {'for': ['go'], 'branch': 'main'}
+endif
 Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
 Plug 'cespare/vim-toml', {'for': ['toml']}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
-Plug 'autozimu/LanguageClient-neovim', {'branch': 'next','do': 'bash install.sh'}
 
 " Colorthemes
 Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
-Plug 'Lokaltog/vim-monotone'
-Plug 'andreypopp/vim-colors-plain'
 Plug 'fatih/molokai'
 Plug 'rakr/vim-one'
-Plug 'ajgrf/parchment'
 Plug 'chiendo97/intellij.vim'
 Plug 'JaySandhu/xcode-vim'
 Plug 'morhetz/gruvbox'
+Plug 'sonph/onehalf', {'rtp': 'vim'}
 
-" Autocompletion
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'prabirshrestha/async.vim'
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'mattn/vim-lsp-settings'
+" Collection of common configurations for the Nvim LSP client
+if has('nvim')
+    Plug 'neovim/nvim-lspconfig'
 
-" Plug 'Shougo/deoplete.nvim'
-" Plug 'lighttiger2505/deoplete-vim-lsp'
+" Extensions to built-in LSP, for example, providing type inlay hints
+    Plug 'nvim-lua/lsp_extensions.nvim'
+
+" Autocompletion framework for built-in LSP
+    Plug 'nvim-lua/completion-nvim'
+
+    " Add go-imports plugin since nvim LSP with gopls, does not yet support it
+    " ref: https://github.com/neovim/nvim-lspconfig/issues/115
+    Plug 'mattn/vim-goimports', {'for': ['go']}
+
+    " bufferline
+    " Plug 'akinsho/nvim-bufferline.lua'
+    Plug 'liuchengxu/vista.vim'
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+    " nvim-telescope
+    Plug 'nvim-lua/popup.nvim'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
+endif
+
+Plug 'benwainwright/fzf-project'
 
 call plug#end()
