@@ -42,6 +42,7 @@ Plug 'chiendo97/intellij.vim'
 Plug 'JaySandhu/xcode-vim'
 Plug 'morhetz/gruvbox'
 Plug 'sonph/onehalf', {'rtp': 'vim'}
+Plug 'NLKNguyen/papercolor-theme'
 
 " Collection of common configurations for the Nvim LSP client
 if has('nvim')

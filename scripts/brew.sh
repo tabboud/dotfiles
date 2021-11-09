@@ -12,6 +12,7 @@ FORMULAS=(
     automake
     coreutils
     ctags
+    dive        # Analyze docker image layers to reduce the size
     fd          # find replacement written in rust
     fzf
     git
