@@ -79,15 +79,23 @@ function suspended_jobs() {
 }
 
 # Run either gradlew or godelw
-function gd() {
-    # check for gradlew
-    if [ -f "gradlew" ]; then
-        ./gradlew $@
-    elif [ -f "godelw" ]; then
-        ./godelw $@
-    else
-        echo "neither ./gradlew or ./godelw found!"
-    fi
+# function gd() {
+#     # check for gradlew
+#     if [ -f "godelw" ]; then
+#         ./godelw $@
+#     elif [ -f "gradlew" ]; then
+#         ./gradlew $@
+#     else
+#         echo "neither ./gradlew or ./godelw found!"
+#     fi
+# }
+# Run gradlew
+function gra() {
+    ./gradlew $@
+}
+# Run godlew
+function god() {
+    ./godelw $@
 }
 
 # git functions

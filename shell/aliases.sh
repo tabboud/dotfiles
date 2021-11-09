@@ -15,7 +15,7 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
 alias l="ls -lh ${colorflag}"
-alias la="ls -AF ${colorflag}"
+alias la="ls -lAF ${colorflag}"
 alias ll="ls -lFh ${colorflag}"
 alias lld="ls -l | grep ^d"
 alias ltr="ls -ltr ${colorflag}"
@@ -60,8 +60,8 @@ alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && k
 alias ag="ag --pager=less"
 
 # Go to go directory quicker
-alias god='$GOPATH/src/github.com'
-alias godp='$GOPATH/src/github.palantir.build'
+# alias god='$GOPATH/src/github.com'
+# alias godp='$GOPATH/src/github.palantir.build'
 
 # Open the notes directory in the $EDITOR
 alias notes='cd $NOTES && $EDITOR .'
