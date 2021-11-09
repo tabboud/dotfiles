@@ -1,15 +1,11 @@
 export DOTFILES=$HOME/.dotfiles
 export ZSH_DIR=$HOME/.zsh
+export ZSH=$DOTFILES/zsh
 export EDITOR=vim
 export PATH=$HOME/.bin:/usr/local/bin:/usr/local/sbin:$PATH
 
-# oh-my-zsh settings
-export ZSH=$HOME/.oh-my-zsh
-# ZSH_THEME="robbyrussell"
-# bira uses the -> notation, but is missing the git coloring
-# ZSH_THEME="bira"
-DISABLE_AUTO_UPDATE=true
-source $ZSH/oh-my-zsh.sh
+# my zsh settings
+source $ZSH/custom-omz.sh
 
 # History
 HISTFILE=~/.zsh_history

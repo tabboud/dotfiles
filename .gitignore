@@ -6,3 +6,5 @@ vim/.vim/session
 vim/.config/nvim/.netrwhist
 !hammerspoon/.hammerspoon/Spoons/SpoonInstall.spoon/
 hammerspoon/.hammerspoon/Spoons/*
+
+zsh/cache
