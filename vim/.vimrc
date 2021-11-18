@@ -95,6 +95,8 @@ if has('vim_starting')
 endif
 
 " Coloring
+set background=dark
+colorscheme Tomorrow-Night-Eighties
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -106,8 +108,6 @@ set colorcolumn=120         " Draw a vertical line at 120 characters
 syntax sync minlines=256    " start highlighting from 256 lines backwards
 " set re=1                    " use explicit old regexpengine, which seems to be faster
 set re=0                " Use the newer regex engine so syntax highlighting doesn't get messed up
-set background=dark
-colorscheme Tomorrow-Night-Eighties
 set t_Co=256            " Explicitly tell vim that the terminal supports 256 colors
 set number              " show line numbers
 set relativenumber      " show relative line numbers
