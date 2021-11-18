@@ -19,9 +19,9 @@ vg() {
 gocd() {
     local gorepo
 
-    gorepo="$(find $GOPATH/src -type d -maxdepth 3 -mindepth 1 | awk -F/ '{print $(NF-2)"/"$(NF-1)"/"$(NF)}' | fzf -0 -1)"
+    gorepo="$(find $GOPATH/src -type d -maxdepth 3 -mindepth 1 | fzf -d / --with-nth=-2..)"
     if [[ -n $gorepo ]]; then
-        cd $GOPATH/src/$gorepo
+        cd $gorepo
     fi
 }
 
