@@ -26,7 +26,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-unimpaired'
 
 " Languages
-" Plug 'fatih/vim-go', {'for': ['go']}    " Loads only when editing go code
 if !has('nvim')         " Not supported in NVIM
     Plug 'govim/govim', {'for': ['go'], 'branch': 'main'}
 endif
