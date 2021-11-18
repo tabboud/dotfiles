@@ -16,9 +16,7 @@ vg() {
 #
 # Finds all repositories under $GOPATH/src, strips out only the org/repo name and provides selection through fzf.
 # Ctrl-c can be used to cancel the selection.
-gopkg() {
-    # pipe to awk to only retrieve the org/repo for less noise when listing
-    # This only works because the CDPATH contains the search paths below
+gocd() {
     local gorepo
 
     gorepo="$(find $GOPATH/src -type d -maxdepth 3 -mindepth 1 | awk -F/ '{print $(NF-2)"/"$(NF-1)"/"$(NF)}' | fzf -0 -1)"
