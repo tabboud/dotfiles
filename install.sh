@@ -80,7 +80,7 @@ if [[ "$command" == "" ]]; then
   usage
 fi
 
-case "$command" in 
+case "$command" in
   all)
     all
     ;;

@@ -2,7 +2,6 @@
 declare -a COMMON=(
     bash
     bin
-    emacs
     git
     tmux
     vim
@@ -12,10 +11,7 @@ declare -a OSX=(
     hammerspoon
     iterm2
 )
-declare -a LINUX=(
-    openbox
-    tint2
-)
+declare -a LINUX=()
 
 function all() {
     runStow $1 "${COMMON[@]}"
