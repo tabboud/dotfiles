@@ -3,13 +3,10 @@
 ## Contents
 
 Configurations for:
-+ vim
-+ zsh (using oh-my-zsh)
-+ emacs
-+ tmux
 + git
-+ osx
-+ Homebrew files (brew.sh)
++ tmux
++ vim/neovim
++ zsh
 
 ## Install
 
