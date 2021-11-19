@@ -36,7 +36,7 @@ These should be set in the custom config files mentioned above.
 export GHE_ORG="github.company.com"
 
 # Regular GOPATH setting
-# Used as the default search path in `gocd` if `$CODE_DIR` is not set
+# Used as the default search path in `gocd` if `$ROOT_CODE_DIR` is not set
 export GOPATH="/Volumes/git/go"
 
 # Path to the root code directory
