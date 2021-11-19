@@ -29,3 +29,19 @@ Where <command> is one of:
 
 - To remove all linked dotfiles, run the following: `./install.sh uninstall`
 
+
+## Custom Config
+
+```sh
+# Configure the CDPATH to "cd" to places without the full path
+# Example: easily cd to Go repos under "$GOPATH/src/github.com"
+export CDPATH=$CDPATH:$GOPATH/src/github.com
+
+# Env vars used in dotfiles
+
+# Setup the Github Enterprise organization for easy cloning via gh
+export GHE_ORG="github.company.com"
+
+# whitespace separated list of paths to search for Go repos
+export GO_SEARCH_PATHS="$GOPATH/src/github.com $GOPATH/src/github.company.com"
+```
