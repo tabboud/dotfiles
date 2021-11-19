@@ -25,23 +25,30 @@ Where <command> is one of:
 - Git specific settings go in: `~/.gitconfig.local`
 - Shell/exports/env settings go in: `~/.custom.local`
 
+## Environment Variables
+
+The following lays out environment variables used throughout the dotfiles/scripts.
+These should be set in the custom config files mentioned above.
+
+```sh
+# Setup the Github Enterprise organization for easy cloning via gh
+# Used in the `gheclone` function
+export GHE_ORG="github.company.com"
+
+# Regular GOPATH setting
+# Used as the default search path in `gocd` if `$CODE_DIR` is not set
+export GOPATH="/Volumes/git/go"
+
+# Path to the root code directory
+# I generally store all code using the Go GOPATH structure regardless of language
+# Ex:
+#   $ <root_code_dir>/<enterprise>/<org>/<repo>
+#   $ /Volumes/git/go/src/github.com/tabboud/dotfiles
+#
+# If set, used as the main search path in `gocd`
+export ROOT_CODE_DIR="$GOPATH/src"
+```
+
 ## Un-Install
 
 - To remove all linked dotfiles, run the following: `./install.sh uninstall`
-
-
-## Custom Config
-
-```sh
-# Configure the CDPATH to "cd" to places without the full path
-# Example: easily cd to Go repos under "$GOPATH/src/github.com"
-export CDPATH=$CDPATH:$GOPATH/src/github.com
-
-# Env vars used in dotfiles
-
-# Setup the Github Enterprise organization for easy cloning via gh
-export GHE_ORG="github.company.com"
-
-# whitespace separated list of paths to search for Go repos
-export GO_SEARCH_PATHS="$GOPATH/src/github.com $GOPATH/src/github.company.com"
-```

@@ -14,12 +14,14 @@ vg() {
 
 # Cd to a Go repo via fzf.
 #
-# Finds all repositories under $GOPATH/src, strips out only the org/repo name and provides selection through fzf.
+# Finds all repositories under $ROOT_CODE_DIR (if set) or $GOPATH/src, strips out
+# the org/repo name, and provides selection through fzf.
+#
 # Ctrl-c can be used to cancel the selection.
 gocd() {
     local gorepo
 
-    gorepo="$(find $GOPATH/src -type d -maxdepth 3 -mindepth 1 | fzf -d / --with-nth=-2..)"
+    gorepo="$(find "${ROOT_CODE_DIR:-$GOPATH/src}" -type d -maxdepth 3 -mindepth 1 | fzf -d / --with-nth=-2..)"
     if [[ -n $gorepo ]]; then
         cd $gorepo
     fi
