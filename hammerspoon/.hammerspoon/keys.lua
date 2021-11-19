@@ -17,7 +17,7 @@ Keys = {
     ["Slack"] = {{shortcutKey, "s"}},
     ["Messages"] = {{shortcutKey, "m"}},
     ["Microsoft Outlook"] = {{shortcutKey, "o"}},
-    -- ["GoLand"] = {{shortcutKey, "g"}},
+    ["GoLand"] = {{shortcutKey, "g"}},
     ["IntelliJ IDEA Community"] = {{shortcutKey, "0"}},
     ["Quip"] = {{shortcutKey, "q"}},
   },
