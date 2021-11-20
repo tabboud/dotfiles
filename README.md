@@ -35,19 +35,20 @@ These should be set in the custom config files mentioned above.
 # Used in the `gheclone` function
 export GHE_ORG="github.company.com"
 
-# Regular GOPATH setting
-# Used as the default search path in `gocd` if `$ROOT_CODE_DIR` is not set
-export GOPATH="/Volumes/git/go"
-
 # Path to the root code directory
-# I generally store all code using the Go GOPATH structure regardless of language
+# My directory structure for code, regardless of language, follows the GOPATH structure.
 # Ex:
 #   $ <root_code_dir>/<enterprise>/<org>/<repo>
-#   $ /Volumes/git/go/src/github.com/tabboud/dotfiles
+#   $ /Users/tabboud/src/github.com/tabboud/dotfiles
 #
 # If set, used as the main search path in `gocd`
 # Also used in `ghclone` and `gheclone` as the location to clone repos
-export ROOT_CODE_DIR="$GOPATH/src"
+export ROOT_CODE_DIR="$HOME/src"
+
+# Regular GOPATH setting
+# Used as the default search path in `gocd` if `$ROOT_CODE_DIR` is not set
+export GOPATH="$HOME"
+
 ```
 
 ## Un-Install
