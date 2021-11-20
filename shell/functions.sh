@@ -183,7 +183,7 @@ function gheclone() {
         return
     fi
 
-    _internalClone "${GHE_ORG}" $1
+    _internalClone "${GHE_ORG}" "$1"
 }
 
 function ghclone() {
@@ -192,13 +192,14 @@ function ghclone() {
         return
     fi
 
-    _internalClone "github.com" $1
+    _internalClone "github.com" "$1"
 }
 
 function _internalClone() {
     local account=$1
     local repo=$2
-    local dest="${ROOT_CODE_DIR:-$GOPATH/src}/$account/$repo"
+    local codeDir="${ROOT_CODE_DIR:-$GOPATH/src}/$account"
+    local dest="$codeDir/$repo"
 
     # Ensure the repo is not already cloned
     if [ -e "$dest" ]; then
@@ -206,9 +207,13 @@ function _internalClone() {
         return
     fi
 
-    mkdir -p "$dest"
+    # Ensure the root code dir exists before cloning
+    if [ ! -d "$codeDir" ]; then
+        local colorYellow='\033[1;33m'
+        local colorNone='\033[0m'
+        echo -e "${colorYellow}Creating $codeDir since it does not exist${colorNone}"
+        mkdir -p "$codeDir"
+    fi
 
-    git clone git@$account:$repo $dest
-
-    cd $dest
+    git clone git@"$account":"$repo" "$dest" && cd "$dest"
 }
