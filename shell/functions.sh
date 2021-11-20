@@ -167,8 +167,12 @@ function etmp() {
 
 
 # gheclone will run git clone from anywhere on the system
-# and put it into the GOPATH structure.
-# The env GHE_ORG must be set to use ghe clone
+# from the configured $GHE_ORG and place the repo in the following locatioins:
+#   - "$ROOT_CODE_DIR/$GHE_ORG/repo"
+#   - "$GOPATH/src/$GHE_ORG/repo" (if $ROOT_CODE_DIR is not set)
+#
+# The env GHE_ORG must be set to use ghe clone.
+# If cloning from public github.com, use `ghclone` instead
 #
 # Alternatively:
 # gheclone <ghe-org>/repo
@@ -194,7 +198,7 @@ function ghclone() {
 function _internalClone() {
     local account=$1
     local repo=$2
-    local dest="/Volumes/git/go/src/$account/$repo"
+    local dest="${ROOT_CODE_DIR:-$GOPATH/src}/$account/$repo"
 
     # Ensure the repo is not already cloned
     if [ -e "$dest" ]; then
