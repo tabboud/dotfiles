@@ -46,6 +46,7 @@ export GOPATH="/Volumes/git/go"
 #   $ /Volumes/git/go/src/github.com/tabboud/dotfiles
 #
 # If set, used as the main search path in `gocd`
+# Also used in `ghclone` and `gheclone` as the location to clone repos
 export ROOT_CODE_DIR="$GOPATH/src"
 ```
 
