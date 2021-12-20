@@ -323,7 +323,14 @@ function! RipgrepFzf(query, fullscreen)
   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 
-command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+" command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+" Allow passing optional flags into the Rg command.
+"   Example: :Rg myterm -g '*.md'
+command! -bang -nargs=* RG
+  \ call fzf#vim#grep(
+  \ "rg --column --line-number --no-heading --color=always --smart-case " .
+  \ <q-args>, 1, fzf#vim#with_preview(), <bang>0)
+
 " Vim Startify
 " set the session directory
 let g:startify_session_dir = '$HOME/.vim/session'
@@ -536,25 +543,37 @@ autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
 nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
-" Enable type inlay hints
-autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
-\ lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
-
-
-" NVIM terminal settings
-" exit terminal mode with (<c-\><c-n>) and move up one window
-tnoremap <C-j> <C-\><C-n><C-w>j
-tnoremap <C-k> <C-\><C-n><C-w>k
-tnoremap <C-h> <C-\><C-n><C-w>h
-tnoremap <C-l> <C-\><C-n><C-w>l
-" remap fzf for the above commands
-" au FileType fzf tnoremap <buffer> <C-j> <C-j>
-" au FileType fzf tnoremap <buffer> <C-k> <C-k>
-" au FileType fzf tnoremap <buffer> <C-h> <C-h>
-" au FileType fzf tnoremap <buffer> <C-l> <C-l>
-
-
 endif
+
+" Go specific settings
+source $HOME/.vim/go/alternate.vim
+source $HOME/.vim/go/textobj.vim
+source $HOME/.vim/go/tags.vim
+source $HOME/.vim/go/util.vim
+source $HOME/.vim/go/path.vim
+source $HOME/.vim/go/config.vim
+source $HOME/.vim/go/fillstruct.vim
+source $HOME/.vim/go/cmd.vim
+" source $HOME/.vim/go/statusline.vim
+source $HOME/.vim/go/tool.vim
+source $HOME/.vim/go/list.vim
+source $HOME/.vim/go/fillstruct.vim
+" Automatically fill the fields of a struct
+command! -nargs=0 GoFillStruct call go#fillstruct#FillStruct()
+" Jump to/from a Go source and test file
+command! -nargs=0 GoAlt call go#alternate#Switch(0, '')
+
+" setup ]] and [[ to jump between functions in Go
+  " Remap ]] and [[ to jump betweeen functions as they are useless in Go
+  nnoremap <buffer> <silent> ]] :<c-u>call go#textobj#FunctionJump('n', 'next')<cr>
+  nnoremap <buffer> <silent> [[ :<c-u>call go#textobj#FunctionJump('n', 'prev')<cr>
+
+  onoremap <buffer> <silent> ]] :<c-u>call go#textobj#FunctionJump('o', 'next')<cr>
+  onoremap <buffer> <silent> [[ :<c-u>call go#textobj#FunctionJump('o', 'prev')<cr>
+
+  xnoremap <buffer> <silent> ]] :<c-u>call go#textobj#FunctionJump('v', 'next')<cr>
+  xnoremap <buffer> <silent> [[ :<c-u>call go#textobj#FunctionJump('v', 'prev')<cr>
+
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
