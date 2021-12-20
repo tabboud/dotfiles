@@ -126,7 +126,7 @@ set cursorcolumn
 " where there are quickfix errors. Some users who already show line number
 " might prefer to instead have the signs shown in the number column; in which
 " case set signcolumn=number
-set signcolumn=yes
+set signcolumn="auto:9"     " draw signcolumn when there are signs to display and resize to largest width
 
 " }}}
 
@@ -339,6 +339,9 @@ let NERDTreeShowHidden=1
 nmap <silent> <leader>k :NERDTreeToggle<cr>
 " Find current file
 nmap <silent> <leader>f :NERDTreeFind<cr>
+" Close NERDTree if it's the last window open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
 
 " Auto track the current buffer in NERDTree
 function! AutoNTFinder()
@@ -504,37 +507,13 @@ if (has("nvim"))
     " Enable go-imports when using the NVIM LSP
     let g:goimports = 1
 
-    " Configure NVIM LSP
+    " Configure and use Neovim lua plugins/settings
+    " See the cooresponding files in $HOME/.config/nvim/lua
 lua << EOF
-
--- Lua plugins
-
--- nvim_lsp object
-local nvim_lsp = require'lspconfig'
-
--- gopls configuration
-nvim_lsp.gopls.setup{
-  settings = {
-    gopls = {
-      gofumpt = true,
-      analyses = {
-        shadow = true,
-        unusedparams = true,
-      },
-      staticcheck = false,
-    }
-  }
-}
-
----------------------------------------------------------------------
--- Treesitter
----------------------------------------------------------------------
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-  },
-}
+    require("plugins/cmp")
+    require("plugins/lspconfig")
 EOF
+
 " Code navigation shortcuts
 nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>

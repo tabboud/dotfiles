@@ -29,6 +29,7 @@ Plug 'tpope/vim-unimpaired'
 if !has('nvim')         " Not supported in NVIM
     Plug 'govim/govim', {'for': ['go'], 'branch': 'main'}
 endif
+Plug 'mattn/vim-goimpl'     " Generate interface implementations for Go
 Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
 Plug 'cespare/vim-toml', {'for': ['toml']}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
@@ -51,7 +52,6 @@ if has('nvim')
     Plug 'nvim-lua/lsp_extensions.nvim'
 
 " Autocompletion framework for built-in LSP
-    Plug 'nvim-lua/completion-nvim'
 
     " Add go-imports plugin since nvim LSP with gopls, does not yet support it
     " ref: https://github.com/neovim/nvim-lspconfig/issues/115
@@ -59,13 +59,20 @@ if has('nvim')
 
     " bufferline
     " Plug 'akinsho/nvim-bufferline.lua'
-    Plug 'liuchengxu/vista.vim'
+
+    " snippets
+    Plug 'hrsh7th/vim-vsnip'
+    Plug 'hrsh7th/vim-vsnip-integ'
+
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
-    " nvim-telescope
-    Plug 'nvim-lua/popup.nvim'
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-telescope/telescope.nvim'
+    " Auto-complete with nvim-cmp
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'hrsh7th/nvim-cmp'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/cmp-buffer'
+    Plug 'hrsh7th/cmp-path'
+    Plug 'hrsh7th/cmp-cmdline'
 endif
 
 Plug 'benwainwright/fzf-project'
