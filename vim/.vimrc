@@ -1,59 +1,48 @@
 source $HOME/.vim/plugins.vim
 
 " Section General {{{
-set nocompatible    " not compatible with vi
-set autoread        " detect when a file is changed
-
-" make backspace behave in a sane manner
-set backspace=indent,eol,start
-
-set history=100     " change history to 100
+set nocompatible
+set autoread                    " detect when a file is changed
+set backspace=indent,eol,start  " make backspace behave in a sane manner
+set history=100
 set textwidth=120
 
 " }}}
 
 " Section User Interface {{{
-
-" Tab control
 set tabstop=4       " the visible width of tabs
 set softtabstop=4   " edit as if the tabs are 4 characters wide
 set shiftwidth=4    " number of spaces to use for indent and unindent
 set expandtab
 
-" Enable the mouse
 if has('mouse')
     set mouse=a
 endif
-if !has('nvim')         " Not supported in NVIM
+if !has('nvim')
     set ttymouse=sgr    " Set ttymouse to get hover working in the terminal
     set balloondelay=250
 endif
 
-" Use the system clipboard
-set clipboard=unnamed
-
-" faster redrawing
-set ttyfast
 
 " toggle invisible characters
 set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
-" make the highlighting of tabs and other non-text less annoying
 highlight SpecialKey ctermbg=none ctermfg=8
 highlight NonText ctermbg=none ctermfg=8
-" highlight conflicts
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'    " highlight conflicts
 " Highlight red when over the length
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 match OverLength /\%91v.\+/
 set showbreak=↪
 
 " code folding settings
-set foldmethod=indent " fold based on indent
+set foldmethod=indent   " fold based on indent
 set foldcolumn=1
-set foldnestmax=10 " deepest fold is 10 levels
-set nofoldenable " don't fold by default
+set foldnestmax=10      " deepest fold is 10 levels
+set nofoldenable        " don't fold by default
 set foldlevel=99
 
+set clipboard=unnamed
+set ttyfast         " faster redrawing
 set scrolloff=8     " set 8 lines to the cursors - when moving vertical
 set wildmenu        " enhanced command line completion
 set hidden          " current buffer can be put into background
@@ -65,30 +54,23 @@ set cmdheight=1     " command bar height
 set ruler           " show the cursor position all the time
 set nomodeline      " disable to prevent errors on certain text (vim:, ex:, ...)
 set title           " set terminal title
+set noerrorbells
+set visualbell
+set tm=500
 set lazyredraw      " don't redraw while executing macros
-set wildmode=list:longest " complete files like a shell
-set completeopt+=longest,noinsert " noinsert forces the autocomplete to not fill the first argument
-" set completeopt=longest,menuone
+set wildmode=list:longest           " complete files like a shell
+set completeopt+=longest,noinsert   " noinsert forces the autocomplete to not fill the first argument
 " Suggestion: show info for completion candidates in a popup menu
 if has("patch-8.1.1904")
-  " set completeopt+=popup
-    set completeopt+=popup,longest,menuone
-  " set completepopup=align:menu,border:off,highlight:Pmenu
+    set completeopt+=popup,menuone
 endif
 
-" Searching
 set ignorecase      " case insensitive searching
 set smartcase       " case-sensitive, if expresson contains a capital letter
 set incsearch       " set incremental search, like modern browsers
 set hlsearch
-
 set showmatch       " show matching braces
 set mat=2           " how many tenths of a second to blink
-
-" error bells
-set noerrorbells
-set visualbell
-set tm=500
 
 if has('vim_starting')
     set encoding=utf-8
@@ -100,13 +82,25 @@ if exists('+termguicolors')
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
+" The BAT_THEME is used in coloring the fzf preview window.
+" Trigger the change if colorscheme is called (must come before our colorscheme below)
+augroup update_bat_theme
+    autocmd!
+    autocmd colorscheme * call ToggleBatEnvVar()
+augroup end
+function ToggleBatEnvVar()
+    if (&background == "light")
+        let $BAT_THEME='gruvbox-light'
+    else
+        let $BAT_THEME=''
+    endif
+endfunction
 set background=light
 colorscheme intellij
 
 set synmaxcol=120           " disable  syntax highlighting after 120 columns
 set colorcolumn=120         " Draw a vertical line at 120 characters
 syntax sync minlines=256    " start highlighting from 256 lines backwards
-" set re=1                    " use explicit old regexpengine, which seems to be faster
 set re=0                " Use the newer regex engine so syntax highlighting doesn't get messed up
 set t_Co=256            " Explicitly tell vim that the terminal supports 256 colors
 set number              " show line numbers
@@ -119,14 +113,14 @@ set nobackup
 set nowritebackup
 set noswapfile
 set laststatus=2        " show the satus line all the time
-set updatetime=500     " wait 2 seconds before updating (this is for gitgutter and govim)
+set updatetime=100     " wait 2 seconds before updating (this is for gitgutter and govim)
 set cursorline
 set cursorcolumn
 " Suggestion: Turn on the sign column so you can see error marks on lines
 " where there are quickfix errors. Some users who already show line number
 " might prefer to instead have the signs shown in the number column; in which
-" case set signcolumn=number
-set signcolumn="auto:9"     " draw signcolumn when there are signs to display and resize to largest width
+" set signcolumn=number
+set signcolumn=auto:2-9     " draw signcolumn when there are signs to display and resize to largest width
 
 " }}}
 
@@ -140,34 +134,17 @@ iabbrev todo // TODO(tabboud):
 let mapleader = "\<Space>"
 let g:mapleader = "\<Space>"
 
-" remap esc
 inoremap kj <esc>
 
-" Stop the window from popping up
-map q: :q
-
-" toggle paste mode
-map <leader>v :set paste!<cr>
-
-" Copy the entire buffer
-map <Leader>a :%y+<CR>
-
-" shortcut to save
+map <leader>v :set paste!<cr>   " toggle paste mode
+map <Leader>a :%y+<CR>          " Copy the entire buffer
 nmap <leader>w :w<cr>
-
-" shortcut to quit
 nmap <leader>q :q<cr>
+map q: :q                       " Stop the window from popping up
+noremap Q <NOP>     " disable Ex mode
 
-" disable Ex mode
-noremap Q <NOP>
-
-" Toggle invisible characters
 nmap <leader>l :set list!<cr>
-
-" Toggle wrapping
 nmap <leader>n :set nowrap!<cr>
-
-" Toggle comments (must highlight first)
 map <leader>/ :Commentary<cr>
 
 " Insert current time as a markdown header
@@ -240,11 +217,8 @@ augroup configgroup
 
     " automatically resize panes on resize
     autocmd VimResized * exe 'normal! \<c-w>='
-    " autocmd BufWritePost .vimrc,.vimrc.local,init.vim source %
-
     autocmd BufNewFile,BufReadPost *.md set filetype=markdown
     autocmd FileType *.md setlocal ts=2 sts=2 sw=2 expandtab cuc
-
     autocmd BufNewFile,BufRead,BufWrite *.md syntax match Comment /\%^---\_.\{-}---$/
 
 augroup END
@@ -264,12 +238,12 @@ augroup vimrcEx
                 \ endif
 augroup END
 
-" Insert a ✓ with leader-t only in Markdown files
-autocmd FileType markdown nnoremap <buffer> <leader>t i<C-k>OK<Esc>
-
-" Set the right tab settings and cursorcolumn for yml files
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab cuc
-autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab cuc
+augroup ymlConfig
+    autocmd!
+    " Set the right tab settings and cursorcolumn for yml files
+    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab cuc
+    autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab cuc
+augroup END
 
 " }}}
 
@@ -304,14 +278,6 @@ endfunction
 vnoremap * :<c-u>call <sid>vsetsearch()<cr>//<cr><c-o>
 vnoremap # :<c-u>call <sid>vsetsearch()<cr>??<cr><c-o>
 
-" create a go doc comment based on the word under the cursor
-function! s:create_go_doc_comment()
-  norm "zyiw
-  execute ":put! z"
-  execute ":norm I// \<Esc>$"
-endfunction
-nnoremap <leader>ui :<C-u>call <SID>create_go_doc_comment()<CR>
-
 " }}}
 
 " Section Plugins {{{
@@ -331,20 +297,12 @@ command! -bang -nargs=* RG
   \ "rg --column --line-number --no-heading --color=always --smart-case " .
   \ <q-args>, 1, fzf#vim#with_preview(), <bang>0)
 
-" Vim Startify
-" set the session directory
-let g:startify_session_dir = '$HOME/.vim/session'
-" Don't run Startify at vim startup time (use :Startify to enter)
-let g:startify_disable_at_vimenter = 1
-
 " Vim-Bufkill
 map <C-c> :BD<cr>
 
 " NERDTree Settings
 let NERDTreeShowHidden=1
-" Toggle NERDTree
 nmap <silent> <leader>k :NERDTreeToggle<cr>
-" Find current file
 nmap <silent> <leader>f :NERDTreeFind<cr>
 " Close NERDTree if it's the last window open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -365,6 +323,7 @@ function! AutoNTFinder()
         execute l:winnr . 'wincmd w'
     endif
 endfunction
+" autocmd BufEnter * call AutoNTFinder()
 
 " Toggle NERDTree window position
 function! ToggleNERDTreeWinPos()
@@ -377,16 +336,11 @@ function! ToggleNERDTreeWinPos()
 endfunction
 nnoremap <leader>c :call ToggleNERDTreeWinPos()<CR>
 
-" Disabled auto finding
-" autocmd BufEnter * call AutoNTFinder()
-
 let g:SuperTabCrMapping = 0
 
 " Tagbar Settings
 let g:tagbar_ctags_bin='/usr/local/Cellar/ctags/5.8_2/bin/ctags'  " Set the path for exhuberant_ctags
-" Toggle TagBar
 nmap <silent> <leader>d :TagbarToggle<cr>
-
 " Tagbar settings for go
 let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',
@@ -418,72 +372,22 @@ let g:tagbar_type_go = {
 
 " FZF Settings
 " Launch fzf in a terminal buffer
-let g:fzf_layout = { 'down': '~25%' }
+" let g:fzf_layout = { 'down': '~25%' }
 " Use the following to launch fzf in a popup window
-" let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
 " custom :GFiles call to ignore the vendor directory
 command! MyGFiles call fzf#run(fzf#wrap({'source': 'git ls-files --exclude-standard --cached --others | grep -v vendor/'}))
 nmap <silent> <leader>p :MyGFiles<cr>
-" nmap <silent> <leader>p :GFiles<cr>
-
 nmap <silent> <leader>r :Buffers<cr>
-
-" Insert mode completion
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
-" imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 imap <c-x><c-l> <plug>(fzf-complete-line)
-
-" Augmenting Ag command using fzf#vim#with_preview function
-"   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
-"   * Preview script requires Ruby
-"   * Install Highlight or CodeRay to enable syntax highlighting
-"
-"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
-"   :Ag! - Start fzf in fullscreen and display the preview window above
-autocmd VimEnter * command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>,
-  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \                 <bang>0)
 
 " lightline configs
 let g:lightline = {
     \ 'colorscheme': 'jellybeans',
     \ }
-
-
-" LanguageClient-Neovim Settings
-  let g:LanguageClient_serverCommands = {
-        \ 'go': ['gopls'],
-        \ 'gomod': ['gopls'],
-        \ }
-  nmap <silent>mn                 <Plug>(lcn-menu)
-  " nmap <silent>K            :call <SID>show_documentation()<CR>
-  nmap <silent>R            <Plug>(lcn-rename)
-  nmap <silent>E            <Plug>(lcn-explain-error)
-  nmap <silent>gd           <Plug>(lcn-definition)
-  nmap <silent>gr           <Plug>(lcn-references)
-  nmap <silent>gi           <Plug>(lcn-implementation)
-  nmap <silent>ga           <Plug>(lcn-code-action)
-  vmap <silent>ga           <Plug>(lcn-code-action)
-  nmap <silent>gl           <Plug>(lcn-code-lens-action)
-  nmap <silent>,.           <Plug>(lcn-symbols)
-  nmap <silent>F            <Plug>(lcn-format-sync)
-  nmap <silent><c-s><c-s>   <Plug>(lcn-highlight)
-  " nmap <c-]>        <Plug>(lcn-diagnostics-next)
-  " nmap <c-[>        <Plug>(lcn-diagnostics-prev)
-
-
-" Deoplete
-if has('nvim')
-    let g:deoplete#enable_at_startup = 0
-endif
-
-" fzf-project config
-let g:fzfSwitchProjectWorkspaces = [ '$GOPATH/src']
-let g:fzfSwitchProjectProjectDepth = 3
 
 " }}}
 
@@ -519,29 +423,8 @@ if (has("nvim"))
 lua << EOF
     require("plugins/cmp")
     require("plugins/lspconfig")
+    require("plugins/lspfuzzy")
 EOF
-
-" Code navigation shortcuts
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-" nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-" nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-" nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
-
-" Set updatetime for CursorHold
-" 300ms of no cursor movement to trigger CursorHold
-" set updatetime=300
-" Show diagnostic popup on cursor hold
-autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
-
-" Goto previous/next diagnostic warning/error
-nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
 endif
 
@@ -558,21 +441,19 @@ source $HOME/.vim/go/cmd.vim
 source $HOME/.vim/go/tool.vim
 source $HOME/.vim/go/list.vim
 source $HOME/.vim/go/fillstruct.vim
-" Automatically fill the fields of a struct
 command! -nargs=0 GoFillStruct call go#fillstruct#FillStruct()
-" Jump to/from a Go source and test file
 command! -nargs=0 GoAlt call go#alternate#Switch(0, '')
 
 " setup ]] and [[ to jump between functions in Go
-  " Remap ]] and [[ to jump betweeen functions as they are useless in Go
-  nnoremap <buffer> <silent> ]] :<c-u>call go#textobj#FunctionJump('n', 'next')<cr>
-  nnoremap <buffer> <silent> [[ :<c-u>call go#textobj#FunctionJump('n', 'prev')<cr>
+" Remap ]] and [[ to jump betweeen functions as they are useless in Go
+" nnoremap <buffer> <silent> ]] :<c-u>call go#textobj#FunctionJump('n', 'next')<cr>
+" nnoremap <buffer> <silent> [[ :<c-u>call go#textobj#FunctionJump('n', 'prev')<cr>
 
-  onoremap <buffer> <silent> ]] :<c-u>call go#textobj#FunctionJump('o', 'next')<cr>
-  onoremap <buffer> <silent> [[ :<c-u>call go#textobj#FunctionJump('o', 'prev')<cr>
+" onoremap <buffer> <silent> ]] :<c-u>call go#textobj#FunctionJump('o', 'next')<cr>
+" onoremap <buffer> <silent> [[ :<c-u>call go#textobj#FunctionJump('o', 'prev')<cr>
 
-  xnoremap <buffer> <silent> ]] :<c-u>call go#textobj#FunctionJump('v', 'next')<cr>
-  xnoremap <buffer> <silent> [[ :<c-u>call go#textobj#FunctionJump('v', 'prev')<cr>
+" xnoremap <buffer> <silent> ]] :<c-u>call go#textobj#FunctionJump('v', 'next')<cr>
+" xnoremap <buffer> <silent> [[ :<c-u>call go#textobj#FunctionJump('v', 'prev')<cr>
 
 " }}}
 
