@@ -16,6 +16,7 @@ FORMULAS=(
     fd          # find replacement written in rust
     fzf
     git
+    git-delta   # syntax highlighting pager for git, diff and grep
     go
     neovim
     pkg-config
