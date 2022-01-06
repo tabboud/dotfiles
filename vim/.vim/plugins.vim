@@ -30,9 +30,9 @@ Plug 'rust-lang/rust.vim', {'for': ['rust']}
 
 " Colorthemes
 Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
-Plug 'fatih/molokai'
 Plug 'chiendo97/intellij.vim'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'EdenEast/nightfox.nvim', {'branch': 'main'}
 
 if has('nvim')
     " Add go-imports plugin since nvim LSP with gopls, does not yet support it
