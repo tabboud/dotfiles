@@ -39,3 +39,13 @@ tm() {
   fi
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
 }
+
+# Delete git branches.
+#
+# Select all branches to be deleted locally via <tab>.
+gdel() {
+  local branches branch
+  branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
+  branch=$(echo "$branches" | fzf --multi ) &&
+  git branch -D $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
