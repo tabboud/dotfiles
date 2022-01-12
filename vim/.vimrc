@@ -115,12 +115,13 @@ set noswapfile
 set laststatus=2        " show the satus line all the time
 set updatetime=100     " wait 2 seconds before updating (this is for gitgutter and govim)
 set cursorline
-set cursorcolumn
+" set cursorcolumn
 " Suggestion: Turn on the sign column so you can see error marks on lines
 " where there are quickfix errors. Some users who already show line number
 " might prefer to instead have the signs shown in the number column; in which
 " set signcolumn=number
-set signcolumn=auto:2-9     " draw signcolumn when there are signs to display and resize to largest width
+" set signcolumn=auto:2-9     " draw signcolumn when there are signs to display and resize to largest width
+set signcolumn=auto
 
 " }}}
 
