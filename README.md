@@ -22,8 +22,9 @@ Where <command> is one of:
 
 ## Custom Settings
 
-- Git specific settings go in: `~/.gitconfig.local`
-- Shell/exports/env settings go in: `~/.custom.local`
+- Git specific settings go in: `$HOME/.gitconfig.local`
+- Shell/exports/env settings go in: `$HOME/.custom.local`
+- Tmux settings go in: `$HOME/.tmux.local`
 
 ## Environment Variables
 

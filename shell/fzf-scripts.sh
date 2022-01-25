@@ -21,7 +21,7 @@ vg() {
 gocd() {
     local gorepo
 
-    gorepo="$(find "${ROOT_CODE_DIR:-$GOPATH/src}" -type d -maxdepth 3 -mindepth 1 | fzf -d / --with-nth=-2..)"
+    gorepo="$(find "${ROOT_CODE_DIR:-$GOPATH/src}" -maxdepth 3 -mindepth 1 -type d | fzf -d / --with-nth=-2..)"
     if [[ -n $gorepo ]]; then
         cd $gorepo
     fi
