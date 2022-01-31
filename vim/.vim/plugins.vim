@@ -25,7 +25,7 @@ Plug 'junegunn/fzf.vim'
 " Languages
 Plug 'mattn/vim-goimpl'     " Generate interface implementations for Go
 Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
-Plug 'cespare/vim-toml', {'for': ['toml']}
+Plug 'cespare/vim-toml', {'for': ['toml'], 'branch': 'main'}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
 
 " Colorthemes
