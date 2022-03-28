@@ -1,0 +1,180 @@
+#!/usr/bin/env bash
+
+# gvm is a simple Go version manager.
+#
+# gvm supports installing, removing, listing, and linking go versions.
+# Users should update their $PATH to include $HOME/.gvm/go/bin
+set -euo pipefail
+
+GVM_ROOT="$HOME/.gvm"
+GVM_GO="$GVM_ROOT/go"
+GO_DL_BASE="https://go.dev/dl"
+
+############################################
+# Determine the host OS-Arch
+############################################
+OS=""
+ARCH=""
+case "$(uname)-$(uname -m)" in
+    Darwin-x86_64)
+        OS=darwin
+        ARCH=amd64
+        ;;
+    Darwin-arm64)
+        OS=darwin
+        ARCH=arm64
+        ;;
+    Linux-x86_64)
+        OS=linux
+        ARCH=amd64
+        ;;
+    Linux-aarch64)
+        OS=linux
+        ARCH=arm64
+        ;;
+    *)
+        echo "Unsupported OS-Arch: $(uname)-$(uname -m)"
+        exit 1
+        ;;
+esac
+
+############################################
+# Ensure .gvm directory structure is setup
+############################################
+if [[ ! -d "$GVM_ROOT" ]]; then
+    printf "Setting up %s directory for Go version management\n" "$GVM_ROOT"
+    mkdir -p "$GVM_ROOT"
+fi
+
+############################################
+# Command implementations
+############################################
+function list() {
+    ls -1 "$GVM_ROOT" | grep -v "go"
+}
+
+# install downloads the tgz for the specified version of Go and
+# expands the tgz into a new version specific directory.
+# The new directory will of the form: "$GVM_ROOT/<go-version>"
+#   Ex: /home/foo/.gvm/1.17.8
+function install() {
+    local version=$1
+    if [[ -d "$GVM_ROOT/$version" ]]; then
+        printf "Go version is already installed\n"
+        return
+    fi
+
+    GO_TGZ_URL=$(printf "%s/go%s.%s-%s.tar.gz" "$GO_DL_BASE" "$version" "$OS" "$ARCH")
+
+    # Ensure version exists
+    # HTTP exit code 22 is returned for 4xx errors using curl, so we gate the version
+    # existence on whether the download link exists.
+    if ! curl -sL --head "$GO_TGZ_URL" &> /dev/null; then
+        printf "Go %s does not exist upstream" "$version"
+    fi
+
+    printf "Installing go%s from %s ...\n" "$version" "$GO_DL_BASE"
+    TMP_DIR=$(mktemp -d)
+    curl -sL "$GO_TGZ_URL" | tar xzf - -C "${TMP_DIR}"
+    mv "$TMP_DIR/go" "$GVM_ROOT/$version"
+
+    printf "Go %s installed!\n" "$version"
+    printf "To use this version run: gvm use %s\n" "$version"
+}
+
+# uninstall removes the provided Go version from the host system.
+function uninstall() {
+    local version=$1
+    if [[ ! -d "$GVM_ROOT/$version" ]]; then
+        printf "Go version is not installed...nothing to do\n"
+        return
+    fi
+
+    link=$(readlink "$GVM_GO")
+    if [[ "$link" == "$GVM_ROOT/$version" ]]; then
+        printf "WARN: Attempting to uninstall the currently configured Go version\n"
+    fi
+
+    read -rp "WARN: Are you sure you want to uninstall Go $version [y/N]? " yn
+    if [[ "$yn" == "Y" || "$yn" == "y" ]]; then
+        printf "Uninstalling Go %s\n" "$version"
+        rm -rf "${GVM_ROOT:?"GVM_ROOT cannot be empty to protect removing /"}/$version"
+        return
+    fi
+    printf "Skipping uninstall\n"
+}
+
+# use sets up symlinks to make the provided Go version the current distribution.
+function use() {
+    local version=$1
+    if [[ ! -d "$GVM_ROOT/$version" ]]; then
+        printf "Go version is not installed...nothing to do\n"
+        return
+    fi
+    printf "Updating the current Go version symlink\n"
+    rm -f "$GVM_GO"
+    ln -sf "$GVM_ROOT/$version" "$GVM_GO"
+}
+
+# latest fetches the latest stable Go releses and prints them to stdout.
+function latest() {
+    if ! command -v jq &> /dev/null; then
+        printf "ERROR: jq must be installed to fetch the latest Go versions\n"
+        return
+    fi
+    curl -sL "https://golang.org/dl/?mode=json" | jq -c '.[].version'
+}
+
+############################################
+# Parse command inputs and delegate commands.
+############################################
+function usage() {
+cat<<EOD
+Go Version Manager
+Usage: gvm <command>
+
+Commands:
+    list                -- List all installed Go versions       (Ex: gvm list)
+    latest              -- Fetch the latest stable Go versions  (Ex: gvm latest)
+    install <version>   -- Install the specified Go version     (Ex: gvm install 1.18)
+    uninstall <version> -- Uninstall the specified Go version   (Ex: gvm uninstall 1.18)
+    use <version>       -- Make the specified Go version the current version (updates symlinks)
+EOD
+  exit 1
+}
+
+
+if [[ "$#" == "0" ]]; then
+  usage
+fi
+
+command="$1"
+if [[ "$command" == "" ]]; then
+  echo "first argument must be a command"
+  usage
+fi
+
+case "$command" in
+  list)
+    list
+    ;;
+  install)
+    version=${2:?"ERROR: Go version must be specified"}
+    install "$version"
+    ;;
+  uninstall)
+    version=${2:?"ERROR: Go version must be specified"}
+    uninstall "$version"
+    ;;
+  use)
+    version=${2:?"ERROR: Go version must be specified"}
+    use "$version"
+    ;;
+  latest)
+    latest
+    ;;
+  *)
+    usage
+    ;;
+esac
+
