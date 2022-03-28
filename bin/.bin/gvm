@@ -11,6 +11,31 @@ GVM_GO="$GVM_ROOT/go"
 GO_DL_BASE="https://go.dev/dl"
 
 ############################################
+# Coloring/Logging for terminal output
+############################################
+RED=$(tput setaf 1)
+YELLOW=$(tput setaf 3)
+GREEN=$(tput setaf 2)
+NORMAL=$(tput sgr0)
+
+# success/info/error/warn {{{
+function msg() {
+    printf '%b\n' "$1" >&2
+}
+
+function success() {
+    msg "${GREEN}[✔]${NORMAL} ${1}"
+}
+
+function info() {
+    msg "${YELLOW}[➭]${NORMAL} ${1}"
+}
+
+function error() {
+    msg "${RED}[✘]${NORMAL} ${1}"
+}
+
+############################################
 # Determine the host OS-Arch
 ############################################
 OS=""
@@ -33,7 +58,7 @@ case "$(uname)-$(uname -m)" in
         ARCH=arm64
         ;;
     *)
-        echo "Unsupported OS-Arch: $(uname)-$(uname -m)"
+        error "Unsupported OS-Arch: $(uname)-$(uname -m)"
         exit 1
         ;;
 esac
@@ -42,7 +67,7 @@ esac
 # Ensure .gvm directory structure is setup
 ############################################
 if [[ ! -d "$GVM_ROOT" ]]; then
-    printf "Setting up %s directory for Go version management\n" "$GVM_ROOT"
+    info "Setting up %s directory for Go version management" "$GVM_ROOT"
     mkdir -p "$GVM_ROOT"
 fi
 
@@ -60,7 +85,7 @@ function list() {
 function install() {
     local version=$1
     if [[ -d "$GVM_ROOT/$version" ]]; then
-        printf "Go version is already installed\n"
+        info "Go $version is already installed"
         return
     fi
 
@@ -70,56 +95,72 @@ function install() {
     # HTTP exit code 22 is returned for 4xx errors using curl, so we gate the version
     # existence on whether the download link exists.
     if ! curl -sL --head "$GO_TGZ_URL" &> /dev/null; then
-        printf "Go %s does not exist upstream" "$version"
+        error "Go $version does not exist upstream"
     fi
 
-    printf "Installing go%s from %s ...\n" "$version" "$GO_DL_BASE"
+    info "Installing Go $version from $GO_DL_BASE ..."
     TMP_DIR=$(mktemp -d)
     curl -sL "$GO_TGZ_URL" | tar xzf - -C "${TMP_DIR}"
     mv "$TMP_DIR/go" "$GVM_ROOT/$version"
 
-    printf "Go %s installed!\n" "$version"
-    printf "To use this version run: gvm use %s\n" "$version"
+
+    success "Go $version installed!"
+    info "To use this version run: gvm use $version"
 }
 
 # uninstall removes the provided Go version from the host system.
 function uninstall() {
     local version=$1
     if [[ ! -d "$GVM_ROOT/$version" ]]; then
-        printf "Go version is not installed...nothing to do\n"
+        info "Go $version is not installed"
         return
     fi
 
-    link=$(readlink "$GVM_GO")
-    if [[ "$link" == "$GVM_ROOT/$version" ]]; then
-        printf "WARN: Attempting to uninstall the currently configured Go version\n"
+    if [[ -L "$GVM_GO" ]]; then
+        link=$(readlink "$GVM_GO")
+        if [[ "$link" == "$GVM_ROOT/$version" ]]; then
+            info "WARNING: Attempting to uninstall the currently configured Go version"
+        fi
     fi
 
     read -rp "WARN: Are you sure you want to uninstall Go $version [y/N]? " yn
     if [[ "$yn" == "Y" || "$yn" == "y" ]]; then
-        printf "Uninstalling Go %s\n" "$version"
+        info "Uninstalling Go $version..."
         rm -rf "${GVM_ROOT:?"GVM_ROOT cannot be empty to protect removing /"}/$version"
+        success "Go $version uninstalled!"
         return
     fi
-    printf "Skipping uninstall\n"
+    info "Skipping uninstall"
 }
 
 # use sets up symlinks to make the provided Go version the current distribution.
 function use() {
     local version=$1
     if [[ ! -d "$GVM_ROOT/$version" ]]; then
-        printf "Go version is not installed...nothing to do\n"
+        info "Go $version is not installed"
+        info "To install Go $version run: gvm install $version"
         return
     fi
-    printf "Updating the current Go version symlink\n"
+
+    # Check the current link
+    if [[ -L "$GVM_GO" ]]; then
+        link=$(readlink "$GVM_GO")
+        if [[ "$link" == "$GVM_ROOT/$version" ]]; then
+            info "Go $version is already set as the current distribution"
+            return
+        fi
+    fi
+
+    info "Updating the current Go version symlink"
     rm -f "$GVM_GO"
     ln -sf "$GVM_ROOT/$version" "$GVM_GO"
+    success "Go $version set as the current distribution!"
 }
 
 # latest fetches the latest stable Go releses and prints them to stdout.
 function latest() {
     if ! command -v jq &> /dev/null; then
-        printf "ERROR: jq must be installed to fetch the latest Go versions\n"
+        error "jq must be installed to fetch the latest Go versions"
         return
     fi
     curl -sL "https://golang.org/dl/?mode=json" | jq -c '.[].version'
@@ -150,7 +191,7 @@ fi
 
 command="$1"
 if [[ "$command" == "" ]]; then
-  echo "first argument must be a command"
+  error "first argument must be a command"
   usage
 fi
 
