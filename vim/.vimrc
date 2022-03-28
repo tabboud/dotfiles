@@ -115,7 +115,7 @@ set noswapfile
 set laststatus=2        " show the satus line all the time
 set updatetime=100     " wait 2 seconds before updating (this is for gitgutter and govim)
 set cursorline
-" set cursorcolumn
+set cursorcolumn
 " Suggestion: Turn on the sign column so you can see error marks on lines
 " where there are quickfix errors. Some users who already show line number
 " might prefer to instead have the signs shown in the number column; in which
@@ -130,6 +130,7 @@ set signcolumn=auto
 " Snippets
 " Insert a TODO line by typing "todo<space>"
 iabbrev todo // TODO(tabboud):
+iabbrev tda // TDA:
 
 " set a map leader for more key combos
 let mapleader = "\<Space>"
@@ -324,6 +325,7 @@ function! AutoNTFinder()
         execute l:winnr . 'wincmd w'
     endif
 endfunction
+" Enable auto tracking
 " autocmd BufEnter * call AutoNTFinder()
 
 " Toggle NERDTree window position
@@ -425,8 +427,13 @@ lua << EOF
     require("plugins/cmp")
     require("plugins/lspconfig")
     require("plugins/lspfuzzy")
+    require("plugins/nvim-tree")
 EOF
 
+" nvim-tree settings
+let g:nvim_tree_indent_markers = 1
+let g:nvim_tree_auto_close = 1
+nmap <silent> <leader>k :NvimTreeToggle<cr> " Overwrites the NERDTreeToggle() func
 endif
 
 " Go specific settings
