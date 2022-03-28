@@ -21,6 +21,7 @@ Plug 'scrooloose/nerdtree',  { 'on': 'NERDTreeToggle'}
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-rooter'      " Auto cd to root of git repo
 
 " Languages
 Plug 'mattn/vim-goimpl'     " Generate interface implementations for Go
@@ -57,6 +58,9 @@ if has('nvim')
 
     " Use fzf with nvim-lspconfig (equivalent to using telescope)
     Plug 'ojroques/nvim-lspfuzzy', {'branch': 'main'}
+
+    " luatree - replacement for NERDTree
+    Plug 'kyazdani42/nvim-tree.lua'
 endif
 
 call plug#end()

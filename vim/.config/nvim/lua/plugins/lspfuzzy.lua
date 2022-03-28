@@ -6,7 +6,7 @@ require('lspfuzzy').setup {
   callback = nil,          -- callback called after jumping to a location
   save_last = false,       -- save last location results for the :LspFuzzyLast command
   fzf_preview = {          -- arguments to the FZF '--preview-window' option
-    'right:+{2}-/2'          -- preview on the right and centered on entry
+    'up:+{2}-/2'          -- preview on the right and centered on entry
   },
   fzf_action = {               -- FZF actions
     ['ctrl-t'] = 'tab split',  -- go to location in a new tab
