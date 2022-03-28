@@ -4,11 +4,13 @@
 #
 # gvm supports installing, removing, listing, and linking go versions.
 # Users should update their $PATH to include $HOME/.gvm/go/bin
+# To change the download base location set the $GO_DOWNLOAD_BASE environment variable.
+# The default download base URL is "https://go.dev/dl".
 set -euo pipefail
 
 GVM_ROOT="$HOME/.gvm"
 GVM_GO="$GVM_ROOT/go"
-GO_DL_BASE="https://go.dev/dl"
+GO_DL_BASE=${GO_DOWNLOAD_BASE:-"https://go.dev/dl"}
 
 ############################################
 # Coloring/Logging for terminal output
@@ -75,7 +77,18 @@ fi
 # Command implementations
 ############################################
 function list() {
-    ls -1 "$GVM_ROOT" | grep -v "go"
+    local current=""
+    if [[ -L "$GVM_GO" ]]; then
+        current=$(readlink "$GVM_GO")
+    fi
+
+    for version in $(ls -1 "$GVM_ROOT" | grep -v "go"); do
+        if [[ "$current" == "$GVM_ROOT/$version" ]]; then
+            info "$version (*)"
+        else
+            info "$version"
+        fi
+    done
 }
 
 # install downloads the tgz for the specified version of Go and
