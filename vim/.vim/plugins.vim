@@ -13,6 +13,7 @@ Plug 'ervandew/supertab'
 Plug 'tpope/vim-commentary'     " Toggle comments like sublime
 Plug 'airblade/vim-gitgutter'   " Git gutter
 Plug 'tpope/vim-fugitive'       " Git for vim
+Plug 'tpope/vim-surround'       " Add surroundings (quotes, parenthesis, etc)
 Plug 'ryanoasis/vim-devicons'   " Icons
 Plug 'Raimondi/delimitMate'     " Match parenthesis and quotes
 Plug 'majutsushi/tagbar'        " Tags side bar browser
@@ -26,14 +27,11 @@ Plug 'airblade/vim-rooter'      " Auto cd to root of git repo
 " Languages
 Plug 'mattn/vim-goimpl'     " Generate interface implementations for Go
 Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
-Plug 'cespare/vim-toml', {'for': ['toml'], 'branch': 'main'}
 Plug 'rust-lang/rust.vim', {'for': ['rust']}
 
 " Colorthemes
 Plug 'chriskempson/tomorrow-theme', { 'rtp': 'vim/' }
 Plug 'chiendo97/intellij.vim'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'EdenEast/nightfox.nvim', {'branch': 'main'}
 
 if has('nvim')
     " Add go-imports plugin since nvim LSP with gopls, does not yet support it

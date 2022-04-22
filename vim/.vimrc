@@ -96,7 +96,7 @@ function ToggleBatEnvVar()
     endif
 endfunction
 set background=light
-colorscheme intellij
+colorscheme Tomorrow-Night-Eighties
 
 set synmaxcol=120           " disable  syntax highlighting after 120 columns
 set colorcolumn=120         " Draw a vertical line at 120 characters
@@ -375,22 +375,19 @@ let g:tagbar_type_go = {
 
 " FZF Settings
 " Launch fzf in a terminal buffer
-" let g:fzf_layout = { 'down': '~25%' }
+let g:fzf_layout = { 'down': '~25%' }
 " Use the following to launch fzf in a popup window
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+" let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
 " custom :GFiles call to ignore the vendor directory
 command! MyGFiles call fzf#run(fzf#wrap({'source': 'git ls-files --exclude-standard --cached --others | grep -v vendor/'}))
+" Custom buffers command with no preview for faster loading
+command! -bang -nargs=? MyBuffers call fzf#vim#buffers(<q-args>, <bang>0)
 nmap <silent> <leader>p :MyGFiles<cr>
-nmap <silent> <leader>r :Buffers<cr>
+nmap <silent> <leader><Enter> :MyBuffers<cr>
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-l> <plug>(fzf-complete-line)
-
-" lightline configs
-let g:lightline = {
-    \ 'colorscheme': 'jellybeans',
-    \ }
 
 " }}}
 
@@ -432,15 +429,19 @@ EOF
 
 " nvim-tree settings
 let g:nvim_tree_indent_markers = 1
-let g:nvim_tree_auto_close = 1
+" let g:nvim_tree_auto_close = 1
 nmap <silent> <leader>k :NvimTreeToggle<cr> " Overwrites the NERDTreeToggle() func
+" Auto-close nvim-tree when it's the only window
+autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
 endif
 
 " Go specific settings
+" TODO(tabboud): Move these to an autoload package
+source $HOME/.vim/go/log.vim
+source $HOME/.vim/go/util.vim
 source $HOME/.vim/go/alternate.vim
 source $HOME/.vim/go/textobj.vim
 source $HOME/.vim/go/tags.vim
-source $HOME/.vim/go/util.vim
 source $HOME/.vim/go/path.vim
 source $HOME/.vim/go/config.vim
 source $HOME/.vim/go/fillstruct.vim
@@ -450,7 +451,7 @@ source $HOME/.vim/go/tool.vim
 source $HOME/.vim/go/list.vim
 source $HOME/.vim/go/fillstruct.vim
 command! -nargs=0 GoFillStruct call go#fillstruct#FillStruct()
-command! -nargs=0 GoAlt call go#alternate#Switch(0, '')
+command! -nargs=0 GoAlt call go#alternate#Switch(<bang>0, 'edit')
 
 " setup ]] and [[ to jump between functions in Go
 " Remap ]] and [[ to jump betweeen functions as they are useless in Go

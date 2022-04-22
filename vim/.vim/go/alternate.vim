@@ -21,7 +21,7 @@ function! go#alternate#Switch(bang, cmd) abort
     return
   endif
   if !filereadable(alt_file) && !bufexists(alt_file) && !a:bang
-    call go#log#Warning("creating file ".alt_file)
+    call go#log#Warning("Creating file in vsplit: ".alt_file)
     execute ":vsplit " . alt_file
     return
   elseif empty(a:cmd)
