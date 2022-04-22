@@ -114,8 +114,8 @@ set nowritebackup
 set noswapfile
 set laststatus=2        " show the satus line all the time
 set updatetime=100     " wait 2 seconds before updating (this is for gitgutter and govim)
-set cursorline
-set cursorcolumn
+set nocursorline
+set nocursorcolumn
 " Suggestion: Turn on the sign column so you can see error marks on lines
 " where there are quickfix errors. Some users who already show line number
 " might prefer to instead have the signs shown in the number column; in which
@@ -425,6 +425,7 @@ lua << EOF
     require("plugins/lspconfig")
     require("plugins/lspfuzzy")
     require("plugins/nvim-tree")
+    require("plugins/nvim-treesitter")
 EOF
 
 " nvim-tree settings
