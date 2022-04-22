@@ -134,15 +134,35 @@ function changedFiles() {
     git status --porcelain | sed -ne 's/^ M //p'
 }
 
-# list out all directly imported packages
-function getGoImports() {
-    go list -f '{{ join .Imports "\n" }}' ./...
+# list out directly imported packages for an entire project
+function getGoImportsForAll() {
+    getGoImportsForPkg ./...
+}
+
+# list directly imported packages for a given pkg.
+function getGoImportsForPkg() {
+    if [[ "$#" -ne 1 ]]; then
+        echo "USAGE: getGoImportsForPkg <pkg> (Ex: getGoImportsForPkg ./internal/server)"
+        return
+    fi
+
+    go list -f '{{ join .Imports "\n" }}' $1
 }
 
 # List dependencies for go pkgs
 # deps ./... | grep palantir | vim -
 function deps() {
     go list -f '{{ join .Deps  "\n"}}' $1 | sort | uniq
+}
+
+# List dependencies for go pkgs by the pkg name
+# deps ./... | grep palantir | vim -
+function depsByPkg() {
+    go list -f '{{.ImportPath}}:{{"\n\t"}}{{ join .Deps  "\n\t"}}' $1
+}
+
+function goImportsByPkg() {
+    go list -f '{{.ImportPath}}:{{"\n\t"}}{{join .Imports "\n\t"}}' $1
 }
 
 # listDeleted lists the local branches that
