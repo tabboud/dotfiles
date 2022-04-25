@@ -6,6 +6,7 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
 endif
 " Load all plugins
 lua require('plugins')
+" lua require('settings')
 
 " Section Settings {{{
 set textwidth=120
@@ -13,10 +14,6 @@ set tabstop=4       " the visible width of tabs
 set softtabstop=4   " edit as if the tabs are 4 characters wide
 set shiftwidth=4    " number of spaces to use for indent and unindent
 set expandtab
-
-if has('mouse')
-    set mouse=a
-endif
 
 " toggle invisible characters
 set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
@@ -36,6 +33,7 @@ set foldnestmax=10      " deepest fold is 10 levels
 set nofoldenable        " don't fold by default
 set foldlevel=99
 
+set mouse=a
 set clipboard=unnamed
 set scrolloff=8     " set 8 lines to the cursors - when moving vertical
 set noshowmode      " don't show which mode disabled for PowerLine
@@ -43,8 +41,6 @@ set confirm         " prompt to save, rather than flag an error
 set shell=$SHELL
 set cmdheight=1     " command bar height
 set nomodeline      " disable to prevent errors on certain text (vim:, ex:, ...)
-set title           " set terminal title
-set noerrorbells
 set visualbell
 set tm=500
 set lazyredraw      " don't redraw while executing macros

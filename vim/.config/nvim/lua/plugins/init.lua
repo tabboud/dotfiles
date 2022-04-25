@@ -24,17 +24,15 @@ Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-rooter'      -- Auto cd to root of git repo
 
 -- Languages
-Plug 'mattn/vim-goimpl'     -- Generate interface implementations for Go
 Plug('plasticboy/vim-markdown', {['for'] = 'markdown'})
-Plug('rust-lang/rust.vim', { ['for'] = 'rust'})
+-- Add go-imports plugin since nvim LSP with gopls, does not yet support it
+--  ref: https://github.com/neovim/nvim-lspconfig/issues/115
+Plug('mattn/vim-goimports', { ['for'] = 'go'})
+Plug 'mattn/vim-goimpl'     -- Generate interface implementations for Go
 
 -- Colorthemes
 Plug('chriskempson/tomorrow-theme', { ['rtp'] = 'vim/' })
 Plug 'chiendo97/intellij.vim'
-
--- Add go-imports plugin since nvim LSP with gopls, does not yet support it
---  ref: https://github.com/neovim/nvim-lspconfig/issues/115
-Plug('mattn/vim-goimports', { ['for'] = 'go'})
 
 -- snippets
 Plug 'hrsh7th/vim-vsnip'
@@ -54,12 +52,5 @@ Plug 'neovim/nvim-lspconfig'
 
 -- Use fzf with nvim-lspconfig (equivalent to using telescope)
 Plug('ojroques/nvim-lspfuzzy', { ['branch'] = 'main'})
-
--- luatree - replacement for NERDTree
--- Plug 'kyazdani42/nvim-tree.lua'
-
--- Tagbar alternative
-Plug 'liuchengxu/vista.vim'
--- Plug 'simrat39/symbols-outline.nvim'
 
 call('plug#end')
