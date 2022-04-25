@@ -35,6 +35,7 @@ match OverLength /\%91v.\+/
 set showbreak=↪
 
 " code folding settings
+" TODO(tabboud): Use nvim_treesitter#foldexpr() for syntax aware folding
 set foldmethod=indent   " fold based on indent
 set foldcolumn=1
 set foldnestmax=10      " deepest fold is 10 levels
@@ -391,17 +392,6 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " }}}
 
-" Section MacVim {{{
-if (has("gui_running"))
-    set guioptions=egmrt
-    set background=light
-    colorscheme intellij
-    let g:airline_powerline_fonts=1
-    let g:airline_theme='base16_eighties'
-    set guifont=JetBrainsMonoNerdFontComplete-Regular:h14
-endif
-" }}}
-
 " Section Neovim {{{
 if (has("nvim"))
     " switch cursor to line when in insert mode, and block when not
@@ -453,17 +443,6 @@ source $HOME/.vim/go/list.vim
 source $HOME/.vim/go/fillstruct.vim
 command! -nargs=0 GoFillStruct call go#fillstruct#FillStruct()
 command! -nargs=0 GoAlt call go#alternate#Switch(<bang>0, 'edit')
-
-" setup ]] and [[ to jump between functions in Go
-" Remap ]] and [[ to jump betweeen functions as they are useless in Go
-" nnoremap <buffer> <silent> ]] :<c-u>call go#textobj#FunctionJump('n', 'next')<cr>
-" nnoremap <buffer> <silent> [[ :<c-u>call go#textobj#FunctionJump('n', 'prev')<cr>
-
-" onoremap <buffer> <silent> ]] :<c-u>call go#textobj#FunctionJump('o', 'next')<cr>
-" onoremap <buffer> <silent> [[ :<c-u>call go#textobj#FunctionJump('o', 'prev')<cr>
-
-" xnoremap <buffer> <silent> ]] :<c-u>call go#textobj#FunctionJump('v', 'next')<cr>
-" xnoremap <buffer> <silent> [[ :<c-u>call go#textobj#FunctionJump('v', 'prev')<cr>
 
 " }}}
 
