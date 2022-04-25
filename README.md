@@ -5,7 +5,7 @@
 Configurations for:
 + git
 + tmux
-+ vim/neovim
++ neovim
 + zsh
 
 ## Install
