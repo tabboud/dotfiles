@@ -366,7 +366,6 @@ lua << EOF
     require("plugins/cmp")
     require("plugins/lspconfig")
     require("plugins/lspfuzzy")
-    require("plugins/nvim-tree")
     require("plugins/nvim-treesitter")
 EOF
 
