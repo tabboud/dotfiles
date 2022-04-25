@@ -163,9 +163,9 @@ nnoremap ]] ]]zz
 nnoremap [[ [[zz
 
 " edit ~/.vimrc
-map <leader>ev :e! ~/.vimrc<cr>
+map <leader>ev :e! $MYVIMRC<cr>
 " edit vim plugins
-map <leader>evp :e! ~/.vim/plugins.vim<cr>
+map <leader>evp :e! ~/.config/nvim/lua/plugins/init.lua<cr>
 " edit gitconfig
 map <leader>eg :e! ~/.gitconfig<cr>
 
@@ -251,7 +251,6 @@ endfunction
 
 " Format json inside vim (can use python or jq)
 com -bang FormatJSON %!python -m json.tool
-" com -bang FormatJSON %!jq '.'
 
 " Visual Mode */# from Scrooloose {{{
 function! s:VSetSearch()
@@ -325,37 +324,11 @@ nnoremap <leader>c :call ToggleNERDTreeWinPos()<CR>
 
 let g:SuperTabCrMapping = 0
 
-" Tagbar Settings
-let g:tagbar_ctags_bin='/usr/local/Cellar/ctags/5.8_2/bin/ctags'  " Set the path for exhuberant_ctags
-nmap <silent> <leader>d :TagbarToggle<cr>
-" Tagbar settings for go
-let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-\ }
+" vista tagbar settings
+" Executive used when opening vista sidebar without specifying it.
+" See all the avaliable executives via `:echo g:vista#executives`.
+let g:vista_default_executive = 'nvim_lsp'
+let g:vista#renderer#enable_icon = 1
 
 " FZF Settings
 " Launch fzf in a terminal buffer
@@ -384,9 +357,6 @@ set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
 " Scroll down
 let g:SuperTabDefaultCompletionType = "<c-n>"
 
-" incremental searching
-set icm=nosplit
-
 " Enable go-imports when using the NVIM LSP
 let g:goimports = 1
 
@@ -400,13 +370,6 @@ lua << EOF
     require("plugins/nvim-treesitter")
 EOF
 
-" nvim-tree settings
-let g:nvim_tree_indent_markers = 1
-" let g:nvim_tree_auto_close = 1
-nmap <silent> <leader>k :NvimTreeToggle<cr> " Overwrites the NERDTreeToggle() func
-" Auto-close nvim-tree when it's the only window
-autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
-
 " Go specific settings
 " TODO(tabboud): Move these to an autoload package
 source $HOME/.vim/go/log.vim
@@ -418,7 +381,6 @@ source $HOME/.vim/go/path.vim
 source $HOME/.vim/go/config.vim
 source $HOME/.vim/go/fillstruct.vim
 source $HOME/.vim/go/cmd.vim
-" source $HOME/.vim/go/statusline.vim
 source $HOME/.vim/go/tool.vim
 source $HOME/.vim/go/list.vim
 source $HOME/.vim/go/fillstruct.vim

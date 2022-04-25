@@ -16,7 +16,6 @@ Plug 'tpope/vim-fugitive'       -- Git for vim
 Plug 'tpope/vim-surround'       -- Add surroundings (quotes, parenthesis, etc)
 Plug 'ryanoasis/vim-devicons'   -- Icons
 Plug 'Raimondi/delimitMate'     -- Match parenthesis and quotes
-Plug 'majutsushi/tagbar'        -- Tags side bar browser
 Plug 'qpkorr/vim-bufkill'       -- Bring sanity to closing buffers
 Plug 'ntpeters/vim-better-whitespace'
 Plug('scrooloose/nerdtree', {on = 'NERDTreeToggle'})
@@ -57,6 +56,10 @@ Plug 'neovim/nvim-lspconfig'
 Plug('ojroques/nvim-lspfuzzy', { ['branch'] = 'main'})
 
 -- luatree - replacement for NERDTree
-Plug 'kyazdani42/nvim-tree.lua'
+-- Plug 'kyazdani42/nvim-tree.lua'
+
+-- Tagbar alternative
+Plug 'liuchengxu/vista.vim'
+-- Plug 'simrat39/symbols-outline.nvim'
 
 call('plug#end')
