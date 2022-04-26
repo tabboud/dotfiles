@@ -6,7 +6,6 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
 endif
 " Load all plugins
 lua require('plugins')
-" lua require('settings')
 
 " Section Settings {{{
 set textwidth=120
@@ -17,12 +16,6 @@ set expandtab
 
 " toggle invisible characters
 set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
-highlight SpecialKey ctermbg=none ctermfg=8
-highlight NonText ctermbg=none ctermfg=8
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'    " highlight conflicts
-" Highlight red when over the length
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%91v.\+/
 set showbreak=↪
 
 " code folding settings
@@ -46,11 +39,6 @@ set tm=500
 set lazyredraw      " don't redraw while executing macros
 set wildmode=list:longest           " complete files like a shell
 set completeopt+=longest,noinsert   " noinsert forces the autocomplete to not fill the first argument
-" Suggestion: show info for completion candidates in a popup menu
-if has("patch-8.1.1904")
-    set completeopt+=popup,menuone
-endif
-
 set ignorecase      " case insensitive searching
 set smartcase       " case-sensitive, if expresson contains a capital letter
 set showmatch       " show matching braces
@@ -62,20 +50,8 @@ if exists('+termguicolors')
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
-" The BAT_THEME is used in coloring the fzf preview window.
-" Trigger the change if colorscheme is called (must come before our colorscheme below)
-augroup update_bat_theme
-    autocmd!
-    autocmd colorscheme * call ToggleBatEnvVar()
-augroup end
-function ToggleBatEnvVar()
-    if (&background == "light")
-        let $BAT_THEME='gruvbox-light'
-    else
-        let $BAT_THEME=''
-    endif
-endfunction
-set background=light
+
+set background=dark
 colorscheme Tomorrow-Night-Eighties
 
 set synmaxcol=120           " disable  syntax highlighting after 120 columns
@@ -93,9 +69,7 @@ set nobackup
 set nowritebackup
 set noswapfile
 set laststatus=2        " show the satus line all the time
-set updatetime=100     " wait 2 seconds before updating (this is for gitgutter and govim)
-set nocursorline
-set nocursorcolumn
+set updatetime=100      " wait 2 seconds before updating (this is for gitgutter and govim)
 " Suggestion: Turn on the sign column so you can see error marks on lines
 " where there are quickfix errors. Some users who already show line number
 " might prefer to instead have the signs shown in the number column; in which
@@ -116,8 +90,6 @@ iabbrev tda // TDA:
 let mapleader = "\<Space>"
 let g:mapleader = "\<Space>"
 
-inoremap kj <esc>
-
 map <leader>v :set paste!<cr>   " toggle paste mode
 map <Leader>a :%y+<CR>          " Copy the entire buffer
 nmap <leader>w :w<cr>
@@ -128,9 +100,6 @@ noremap Q <NOP>     " disable Ex mode
 nmap <leader>l :set list!<cr>
 nmap <leader>n :set nowrap!<cr>
 map <leader>/ :Commentary<cr>
-
-" Insert current time as a markdown header
-map <leader>D :put =strftime('# %a %Y-%m-%d %H:%M:%S%z')<CR>
 
 " Change how you move across splits
 nnoremap <C-h> <C-w>h
@@ -182,9 +151,6 @@ nnoremap <silent> $ g$
 map gn :bn<cr>
 map gp :bp<cr>
 map gd :bd<cr>
-
-" Search a visual selection by pressing <Alt-/>
-vnoremap ÷ <Esc>/\%V
 
 " Copy relative path of current file
 noremap <silent> <F4> :let @+=expand("%")<CR>
@@ -318,8 +284,6 @@ function! ToggleNERDTreeWinPos()
 endfunction
 nnoremap <leader>c :call ToggleNERDTreeWinPos()<CR>
 
-let g:SuperTabCrMapping = 0
-
 " vista tagbar settings
 " Executive used when opening vista sidebar without specifying it.
 " See all the avaliable executives via `:echo g:vista#executives`.
@@ -354,9 +318,6 @@ nmap <silent> <leader>p :Telescope find_files theme=dropdown previewer=false<cr>
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
   \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
   \,sm:block-blinkwait175-blinkoff150-blinkon175
-
-" Scroll down
-let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " Enable go-imports when using the NVIM LSP
 let g:goimports = 1
