@@ -363,24 +363,13 @@ lua << EOF
     require("plugins/lspconfig")
     require("plugins/lspfuzzy")
     require("plugins/nvim-treesitter")
+
+    -- Go specific functions
+    require("go/alternate")
 EOF
 
-" Go specific settings
-" TODO(tabboud): Move these to an autoload package
-source $HOME/.vim/go/log.vim
-source $HOME/.vim/go/util.vim
-source $HOME/.vim/go/alternate.vim
-source $HOME/.vim/go/textobj.vim
-source $HOME/.vim/go/tags.vim
-source $HOME/.vim/go/path.vim
-source $HOME/.vim/go/config.vim
-source $HOME/.vim/go/fillstruct.vim
-source $HOME/.vim/go/cmd.vim
-source $HOME/.vim/go/tool.vim
-source $HOME/.vim/go/list.vim
-source $HOME/.vim/go/fillstruct.vim
-command! -nargs=0 GoFillStruct call go#fillstruct#FillStruct()
-command! -nargs=0 GoAlt call go#alternate#Switch(<bang>0, 'edit')
+" Go specific commands
+command! -nargs=0 GoAlt call v:lua.Switch()
 
 " }}}
 
