@@ -39,14 +39,17 @@ local has_words_before = function()
 end
 
 cmp.setup({
+
   completion = {
     keyword_length = 1,
   },
+
   snippet = {
     expand = function(args)
       vim.fn["vsnip#anonymous"](args.body)
     end,
   },
+
   mapping = {
     ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
     ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
@@ -57,8 +60,10 @@ cmp.setup({
       c = cmp.mapping.close(),
     }),
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    -- ['<C-j>'] = cmp.mapping(cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert }), { 'i', 'c' }),
-    -- ['<C-k>'] = cmp.mapping(cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert }), { 'i', 'c' }),
+
+    -- use c-{j,k} to scroll through completions
+    ['<C-j>'] = cmp.mapping(cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert }), { 'i', 'c' }),
+    ['<C-k>'] = cmp.mapping(cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert }), { 'i', 'c' }),
 
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
@@ -87,16 +92,24 @@ cmp.setup({
       end
     end, { "i", "s" }),
   },
+
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
     { name = 'buffer' },
   }),
+
   formatting = {
     format = function(_, vim_item)
       vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind)
       return vim_item
     end
+  },
+
+  sorting = {
+    comparators = {
+      require('cmp.config.compare').order
+    }
   },
 })
 

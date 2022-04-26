@@ -7,7 +7,6 @@ local Plug = fn['plug#']
 
 call('plug#begin', '~/.nvim/plugged')
 
-Plug 'itchyny/lightline.vim'
 Plug 'ap/vim-buftabline'
 Plug 'tpope/vim-commentary'     -- Toggle comments like sublime
 Plug 'airblade/vim-gitgutter'   -- Git gutter
@@ -55,5 +54,8 @@ Plug('ojroques/nvim-lspfuzzy', { ['branch'] = 'main'})
 -- Telescope
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+
+-- Lua-line (replacement for lightline)
+Plug('nvim-lualine/lualine.nvim')
 
 call('plug#end')

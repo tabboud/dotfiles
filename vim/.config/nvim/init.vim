@@ -19,12 +19,15 @@ set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
 set showbreak=↪
 
 " code folding settings
+" set foldmethod=indent   " fold based on indent
+" set foldcolumn=1
+" set foldnestmax=10      " deepest fold is 10 levels
+" set nofoldenable        " don't fold by default
+" set foldlevel=99
+
 " TODO(tabboud): Use nvim_treesitter#foldexpr() for syntax aware folding
-set foldmethod=indent   " fold based on indent
-set foldcolumn=1
-set foldnestmax=10      " deepest fold is 10 levels
-set nofoldenable        " don't fold by default
-set foldlevel=99
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
 
 set mouse=a
 set clipboard=unnamed
@@ -330,6 +333,7 @@ lua << EOF
     require("plugins/lspfuzzy")
     require("plugins/nvim-treesitter")
     require("plugins/telescope")
+    require("plugins/lualine")
 
     -- Go specific functions
     require("go/alternate")
