@@ -100,8 +100,8 @@ set nocursorcolumn
 " where there are quickfix errors. Some users who already show line number
 " might prefer to instead have the signs shown in the number column; in which
 " set signcolumn=number
-" set signcolumn=auto:2-9     " draw signcolumn when there are signs to display and resize to largest width
-set signcolumn=auto
+set signcolumn=auto:2-9     " draw signcolumn when there are signs to display and resize to largest width
+" set signcolumn=auto
 
 " }}}
 
@@ -336,11 +336,16 @@ let g:fzf_layout = { 'down': '~25%' }
 command! MyGFiles call fzf#run(fzf#wrap({'source': 'git ls-files --exclude-standard --cached --others | grep -v vendor/'}))
 " Custom buffers command with no preview for faster loading
 command! -bang -nargs=? MyBuffers call fzf#vim#buffers(<q-args>, <bang>0)
-nmap <silent> <leader>p :MyGFiles<cr>
-nmap <silent> <leader><Enter> :MyBuffers<cr>
+" nmap <silent> <leader>p :MyGFiles<cr>
+" nmap <silent> <leader><Enter> :MyBuffers<cr>
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-l> <plug>(fzf-complete-line)
+
+" Telescope settings
+" Use custom theme with no preview
+nmap <silent> <leader><Enter> :Telescope buffers theme=dropdown previewer=false<cr>
+nmap <silent> <leader>p :Telescope find_files theme=dropdown previewer=false<cr>
 
 " }}}
 
@@ -363,6 +368,7 @@ lua << EOF
     require("plugins/lspconfig")
     require("plugins/lspfuzzy")
     require("plugins/nvim-treesitter")
+    require("plugins/telescope")
 
     -- Go specific functions
     require("go/alternate")

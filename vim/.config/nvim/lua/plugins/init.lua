@@ -9,7 +9,6 @@ call('plug#begin', '~/.nvim/plugged')
 
 Plug 'itchyny/lightline.vim'
 Plug 'ap/vim-buftabline'
-Plug 'ervandew/supertab'
 Plug 'tpope/vim-commentary'     -- Toggle comments like sublime
 Plug 'airblade/vim-gitgutter'   -- Git gutter
 Plug 'tpope/vim-fugitive'       -- Git for vim
@@ -28,7 +27,7 @@ Plug('plasticboy/vim-markdown', {['for'] = 'markdown'})
 -- Add go-imports plugin since nvim LSP with gopls, does not yet support it
 --  ref: https://github.com/neovim/nvim-lspconfig/issues/115
 Plug('mattn/vim-goimports', { ['for'] = 'go'})
-Plug 'mattn/vim-goimpl'     -- Generate interface implementations for Go
+Plug('mattn/vim-goimpl', { ['for'] = 'go'})
 
 -- Colorthemes
 Plug('chriskempson/tomorrow-theme', { ['rtp'] = 'vim/' })
