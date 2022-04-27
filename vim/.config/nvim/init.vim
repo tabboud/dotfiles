@@ -317,6 +317,10 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 " Use custom theme with no preview
 nmap <silent> <leader><Enter> :Telescope buffers theme=dropdown previewer=false<cr>
 nmap <silent> <leader>p :Telescope find_files theme=dropdown previewer=false<cr>
+" LSP commands - These supercede the ones defined in lspconfig.lua
+nmap <silent> gr :Telescope lsp_references<cr>
+nmap <silent> gi :Telescope lsp_implementations<cr>
+nmap <silent> g0 :Telescope lsp_document_symbols<cr>
 
 " }}}
 
