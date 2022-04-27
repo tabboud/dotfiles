@@ -338,6 +338,7 @@ lua << EOF
     require("plugins/nvim-treesitter")
     require("plugins/telescope")
     require("plugins/lualine")
+    require("plugins/symbols-outline")
 
     -- Go specific functions
     require("go/alternate")

@@ -59,4 +59,7 @@ Plug 'nvim-telescope/telescope.nvim'
 -- Lua-line (replacement for lightline)
 Plug('nvim-lualine/lualine.nvim')
 
+-- Tagbar replacement
+Plug 'simrat39/symbols-outline.nvim'
+
 call('plug#end')
