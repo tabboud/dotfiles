@@ -37,6 +37,7 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = fn['TSUpdate']})
+Plug 'nvim-treesitter/playground'
 
 -- Extensions to built-in LSP, for example, providing type inlay hints
 Plug 'nvim-lua/lsp_extensions.nvim'

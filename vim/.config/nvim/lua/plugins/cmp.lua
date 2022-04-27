@@ -105,12 +105,6 @@ cmp.setup({
       return vim_item
     end
   },
-
-  sorting = {
-    comparators = {
-      require('cmp.config.compare').order
-    }
-  },
 })
 
 -- Setup lspconfig.

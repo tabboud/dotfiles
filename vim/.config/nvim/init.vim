@@ -196,6 +196,10 @@ augroup ymlConfig
     autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab cuc
 augroup END
 
+" Open all folds when opening a buffer or file
+" This is required when using treesitter to enforce code folding
+" since folds are closed by default
+autocmd BufReadPost,FileReadPost * normal zR
 " }}}
 
 " Section Functions {{{
