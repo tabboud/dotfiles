@@ -1,4 +1,6 @@
+local actions = require("telescope.actions")
 local action_layout = require("telescope.actions.layout")
+
 require('telescope').setup{
   defaults = {
     -- Disable preview for ALL windows
@@ -28,14 +30,22 @@ require('telescope').setup{
         -- map actions.which_key to <C-h> (default: <C-/>)
         -- actions.which_key shows the mappings for your picker,
         -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-        ["<C-h>"] = "which_key"
+        ["<C-h>"] = "which_key",
 
         -- Toggle preview window (global preview must be set to true)
         -- ["<C-l>"] = action_layout.toggle_preview
+
+        -- Allow using ctrl-{j,k} to move to next selection, similar to fzf
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous
       },
       n = {
         -- Toggle preview window
         -- ["<C-l>"] = action_layout.toggle_preview
+
+        -- Allow using ctrl-{j,k} to move to next selection, similar to fzf
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous
       }
     }
   },
