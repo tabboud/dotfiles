@@ -1,6 +1,25 @@
 # Cross platform utility functions
 #
 
+# Append a path to $PATH IFF it doesn't exist.
+#
+# Ex: pathappend path1 -> $PATH:path1
+function pathappend() {
+    if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+        PATH="${PATH:+"$PATH:"}$ARG"
+    fi
+}
+
+# Prepend a path to $PATH IFF it doesn't exist.
+#
+# Ex: pathprepend path1 -> path1:$PATH
+function pathprepend() {
+    ARG=$1
+    if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+        PATH="$ARG${PATH:+":$PATH"}"
+    fi
+}
+
 # print available colors and their numbers
 function colours() {
     for i in {0..255}; do
