@@ -5,22 +5,22 @@ export EDITOR=vim
 export PATH=$HOME/.bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 # my zsh settings
-source $ZSH/custom-omz.sh
+source "$ZSH/custom-omz.sh"
 
 # History
-HISTFILE=~/.zsh_history
-HISTSIZE=1000
-SAVEHIST=1000
-
-# source all .zsh files inside of the $DOTFILES/zsh/ directory
-# for config ($HOME/.zsh/**/*.zsh) source $config
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=1000
+export SAVEHIST=1000
 
 # FZF config
 #TODO: LAZY LOAD this source
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Use ag instead of find for fzf
-export FZF_DEFAULT_COMMAND='ag -g ""'
+# Load all shell specific settings before the custom settings
+for file in "$DOTFILES"/shell/*; do
+    source "$file"
+done
+unset file
 
 # Load all custom settings
 # ~/.path   -> extend the PATH env variable
@@ -32,23 +32,15 @@ for file in ~/.{path,custom.local}; do
 done
 unset file
 
-# Load all shell specific settings
-# ~/.aliases.sh     -> common aliases
-# ~/.functions.sh   -> common functions
-for file in $DOTFILES/shell/*; do
-    source "$file"
-done
-unset file
-
 os_name=$(uname -s)
 # remap capslock to ctrl on linux
 if [[ "$os_name" == "Linux" ]]; then
     setxkbmap -layout us -option ctrl:nocaps
 fi
 
-#####################
+#====================
 # zsh specific alias
-#####################
+#====================
 
 # Reload the zsh config
 alias reload!='source $HOME/.zshrc'
