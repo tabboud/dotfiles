@@ -9,6 +9,7 @@ require('telescope').setup{
     -- ignore vendor directories in ALL windows
     file_ignore_patterns = {
         "vendor",
+        "^.git/",
     },
     file_previewer = require("telescope.previewers").vim_buffer_cat.new,
 
@@ -58,6 +59,10 @@ require('telescope').setup{
     find_files = {
         theme = "dropdown",
         find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
+        -- show hidden files.
+        -- .git is ignored globally in the defaults, so it won't show up.
+        -- Also "fd" respects .gitignore already
+        hidden = true,
     },
     buffers = {
         theme = "dropdown",

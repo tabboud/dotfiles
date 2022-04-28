@@ -36,7 +36,7 @@ set noshowmode      " don't show which mode disabled for PowerLine
 set confirm         " prompt to save, rather than flag an error
 set shell=$SHELL
 set cmdheight=1     " command bar height
-set nomodeline      " disable to prevent errors on certain text (vim:, ex:, ...)
+set modeline        " Enable modeline to get per-file settings (i.e. # vim:syntax=bash)
 set visualbell
 set tm=500
 set lazyredraw      " don't redraw while executing macros
