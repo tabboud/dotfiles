@@ -63,6 +63,7 @@ vim.fn.sign_define("DiagnosticSignHint", {text="ﯦ", texthl="DiagnosticSignHint
 
 --
 -- gopls setup
+-- Settings can be found here: https://github.com/golang/tools/blob/master/gopls/doc/settings.md
 lspconfig.gopls.setup{
   on_attach = on_attach,
   capabilities = capabilities,
@@ -82,6 +83,9 @@ lspconfig.gopls.setup{
       analyses = {
           shadow = false,
           unusedparams = false,
+      },
+      codelenses = {
+        test = false,
       },
     },
   },
