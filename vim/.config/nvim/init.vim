@@ -127,8 +127,9 @@ nnoremap n nzzzv
 nnoremap N Nzzzv
 
 " Center the screen after moving to next function
-nnoremap ]] ]]zz
-nnoremap [[ [[zz
+
+" nnoremap ]] ]]zz
+" nnoremap [[ [[zz
 
 " edit ~/.vimrc
 map <leader>ev :e! $MYVIMRC<cr>
@@ -171,6 +172,7 @@ augroup configgroup
     autocmd BufNewFile,BufReadPost *.md set filetype=markdown
     autocmd FileType *.md setlocal ts=2 sts=2 sw=2 expandtab cuc
     autocmd BufNewFile,BufRead,BufWrite *.md syntax match Comment /\%^---\_.\{-}---$/
+    autocmd BufRead,BufNewFile .gitconfig.local setfiletype gitconfig
 
 augroup END
 
@@ -221,7 +223,7 @@ endfunction
 " Format json inside vim (can use python or jq)
 com -bang FormatJSON %!python -m json.tool
 
-" Visual Mode */# from Scrooloose {{{
+" Visual Mode */# from Scrooloose
 function! s:VSetSearch()
   let temp = @@
   norm! gvy
@@ -231,6 +233,20 @@ endfunction
 
 vnoremap * :<c-u>call <sid>vsetsearch()<cr>//<cr><c-o>
 vnoremap # :<c-u>call <sid>vsetsearch()<cr>??<cr><c-o>
+
+" Jump to next/prev function
+function! JumpToNextFunc()
+    /^func
+    let @/ = '^func'
+endfunction
+" function! JumpToPrevFunc()
+"     :?^func
+"     let @? = '^func'
+" endfunction
+
+nnoremap ]] :call JumpToNextFunc()<cr>
+" TODO(tabboud): Actually make this silent
+nnoremap [[ :?^func<cr>
 
 " }}}
 
