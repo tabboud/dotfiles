@@ -55,7 +55,7 @@ if exists('+termguicolors')
 endif
 
 set background=dark
-colorscheme Tomorrow-Night-Eighties
+colorscheme darcula
 
 set synmaxcol=120           " disable  syntax highlighting after 120 columns
 set colorcolumn=120         " Draw a vertical line at 120 characters
@@ -235,18 +235,8 @@ vnoremap * :<c-u>call <sid>vsetsearch()<cr>//<cr><c-o>
 vnoremap # :<c-u>call <sid>vsetsearch()<cr>??<cr><c-o>
 
 " Jump to next/prev function
-function! JumpToNextFunc()
-    /^func
-    let @/ = '^func'
-endfunction
-" function! JumpToPrevFunc()
-"     :?^func
-"     let @? = '^func'
-" endfunction
-
-nnoremap ]] :call JumpToNextFunc()<cr>
-" TODO(tabboud): Actually make this silent
-nnoremap [[ :?^func<cr>
+nnoremap ]] :call search("^func")<cr>
+nnoremap [[ :call search("^func", "b")<cr>
 
 " }}}
 
@@ -335,7 +325,7 @@ nmap <silent> <leader><Enter> :Telescope buffers theme=dropdown previewer=false<
 nmap <silent> <leader>p :Telescope find_files theme=dropdown previewer=false<cr>
 " LSP commands - These supercede the ones defined in lspconfig.lua
 nmap <silent> gr :Telescope lsp_references<cr>
-nmap <silent> gi :Telescope lsp_implementations<cr>
+nmap <silent> gi :Telescope lsp_implementations theme=dropdown<cr>
 nmap <silent> g0 :Telescope lsp_document_symbols<cr>
 
 " }}}

@@ -5,6 +5,6 @@ require 'nvim-treesitter.configs'.setup({
 
     highlight = {
         -- false disables the entire extension
-        enable = false,
+        enable = true,
     },
 })
