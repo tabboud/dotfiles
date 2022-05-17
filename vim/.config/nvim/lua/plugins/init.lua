@@ -39,7 +39,7 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = fn['TSUpdate']})
-Plug 'nvim-treesitter/playground'
+-- Plug 'nvim-treesitter/playground'
 
 -- Extensions to built-in LSP, for example, providing type inlay hints
 Plug 'nvim-lua/lsp_extensions.nvim'
@@ -62,6 +62,6 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug('nvim-lualine/lualine.nvim')
 
 -- Tagbar replacement
-Plug 'simrat39/symbols-outline.nvim'
+-- Plug 'simrat39/symbols-outline.nvim'
 
 call('plug#end')
