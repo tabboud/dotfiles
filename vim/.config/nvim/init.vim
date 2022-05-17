@@ -324,9 +324,16 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 nmap <silent> <leader><Enter> :Telescope buffers theme=dropdown previewer=false<cr>
 nmap <silent> <leader>p :Telescope find_files theme=dropdown previewer=false<cr>
 " LSP commands - These supercede the ones defined in lspconfig.lua
-nmap <silent> gr :Telescope lsp_references<cr>
-nmap <silent> gi :Telescope lsp_implementations theme=dropdown<cr>
 nmap <silent> g0 :Telescope lsp_document_symbols<cr>
+" Find all implementations
+nmap <leader> gi :Telescope lsp_implementations theme=dropdown<cr>
+" Find all implementations excluding test/mock files
+nmap gi <cmd>lua require('telescope.builtin').lsp_implementations({file_ignore_patterns = { "%_test.go", "%_mocks.go" }, theme=dropdown })<cr>
+" Find all references
+nmap <leader>gr <cmd>lua require('telescope.builtin').lsp_references()<cr>
+" Find all references excluding test files
+nmap gr <cmd>lua require('telescope.builtin').lsp_references({file_ignore_patterns = { "%_test.go", "%_mocks.go" }, theme=dropdown })<cr>
+
 
 " }}}
 
