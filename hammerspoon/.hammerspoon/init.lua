@@ -24,7 +24,7 @@ applicationKeys.activate()
 
 
 -- List the current application key mappings in an alert window
-hs.hotkey.bind({"cmd", "ctrl"}, "M", function()
+hs.hotkey.bind({"cmd", "ctrl"}, "N", function()
   local seconds = 5
   local allApplicationKeys = applicationKeys.getAlertMapping()
   alert.show(allApplicationKeys, seconds)
