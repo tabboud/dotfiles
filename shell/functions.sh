@@ -117,7 +117,9 @@ function god() {
     ./godelw $@
 }
 
-# git functions
+#=========================================
+# Git functions
+#=========================================
 function git_current_branch() {
   git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///'
 }
@@ -132,6 +134,13 @@ function gpush() {
 
 function gpushf() {
     git push -f origin $(git_current_branch)
+}
+
+# gdefault prints the default branch for a git repo.
+# The remote name can be provided, but otherwise defaults to origin.
+function gdefault() {
+    local remoteName=${1:-"origin"}
+    git remote show $remoteName | grep 'HEAD branch' | cut -d' ' -f5
 }
 
 # gupdate will checkout the provided branch
@@ -153,6 +162,9 @@ function changedFiles() {
     git status --porcelain | sed -ne 's/^ M //p'
 }
 
+#=========================================
+# Go functions
+#=========================================
 # list out directly imported packages for an entire project
 function getGoImportsForAll() {
     getGoImportsForPkg ./...
