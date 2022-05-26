@@ -25,6 +25,7 @@ Where <command> is one of:
 - Git specific settings go in: `$HOME/.gitconfig.local`
 - Shell/exports/env settings go in: `$HOME/.custom.local`
 - Tmux settings go in: `$HOME/.tmux.local`
+- ZSH PROMPT overrides go in: `$HOME/.prompt-overrides.zsh`
 
 ## Environment Variables
 
@@ -50,6 +51,16 @@ export ROOT_CODE_DIR="$HOME/src"
 # Used as the default search path in `gocd` if `$ROOT_CODE_DIR` is not set
 export GOPATH="$HOME"
 
+```
+
+The following environment variables are supported zsh PROMPT overrides. These settings
+should be placed in the prompt override file mentioned above.
+
+```sh
+# This updates the terminal PROMPT prefix with a custom value.
+# Used in the custom zsh theme.
+# Defaults to "" if not set.
+export PROMPT_OVERRIDE_USER="[PROD]"
 ```
 
 ## Un-Install

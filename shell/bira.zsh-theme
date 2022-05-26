@@ -10,6 +10,10 @@ else
     local user_symbol=';'
 fi
 
+if [[ -n $PROMPT_OVERRIDE_USER ]]; then
+    local user_host=${PROMPT_OVERRIDE_USER}
+fi
+
 function git_branch() {
     branch=$(__git_prompt_git branch --show-current)
     if [[ -z $branch ]]; then

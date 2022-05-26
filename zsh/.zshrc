@@ -16,6 +16,9 @@ export SAVEHIST=1000
 #TODO: LAZY LOAD this source
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# Custom PROMPT overrides
+[ -f ~/.prompt-overrides.zsh ] && source ~/.prompt-overrides.zsh
+
 # Load all shell specific settings before the custom settings
 for file in "$DOTFILES"/shell/*; do
     source "$file"
