@@ -17,7 +17,7 @@ function Switch()
     if ends_with(file, "_test.go") then
         alternate_file = fn.split(file, "_test.go")[1] .. ".go"
     elseif ends_with(file, ".go") then
-        alternate_file = fn.split(file, ".go")[1] .. "_test.go"
+        alternate_file = fn.split(file, "\\.go")[1] .. "_test.go"
     else
         print("Not a Go file")
         return
