@@ -8,6 +8,7 @@ declare -a COMMON=(
     zsh
 )
 declare -a OSX=(
+    alacritty
     hammerspoon
     iterm2
 )
