@@ -326,7 +326,7 @@ nmap <silent> <leader>p :Telescope find_files theme=dropdown previewer=false<cr>
 " LSP commands - These supercede the ones defined in lspconfig.lua
 nmap <silent> g0 :Telescope lsp_document_symbols<cr>
 " Find all implementations
-nmap <leader> gi :Telescope lsp_implementations theme=dropdown<cr>
+nmap <leader>gi :Telescope lsp_implementations theme=dropdown<cr>
 " Find all implementations excluding test/mock files
 nmap gi <cmd>lua require('telescope.builtin').lsp_implementations({file_ignore_patterns = { "%_test.go", "%_mocks.go" }, theme=dropdown })<cr>
 " Find all references
