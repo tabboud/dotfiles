@@ -69,7 +69,7 @@ esac
 # Ensure .gvm directory structure is setup
 ############################################
 if [[ ! -d "$GVM_ROOT" ]]; then
-    info "Setting up %s directory for Go version management" "$GVM_ROOT"
+    info "Setting up ${GVM_ROOT} directory for Go version management"
     mkdir -p "$GVM_ROOT"
 fi
 
