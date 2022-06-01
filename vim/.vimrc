@@ -110,6 +110,52 @@ function! WinMove(key)
     endif
 endfunction
 
+function Searchcount() abort
+    if !v:hlsearch
+        return ''
+    endif
+
+    try
+        const cnt = searchcount({'maxcount': 0, 'timeout': 50})
+    catch /^Vim\%((\a\+)\)\=:\%(E486\)\@!/
+        return '[?/??]'
+    endtry
+
+    if empty(cnt)
+        return ''
+    endif
+
+    return cnt.total
+            \ ? cnt.incomplete
+            \   ? printf('[%d/??]', cnt.current)
+            \   : printf('[%d/%d]', cnt.current, cnt.total)
+            \ : '[0/0]'
+endfunction
+" Setup the statusline with the search count
+set statusline=%<%f\ %h%m%r\ %{Searchcount()}%=%-14.(%l,%c%V%)\ %P
+
+function! LastSearchCount() abort
+  let result = searchcount(#{maxcount:1, recompute: 0})
+  if empty(result)
+    return ''
+  endif
+  if result.incomplete ==# 1     " timed out
+    return printf(' /%s [?/??]', @/)
+  elseif result.incomplete ==# 2 " max count exceeded
+    if result.total > result.maxcount &&
+    \  result.current > result.maxcount
+      return printf(' /%s [>%d/>%d]', @/,
+      \             result.current, result.total)
+    elseif result.total > result.maxcount
+      return printf(' /%s [%d/>%d]', @/,
+      \             result.current, result.total)
+    endif
+  endif
+  return printf(' /%s [%d/%d]', @/,
+  \             result.current, result.total)
+endfunction
+" let &statusline ..= '%{LastSearchCount()}'
+
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
