@@ -110,6 +110,35 @@ function! WinMove(key)
     endif
 endfunction
 
+function! LastSearchCount() abort
+  let result = searchcount(#{recompute: 0})
+  if empty(result)
+    return ''
+  endif
+  if result.incomplete ==# 1     " timed out
+    return printf(' /%s [?/??]', @/)
+  elseif result.incomplete ==# 2 " max count exceeded
+    if result.total > result.maxcount &&
+    \  result.current > result.maxcount
+      return printf(' /%s [>%d/>%d]', @/,
+      \             result.current, result.total)
+    elseif result.total > result.maxcount
+      return printf(' /%s [%d/>%d]', @/,
+      \             result.current, result.total)
+    endif
+  endif
+  return printf(' /%s [%d/%d]', @/,
+  \             result.current, result.total)
+endfunction
+let &statusline ..= '%{LastSearchCount()}'
+
+function! EmptyDict() abort
+lua << EOF
+    local x = vim.fn.searchcount({maxcount = 100, recompute = 1 })
+    print(vim.inspect(x))
+EOF
+endfunction
+
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0

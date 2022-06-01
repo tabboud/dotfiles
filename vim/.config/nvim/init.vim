@@ -238,6 +238,30 @@ vnoremap # :<c-u>call <sid>vsetsearch()<cr>??<cr><c-o>
 nnoremap ]] :call search("^func")<cr>
 nnoremap [[ :call search("^func", "b")<cr>
 
+" LastSearchCount returns the count of a search result
+" This is also done in lua -> see lualine.lua
+" TODO(tabboud): Figure out the best way to do this
+" TODO(tabboud): Alternatively we can update the n/N mapping to call searchcount() to get current/total
+function! LastSearchCount() abort
+  let result = searchcount(#{recompute: 0})
+  if empty(result)
+    return ''
+  endif
+  if result.incomplete ==# 1     " timed out
+    return printf(' /%s [?/??]', @/)
+  elseif result.incomplete ==# 2 " max count exceeded
+    if result.total > result.maxcount &&
+    \  result.current > result.maxcount
+      return printf(' /%s [>%d/>%d]', @/,
+      \             result.current, result.total)
+    elseif result.total > result.maxcount
+      return printf(' /%s [%d/>%d]', @/,
+      \             result.current, result.total)
+    endif
+  endif
+  return printf(' /%s [%d/%d]', @/,
+  \             result.current, result.total)
+endfunction
 " }}}
 
 " Section Plugins {{{
