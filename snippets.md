@@ -12,3 +12,10 @@ This will move the 2nd window as a pane to the 1st window.
 ```bash
 join-pane -s 2 -t 1
 ```
+
+Rearrange windows.
+This swaps the position of window 2 and 1.
+
+```bash
+swap-window -s 2 -t 1
+```
