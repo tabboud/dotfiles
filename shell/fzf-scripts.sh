@@ -21,7 +21,7 @@ vg() {
 gocd() {
     local gorepo
 
-    gorepo="$(find "${ROOT_CODE_DIR:-$GOPATH/src}" -maxdepth 3 -mindepth 1 -type d | fzf -d / --with-nth=-2..)"
+    gorepo="$(find "${ROOT_CODE_DIR:-$GOPATH/src}" -maxdepth 3 -mindepth 1 -type d | fzf -d / --with-nth=-2.. --reverse --height=20)"
     if [[ -n $gorepo ]]; then
         cd $gorepo
     fi
@@ -37,7 +37,7 @@ tm() {
   if [ $1 ]; then
     tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
   fi
-  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
+  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0 --reverse --height=20) &&  tmux $change -t "$session" || echo "No sessions found."
 }
 
 # Delete git branches.
@@ -46,6 +46,23 @@ tm() {
 gdel() {
   local branches branch
   branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
-  branch=$(echo "$branches" | fzf --multi ) &&
+  branch=$(echo "$branches" | fzf --multi --reverse --height=20) &&
   git branch -D $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+
+  return
+  # TODO(tabboud): Add confirmation to delete
+  while true; do
+      read -p "Are you sure you want to delete these branches?" yn
+      case "$yn" in
+          [Yy]*)
+              git pull $@;
+              break
+              ;;
+          [Nn]*)
+              exit
+              ;;
+          *)
+              printf %s\\n "Please answer yes or no."
+      esac
+  done
 }
