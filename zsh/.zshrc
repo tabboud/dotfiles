@@ -35,11 +35,11 @@ for file in ~/.{path,custom.local}; do
 done
 unset file
 
-os_name=$(uname -s)
+# os_name=$(uname -s)
 # remap capslock to ctrl on linux
-if [[ "$os_name" == "Linux" ]]; then
-    setxkbmap -layout us -option ctrl:nocaps
-fi
+# if [[ "$os_name" == "Linux" ]]; then
+#     setxkbmap -layout us -option ctrl:nocaps
+# fi
 
 #====================
 # zsh specific alias
