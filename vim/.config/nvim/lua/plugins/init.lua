@@ -9,7 +9,7 @@ call('plug#begin', '~/.nvim/plugged')
 
 Plug 'ap/vim-buftabline'
 Plug 'tpope/vim-commentary'     -- Toggle comments like sublime
-Plug 'airblade/vim-gitgutter'   -- Git gutter
+-- Plug 'airblade/vim-gitgutter'   -- Git gutter (disabled while testing gitsigns for nvim)
 Plug 'tpope/vim-fugitive'       -- Git for vim
 Plug 'tpope/vim-surround'       -- Add surroundings (quotes, parenthesis, etc)
 Plug 'ryanoasis/vim-devicons'   -- Icons
