@@ -46,6 +46,7 @@ set ignorecase      " case insensitive searching
 set smartcase       " case-sensitive, if expresson contains a capital letter
 set showmatch       " show matching braces
 set mat=2           " how many tenths of a second to blink
+set cursorline      " Enable the cursorline
 
 " Coloring
 if exists('+termguicolors')
@@ -64,6 +65,7 @@ set re=0                " Use the newer regex engine so syntax highlighting does
 set t_Co=256            " Explicitly tell vim that the terminal supports 256 colors
 set number              " show line numbers
 set relativenumber      " show relative line numbers
+set nowrap              " Don't wrap lines by default
 set linebreak           " set soft wrapping
 set showbreak=…         " show ellipsis at breaking
 set autoindent          " automatically set indent of new line
@@ -73,12 +75,7 @@ set nowritebackup
 set noswapfile
 set laststatus=2        " show the satus line all the time
 set updatetime=100      " wait 2 seconds before updating (this is for gitgutter and govim)
-" Suggestion: Turn on the sign column so you can see error marks on lines
-" where there are quickfix errors. Some users who already show line number
-" might prefer to instead have the signs shown in the number column; in which
-" set signcolumn=number
-set signcolumn=auto:2-9     " draw signcolumn when there are signs to display and resize to largest width
-" set signcolumn=auto
+set signcolumn=yes      " Always show the sign column
 
 " }}}
 
@@ -122,6 +119,9 @@ vmap <leader>] >gv
 nmap <leader>[ <<
 nmap <leader>] >>
 
+" Yank until end of line (i.e. make 'Y' act like 'D')
+nnoremap Y y$
+
 " Center the screen after next search
 nnoremap n nzzzv
 nnoremap N Nzzzv
@@ -158,6 +158,12 @@ map gd :bd<cr>
 
 " Copy relative path of current file
 noremap <silent> <F4> :let @+=expand("%")<CR>
+
+" Open current buffer in a new tab (mimicking full screen mode)
+noremap tt :tab split<CR>
+
+" Search visually selected text by pressing "//"
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " }}}
 
@@ -323,16 +329,26 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 " Use custom theme with no preview
 nmap <silent> <leader><Enter> :Telescope buffers theme=dropdown previewer=false<cr>
 nmap <silent> <leader>p :Telescope find_files theme=dropdown previewer=false<cr>
+" Use ivy for the above settings
+" nmap <silent> <leader><Enter> <cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown({previewer = false }))<cr>
+" nmap <silent> <leader>p <cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_ivy())<cr>
+
 " LSP commands - These supercede the ones defined in lspconfig.lua
 nmap <silent> g0 :Telescope lsp_document_symbols<cr>
 " Find all implementations
 nmap <leader>gi :Telescope lsp_implementations theme=dropdown<cr>
 " Find all implementations excluding test/mock files
 nmap gi <cmd>lua require('telescope.builtin').lsp_implementations({file_ignore_patterns = { "%_test.go", "%_mocks.go" }, theme=dropdown })<cr>
+" nmap gi <cmd>lua require('telescope.builtin').lsp_implementations(require('telescope.themes').get_ivy({file_ignore_patterns = { "%_test.go", "%_mocks.go" }}))<cr>
+
 " Find all references
 nmap <leader>gr <cmd>lua require('telescope.builtin').lsp_references()<cr>
 " Find all references excluding test files
 nmap gr <cmd>lua require('telescope.builtin').lsp_references({file_ignore_patterns = { "%_test.go", "%_mocks.go" }, theme=dropdown })<cr>
+
+" Example showing how to use the ivy theme (or any theme).
+" the 'get_xxx' functions return a map that can be used to set the picker options as well
+" nmap gr <cmd>lua require('telescope.builtin').lsp_references(require('telescope.themes').get_ivy({file_ignore_patterns = { "%_test.go", "%_mocks.go" }, include_declaration = false, previewer = false }))<cr>
 
 
 " }}}
@@ -364,6 +380,12 @@ EOF
 " Go specific commands
 command! -nargs=0 GoAlt call v:lua.Switch()
 
+" Quickly jump to alternate Go file
+map <leader>t <cmd>GoAlt<cr>
+
+" Easily close nvim terminal with esc
+tnoremap <Esc> <C-\><C-n>
+
 " }}}
 
-" vim:foldmethod=marker:foldlevel=0
+" vim:foldmethod=marker:foldlevel=1
