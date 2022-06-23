@@ -66,4 +66,7 @@ Plug('nvim-lualine/lualine.nvim')
 -- Tagbar replacement
 -- Plug 'simrat39/symbols-outline.nvim'
 
+-- Show signatures when editing
+Plug 'ray-x/lsp_signature.nvim'
+
 call('plug#end')
