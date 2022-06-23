@@ -2,31 +2,31 @@ local cmp = require('cmp')
 local types = require('cmp.types')
 
 local kind_icons = {
-  Text = "",
-  Method = "",
-  Function = "",
-  Constructor = "",
-  Field = "",
-  Variable = "",
-  Class = "ﴯ",
-  Interface = "",
-  Module = "",
-  Property = "ﰠ",
-  Unit = "",
-  Value = "",
-  Enum = "",
-  Keyword = "",
-  Snippet = "",
-  Color = "",
-  File = "",
-  Reference = "",
-  Folder = "",
-  EnumMember = "",
-  Constant = "",
-  Struct = "",
-  Event = "",
-  Operator = "",
-  TypeParameter = ""
+  Text = "   (Text) ",
+  Method = "   (Method)",
+  Function = "   (Function)",
+  Constructor = "   (Constructor)",
+  Field = " ﴲ  (Field)",
+  Variable = "[] (Variable)",
+  Class = "   (Class)",
+  Interface = " ﰮ  (Interface)",
+  Module = "   (Module)",
+  Property = " 襁 (Property)",
+  Unit = "   (Unit)",
+  Value = "   (Value)",
+  Enum = " 練 (Enum)",
+  Keyword = "   (Keyword)",
+  Snippet = "   (Snippet)",
+  Color = "   (Color)",
+  File = "   (File)",
+  Reference = "   (Reference)",
+  Folder = "   (Folder)",
+  EnumMember = "   (EnumMember)",
+  Constant = "   (Constant)",
+  Struct = "   (Struct)",
+  Event = "   (Event)",
+  Operator = "   (Operator)",
+  TypeParameter = "   (TypeParameter)",
 }
 
 local feedkey = function(key, mode)
@@ -43,7 +43,10 @@ cmp.setup({
   completion = {
     keyword_length = 1,
   },
-
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
   snippet = {
     expand = function(args)
       vim.fn["vsnip#anonymous"](args.body)
@@ -95,15 +98,23 @@ cmp.setup({
 
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'vsnip' },
+    { name = 'vsnip' }, -- requires 'hrsh7th/cmp-vsnip' plugin
     { name = 'buffer' },
   }),
 
   formatting = {
-    format = function(_, vim_item)
-      vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind)
-      return vim_item
-    end
+    format = function(entry, item)
+      item.kind = kind_icons[item.kind]
+      item.menu = ({
+          nvim_lsp = "[LSP]",
+          vsnip = "[Snippet]",
+          buffer = "[Buffer]",
+          path = "[Path]",
+          crates = "[Crates]",
+          latex_symbols = "[LaTex]",
+      })[entry.source.name]
+      return item
+    end,
   },
 })
 

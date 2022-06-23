@@ -37,6 +37,7 @@ Plug 'doums/darcula'
 -- snippets
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'hrsh7th/cmp-vsnip'
 
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = fn['TSUpdate']})
 -- Plug 'nvim-treesitter/playground'
