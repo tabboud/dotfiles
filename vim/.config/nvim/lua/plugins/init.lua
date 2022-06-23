@@ -33,6 +33,7 @@ Plug('chriskempson/tomorrow-theme', { ['rtp'] = 'vim/' })
 Plug 'chiendo97/intellij.vim'
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'doums/darcula'
+Plug 'shaunsingh/solarized.nvim'
 
 -- snippets
 Plug 'hrsh7th/vim-vsnip'
