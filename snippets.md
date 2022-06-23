@@ -8,6 +8,7 @@
 
 Merge 2 windows into 1.
 This will move the 2nd window as a pane to the 1st window.
+Requires being in the target window (i.e. 1 in this case).
 
 ```bash
 join-pane -s 2 -t 1
