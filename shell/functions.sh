@@ -228,6 +228,8 @@ function etmp() {
 # Alternatively:
 # gheclone <ghe-org>/repo
 # ghclone tabboud/dotfiles
+# TODO(tabboud): Update this to use different input arguments (full url, git url, org/repo, etc)
+#                Can alternatively proxy these through the 'gh' command
 function gheclone() {
     if [[ "$#" -ne 1 ]]; then
         echo "USAGE: gheclone <org>/<repo>"
