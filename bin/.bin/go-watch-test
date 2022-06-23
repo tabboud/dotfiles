@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Auto watch go test files and run them for changes
+# Requires the https://github.com/cespare/reflex to be installed.
+
+if ! command -v reflex > /dev/null 2>&1; then
+    echo "[ERROR] reflex binary not found"
+    echo "Please install reflex from https://github.com/cespare/reflex. Try: go install github.com/cespare/reflex@latest"
+    exit 1
+fi
+
+PKGS=${1:-""}
+TEST_FUNC=${2:-""}
+
+reflex -r '_test.go' -- go-test "$PKGS" "$TEST_FUNC"

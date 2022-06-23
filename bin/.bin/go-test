@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# Runs Go tests for the provided package and optional run function.
+if [[ "$#" -lt 1 ]]; then
+    echo "USAGE: go-test <pkgs> <func-to-test (optional)>"
+    exit 1
+fi
+
+TEST_PKGS=${1:-""}
+FUNC_TO_TEST=${2:-""}
+
+if [[ -n "${FUNC_TO_TEST}" ]]; then
+    FUNC_TO_TEST="-run=${FUNC_TO_TEST}"
+fi
+
+clear
+
+set -x
+go test -v -count=1 "$FUNC_TO_TEST" "$TEST_PKGS"
