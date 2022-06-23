@@ -14,14 +14,15 @@ local shortcuts = {
 Keys = {
   ["specialTriggers"] = {},
   ["triggers"] = {
-    -- ["iTerm"] = {{shortcutKey, "t"}},
-    ["Alacritty"] = {{shortcutKey, "t"}},
+    ["iTerm"] = {{shortcutKey, "t"}},
+    -- ["Alacritty"] = {{shortcutKey, "t"}},
     ["Google Chrome"] = {{shortcutKey, "i"}},
     ["Slack"] = {{shortcutKey, "s"}},
     ["Messages"] = {{shortcutKey, "m"}},
     ["Microsoft Outlook"] = {{shortcutKey, "o"}},
     ["GoLand"] = {{shortcutKey, "g"}},
     ["IntelliJ IDEA Community Edition"] = {{shortcutKey, "0"}},
+    ["Visual Studio Code"] = {{shortcutKey, "c"}},
     ["Quip"] = {{shortcutKey, "q"}},
   },
 }
