@@ -37,3 +37,6 @@ for config_file ($ZSH/lib/*.zsh); do
   [ -f "${custom_config_file}" ] && config_file=${custom_config_file}
   source $config_file
 done
+
+# Allow '#' to be used for comments in interactive shells
+setopt interactivecomments
