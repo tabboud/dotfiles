@@ -69,4 +69,7 @@ Plug('nvim-lualine/lualine.nvim')
 -- Show signatures when editing
 Plug 'ray-x/lsp_signature.nvim'
 
+-- Git gitter signs with inline blame highlights
+Plug('lewis6991/gitsigns.nvim')
+
 call('plug#end')

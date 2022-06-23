@@ -372,6 +372,7 @@ lua << EOF
     require("plugins/telescope")
     require("plugins/lualine")
     require("plugins/symbols-outline")
+    require("plugins/gitsigns")
 
     -- Go specific functions
     require("go/alternate")
