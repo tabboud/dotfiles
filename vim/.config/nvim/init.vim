@@ -373,6 +373,7 @@ lua << EOF
     require("plugins/lualine")
     require("plugins/symbols-outline")
     require("plugins/gitsigns")
+    require("plugins/bufferline")
 
     -- Go specific functions
     require("go/alternate")

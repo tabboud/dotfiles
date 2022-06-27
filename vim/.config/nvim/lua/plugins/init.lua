@@ -7,7 +7,6 @@ local Plug = fn['plug#']
 
 call('plug#begin', '~/.nvim/plugged')
 
-Plug 'ap/vim-buftabline'
 Plug 'tpope/vim-commentary'     -- Toggle comments like sublime
 -- Plug 'airblade/vim-gitgutter'   -- Git gutter (disabled while testing gitsigns for nvim)
 Plug 'tpope/vim-fugitive'       -- Git for vim
@@ -71,5 +70,6 @@ Plug 'ray-x/lsp_signature.nvim'
 
 -- Git gitter signs with inline blame highlights
 Plug('lewis6991/gitsigns.nvim')
+Plug('akinsho/bufferline.nvim', { ['tag'] = 'v2.*' })
 
 call('plug#end')
