@@ -23,12 +23,18 @@ local function searchCount()
     return string.format("/%s [%d/%d]", searchTerm, count.current, count.total)
 end
 
+-- projectName returns the name of the containing directory (or project).
+local function projectName()
+    return vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+end
+
 require('lualine').setup {
     options = {
         theme = 'jellybeans'
     },
     sections = {
-        lualine_c = {'filename', searchCount },
-        lualine_x = { 'filetype' }
+        lualine_b = { projectName, 'branch', 'diff', 'diagnostics' },
+        lualine_c = { 'filename' },
+        lualine_x = { searchCount }
     },
 }
