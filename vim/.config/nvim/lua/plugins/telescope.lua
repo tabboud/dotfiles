@@ -124,7 +124,7 @@ require('telescope').setup{
   pickers = {
       -- find_files with the ivy theme + preview
     find_files = themes.get_ivy {
-        find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
+        -- find_command = { "fd", "--type", "f" },
         hidden = true,
     },
     buffers = {

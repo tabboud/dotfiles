@@ -28,6 +28,7 @@ set showbreak=↪
 " TODO(tabboud): Use nvim_treesitter#foldexpr() for syntax aware folding
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
+set foldnestmax=1
 
 set mouse=a
 set clipboard=unnamed
@@ -204,10 +205,11 @@ augroup ymlConfig
     autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab cuc
 augroup END
 
-" Open all folds when opening a buffer or file
+" Open all folds when opening a buffer/file OR entering a buffer
 " This is required when using treesitter to enforce code folding
 " since folds are closed by default
 autocmd BufReadPost,FileReadPost * normal zR
+autocmd BufEnter * normal zR
 " }}}
 
 " Section Functions {{{
@@ -350,6 +352,7 @@ nmap gr <cmd>lua require('telescope.builtin').lsp_references({file_ignore_patter
 " the 'get_xxx' functions return a map that can be used to set the picker options as well
 " nmap gr <cmd>lua require('telescope.builtin').lsp_references(require('telescope.themes').get_ivy({file_ignore_patterns = { "%_test.go", "%_mocks.go" }, include_declaration = false, previewer = false }))<cr>
 
+nmap <leader>d <cmd>SymbolsOutline<cr>
 
 " }}}
 

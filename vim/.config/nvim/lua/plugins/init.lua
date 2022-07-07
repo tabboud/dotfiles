@@ -33,6 +33,13 @@ Plug 'chiendo97/intellij.vim'
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'doums/darcula'
 Plug 'shaunsingh/solarized.nvim'
+-- testing
+Plug 'jacoborus/tender.vim'             -- Not bad, but only dark
+Plug 'EdenEast/nightfox.nvim'           -- nordfox is not bad. Tons of config available
+Plug 'davidosomething/vim-colors-meh'   -- just meh. Only dark
+Plug 'andreypopp/vim-colors-plain'      -- Works terrible in tmux
+Plug 'mcchrish/zenbones.nvim'           -- Pretty nice
+Plug 'rktjmp/lush.nvim'                 -- required for zenbones above
 
 -- snippets
 Plug 'hrsh7th/vim-vsnip'
@@ -63,7 +70,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug('nvim-lualine/lualine.nvim')
 
 -- Tagbar replacement
--- Plug 'simrat39/symbols-outline.nvim'
+Plug 'simrat39/symbols-outline.nvim'
 
 -- Show signatures when editing
 Plug 'ray-x/lsp_signature.nvim'
