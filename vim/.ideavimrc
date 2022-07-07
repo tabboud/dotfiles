@@ -1,7 +1,8 @@
 set ignorecase
 set smartcase
-set scrolloff=3         " 3 lines above/below cursor when scrolling
-set showmode            " show the current vim mode (Insert, Visual, etc.) on the status line
+set scrolloff=3     " 3 lines above/below cursor when scrolling
+set showmode        " show the current vim mode (Insert, Visual, etc.) on the status line
+set visualbell      " Use visual bell instead of beeping
 
 " Integrate with system clipboard
 set clipboard=unnamedplus,unnamed
