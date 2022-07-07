@@ -20,3 +20,12 @@ This swaps the position of window 2 and 1.
 ```bash
 swap-window -s 2 -t 1
 ```
+
+## Vim
+
+Delete up until a character (see :h t)
+
+This deletes up until " character.
+```text
+dt"
+```
