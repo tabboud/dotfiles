@@ -55,8 +55,8 @@ if exists('+termguicolors')
   set termguicolors
 endif
 
-set background=dark
-colorscheme darcula
+set background=light
+colorscheme forestbones
 
 set synmaxcol=120           " disable  syntax highlighting after 120 columns
 set colorcolumn=120         " Draw a vertical line at 120 characters

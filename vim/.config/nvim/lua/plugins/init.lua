@@ -33,6 +33,9 @@ Plug 'chiendo97/intellij.vim'
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'doums/darcula'
 Plug 'shaunsingh/solarized.nvim'
+-- testing colorschemes
+Plug 'rktjmp/lush.nvim'         -- required for zenbones below
+Plug 'mcchrish/zenbones.nvim'   -- collection of minimal colorschemes (forestbones for light themes)
 
 -- snippets
 Plug 'hrsh7th/vim-vsnip'
