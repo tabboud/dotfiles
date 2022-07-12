@@ -2,6 +2,7 @@
 declare -a COMMON=(
     bash
     bin
+    cheat
     git
     tmux
     vim
