@@ -27,7 +27,8 @@ gocd() {
     fi
 }
 
-# Create a new tmux session or switch to an existing one.
+# Create a new tmux session or switch to an existing one by selecting one of the
+# listed sessions sorted by most recently attached.
 #
 # Commands:
 # tm: select an open tmux session via fzf
@@ -37,7 +38,12 @@ tm() {
   if [ $1 ]; then
     tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
   fi
-  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0 --reverse --height=20) &&  tmux $change -t "$session" || echo "No sessions found."
+
+  # list sessions by most recently attached first
+  # Uses the "session_last_attached" format as the sorting field but strips off this timestamp
+  # before presenting the selection.
+  session=$(tmux list-sessions -F "#{session_last_attached}/#{session_name}" | sort -Vr | xargs basename | fzf --exit-0 --reverse --height=20)
+  tmux $change -t "$session" || echo "No sessions found."
 }
 
 # Delete git branches.
