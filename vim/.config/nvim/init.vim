@@ -247,21 +247,6 @@ nnoremap [[ :call search("^func", "b")<cr>
 " }}}
 
 " Section Plugins {{{
-function! RipgrepFzf(query, fullscreen)
-  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
-  let initial_command = printf(command_fmt, shellescape(a:query))
-  let reload_command = printf(command_fmt, '{q}')
-  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-endfunction
-
-" command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
-" Allow passing optional flags into the Rg command.
-"   Example: :Rg myterm -g '*.md'
-command! -bang -nargs=* RG
-  \ call fzf#vim#grep(
-  \ "rg --column --line-number --no-heading --color=always --smart-case " .
-  \ <q-args>, 1, fzf#vim#with_preview(), <bang>0)
 
 " Vim-Bufkill
 map <C-c> :BD<cr>
@@ -309,22 +294,6 @@ nnoremap <leader>c :call ToggleNERDTreeWinPos()<CR>
 let g:vista_default_executive = 'nvim_lsp'
 let g:vista#renderer#enable_icon = 1
 
-" FZF Settings
-" Launch fzf in a terminal buffer
-let g:fzf_layout = { 'down': '~25%' }
-" Use the following to launch fzf in a popup window
-" let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
-
-" custom :GFiles call to ignore the vendor directory
-command! MyGFiles call fzf#run(fzf#wrap({'source': 'git ls-files --exclude-standard --cached --others | grep -v vendor/'}))
-" Custom buffers command with no preview for faster loading
-command! -bang -nargs=? MyBuffers call fzf#vim#buffers(<q-args>, <bang>0)
-" nmap <silent> <leader>p :MyGFiles<cr>
-" nmap <silent> <leader><Enter> :MyBuffers<cr>
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-l> <plug>(fzf-complete-line)
-
 " Telescope settings
 " Use custom theme with no preview
 nmap <silent> <leader><Enter> :Telescope buffers theme=dropdown previewer=false<cr>
@@ -367,7 +336,6 @@ let g:goimports = 1
 lua << EOF
     require("plugins/cmp")
     require("plugins/lspconfig")
-    require("plugins/lspfuzzy")
     require("plugins/nvim-treesitter")
     require("plugins/telescope")
     require("plugins/lualine")

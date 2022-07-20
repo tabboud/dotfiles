@@ -16,8 +16,6 @@ Plug 'Raimondi/delimitMate'     -- Match parenthesis and quotes
 Plug 'qpkorr/vim-bufkill'       -- Bring sanity to closing buffers
 Plug 'ntpeters/vim-better-whitespace'
 Plug('scrooloose/nerdtree', {on = 'NERDTreeToggle'})
-Plug('junegunn/fzf', { ['do'] = fn['fzf#install'] })
-Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-rooter'      -- Auto cd to root of git repo
 
 -- Languages
@@ -54,9 +52,6 @@ Plug('hrsh7th/cmp-nvim-lsp', { ['branch'] = 'main'})
 Plug('hrsh7th/cmp-buffer', { ['branch'] = 'main'})
 Plug('hrsh7th/cmp-cmdline', { ['branch'] = 'main'})
 Plug 'neovim/nvim-lspconfig'
-
--- Use fzf with nvim-lspconfig (equivalent to using telescope)
-Plug('ojroques/nvim-lspfuzzy', { ['branch'] = 'main'})
 
 -- Telescope
 Plug 'nvim-lua/plenary.nvim'
