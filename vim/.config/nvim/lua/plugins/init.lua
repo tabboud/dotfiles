@@ -56,6 +56,8 @@ Plug 'neovim/nvim-lspconfig'
 -- Telescope
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+-- Telescope Extensions
+Plug 'nvim-telescope/telescope-live-grep-args.nvim'     -- Provide dynamic args to grep/rg
 
 -- Lua-line (replacement for lightline)
 Plug('nvim-lualine/lualine.nvim')

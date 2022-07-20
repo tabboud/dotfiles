@@ -7,6 +7,7 @@ local Path = require "plenary.path"
 local entry_display = require "telescope.pickers.entry_display"
 
 local themes = require('telescope.themes')
+local lga_actions = require("telescope-live-grep-args.actions")
 
 -- entry_maker for lsp_references/lsp_implementations
 -- This was copied from telescope.nvim and updates the displayer to no longer
@@ -142,7 +143,18 @@ require('telescope').setup{
     },
     -- TODO(tabboud): consolidate the telescope logic in init.vim and here
   },
-  extensions = {}
+  extensions = {
+    live_grep_args = {
+      auto_quoting = true, -- enable/disable auto-quoting
+      mappings = {
+        i = {
+          ["<C-k>"] = lga_actions.quote_prompt(),
+          ["<C-l>g"] = lga_actions.quote_prompt({ postfix = ' --iglob ' }),
+          ["<C-l>t"] = lga_actions.quote_prompt({ postfix = ' -t' }),
+        }
+      }
+    }
+  }
 }
 
 local previewers = require("telescope.previewers")

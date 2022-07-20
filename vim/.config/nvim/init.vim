@@ -321,6 +321,9 @@ nmap gr <cmd>lua require('telescope.builtin').lsp_references({file_ignore_patter
 
 nmap <leader>rn <cmd>lua require('lspsaga.rename').lsp_rename({noremap = true, silent = true})<cr>
 
+" Telescope live_grep with dynamic args for rg
+nmap <leader>rg <cmd>lua require("telescope").extensions.live_grep_args.live_grep_args()<cr>
+
 " }}}
 
 " Section Neovim {{{
@@ -344,6 +347,9 @@ lua << EOF
     require("plugins/gitsigns")
     require("plugins/bufferline")
     require("plugins/lspsaga")
+
+    -- Telescope extensions
+    require("telescope").load_extension("live_grep_args")
 
     -- Go specific functions
     require("go/alternate")
