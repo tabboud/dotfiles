@@ -76,7 +76,7 @@ require('telescope').setup{
     -- path_display = { "truncate" },
 
     -- Always use vertical layout to display results (defaults to 'horizontal')
-    -- layout_strategy = 'vertical',
+    layout_strategy = 'flex',
 
     -- ignore vendor directories in ALL windows
     file_ignore_patterns = {
