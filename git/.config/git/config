@@ -1,0 +1,81 @@
+[alias]
+    # list all aliases
+    la = !git config -l | grep alias | cut -c 7-
+    diff = diff --ignore-space-at-eol -b -w --ignore-blank-lines
+    cnv = commit --no-verify
+    cm = commit -m
+    co = checkout
+    cob = checkout -b
+    s = status --short
+    ss = status
+    br = branch -v
+    r = remote -v
+    b = branch --show-current
+
+    l = log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+    # show a pretty log graph
+    lg = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'
+
+    # show what I did today
+    day = !sh -c 'git log --reverse --no-merges --branches=* --date=local --after=\"yesterday 11:59PM\" --author=\"`git config --get user.name`\"'
+
+    # show all deleted files in the repo
+    deleted = !git log --diff-filter=D --summary | grep delete
+
+    # Show when a file was deleted from git (includes renames)
+    # $1 should be the path to the file of interest, from the root.
+    # The top value will be the most recent commit that removed the file.
+    deleted-when = log --full-history -- $1
+
+    # current branch
+    cbr = rev-parse --abbrev-ref HEAD
+
+    # list all branches
+    bra = branch -a
+
+    # list all branches but sort by committerdate and colorize
+    brs = for-each-ref --sort=committerdate refs/heads/ --format='%(color: red)%(committerdate:short) %(color: cyan)%(refname:short)'
+    wip = for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads
+
+    # delete a local branch
+    del = branch -D
+
+    # grep commands
+
+    # 'diff grep'
+    dg = !sh -c 'git ls-files -m | grep $1 | xargs git diff' -
+    # diff grep changes between two commits
+    dgc = !sh -c 'git ls-files | grep $1 | xargs git diff $2 $3 -- ' -
+    # 'checkout grep'
+    cg = !sh -c 'git ls-files -m | grep $1 | xargs git checkout ' -
+    # add grep
+    ag = !sh -c 'git ls-files -m -o --exclude-standard | grep $1 | xargs git add --all' -
+    # add all
+    aa = !git ls-files -d | xargs git rm && git ls-files -m -o --exclude-standard | xargs git add
+    # add current and show status
+    as = !git add . && git status --short
+    # remove grep - Remove found files that are NOT under version control
+    rg = !sh -c 'git ls-files --others --exclude-standard | grep $1 | xargs rm' -
+    # checkout one of the last 20 branches on a repo through fzf
+    cof = !git checkout $(git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads/ | head -20 | fzf)
+
+    brsort = branch --sort=-committerdate
+
+	# git codereview aliases
+	change = codereview change
+	gofmt = codereview gofmt
+	mail = codereview mail
+	pending = codereview pending
+	submit = codereview submit
+	sync = codereview sync
+
+[fetch]
+    # Always prune on fetch/pull to automatically delete remote-tracking
+    # local branches that have been removed from remote
+    prune = true
+
+[init]
+	defaultBranch = develop
+
+[include]
+    path = ~/.gitconfig.local
