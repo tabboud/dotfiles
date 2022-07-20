@@ -1,17 +1,5 @@
 # Functions that leverage FZF
 
-# fuzzy grep open via ag
-vg() {
-  local file
-
-  file="$(ag --nobreak --noheading $@ | fzf -0 -1 | awk -F: '{print $1}')"
-
-  if [[ -n $file ]]
-  then
-     vim $file
-  fi
-}
-
 # Cd to a Go repo via fzf.
 #
 # Finds all repositories under $ROOT_CODE_DIR (if set) or $GOPATH/src, strips out
