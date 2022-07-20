@@ -47,7 +47,12 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_set_keymap("n", "g]", "<cmd>lua vim.diagnostic.goto_next()<CR>", {noremap = true, silent = true})
   vim.api.nvim_set_keymap("n", "g[", "<cmd>lua vim.diagnostic.goto_prev()<CR>", {noremap = true, silent = true})
   vim.api.nvim_set_keymap("n", "<Leader>e", "<cmd>lua vim.diagnostic.open_float()<CR>", {noremap = true, silent = true})
-  vim.api.nvim_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", {noremap = true, silent = true})
+
+  -- TODO(tabboud): Add a popup window for renaming
+  --                Testing out using lspsaga for renames instead
+  -- vim.api.nvim_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", {noremap = true, silent = true})
+  -- vim.api.nvim_set_keymap("n", "<Leader>rn", "<cmd>lua require('lspsaga.rename').lsp_rename<CR>", {noremap = true, silent = true})
+
   vim.api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", {noremap = true, silent = true})
   vim.api.nvim_set_keymap("n", "<c-p>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", {noremap = true, silent = true})
   -- vim.api.nvim_set_keymap("n", "g0", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", {noremap = true, silent = true})

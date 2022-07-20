@@ -319,6 +319,7 @@ nmap gr <cmd>lua require('telescope.builtin').lsp_references({file_ignore_patter
 " the 'get_xxx' functions return a map that can be used to set the picker options as well
 " nmap gr <cmd>lua require('telescope.builtin').lsp_references(require('telescope.themes').get_ivy({file_ignore_patterns = { "%_test.go", "%_mocks.go" }, include_declaration = false, previewer = false }))<cr>
 
+nmap <leader>rn <cmd>lua require('lspsaga.rename').lsp_rename({noremap = true, silent = true})<cr>
 
 " }}}
 
@@ -342,6 +343,7 @@ lua << EOF
     require("plugins/symbols-outline")
     require("plugins/gitsigns")
     require("plugins/bufferline")
+    require("plugins/lspsaga")
 
     -- Go specific functions
     require("go/alternate")

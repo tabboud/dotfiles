@@ -70,4 +70,7 @@ Plug 'ray-x/lsp_signature.nvim'
 Plug('lewis6991/gitsigns.nvim')
 Plug('akinsho/bufferline.nvim', { ['tag'] = 'v2.*' })
 
+-- lsp-saga provides lsp renames with a popup window
+Plug('glepnir/lspsaga.nvim', { ['branch'] = 'main'})
+
 call('plug#end')
