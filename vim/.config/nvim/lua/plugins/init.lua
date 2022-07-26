@@ -34,6 +34,7 @@ Plug 'shaunsingh/solarized.nvim'
 -- testing colorschemes
 Plug 'rktjmp/lush.nvim'         -- required for zenbones below
 Plug 'mcchrish/zenbones.nvim'   -- collection of minimal colorschemes (forestbones for light themes)
+Plug('catppuccin/nvim', { ['as'] = 'catppuccin'})
 
 -- snippets
 Plug 'hrsh7th/vim-vsnip'

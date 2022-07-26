@@ -170,7 +170,7 @@ lspconfig.gopls.setup{
       -- enables placeholders for function parameters or struct fields in completion responses
       usePlaceholders = true,
 
-      gofumpt = true,
+      gofumpt = false,
       staticcheck = false,
       analyses = {
           shadow = false,
