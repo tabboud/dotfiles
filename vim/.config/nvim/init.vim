@@ -55,7 +55,7 @@ if exists('+termguicolors')
   set termguicolors
 endif
 
-set background=light
+set background=dark
 colorscheme forestbones
 
 set synmaxcol=120           " disable  syntax highlighting after 120 columns
