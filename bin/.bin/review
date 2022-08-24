@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# Review pull-requests entirely in vim using vim-fugitive.
+
+# Use gum (https://github.com/charmbracelet/gum) if it exists
+GUM_EXISTS=
+if command -v gum &>/dev/null; then
+    GUM_EXISTS=1
+fi
+
+function continueOrExit() {
+    if [ $GUM_EXISTS -eq 1 ]; then
+        gum confirm "Continue reviewing?" && return || echo "Stopping review" && exit 0
+    else
+        read -r -n 1 -p "Press (c) to continue reviewing: " c
+        case "$c" in
+            [Cc]*)
+                return
+                ;;
+            *)
+                echo "Stopping review"
+                exit 0
+                ;;
+        esac
+    fi
+}
+
+function gitDefaultBranch() {
+    # TODO: Allow for different remote names
+    # local remoteName=${1:-"origin"}
+    git remote show origin | grep 'HEAD branch' | cut -d' ' -f5
+}
+
+function main() {
+    BRANCH=$1
+    git switch "$BRANCH"
+    defaultBranch=$(gitDefaultBranch)
+    env REVIEW_BASE="$defaultBranch" git stat
+    continueOrExit
+
+    git reset --soft "$defaultBranch"
+    git reset           # to make everything unstaged
+    nvim -c :G          # to use fugitive for the review
+    git reset --hard origin/"$BRANCH"
+}
+
+if [[ "$#" -lt 1 ]]; then
+    echo "USAGE: review <branch-to-review>"
+    exit 1
+fi
+
+main "$1"
+
