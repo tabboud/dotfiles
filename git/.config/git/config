@@ -61,6 +61,9 @@
 
     brsort = branch --sort=-committerdate
 
+    # Show stats between review base and HEAD for code review
+    stat = !git diff --stat $(git merge-base HEAD $REVIEW_BASE)
+
 	# git codereview aliases
 	change = codereview change
 	gofmt = codereview gofmt
