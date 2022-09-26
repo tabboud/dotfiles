@@ -19,7 +19,7 @@ function gen_from_quickfix(opts)
     separator = "▏",
     items = {
       { width = 8 },
-      { width = 0.45 },
+      { width = opts.bufnr_width },
       { remaining = true },
     },
   }

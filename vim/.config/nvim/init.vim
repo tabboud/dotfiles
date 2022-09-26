@@ -251,42 +251,9 @@ nnoremap [[ :call search("^func", "b")<cr>
 " Vim-Bufkill
 map <C-c> :BD<cr>
 
-" NERDTree Settings
-let NERDTreeShowHidden=1
-nmap <silent> <leader>k :NERDTreeToggle<cr>
-nmap <silent> <leader>f :NERDTreeFind<cr>
-" Close NERDTree if it's the last window open
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-
-" Auto track the current buffer in NERDTree
-function! AutoNTFinder()
-    if !exists('g:NERDTree')
-        return
-    endif
-    if g:NERDTree.IsOpen() && &buftype == ''
-        let l:winnr = winnr()
-        let l:altwinnr = winnr('#')
-
-        :NERDTreeFind
-
-        execute l:altwinnr . 'wincmd w'
-        execute l:winnr . 'wincmd w'
-    endif
-endfunction
-" Enable auto tracking
-" autocmd BufEnter * call AutoNTFinder()
-
-" Toggle NERDTree window position
-function! ToggleNERDTreeWinPos()
-    let l:pos = get(g:, 'NERDTreeWinPos', 'default')
-    if pos ==# "left"
-        let g:NERDTreeWinPos="right"
-    else
-        let g:NERDTreeWinPos="left"
-    endif
-endfunction
-nnoremap <leader>c :call ToggleNERDTreeWinPos()<CR>
+" NvimTree Settings
+nmap <silent> <leader>k :NvimTreeToggle<cr>
+nmap <silent> <leader>f :NvimTreeFindFile<cr>
 
 " vista tagbar settings
 " Executive used when opening vista sidebar without specifying it.
@@ -347,6 +314,9 @@ lua << EOF
     require("plugins/gitsigns")
     require("plugins/bufferline")
     require("plugins/lspsaga")
+    require("plugins/treesitter-context")
+    require("plugins/fidget")
+    require("plugins/nvim-tree")
 
     -- Telescope extensions
     require("telescope").load_extension("live_grep_args")

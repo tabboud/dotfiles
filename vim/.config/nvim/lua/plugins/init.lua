@@ -15,7 +15,6 @@ Plug 'ryanoasis/vim-devicons'   -- Icons
 Plug 'Raimondi/delimitMate'     -- Match parenthesis and quotes
 Plug 'qpkorr/vim-bufkill'       -- Bring sanity to closing buffers
 Plug 'ntpeters/vim-better-whitespace'
-Plug('scrooloose/nerdtree', {on = 'NERDTreeToggle'})
 Plug 'airblade/vim-rooter'      -- Auto cd to root of git repo
 
 -- Languages
@@ -74,5 +73,13 @@ Plug('akinsho/bufferline.nvim', { ['tag'] = 'v2.*' })
 
 -- lsp-saga provides lsp renames with a popup window
 Plug('glepnir/lspsaga.nvim', { ['branch'] = 'main'})
+
+Plug('j-hui/fidget.nvim')
+
+-- TESTING
+-- keep context for code at the top when scrolling down
+Plug('nvim-treesitter/nvim-treesitter-context')
+Plug('sindrets/diffview.nvim')
+Plug('kyazdani42/nvim-tree.lua')
 
 call('plug#end')
