@@ -192,8 +192,21 @@ function depsByPkg() {
     go list -f '{{.ImportPath}}:{{"\n\t"}}{{ join .Deps  "\n\t"}}' $1
 }
 
-function goImportsByPkg() {
-    go list -f '{{.ImportPath}}:{{"\n\t"}}{{join .Imports "\n\t"}}' $1
+goImportsByPkg() {
+    local helpText=$( printf "USAGE: %s <pkgs>
+
+        Lists directly imported packages, by import path, for the provided packages.
+        Example: goImportsByPkg ./...\n" "$0")
+    if hasHelpFlag "$@"; then
+        echo $helpText
+        return 1
+    fi
+    if [[ $# -ne 1 ]]; then
+        echo "Not enough arguments"
+        echo $helpText
+        return 1
+    fi
+    go list -f '{{.ImportPath}}:{{"\n\t"}}{{join .Imports "\n\t"}}' "$1"
 }
 
 # listDeleted lists the local branches that
@@ -269,4 +282,18 @@ function _internalClone() {
     fi
 
     git clone git@"$account":"$repo" "$dest" && cd "$dest"
+}
+
+# Returns 0 if the provided arguments contains
+# a help flag (-h) and 1 otherwise.
+hasHelpFlag() {
+    while getopts h option; do
+       case $option in
+          h)
+             return 0;;
+          *)
+             return 1;;
+       esac
+    done
+    return 1
 }
