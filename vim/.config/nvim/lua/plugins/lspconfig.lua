@@ -60,7 +60,7 @@ local on_attach = function(client, bufnr)
 
     -- Setup highlight under cursor if the server supports it
     -- This replaces any usage of treesitter
-   if client.resolved_capabilities.document_highlight then
+   if client.server_capabilities.document_highlight then
         vim.api.nvim_create_autocmd("CursorHold", {
             buffer = bufnr,
             command = "lua vim.lsp.buf.document_highlight()",
@@ -72,7 +72,7 @@ local on_attach = function(client, bufnr)
    end
 
    -- Handle document formatting on buffer write
-   if client.resolved_capabilities.document_formatting then
+   if client.server_capabilities.document_formatting then
        vim.api.nvim_create_autocmd("BufWritePre", {
            buffer = bufnr,
            command = "lua vim.lsp.buf.formatting_seq_sync()",
