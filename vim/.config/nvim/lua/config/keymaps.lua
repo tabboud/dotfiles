@@ -4,23 +4,23 @@ local keymaps = {}
 
 -- normal mode mappings
 keymaps["nmap"] = {
-    { "Q", "" },                        -- disable Ex mode
-    { "<leader>v", ":set paste!<cr>" }, -- toggle paste mode
-    { "<leader>a", ":%y+<cr>" },        -- copy the entire buffer
-    { "<leader>w", ":w<cr>" },          -- write file
-    { "<leader>q", ":q<cr>" },          -- quit
+    { "Q", "" },                            -- disable Ex mode
+    { "<leader>v", ":set paste!<cr>" },     -- toggle paste mode
+    { "<leader>a", ":%y+<cr>" },            -- copy the entire buffer
+    { "<leader>w", ":w<cr>" },              -- write file
+    { "<leader>q", ":q<cr>" },              -- quit
     { "<leader>l", ":set list!<cr>" },      -- toggle listchars
     { "<leader>n", ":set nowrap!<cr>" },    -- toggle wrapping
-    { "<leader>[", "<<" },              -- indent left
-    { "<leader>]", ">>" },              -- indent right
-    { "gn", ":bn<cr>" },                -- faster buffer switching
-    { "gp", ":bp<cr>" },                -- faster buffer switching
-    { "gd", ":bd<cr>" },                -- faster buffer switching
+    { "<leader>[", "<<" },                  -- indent left
+    { "<leader>]", ">>" },                  -- indent right
+    { "gn", ":bn<cr>" },                    -- faster buffer switching
+    { "gp", ":bp<cr>" },                    -- faster buffer switching
+    { "gd", ":bd<cr>" },                    -- faster buffer switching
 
     -- TODO: Add more convenience plugin/gitconfig
     { "<leader>ev", ":e! $MYVIMRC<cr>" },   -- edit vimrc
+
     -- copy file to a split
-    -- TODO: Make sure this doesn't collide with maps below
     { "<C-h>", "<Plug>WinMoveLeft" },
     { "<C-j>", "<Plug>WinMoveDown" },
     { "<C-k>", "<Plug>WinMoveUp" },
@@ -48,14 +48,6 @@ keymaps["nnoremap"] = {
     { "$", "g$" },
 
     { "tt", ":tab split<cr>" },     -- open current buffer in a new tab (mimics full screen mode)
-
-    -- easier move across splits
-    -- TODO: Verify these don't collide
-    { "<C-h>", "<C-w>h" },
-    { "<C-j>", "<C-w>j" },
-    { "<C-k>", "<C-w>k" },
-    { "<C-l>", "<C-w>l" },
-
 }
 
 -- visual mode mappings

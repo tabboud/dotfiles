@@ -30,7 +30,7 @@ return require('packer').startup(function(use)
     use {
       'tpope/vim-commentary',     -- Toggle comments like sublime
       config = function ()
-        vim.keymap.set("n", "<leader>/", ":Commentary<cr>", { noremap = false, silent = true })
+        vim.keymap.set("", "<leader>/", ":Commentary<cr>", { noremap = false, silent = true })
       end
     }
 
