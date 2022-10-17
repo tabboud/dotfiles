@@ -32,7 +32,7 @@ M.get_capabilities = function()
             "additionalTextEdits",
         },
     }
-    return cmp_nvim_lsp.update_capabilities(capabilities)
+    return cmp_nvim_lsp.default_capabilities(capabilities)
 end
 
 local on_attach = function(client, bufnr)

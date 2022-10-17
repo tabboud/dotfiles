@@ -1,13 +1,6 @@
 local nvimtree = require('nvim-tree')
 
 nvimtree.setup({
-  -- This is deprecated
-  -- auto_close = true,
-  update_focused_file = {
-    enable      = true,
-    update_cwd  = false,
-    ignore_list = {}
-  },
   git = {
     enable = false,
     -- Don't hide .gitignore files. These will show up with this symbol ◌
@@ -82,3 +75,7 @@ nvimtree.setup({
     },
 }
 )
+
+-- configure key mappings
+vim.keymap.set("n", "<leader>k", ":NvimTreeToggle<cr>", { noremap = false, silent = true })
+vim.keymap.set("n", "<leader>f", ":NvimTreeFindFile<cr>", { noremap = false, silent = true })

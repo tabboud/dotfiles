@@ -1,9 +1,7 @@
 local actions = require("telescope.actions")
 local action_layout = require("telescope.actions.layout")
-local builtin = require("telescope.builtin")
 
 local utils = require("telescope.utils")
-local Path = require "plenary.path"
 local entry_display = require "telescope.pickers.entry_display"
 
 local themes = require('telescope.themes')
@@ -157,33 +155,40 @@ require('telescope').setup{
   }
 }
 
-local previewers = require("telescope.previewers")
-local pickers = require("telescope.pickers")
-local sorters = require("telescope.sorters")
-local finders = require("telescope.finders")
+---------------
+-- Keymappings
+---------------
+vim.keymap.set("n", "<leader><Enter>", ":Telescope buffers theme=dropdown previewer=false<cr>", { noremap = false, silent = true })
+vim.keymap.set("n", "<leader>p", ":Telescope find_files<cr>", { noremap = false, silent = true })
 
-local godel_check_compiles = function(opts)
-    opts = opts or {}
-    pickers.new {
-        prompt_title = "Godel Prompt",
-        results_title = "[./godelw check compiles]",
-        -- Run an external command and show the results in the finder window
-        finder = finders.new_oneshot_job({"./godelw", "check", "compiles"}),
-        sorter = sorters.get_fuzzy_file(),
-  -- previewer = previewers.new_buffer_previewer {
-  --   define_preview = function(self, entry, status)
-  --      -- Execute another command using the highlighted entry
-  --     return require('telescope.previewers.utils').job_maker(
-  --         {"terraform", "state", "list", entry.value},
-  --         self.state.bufnr,
-  --         {
-  --           callback = function(bufnr, content)
-  --             if content ~= nil then
-  --               require('telescope.previewers.utils').regex_highlighter(bufnr, 'apollo')
-  --             end
-  --           end,
-  --         })
-  --   end
-  -- },
-    }:find()
-end
+-- live_grep with dynamic args for rg
+vim.keymap.set("n", "<leader>rg", function ()
+  return require("telescope").extensions.live_grep_args()
+end, { noremap = false, silent = true })
+
+-- LSP commands through Telescope - These supercede the ones defined in lspconfig.lua
+
+-- Show symbols for the current document
+vim.keymap.set("n", "g0", ":Telescope lsp_document_symbols<cr>", { noremap = false, silent = true })
+
+-- Find all implementations
+vim.keymap.set("n", "<leader>gi", ":Telescope lsp_implementations<cr>", { noremap = false, silent = true })
+-- excluding test/mock files with dropdown theme
+vim.keymap.set("n", "gi", function ()
+  require('telescope.builtin').lsp_implementations({file_ignore_patterns = { "%_test.go", "%_mocks.go" }, theme=dropdown })
+end, { noremap = false, silent = true })
+-- excluding test/mock files with ivy theme
+vim.keymap.set("n", "gi", function ()
+  local builtin = require('telescope.builtin')
+  local themes = require('telescope.themes')
+  return builtin.lsp_implementations(themes.get_ivy({file_ignore_patterns = { "%_test.go", "%_mocks.go" }}))
+end, { noremap = false, silent = true })
+
+-- " Find all references
+vim.keymap.set("n", "<leader>gr", ":Telescope lsp_references<cr>", { noremap = false, silent = true })
+-- excluding test/mock files with dropdown theme
+vim.keymap.set("n", "gr", function ()
+  local builtin = require('telescope.builtin')
+  local themes = require('telescope.themes')
+  return builtin.lsp_references(themes.get_ivy({file_ignore_patterns = { "%_test.go", "%_mocks.go" }}))
+end, { noremap = false, silent = true })
