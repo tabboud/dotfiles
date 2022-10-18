@@ -4,13 +4,14 @@ local action_layout = require("telescope.actions.layout")
 local utils = require("telescope.utils")
 local entry_display = require "telescope.pickers.entry_display"
 
+local builtin = require('telescope.builtin')
 local themes = require('telescope.themes')
 local lga_actions = require("telescope-live-grep-args.actions")
 
 -- entry_maker for lsp_references/lsp_implementations
 -- This was copied from telescope.nvim and updates the displayer to no longer
 -- display the preview in the results window. See comment inline below.
-function gen_from_quickfix(opts)
+local gen_from_quickfix = function(opts)
   opts = opts or {}
 
   local displayer = entry_display.create {
@@ -175,12 +176,10 @@ vim.keymap.set("n", "g0", ":Telescope lsp_document_symbols<cr>", { noremap = fal
 vim.keymap.set("n", "<leader>gi", ":Telescope lsp_implementations<cr>", { noremap = false, silent = true })
 -- excluding test/mock files with dropdown theme
 vim.keymap.set("n", "gi", function ()
-  require('telescope.builtin').lsp_implementations({file_ignore_patterns = { "%_test.go", "%_mocks.go" }, theme=dropdown })
+  require('telescope.builtin').lsp_implementations({file_ignore_patterns = { "%_test.go", "%_mocks.go" }, theme="dropdown" })
 end, { noremap = false, silent = true })
 -- excluding test/mock files with ivy theme
 vim.keymap.set("n", "gi", function ()
-  local builtin = require('telescope.builtin')
-  local themes = require('telescope.themes')
   return builtin.lsp_implementations(themes.get_ivy({file_ignore_patterns = { "%_test.go", "%_mocks.go" }}))
 end, { noremap = false, silent = true })
 
@@ -188,7 +187,5 @@ end, { noremap = false, silent = true })
 vim.keymap.set("n", "<leader>gr", ":Telescope lsp_references<cr>", { noremap = false, silent = true })
 -- excluding test/mock files with dropdown theme
 vim.keymap.set("n", "gr", function ()
-  local builtin = require('telescope.builtin')
-  local themes = require('telescope.themes')
   return builtin.lsp_references(themes.get_ivy({file_ignore_patterns = { "%_test.go", "%_mocks.go" }}))
 end, { noremap = false, silent = true })

@@ -1,6 +1,7 @@
 local lspconfig = require('lspconfig')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local vim_diag = require('vim.diagnostic')
+local fn = vim.fn
 
 local M = {}
 
@@ -152,34 +153,65 @@ vim.fn.sign_define("DiagnosticSignInfo", {
 --
 -- gopls setup
 -- Settings can be found here: https://github.com/golang/tools/blob/master/gopls/doc/settings.md
-lspconfig.gopls.setup{
-  filetypes = { "go", "gomod", },
-  on_attach = function(client, bufnr)
-    require "lsp_signature".on_attach()  -- Note: add in lsp client on-attach
-    on_attach(client, bufnr)
-  end,
-  capabilities = M.get_capabilities(),
-  cmd = {
-    "gopls",
-  },
-  flags = {
-    debounce_text_changes = 500,
-  },
-  settings = {
-    gopls = {
-      -- enables placeholders for function parameters or struct fields in completion responses
-      usePlaceholders = true,
+if fn.executable("gopls") > 0 then
+    lspconfig.gopls.setup{
+        filetypes = { "go", "gomod", },
+        on_attach = function(client, bufnr)
+            require "lsp_signature".on_attach()  -- Note: add in lsp client on-attach
+            on_attach(client, bufnr)
+        end,
+        capabilities = M.get_capabilities(),
+        cmd = {
+            "gopls",
+        },
+        flags = {
+            debounce_text_changes = 500,
+        },
+        settings = {
+            gopls = {
+            -- enables placeholders for function parameters or struct fields in completion responses
+            usePlaceholders = true,
 
-      gofumpt = false,
-      staticcheck = false,
-      analyses = {
-          shadow = false,
-          unusedparams = false,
-      },
-      codelenses = {
-        test = true,
+            gofumpt = false,
+            staticcheck = false,
+            analyses = {
+                shadow = false,
+                unusedparams = false,
+            },
+            codelenses = {
+                test = true,
+            },
+            },
+        },
+    }
+end
+
+if fn.executable("lua-language-server") > 0 then
+  -- settings for lua-language-server can be found on https://github.com/sumneko/lua-language-server/wiki/Settings .
+  lspconfig.sumneko_lua.setup {
+    on_attach = on_attach,
+    capabilities = M.get_capabilities(),
+    settings = {
+      Lua = {
+        runtime = {
+          version = "LuaJIT",
+        },
+        diagnostics = {
+          -- Get the language server to recognize the `vim` global
+          globals = { "vim" },
+        },
+        workspace = {
+          -- Make the server aware of Neovim runtime files,
+          -- see also https://github.com/sumneko/lua-language-server/wiki/Libraries#link-to-workspace .
+          -- Lua-dev.nvim also has similar settings for sumneko lua, https://github.com/folke/lua-dev.nvim/blob/main/lua/lua-dev/sumneko.lua .
+          library = {
+            fn.stdpath("data") .. "/site/pack/packer/opt/emmylua-nvim",
+            fn.stdpath("config"),
+          },
+          maxPreload = 2000,
+          preloadFileSize = 50000,
+        },
       },
     },
-  },
-}
-
+  }
+end
