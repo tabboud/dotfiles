@@ -54,6 +54,8 @@ keymaps["nnoremap"] = {
 keymaps["vmap"] = {
   { "*", "<Esc>/\\%V" }, -- Visual search /
   { "#", "<Esc>?\\%V" }, -- Visual search ?
+  { "<leader>[", "<gv" }, -- Shift left
+  { "<leader>]", ">gv" }, -- Shift right
 }
 
 return keymaps
