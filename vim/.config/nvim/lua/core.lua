@@ -107,7 +107,7 @@ function M.apply_keymaps()
     vim.api.nvim_set_keymap("x", " ", "", { noremap = true })
 
     -- TODO: Make new methods to do nmap nnoremap so we can split up core from plugins
-    local keymaps = require("config.keymaps")
+    local keymaps = require("keymaps")
     map_keys("n", { noremap = false, silent = true }, keymaps.nmap)
     map_keys("n", { noremap = true , silent = true }, keymaps.nnoremap)
     map_keys("x", { noremap = false, silent = true }, keymaps.vmap)
