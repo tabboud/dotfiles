@@ -26,7 +26,7 @@ function M.apply_options()
   opt.writebackup = false -- don't backup the file while editing
   opt.swapfile = false -- don't create swap files for new buffers
   opt.updatecount = 0 -- don't write swap files after some number of updates
-  opt.showmode = false  -- don't show the vim mode (normal, insert, etc)
+  opt.showmode = false -- don't show the vim mode (normal, insert, etc)
 
   -- Appearance
   opt.background = "dark" -- Use a dark background by default
@@ -55,6 +55,10 @@ function M.apply_options()
   -- TODO: This needs to be set in the treesitter config instead
   opt.foldmethod = "expr"
   opt.foldexpr = "nvim_treesitter#foldexpr()"
+  opt.foldlevelstart = 99
+  opt.foldnestmax = 10 -- deepest fold is 10 levels
+  opt.foldenable = false -- don't fold by default
+  opt.foldlevel = 1
 
   -- Error bells
   opt.errorbells = false
