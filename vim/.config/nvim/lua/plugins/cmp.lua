@@ -1,33 +1,6 @@
 local cmp = require('cmp')
 local types = require('cmp.types')
-
-local kind_icons = {
-  Text = "   (Text) ",
-  Method = "   (Method)",
-  Function = "   (Function)",
-  Constructor = "   (Constructor)",
-  Field = " ﴲ  (Field)",
-  Variable = "[] (Variable)",
-  Class = "   (Class)",
-  Interface = " ﰮ  (Interface)",
-  Module = "   (Module)",
-  Property = " 襁 (Property)",
-  Unit = "   (Unit)",
-  Value = "   (Value)",
-  Enum = " 練 (Enum)",
-  Keyword = "   (Keyword)",
-  Snippet = "   (Snippet)",
-  Color = "   (Color)",
-  File = "   (File)",
-  Reference = "   (Reference)",
-  Folder = "   (Folder)",
-  EnumMember = "   (EnumMember)",
-  Constant = "   (Constant)",
-  Struct = "   (Struct)",
-  Event = "   (Event)",
-  Operator = "   (Operator)",
-  TypeParameter = "   (TypeParameter)",
-}
+local icons = require("icons")
 
 local feedkey = function(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
@@ -104,7 +77,7 @@ cmp.setup({
 
   formatting = {
     format = function(entry, item)
-      item.kind = kind_icons[item.kind]
+      item.kind = icons.kind[item.kind]
       item.menu = ({
         nvim_lsp = "[LSP]",
         vsnip = "[Snippet]",

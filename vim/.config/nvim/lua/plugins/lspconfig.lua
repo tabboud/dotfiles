@@ -2,6 +2,7 @@ local lspconfig = require('lspconfig')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local vim_diag = require('vim.diagnostic')
 local fn = vim.fn
+local icons = require("icons")
 
 local M = {}
 
@@ -14,13 +15,6 @@ M.diagnostic_config = {
     prefix = "",
     spacing = 4,
   },
-}
-
-M.icons = {
-  error = " ",
-  warn = " ",
-  hint = " ",
-  info = " ",
 }
 
 M.get_capabilities = function()
@@ -109,44 +103,44 @@ end
 
 -- Diagnostic sign mappings
 vim.fn.sign_define("LspDiagnosticsSignError", {
-  text = M.icons.error,
+  text = icons.lsp.error,
   texthl = "LspDiagnosticsSignError",
   linehl = "",
   numhl = "",
 })
 vim.fn.sign_define("LspDiagnosticsSignWarning", {
-  text = M.icons.warn,
+  text = icons.lsp.warn,
   texthl = "LspDiagnosticsSignWarning",
   linehl = "",
   numhl = "",
 })
 vim.fn.sign_define("LspDiagnosticsSignInformation", {
-  text = M.icons.info,
+  text = icons.lsp.info,
   texthl = "LspDiagnosticsSignInformation",
   linehl = "",
   numhl = "",
 })
 vim.fn.sign_define("LspDiagnosticsSignHint", {
-  text = M.icons.hint,
+  text = icons.lsp.hint,
   texthl = "LspDiagnosticsSignHint",
   linehl = "",
   numhl = "",
 })
 
 vim.fn.sign_define("DiagnosticSignError", {
-  text = M.icons.error,
+  text = icons.lsp.error,
   numhl = "DiagnosticSignError",
 })
 vim.fn.sign_define("DiagnosticSignWarn", {
-  text = M.icons.warn,
+  text = icons.lsp.warn,
   numhl = "DiagnosticSignWarn",
 })
 vim.fn.sign_define("DiagnosticSignHint", {
-  text = M.icons.hint,
+  text = icons.lsp.hint,
   numhl = "DiagnosticSignHint",
 })
 vim.fn.sign_define("DiagnosticSignInfo", {
-  text = M.icons.info,
+  text = icons.lsp.info,
   numhl = "DiagnosticSignInfo",
 })
 

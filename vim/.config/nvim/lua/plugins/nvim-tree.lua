@@ -1,4 +1,5 @@
 local nvimtree = require('nvim-tree')
+local icons = require("icons")
 
 nvimtree.setup({
   git = {
@@ -19,10 +20,10 @@ nvimtree.setup({
     enable = true,
     show_on_dirs = false,
     icons = {
-      hint = "",
-      info = "",
-      warning = "",
-      error = "",
+      hint = icons.nvimtree.diagnostics.hint,
+      info = icons.nvimtree.diagnostics.info,
+      warning = icons.nvimtree.diagnostics.warning,
+      error = icons.nvimtree.diagnostics.error,
     },
   },
   disable_netrw = true,
@@ -35,9 +36,9 @@ nvimtree.setup({
     indent_markers = {
       enable = true,
       icons = {
-        corner = "└ ",
-        edge = "│ ",
-        none = "  ",
+        corner = icons.nvimtree.renderer.corner,
+        edge = icons.nvimtree.renderer.edge,
+        none = icons.nvimtree.renderer.none,
       },
     },
     icons = {
@@ -49,23 +50,23 @@ nvimtree.setup({
         folder_arrow = true,
       },
       glyphs = {
-        default = "",
-        symlink = "",
+        default = icons.nvimtree.glyphs.default,
+        symlink = icons.nvimtree.glyphs.symlink,
         git = {
-          unstaged = "",
-          staged = "S",
-          unmerged = "",
-          renamed = "➜",
-          deleted = "",
-          untracked = "U",
-          ignored = "◌",
+          unstaged = icons.nvimtree.glyphs.GitUnstaged,
+          staged = icons.nvimtree.glyphs.GitStaged,
+          unmerged = icons.nvimtree.glyphs.GitUnmerged,
+          renamed = icons.nvimtree.glyphs.GitRenamed,
+          deleted = icons.nvimtree.glyphs.GitDeleted,
+          untracked = icons.nvimtree.glyphs.GitUntracked,
+          ignored = icons.nvimtree.glyphs.GitIgnored,
         },
         folder = {
-          default = "",
-          open = "",
-          empty = "",
-          empty_open = "",
-          symlink = "",
+          default = icons.nvimtree.glyphs.FolderDefault,
+          open = icons.nvimtree.glyphs.FolderOpen,
+          empty = icons.nvimtree.glyphs.FolderEmpty,
+          empty_open = icons.nvimtree.glyphs.FolderEmptyOpen,
+          symlink = icons.nvimtree.glyphs.FolderSymlink,
         },
       },
     },
