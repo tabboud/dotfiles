@@ -1,5 +1,4 @@
 local lspconfig = require('lspconfig')
-local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local vim_diag = require('vim.diagnostic')
 local fn = vim.fn
 local icons = require("icons")
@@ -27,7 +26,11 @@ M.get_capabilities = function()
       "additionalTextEdits",
     },
   }
-  return cmp_nvim_lsp.default_capabilities(capabilities)
+  local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+  if ok then
+      capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+  end
+  return capabilities
 end
 
 -- document_highlight adds an autocmd to enable document highlight on CursorHold
