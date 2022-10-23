@@ -26,6 +26,7 @@ function M.apply_options()
   opt.writebackup = false -- don't backup the file while editing
   opt.swapfile = false -- don't create swap files for new buffers
   opt.updatecount = 0 -- don't write swap files after some number of updates
+  opt.showmode = false  -- don't show the vim mode (normal, insert, etc)
 
   -- Appearance
   opt.background = "dark" -- Use a dark background by default
