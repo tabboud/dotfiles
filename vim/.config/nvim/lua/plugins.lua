@@ -44,6 +44,13 @@ return require('packer').startup(function(use)
     end
   }
   use {
+    "SmiteshP/nvim-navic",  -- Add winbar with context
+    requires = { "neovim/nvim-lspconfig" },
+    config = function ()
+      require("plugins/nvim-navic").setup()
+    end
+  }
+  use {
     'akinsho/bufferline.nvim',
     tag = "v3.*",
     requires = 'kyazdani42/nvim-web-devicons',
@@ -115,13 +122,7 @@ return require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     run = 'TSUpdate',
     config = function()
-      require("plugins/nvim-treesitter")
-    end
-  }
-  use {
-    'nvim-treesitter/nvim-treesitter-context',
-    config = function()
-      require("plugins/treesitter-context")
+      require("plugins/nvim-treesitter").setup()
     end
   }
 
