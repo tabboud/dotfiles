@@ -106,12 +106,12 @@ cmp.setup({
     format = function(entry, item)
       item.kind = kind_icons[item.kind]
       item.menu = ({
-          nvim_lsp = "[LSP]",
-          vsnip = "[Snippet]",
-          buffer = "[Buffer]",
-          path = "[Path]",
-          crates = "[Crates]",
-          latex_symbols = "[LaTex]",
+        nvim_lsp = "[LSP]",
+        vsnip = "[Snippet]",
+        buffer = "[Buffer]",
+        path = "[Path]",
+        crates = "[Crates]",
+        latex_symbols = "[LaTex]",
       })[entry.source.name]
       return item
     end,

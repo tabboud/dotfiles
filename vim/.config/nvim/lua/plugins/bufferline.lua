@@ -1,6 +1,6 @@
-require("bufferline").setup{
-    options = {
-        diagnostics = "nvim_lsp",
-        separator_style = "padded_slant",
-    }
+require("bufferline").setup {
+  options = {
+    diagnostics = "nvim_lsp",
+    separator_style = "padded_slant",
+  }
 }

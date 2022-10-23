@@ -2,9 +2,9 @@ local fn = vim.fn
 
 -- ensure_packer is installed at the install_path.
 local ensure_packer = function()
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
   if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
     vim.cmd [[packadd packer.nvim]]
     return true
   end
@@ -17,16 +17,16 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use 'ntpeters/vim-better-whitespace'
-  use 'airblade/vim-rooter'      -- Auto cd to root of git repo
+  use 'airblade/vim-rooter' -- Auto cd to root of git repo
   use {
-    'qpkorr/vim-bufkill',       -- Bring sanity to closing buffers
-    config = function ()
+    'qpkorr/vim-bufkill', -- Bring sanity to closing buffers
+    config = function()
       vim.keymap.set("n", "<C-c>", ":BD<cr>", { noremap = false, silent = true })
     end
   }
   use {
-    'tpope/vim-commentary',     -- Toggle comments like sublime
-    config = function ()
+    'tpope/vim-commentary', -- Toggle comments like sublime
+    config = function()
       vim.keymap.set("", "<leader>/", ":Commentary<cr>", { noremap = false, silent = true })
     end
   }
@@ -34,21 +34,21 @@ return require('packer').startup(function(use)
   ----------------
   -- Appearence
   ----------------
-  use 'tpope/vim-surround'       -- Add surroundings (quotes, parenthesis, etc)
-  use 'ryanoasis/vim-devicons'   -- Icons
-  use 'Raimondi/delimitMate'     -- Match parenthesis and quotes
+  use 'tpope/vim-surround' -- Add surroundings (quotes, parenthesis, etc)
+  use 'ryanoasis/vim-devicons' -- Icons
+  use 'Raimondi/delimitMate' -- Match parenthesis and quotes
   use {
-      'nvim-lualine/lualine.nvim',
-      config = function ()
-          require("plugins/lualine")
-      end
+    'nvim-lualine/lualine.nvim',
+    config = function()
+      require("plugins/lualine")
+    end
   }
   use {
     'akinsho/bufferline.nvim',
     tag = "v3.*",
     requires = 'kyazdani42/nvim-web-devicons',
-    config = function ()
-        require("plugins/bufferline")
+    config = function()
+      require("plugins/bufferline")
     end
   }
 
@@ -58,25 +58,25 @@ return require('packer').startup(function(use)
   use 'tpope/vim-fugitive'
   use {
     'sindrets/diffview.nvim',
-    requires = {'nvim-lua/plenary.nvim'},
+    requires = { 'nvim-lua/plenary.nvim' },
     -- only load this plugin on the following commands
-    cmd = {'DiffviewOpen', 'DiffviewFileHistory', 'DiffViewLog'}
+    cmd = { 'DiffviewOpen', 'DiffviewFileHistory', 'DiffViewLog' }
   }
   use {
-      'lewis6991/gitsigns.nvim',
-      config = function ()
-          require("plugins/gitsigns")
-      end
+    'lewis6991/gitsigns.nvim',
+    config = function()
+      require("plugins/gitsigns")
+    end
   }
 
   ----------------
   -- Languages
   ----------------
-  use {'plasticboy/vim-markdown', ft = {'markdown'}}
+  use { 'plasticboy/vim-markdown', ft = { 'markdown' } }
   -- Add go-imports plugin since nvim LSP with gopls, does not yet support it
   --  ref: https://github.com/neovim/nvim-lspconfig/issues/115
-  use {'mattn/vim-goimports', ft = {'go'}}
-  use {'mattn/vim-goimpl', ft = {'go'}}
+  use { 'mattn/vim-goimports', ft = { 'go' } }
+  use { 'mattn/vim-goimpl', ft = { 'go' } }
 
   ----------------
   -- Color Schemes
@@ -85,20 +85,20 @@ return require('packer').startup(function(use)
   use 'doums/darcula'
   use 'shaunsingh/solarized.nvim'
   use {
-      'mcchrish/zenbones.nvim',
-        requires = {'rktjmp/lush.nvim'},
+    'mcchrish/zenbones.nvim',
+    requires = { 'rktjmp/lush.nvim' },
   }
 
   ----------------
   -- File Tree
   ----------------
   use {
-      'nvim-tree/nvim-tree.lua',
-      requires = {'nvim-tree/nvim-web-devicons'},
-      tag = 'nightly',
-      config = function ()
-          require("plugins.nvim-tree")
-      end
+    'nvim-tree/nvim-tree.lua',
+    requires = { 'nvim-tree/nvim-web-devicons' },
+    tag = 'nightly',
+    config = function()
+      require("plugins.nvim-tree")
+    end
   }
 
   ----------------
@@ -106,17 +106,17 @@ return require('packer').startup(function(use)
   ----------------
   -- Used in syntax highlighting and other syntax related plugins
   use {
-      'nvim-treesitter/nvim-treesitter',
-      run = 'TSUpdate',
-      config = function ()
-          require("plugins/nvim-treesitter")
-      end
+    'nvim-treesitter/nvim-treesitter',
+    run = 'TSUpdate',
+    config = function()
+      require("plugins/nvim-treesitter")
+    end
   }
   use {
-      'nvim-treesitter/nvim-treesitter-context',
-      config = function ()
-          require("plugins/treesitter-context")
-      end
+    'nvim-treesitter/nvim-treesitter-context',
+    config = function()
+      require("plugins/treesitter-context")
+    end
   }
 
   ----------------
@@ -130,61 +130,61 @@ return require('packer').startup(function(use)
   -- LSP
   ----------------
   use {
-      'neovim/nvim-lspconfig',
-      -- nvim-cmp source for LSP client
-      requires = {
-        {'hrsh7th/cmp-nvim-lsp'},
-        {'ray-x/lsp_signature.nvim'}
-      },
-      config = function ()
-          require("plugins/lspconfig")
-      end
+    'neovim/nvim-lspconfig',
+    -- nvim-cmp source for LSP client
+    requires = {
+      { 'hrsh7th/cmp-nvim-lsp' },
+      { 'ray-x/lsp_signature.nvim' }
+    },
+    config = function()
+      require("plugins/lspconfig")
+    end
   }
   -- Extensions to built-in LSP, for example, providing type inlay hints
   use 'nvim-lua/lsp_extensions.nvim'
 
   -- autocomplete with nvim-cmp
   use {
-      'hrsh7th/nvim-cmp',
-        config = function ()
-          require("plugins/cmp")
-        end
+    'hrsh7th/nvim-cmp',
+    config = function()
+      require("plugins/cmp")
+    end
   }
   -- nvim-cmp sources
-  use {'hrsh7th/cmp-nvim-lsp'}
-  use {'hrsh7th/cmp-buffer'}
+  use { 'hrsh7th/cmp-nvim-lsp' }
+  use { 'hrsh7th/cmp-buffer' }
 
   -- Show signatures when editing
   use 'ray-x/lsp_signature.nvim'
 
   -- Provides lsp renames with a popup window
   use {
-      'glepnir/lspsaga.nvim',
-      branch = 'main',
-      config = function ()
-          require("lspsaga").init_lsp_saga()
-      end
+    'glepnir/lspsaga.nvim',
+    branch = 'main',
+    config = function()
+      require("lspsaga").init_lsp_saga()
+    end
   }
 
   -- Provides status of LSP starting up
   use {
-      'j-hui/fidget.nvim',
-      config = function ()
-        require("fidget").setup{}
-      end
+    'j-hui/fidget.nvim',
+    config = function()
+      require("fidget").setup {}
+    end
   }
   ----------------
   -- Telescope
   ----------------
   use {
-      'nvim-telescope/telescope.nvim',
-      requires = {'nvim-lua/plenary.nvim'},
-      config = function ()
-          require("plugins/telescope")
-      end
+    'nvim-telescope/telescope.nvim',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      require("plugins/telescope")
+    end
   }
   -- Telescope Extensions
-  use 'nvim-telescope/telescope-live-grep-args.nvim'     -- Provide dynamic args to grep/rg
+  use 'nvim-telescope/telescope-live-grep-args.nvim' -- Provide dynamic args to grep/rg
 
   -- Automatically set up your configuration after cloning packer.nvim
   if packer_bootstrap then

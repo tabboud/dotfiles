@@ -62,7 +62,7 @@ local gen_from_quickfix = function(opts)
   end
 end
 
-require('telescope').setup{
+require('telescope').setup {
   defaults = {
     -- Disable preview for ALL windows
     -- preview = false,
@@ -79,8 +79,8 @@ require('telescope').setup{
 
     -- ignore vendor directories in ALL windows
     file_ignore_patterns = {
-        "vendor",
-        "^.git/",
+      "vendor",
+      "^.git/",
     },
     file_previewer = require("telescope.previewers").vim_buffer_cat.new,
 
@@ -122,23 +122,23 @@ require('telescope').setup{
     }
   },
   pickers = {
-      -- find_files with the ivy theme + preview
+    -- find_files with the ivy theme + preview
     find_files = themes.get_ivy {
-        find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
-        hidden = true,
+      find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
+      hidden = true,
     },
     buffers = {
-        theme = "dropdown",
-        ignore_current_buffer = true,
-        sort_lastused = true,
+      theme = "dropdown",
+      ignore_current_buffer = true,
+      sort_lastused = true,
     },
     lsp_references = {
-        trim_text = false,
-        entry_maker = gen_from_quickfix(),
+      trim_text = false,
+      entry_maker = gen_from_quickfix(),
     },
     lsp_implementations = {
-        trim_text = false,
-        entry_maker = gen_from_quickfix(),
+      trim_text = false,
+      entry_maker = gen_from_quickfix(),
     },
     -- TODO(tabboud): consolidate the telescope logic in init.vim and here
   },
@@ -159,11 +159,12 @@ require('telescope').setup{
 ---------------
 -- Keymappings
 ---------------
-vim.keymap.set("n", "<leader><Enter>", ":Telescope buffers theme=dropdown previewer=false<cr>", { noremap = false, silent = true })
+vim.keymap.set("n", "<leader><Enter>", ":Telescope buffers theme=dropdown previewer=false<cr>",
+  { noremap = false, silent = true })
 vim.keymap.set("n", "<leader>p", ":Telescope find_files<cr>", { noremap = false, silent = true })
 
 -- live_grep with dynamic args for rg
-vim.keymap.set("n", "<leader>rg", function ()
+vim.keymap.set("n", "<leader>rg", function()
   return require("telescope").extensions.live_grep_args()
 end, { noremap = false, silent = true })
 
@@ -175,17 +176,18 @@ vim.keymap.set("n", "g0", ":Telescope lsp_document_symbols<cr>", { noremap = fal
 -- Find all implementations
 vim.keymap.set("n", "<leader>gi", ":Telescope lsp_implementations<cr>", { noremap = false, silent = true })
 -- excluding test/mock files with dropdown theme
-vim.keymap.set("n", "gi", function ()
-  require('telescope.builtin').lsp_implementations({file_ignore_patterns = { "%_test.go", "%_mocks.go" }, theme="dropdown" })
+vim.keymap.set("n", "gi", function()
+  require('telescope.builtin').lsp_implementations({ file_ignore_patterns = { "%_test.go", "%_mocks.go" },
+    theme = "dropdown" })
 end, { noremap = false, silent = true })
 -- excluding test/mock files with ivy theme
-vim.keymap.set("n", "gi", function ()
-  return builtin.lsp_implementations(themes.get_ivy({file_ignore_patterns = { "%_test.go", "%_mocks.go" }}))
+vim.keymap.set("n", "gi", function()
+  return builtin.lsp_implementations(themes.get_ivy({ file_ignore_patterns = { "%_test.go", "%_mocks.go" } }))
 end, { noremap = false, silent = true })
 
 -- " Find all references
 vim.keymap.set("n", "<leader>gr", ":Telescope lsp_references<cr>", { noremap = false, silent = true })
 -- excluding test/mock files with dropdown theme
-vim.keymap.set("n", "gr", function ()
-  return builtin.lsp_references(themes.get_ivy({file_ignore_patterns = { "%_test.go", "%_mocks.go" }}))
+vim.keymap.set("n", "gr", function()
+  return builtin.lsp_references(themes.get_ivy({ file_ignore_patterns = { "%_test.go", "%_mocks.go" } }))
 end, { noremap = false, silent = true })
