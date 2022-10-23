@@ -16,6 +16,17 @@ local packer_bootstrap = ensure_packer()
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
+  ----------------
+  -- LSP Setup
+  ----------------
+  use { "williamboman/mason-lspconfig.nvim" }
+  use {
+    "williamboman/mason.nvim",
+    config = function()
+      require("plugins/mason").setup()
+    end,
+  }
+
   use 'ntpeters/vim-better-whitespace'
   use 'airblade/vim-rooter' -- Auto cd to root of git repo
   use {
