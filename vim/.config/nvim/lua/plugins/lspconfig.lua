@@ -30,6 +30,32 @@ M.get_capabilities = function()
   return cmp_nvim_lsp.default_capabilities(capabilities)
 end
 
+-- document_highlight adds an autocmd to enable document highlight on CursorHold
+-- if the server supports it. This should be called from clients on_attach methods.
+M.document_highlight = function(client, bufnr)
+    if client.server_capabilities.documentHighlightProvider then
+        vim.api.nvim_create_autocmd("CursorHold", {
+            buffer = bufnr,
+            command = "lua vim.lsp.buf.document_highlight()",
+        })
+        vim.api.nvim_create_autocmd("CursorMoved", {
+            buffer = bufnr,
+            command = "lua vim.lsp.buf.clear_references()",
+        })
+    end
+end
+
+-- document_formatting adds an autocmd to enable document formatting
+-- if the server supports it.
+M.document_formatting = function(client, bufnr)
+    if client.server_capabilities.documentFormattingProvider then
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            command = "lua vim.lsp.buf.format()",
+        })
+    end
+end
+
 local on_attach = function(client, bufnr)
   vim.api.nvim_set_keymap("n", "<Leader>o", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", { noremap = true, silent = true })
   vim.api.nvim_set_keymap("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", { noremap = true, silent = true })
@@ -53,26 +79,8 @@ local on_attach = function(client, bufnr)
   -- vim.api.nvim_set_keymap("n", "g0", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", {noremap = true, silent = true})
   vim.api.nvim_set_keymap("n", "gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", { noremap = true, silent = true })
 
-  -- Setup highlight under cursor if the server supports it
-  -- This replaces any usage of treesitter
-  if client.server_capabilities.document_highlight then
-    vim.api.nvim_create_autocmd("CursorHold", {
-      buffer = bufnr,
-      command = "lua vim.lsp.buf.document_highlight()",
-    })
-    vim.api.nvim_create_autocmd("CursorMoved", {
-      buffer = bufnr,
-      command = "lua vim.lsp.buf.clear_references()",
-    })
-  end
-
-  -- Handle document formatting on buffer write
-  if client.server_capabilities.document_formatting then
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = bufnr,
-      command = "lua vim.lsp.buf.formatting_seq_sync()",
-    })
-  end
+  M.document_highlight(client, bufnr)
+  M.document_formatting(client, bufnr)
 end
 
 -- Custom publishDiagnostics event handler
@@ -102,47 +110,24 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = function(_, result, ctx)
 end
 
 -- Diagnostic sign mappings
-vim.fn.sign_define("LspDiagnosticsSignError", {
-  text = icons.lsp.error,
-  texthl = "LspDiagnosticsSignError",
-  linehl = "",
-  numhl = "",
-})
-vim.fn.sign_define("LspDiagnosticsSignWarning", {
-  text = icons.lsp.warn,
-  texthl = "LspDiagnosticsSignWarning",
-  linehl = "",
-  numhl = "",
-})
-vim.fn.sign_define("LspDiagnosticsSignInformation", {
-  text = icons.lsp.info,
-  texthl = "LspDiagnosticsSignInformation",
-  linehl = "",
-  numhl = "",
-})
-vim.fn.sign_define("LspDiagnosticsSignHint", {
-  text = icons.lsp.hint,
-  texthl = "LspDiagnosticsSignHint",
-  linehl = "",
-  numhl = "",
-})
-
-vim.fn.sign_define("DiagnosticSignError", {
-  text = icons.lsp.error,
-  numhl = "DiagnosticSignError",
-})
-vim.fn.sign_define("DiagnosticSignWarn", {
-  text = icons.lsp.warn,
-  numhl = "DiagnosticSignWarn",
-})
-vim.fn.sign_define("DiagnosticSignHint", {
-  text = icons.lsp.hint,
-  numhl = "DiagnosticSignHint",
-})
-vim.fn.sign_define("DiagnosticSignInfo", {
-  text = icons.lsp.info,
-  numhl = "DiagnosticSignInfo",
-})
+local diagnostic_signs = {
+  { name = "LspDiagnosticsSignError", text = icons.lsp.error },
+  { name = "LspDiagnosticsSignWarning", text = icons.lsp.warning },
+  { name = "LspDiagnosticsSignHint", text = icons.lsp.hint },
+  { name = "LspDiagnosticsSignInformation", text = icons.lsp.info },
+  { name = "DiagnosticSignError", text = icons.lsp.error },
+  { name = "DiagnosticSignWarn", text = icons.lsp.warning },
+  { name = "DiagnosticSignHint", text = icons.lsp.hint },
+  { name = "DiagnosticSignInfo", text = icons.lsp.info },
+}
+for _, sign in ipairs(diagnostic_signs) do
+  vim.fn.sign_define(sign.name, {
+    text = sign.text,
+    texthl = sign.name,
+    linehl = "",
+    numhl = sign.name,
+  })
+end
 
 --
 -- gopls setup
