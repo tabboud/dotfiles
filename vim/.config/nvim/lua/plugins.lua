@@ -51,6 +51,12 @@ return require('packer').startup(function(use)
       require("plugins/bufferline")
     end
   }
+  use {
+    "lukas-reineke/indent-blankline.nvim",
+    config = function()
+      require("plugins/indent-blankline").setup()
+    end,
+  }
 
   ----------------
   -- Git
