@@ -16,10 +16,6 @@ local packer_bootstrap = ensure_packer()
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
-  use 'tpope/vim-fugitive'       -- Git for vim
-  use 'tpope/vim-surround'       -- Add surroundings (quotes, parenthesis, etc)
-  use 'ryanoasis/vim-devicons'   -- Icons
-  use 'Raimondi/delimitMate'     -- Match parenthesis and quotes
   use 'ntpeters/vim-better-whitespace'
   use 'airblade/vim-rooter'      -- Auto cd to root of git repo
   use {
@@ -38,6 +34,9 @@ return require('packer').startup(function(use)
   ----------------
   -- Appearence
   ----------------
+  use 'tpope/vim-surround'       -- Add surroundings (quotes, parenthesis, etc)
+  use 'ryanoasis/vim-devicons'   -- Icons
+  use 'Raimondi/delimitMate'     -- Match parenthesis and quotes
   use {
       'nvim-lualine/lualine.nvim',
       config = function ()
@@ -56,6 +55,7 @@ return require('packer').startup(function(use)
   ----------------
   -- Git
   ----------------
+  use 'tpope/vim-fugitive'
   use {
     'sindrets/diffview.nvim',
     requires = {'nvim-lua/plenary.nvim'},
