@@ -132,7 +132,8 @@ if fn.executable("gopls") > 0 then
   lspconfig.gopls.setup {
     filetypes = { "go", "gomod", },
     on_attach = function(client, bufnr)
-      require "lsp_signature".on_attach() -- Note: add in lsp client on-attach
+      -- TODO(tabboud): lsp-signature is not used anymore. find a replacement
+      -- require "lsp_signature".on_attach() -- Note: add in lsp client on-attach
       on_attach(client, bufnr)
     end,
     capabilities = M.get_capabilities(),
