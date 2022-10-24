@@ -173,7 +173,7 @@ return require('packer').startup(function(use)
     'glepnir/lspsaga.nvim',
     branch = 'main',
     config = function()
-      require("lspsaga").init_lsp_saga()
+      require('plugins/lsp-saga').setup()
     end
   }
 

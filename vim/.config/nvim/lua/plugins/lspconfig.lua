@@ -59,34 +59,22 @@ M.document_formatting = function(client, bufnr)
   end
 end
 
-local on_attach = function(client, bufnr)
-  vim.api.nvim_set_keymap("n", "<Leader>o", "<cmd>lua vim.lsp.buf.document_symbol()<CR>",
-    { noremap = true, silent = true })
-  vim.api.nvim_set_keymap("n", "ga", "<cmd>lua vim.lsp.buf.code_action()<CR>", { noremap = true, silent = true })
-  vim.api.nvim_set_keymap("n", "<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
-  vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
-  vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
+local setup_keymaps = function()
+  local opts = { noremap = true, silent = true }
+  vim.api.nvim_set_keymap("n", "<Leader>o", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", opts)
+  vim.api.nvim_set_keymap("n", "<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+  vim.api.nvim_set_keymap("n", "<c-p>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+  vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+  vim.api.nvim_set_keymap("n", "gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", opts)
+  vim.api.nvim_set_keymap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+  -- vim.api.nvim_set_keymap("n", "g0", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", {noremap = true, silent = true})
   -- vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", {noremap = true, silent = true})
   -- vim.api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", {noremap = true, silent = true})
-  vim.api.nvim_set_keymap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", { noremap = true, silent = true })
-  -- vim.api.nvim_set_keymap("n", "g]", "<cmd>lua vim.diagnostic.goto_next()<CR>", { noremap = true, silent = true })
-  -- vim.api.nvim_set_keymap("n", "g[", "<cmd>lua vim.diagnostic.goto_prev()<CR>", { noremap = true, silent = true })
-  vim.api.nvim_set_keymap("n", "g]", "<cmd>Lspsaga diagnostic_jump_next<CR>", { noremap = true, silent = true })
-  vim.api.nvim_set_keymap("n", "g[", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { noremap = true, silent = true })
-  vim.api.nvim_set_keymap("n", "<Leader>e", "<cmd>lua vim.diagnostic.open_float()<CR>", { noremap = true, silent = true })
+end
 
-  -- TODO(tabboud): Add a popup window for renaming
-  --                Testing out using lspsaga for renames instead
-  -- vim.api.nvim_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", {noremap = true, silent = true})
-  vim.api.nvim_set_keymap("n", "<Leader>rn", "<cmd>lua require('lspsaga.rename').lsp_rename<CR>",
-    { noremap = true, silent = true })
-
-  -- vim.api.nvim_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { noremap = true, silent = true })
-  vim.api.nvim_set_keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { noremap = true, silent = true })
-  vim.api.nvim_set_keymap("n", "<c-p>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", { noremap = true, silent = true })
-  -- vim.api.nvim_set_keymap("n", "g0", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", {noremap = true, silent = true})
-  vim.api.nvim_set_keymap("n", "gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", { noremap = true, silent = true })
-
+local on_attach = function(client, bufnr)
+  setup_keymaps()
   M.document_highlight(client, bufnr)
   M.document_formatting(client, bufnr)
 end
