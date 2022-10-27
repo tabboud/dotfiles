@@ -29,3 +29,11 @@ This deletes up until " character.
 ```text
 dt"
 ```
+
+Split on a given character
+
+Ex: Split long line on commas
+Visual select the line(s) then enter `:'<,'>s/,/\r/g`
+```text
+component:a, name:test, other:field
+```
