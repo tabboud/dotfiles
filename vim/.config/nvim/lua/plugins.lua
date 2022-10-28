@@ -100,7 +100,6 @@ return require('packer').startup(function(use)
   ----------------
   use 'chiendo97/intellij.vim'
   use 'doums/darcula'
-  use 'shaunsingh/solarized.nvim'
   use {
     'mcchrish/zenbones.nvim',
     requires = { 'rktjmp/lush.nvim' },
@@ -145,7 +144,6 @@ return require('packer').startup(function(use)
     -- nvim-cmp source for LSP client
     requires = {
       { 'hrsh7th/cmp-nvim-lsp' },
-      { 'ray-x/lsp_signature.nvim' }
     },
     config = function()
       require("plugins/lspconfig")
@@ -165,9 +163,6 @@ return require('packer').startup(function(use)
   use { 'hrsh7th/cmp-nvim-lsp' }
   use { 'hrsh7th/cmp-buffer' }
   use { 'hrsh7th/cmp-cmdline' }
-
-  -- Show signatures when editing
-  use 'ray-x/lsp_signature.nvim'
 
   -- Provides lsp renames with a popup window
   use {
