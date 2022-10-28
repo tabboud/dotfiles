@@ -36,14 +36,24 @@ cmp.setup({
     ["<CR>"] = cmp.mapping.confirm { select = false },
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.select_next_item()
+        if luasnip.expand_or_jumpable() then
+          print("1")
+          luasnip.expand_or_jump()
+        else
+          print("2")
+          cmp.select_next_item()
+        end
       elseif luasnip.expandable() then
+        print("3")
         luasnip.expand()
       elseif luasnip.expand_or_jumpable() then
+        print("4")
         luasnip.expand_or_jump()
       elseif has_words_before() then
+        print("5")
         cmp.complete()
       else
+        print("6")
         fallback()
       end
     end, {
