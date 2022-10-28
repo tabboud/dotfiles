@@ -113,11 +113,11 @@ local options = {
       ignore_current_buffer = true,
       sort_lastused = true,
     },
-    lsp_references = {
+    lsp_references = themes.get_ivy {
       trim_text = false,
       entry_maker = gen_from_quickfix(),
     },
-    lsp_implementations = {
+    lsp_implementations = themes.get_ivy {
       trim_text = false,
       entry_maker = gen_from_quickfix(),
     },
@@ -136,13 +136,12 @@ local options = {
   }
 }
 
----------------
--- Keymappings
----------------
 local configure_keymaps = function()
   local opts = { noremap = false, silent = true }
-  vim.keymap.set("n", "<leader><Enter>", ":Telescope buffers theme=dropdown previewer=false<cr>", opts)
-  vim.keymap.set("n", "<leader>p", ":Telescope find_files<cr>", opts)
+  local ignore_patterns = { file_ignore_patterns = { "%_test.go", "%_mocks.go" } }
+
+  vim.keymap.set("n", "<leader><Enter>", function() return builtin.buffers({ previewer = false }) end, opts)
+  vim.keymap.set("n", "<leader>p", function() return builtin.find_files() end, opts)
 
   -- live_grep with dynamic args for rg
   vim.keymap.set("n", "<leader>rg", function()
@@ -150,28 +149,16 @@ local configure_keymaps = function()
   end, opts)
 
   -- LSP commands through Telescope - These supercede the ones defined in lspconfig.lua
-
   -- Show symbols for the current document
-  vim.keymap.set("n", "g0", ":Telescope lsp_document_symbols<cr>", opts)
+  vim.keymap.set("n", "g0", function() return builtin.lsp_document_symbols() end, opts)
 
-  -- Find all implementations
-  vim.keymap.set("n", "<leader>gi", ":Telescope lsp_implementations<cr>", opts)
-  -- excluding test/mock files with dropdown theme
-  vim.keymap.set("n", "gi", function()
-    require('telescope.builtin').lsp_implementations({ file_ignore_patterns = { "%_test.go", "%_mocks.go" },
-      theme = "dropdown" })
-  end, opts)
-  -- excluding test/mock files with ivy theme
-  vim.keymap.set("n", "gi", function()
-    return builtin.lsp_implementations(themes.get_ivy({ file_ignore_patterns = { "%_test.go", "%_mocks.go" } }))
-  end, opts)
+  -- Find all implementations + ignore tests/mocks
+  vim.keymap.set("n", "<leader>gi", function() return builtin.lsp_implementations() end, opts)
+  vim.keymap.set("n", "gi", function() return builtin.lsp_implementations(ignore_patterns) end, opts)
 
-  -- " Find all references
-  vim.keymap.set("n", "<leader>gr", ":Telescope lsp_references<cr>", opts)
-  -- excluding test/mock files with dropdown theme
-  vim.keymap.set("n", "gr", function()
-    return builtin.lsp_references(themes.get_ivy({ file_ignore_patterns = { "%_test.go", "%_mocks.go" } }))
-  end, opts)
+  -- Find all references + ignore tests/mocks
+  vim.keymap.set("n", "<leader>gr", function() return builtin.lsp_references() end, opts)
+  vim.keymap.set("n", "gr", function() return builtin.lsp_references(ignore_patterns) end, opts)
 end
 
 
