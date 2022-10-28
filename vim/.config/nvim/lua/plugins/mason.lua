@@ -1,5 +1,3 @@
-local lspconfig = require("lspconfig")
-
 local M = {}
 
 local options = {
@@ -21,13 +19,20 @@ function M.setup()
 
   mason.setup(options)
 
-  local ok, mason_lspconfig = pcall(require, "mason-lspconfig")
-  if not ok then
+  local masonlspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
+  if not masonlspconfig_ok then
     print("mason-lspconfig not installed, skipping setup")
     return
   end
 
   mason_lspconfig.setup()
+
+  local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
+  if not lspconfig_ok then
+    print("lspconfig cannot be required for mason setup...skipping setting up handlers")
+    return
+  end
+
   mason_lspconfig.setup_handlers({
     function(server_name)
       lspconfig[server_name].setup({})
