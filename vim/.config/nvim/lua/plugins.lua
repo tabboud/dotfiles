@@ -189,13 +189,15 @@ return require('packer').startup(function(use)
   ----------------
   use {
     'nvim-telescope/telescope.nvim',
-    requires = { 'nvim-lua/plenary.nvim' },
+    requires = {
+      { 'nvim-lua/plenary.nvim' },
+      -- Provide dynamic args to grep/rg
+      { 'nvim-telescope/telescope-live-grep-args.nvim' },
+    },
     config = function()
-      require("plugins/telescope")
+      require("plugins/telescope").setup()
     end
   }
-  -- Telescope Extensions
-  use 'nvim-telescope/telescope-live-grep-args.nvim' -- Provide dynamic args to grep/rg
 
   -- Automatically set up your configuration after cloning packer.nvim
   if packer_bootstrap then

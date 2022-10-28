@@ -1,3 +1,4 @@
+local M = {}
 local actions = require("telescope.actions")
 local action_layout = require("telescope.actions.layout")
 
@@ -62,29 +63,13 @@ local gen_from_quickfix = function(opts)
   end
 end
 
-require('telescope').setup {
+local options = {
   defaults = {
-    -- Disable preview for ALL windows
-    -- preview = false,
-
-    -- wrap results since they are trimmed (defaults to false)
-    wrap_results = false,
-    -- Show filename in preview window (defaults to false)
-    dynamic_preview_title = true,
-    -- How file paths are displayed
-    -- path_display = { "truncate" },
-
-    -- Always use vertical layout to display results (defaults to 'horizontal')
     layout_strategy = 'flex',
-
-    -- ignore vendor directories in ALL windows
     file_ignore_patterns = {
       "vendor",
       "^.git/",
     },
-    file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-
-    -- Trim indentation at the beginning of presented line in result window
     vimgrep_arguments = {
       "rg",
       "--color=never",
@@ -93,10 +78,9 @@ require('telescope').setup {
       "--line-number",
       "--column",
       "--smart-case",
+      -- Trim indentation at the beginning of presented line in result window
       "--trim"
     },
-
-    -- Custom mappings
     mappings = {
       i = {
         -- map actions.which_key to <C-h> (default: <C-/>)
@@ -112,9 +96,6 @@ require('telescope').setup {
         ["<C-k>"] = actions.move_selection_previous
       },
       n = {
-        -- Toggle preview window
-        -- ["<C-l>"] = action_layout.toggle_preview
-
         -- Allow using ctrl-{j,k} to move to next selection, similar to fzf
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous
@@ -140,7 +121,6 @@ require('telescope').setup {
       trim_text = false,
       entry_maker = gen_from_quickfix(),
     },
-    -- TODO(tabboud): consolidate the telescope logic in init.vim and here
   },
   extensions = {
     live_grep_args = {
@@ -159,35 +139,50 @@ require('telescope').setup {
 ---------------
 -- Keymappings
 ---------------
-vim.keymap.set("n", "<leader><Enter>", ":Telescope buffers theme=dropdown previewer=false<cr>",
-  { noremap = false, silent = true })
-vim.keymap.set("n", "<leader>p", ":Telescope find_files<cr>", { noremap = false, silent = true })
+local configure_keymaps = function()
+  local opts = { noremap = false, silent = true }
+  vim.keymap.set("n", "<leader><Enter>", ":Telescope buffers theme=dropdown previewer=false<cr>", opts)
+  vim.keymap.set("n", "<leader>p", ":Telescope find_files<cr>", opts)
 
--- live_grep with dynamic args for rg
-vim.keymap.set("n", "<leader>rg", function()
-  return require("telescope").extensions.live_grep_args()
-end, { noremap = false, silent = true })
+  -- live_grep with dynamic args for rg
+  vim.keymap.set("n", "<leader>rg", function()
+    return require("telescope").extensions.live_grep_args()
+  end, opts)
 
--- LSP commands through Telescope - These supercede the ones defined in lspconfig.lua
+  -- LSP commands through Telescope - These supercede the ones defined in lspconfig.lua
 
--- Show symbols for the current document
-vim.keymap.set("n", "g0", ":Telescope lsp_document_symbols<cr>", { noremap = false, silent = true })
+  -- Show symbols for the current document
+  vim.keymap.set("n", "g0", ":Telescope lsp_document_symbols<cr>", opts)
 
--- Find all implementations
-vim.keymap.set("n", "<leader>gi", ":Telescope lsp_implementations<cr>", { noremap = false, silent = true })
--- excluding test/mock files with dropdown theme
-vim.keymap.set("n", "gi", function()
-  require('telescope.builtin').lsp_implementations({ file_ignore_patterns = { "%_test.go", "%_mocks.go" },
-    theme = "dropdown" })
-end, { noremap = false, silent = true })
--- excluding test/mock files with ivy theme
-vim.keymap.set("n", "gi", function()
-  return builtin.lsp_implementations(themes.get_ivy({ file_ignore_patterns = { "%_test.go", "%_mocks.go" } }))
-end, { noremap = false, silent = true })
+  -- Find all implementations
+  vim.keymap.set("n", "<leader>gi", ":Telescope lsp_implementations<cr>", opts)
+  -- excluding test/mock files with dropdown theme
+  vim.keymap.set("n", "gi", function()
+    require('telescope.builtin').lsp_implementations({ file_ignore_patterns = { "%_test.go", "%_mocks.go" },
+      theme = "dropdown" })
+  end, opts)
+  -- excluding test/mock files with ivy theme
+  vim.keymap.set("n", "gi", function()
+    return builtin.lsp_implementations(themes.get_ivy({ file_ignore_patterns = { "%_test.go", "%_mocks.go" } }))
+  end, opts)
 
--- " Find all references
-vim.keymap.set("n", "<leader>gr", ":Telescope lsp_references<cr>", { noremap = false, silent = true })
--- excluding test/mock files with dropdown theme
-vim.keymap.set("n", "gr", function()
-  return builtin.lsp_references(themes.get_ivy({ file_ignore_patterns = { "%_test.go", "%_mocks.go" } }))
-end, { noremap = false, silent = true })
+  -- " Find all references
+  vim.keymap.set("n", "<leader>gr", ":Telescope lsp_references<cr>", opts)
+  -- excluding test/mock files with dropdown theme
+  vim.keymap.set("n", "gr", function()
+    return builtin.lsp_references(themes.get_ivy({ file_ignore_patterns = { "%_test.go", "%_mocks.go" } }))
+  end, opts)
+end
+
+
+function M.setup()
+  local ok, telescope = pcall(require, 'telescope')
+  if not ok then
+    print("Telescope could not be required...skipping setup")
+    return
+  end
+  telescope.setup(options)
+  configure_keymaps()
+end
+
+return M
