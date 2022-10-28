@@ -1,18 +1,11 @@
 local M = {}
-local actions = require("telescope.actions")
-local action_layout = require("telescope.actions.layout")
-
-local utils = require("telescope.utils")
-local entry_display = require "telescope.pickers.entry_display"
-
-local builtin = require('telescope.builtin')
-local themes = require('telescope.themes')
-local lga_actions = require("telescope-live-grep-args.actions")
 
 -- entry_maker for lsp_references/lsp_implementations
 -- This was copied from telescope.nvim and updates the displayer to no longer
 -- display the preview in the results window. See comment inline below.
 local gen_from_quickfix = function(opts)
+  local utils = require("telescope.utils")
+  local entry_display = require("telescope.pickers.entry_display")
   opts = opts or {}
 
   local displayer = entry_display.create {
@@ -47,11 +40,9 @@ local gen_from_quickfix = function(opts)
 
     return {
       valid = true,
-
       value = entry,
       ordinal = (not opts.ignore_filename and filename or "") .. " " .. entry.text,
       display = make_display,
-
       bufnr = entry.bufnr,
       filename = filename,
       lnum = entry.lnum,
@@ -63,80 +54,88 @@ local gen_from_quickfix = function(opts)
   end
 end
 
-local options = {
-  defaults = {
-    layout_strategy = 'flex',
-    file_ignore_patterns = {
-      "vendor",
-      "^.git/",
-    },
-    vimgrep_arguments = {
-      "rg",
-      "--color=never",
-      "--no-heading",
-      "--with-filename",
-      "--line-number",
-      "--column",
-      "--smart-case",
-      -- Trim indentation at the beginning of presented line in result window
-      "--trim"
-    },
-    mappings = {
-      i = {
-        -- map actions.which_key to <C-h> (default: <C-/>)
-        -- actions.which_key shows the mappings for your picker,
-        -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-        ["<C-h>"] = "which_key",
+local options = function()
+  local actions = require("telescope.actions")
+  local action_layout = require("telescope.actions.layout")
+  local themes = require('telescope.themes')
+  local lga_actions = require("telescope-live-grep-args.actions")
 
-        -- Toggle preview window (global preview must be set to true)
-        ["?"] = action_layout.toggle_preview,
-
-        -- Allow using ctrl-{j,k} to move to next selection, similar to fzf
-        ["<C-j>"] = actions.move_selection_next,
-        ["<C-k>"] = actions.move_selection_previous
+  return {
+    defaults = {
+      layout_strategy = 'flex',
+      file_ignore_patterns = {
+        "vendor",
+        "^.git/",
       },
-      n = {
-        -- Allow using ctrl-{j,k} to move to next selection, similar to fzf
-        ["<C-j>"] = actions.move_selection_next,
-        ["<C-k>"] = actions.move_selection_previous
-      }
-    }
-  },
-  pickers = {
-    -- find_files with the ivy theme + preview
-    find_files = themes.get_ivy {
-      find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
-      hidden = true,
-    },
-    buffers = {
-      theme = "dropdown",
-      ignore_current_buffer = true,
-      sort_lastused = true,
-    },
-    lsp_references = themes.get_ivy {
-      trim_text = false,
-      entry_maker = gen_from_quickfix(),
-    },
-    lsp_implementations = themes.get_ivy {
-      trim_text = false,
-      entry_maker = gen_from_quickfix(),
-    },
-  },
-  extensions = {
-    live_grep_args = {
-      auto_quoting = true, -- enable/disable auto-quoting
+      vimgrep_arguments = {
+        "rg",
+        "--color=never",
+        "--no-heading",
+        "--with-filename",
+        "--line-number",
+        "--column",
+        "--smart-case",
+        -- Trim indentation at the beginning of presented line in result window
+        "--trim"
+      },
       mappings = {
         i = {
-          ["<C-k>"] = lga_actions.quote_prompt(),
-          ["<C-l>g"] = lga_actions.quote_prompt({ postfix = ' --iglob ' }),
-          ["<C-l>t"] = lga_actions.quote_prompt({ postfix = ' -t' }),
+          -- map actions.which_key to <C-h> (default: <C-/>)
+          -- actions.which_key shows the mappings for your picker,
+          -- e.g. git_{create, delete, ...}_branch for the git_branches picker
+          ["<C-h>"] = "which_key",
+
+          -- Toggle preview window (global preview must be set to true)
+          ["?"] = action_layout.toggle_preview,
+
+          -- Allow using ctrl-{j,k} to move to next selection, similar to fzf
+          ["<C-j>"] = actions.move_selection_next,
+          ["<C-k>"] = actions.move_selection_previous
+        },
+        n = {
+          -- Allow using ctrl-{j,k} to move to next selection, similar to fzf
+          ["<C-j>"] = actions.move_selection_next,
+          ["<C-k>"] = actions.move_selection_previous
+        }
+      }
+    },
+    pickers = {
+      -- find_files with the ivy theme + preview
+      find_files = themes.get_ivy {
+        find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
+        hidden = true,
+      },
+      buffers = {
+        theme = "dropdown",
+        ignore_current_buffer = true,
+        sort_lastused = true,
+      },
+      lsp_references = themes.get_ivy {
+        trim_text = false,
+        entry_maker = gen_from_quickfix(),
+      },
+      lsp_implementations = themes.get_ivy {
+        trim_text = false,
+        entry_maker = gen_from_quickfix(),
+      },
+    },
+    extensions = {
+      live_grep_args = {
+        auto_quoting = true, -- enable/disable auto-quoting
+        mappings = {
+          i = {
+            ["<C-k>"] = lga_actions.quote_prompt(),
+            ["<C-l>g"] = lga_actions.quote_prompt({ postfix = ' --iglob ' }),
+            ["<C-l>t"] = lga_actions.quote_prompt({ postfix = ' -t' }),
+          }
         }
       }
     }
   }
-}
+end
 
 local configure_keymaps = function()
+  local builtin = require('telescope.builtin')
   local opts = { noremap = false, silent = true }
   local ignore_patterns = { file_ignore_patterns = { "%_test.go", "%_mocks.go" } }
 
@@ -168,7 +167,7 @@ function M.setup()
     print("Telescope could not be required...skipping setup")
     return
   end
-  telescope.setup(options)
+  telescope.setup(options())
   configure_keymaps()
 end
 
