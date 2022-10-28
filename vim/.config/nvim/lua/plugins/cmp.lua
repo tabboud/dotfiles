@@ -1,10 +1,6 @@
 local cmp = require('cmp')
-local types = require('cmp.types')
 local icons = require("icons")
-
-local feedkey = function(key, mode)
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-end
+local luasnip = require("luasnip")
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -12,7 +8,6 @@ local has_words_before = function()
 end
 
 cmp.setup({
-
   completion = {
     keyword_length = 1,
   },
@@ -21,57 +16,100 @@ cmp.setup({
     documentation = cmp.config.window.bordered(),
   },
   snippet = {
-    expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
-    end,
+    expand = function(args) luasnip.lsp_expand(args.body) end,
   },
-
   mapping = {
-    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-    ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-    ['<C-e>'] = cmp.mapping({
+    ["<Up>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
+    ["<Down>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
+    ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
+    ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+    ["<C-k>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
+    ["<C-j>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+    ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
+    ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
+    ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+    ["<C-y>"] = cmp.config.disable,
+    ["<C-e>"] = cmp.mapping {
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
-    }),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
-
-    -- use c-{j,k} to scroll through completions
-    ['<C-j>'] = cmp.mapping(cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert }), { 'i', 'c' }),
-    ['<C-k>'] = cmp.mapping(cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert }), { 'i', 'c' }),
-
+    },
+    ["<CR>"] = cmp.mapping.confirm { select = false },
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        if vim.fn["vsnip#available"](1) == 1 then
-          feedkey("<Plug>(vsnip-expand-or-jump)", "")
-        else
-          cmp.select_next_item()
-        end
-      elseif vim.fn["vsnip#available"](1) == 1 then
-        feedkey("<Plug>(vsnip-expand-or-jump)", "")
+        cmp.select_next_item()
+      elseif luasnip.expandable() then
+        luasnip.expand()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
       elseif has_words_before() then
         cmp.complete()
       else
         fallback()
       end
-    end, { "i", "s" }),
-    ["<S-Tab>"] = cmp.mapping(function()
+    end, {
+      "i",
+      "s",
+    }),
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        if vim.fn["vsnip#jumpable"](-1) == 1 then
-          feedkey("<Plug>(vsnip-jump-prev)", "")
-        else
-          cmp.select_prev_item()
-        end
-      elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-        feedkey("<Plug>(vsnip-jump-prev)", "")
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
       end
-    end, { "i", "s" }),
+    end, {
+      "i",
+      "s",
+    }),
   },
-
+  -- mapping = {
+  --   ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+  --   ["<C-f>"] = cmp.mapping.scroll_docs(4),
+  --   ["<C-Space>"] = cmp.mapping.complete(),
+  --   ['<C-y>'] = cmp.config.disable,
+  --   ['<C-e>'] = cmp.mapping {
+  --     i = cmp.mapping.abort(),
+  --     c = cmp.mapping.close(),
+  --   },
+  --   ['<C-k>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
+  --   ['<C-j>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+  --   ["<CR>"] = cmp.mapping.confirm {
+  --     behavior = cmp.ConfirmBehavior.Replace,
+  --     select = false,
+  --   },
+  --   ["<Tab>"] = cmp.mapping(function(fallback)
+  --     if cmp.visible() then
+  --       cmp.select_next_item()
+  --     elseif luasnip.expandable() then
+  --       luasnip.expand()
+  --     elseif luasnip.expand_or_jumpable() then
+  --       luasnip.expand_or_jump()
+  --     elseif has_words_before() then
+  --       cmp.complete()
+  --     else
+  --       fallback()
+  --     end
+  --   end, {
+  --     "i",
+  --     "s",
+  --   }),
+  --   ["<S-Tab>"] = cmp.mapping(function(fallback)
+  --     if cmp.visible() then
+  --       cmp.select_prev_item()
+  --     elseif luasnip.jumpable(-1) then
+  --       luasnip.jump(-1)
+  --     else
+  --       fallback()
+  --     end
+  --   end, {
+  --     "i",
+  --     "s",
+  --   })
+  -- },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'vsnip' }, -- requires 'hrsh7th/cmp-vsnip' plugin
+    { name = 'luasnip' },
     { name = 'buffer' },
   }),
 
@@ -89,4 +127,20 @@ cmp.setup({
       return item
     end,
   },
+})
+
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline("/", {
+  sources = {
+    { name = "buffer" },
+  },
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(":", {
+  sources = cmp.config.sources({
+    { name = "path" },
+  }, {
+    { name = "cmdline" },
+  }),
 })
