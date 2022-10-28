@@ -1,20 +1,8 @@
 local lspconfig = require('lspconfig')
-local vim_diag = require('vim.diagnostic')
 local fn = vim.fn
 local icons = require("icons")
 
 local M = {}
-
-M.diagnostic_config = {
-  update_in_insert = false,
-  underline = false,
-  signs = true,
-  severity_sort = true,
-  virtual_text = {
-    prefix = "",
-    spacing = 4,
-  },
-}
 
 M.get_capabilities = function()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -68,41 +56,12 @@ local setup_keymaps = function()
   vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
   vim.api.nvim_set_keymap("n", "gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", opts)
   vim.api.nvim_set_keymap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-  -- vim.api.nvim_set_keymap("n", "g0", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", {noremap = true, silent = true})
-  -- vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", {noremap = true, silent = true})
-  -- vim.api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", {noremap = true, silent = true})
 end
 
 local on_attach = function(client, bufnr)
   setup_keymaps()
   M.document_highlight(client, bufnr)
   M.document_formatting(client, bufnr)
-end
-
--- Custom publishDiagnostics event handler
-vim.lsp.handlers["textDocument/publishDiagnostics"] = function(_, result, ctx)
-  local uri = result.uri
-  local bufnr = vim.uri_to_bufnr(uri)
-  if not bufnr then
-    return
-  end
-
-  local diagnostics = result.diagnostics
-  for i, diagnostic in ipairs(diagnostics) do
-    local rng = diagnostic.range
-    diagnostics[i].lnum = rng["start"].line
-    diagnostics[i].end_lnum = rng["end"].line
-    diagnostics[i].col = rng["start"].character
-    diagnostics[i].end_col = rng["end"].character
-  end
-
-  local namespace = vim.lsp.diagnostic.get_namespace(ctx.client_id)
-  vim_diag.set(namespace, bufnr, diagnostics, M.diagnostic_config)
-  if not vim.api.nvim_buf_is_loaded(bufnr) then
-    return
-  end
-
-  vim_diag.show(namespace, bufnr, diagnostics, M.diagnostic_config)
 end
 
 -- Diagnostic sign mappings
