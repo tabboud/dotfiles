@@ -164,6 +164,7 @@ return require('packer').startup(function(use)
   -- nvim-cmp sources
   use { 'hrsh7th/cmp-nvim-lsp' }
   use { 'hrsh7th/cmp-buffer' }
+  use { 'hrsh7th/cmp-cmdline' }
 
   -- Show signatures when editing
   use 'ray-x/lsp_signature.nvim'

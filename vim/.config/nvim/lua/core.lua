@@ -73,7 +73,8 @@ function M.apply_options()
   opt.lazyredraw = true -- don't redraw while executing macros
   opt.magic = true -- set magic on, for regular expressions
   opt.showmatch = true -- show matching brackets
-  -- opt.mat = 2             -- how many tenths of a second to blink
+  opt.pumheight = 20 -- pop up menu height
+  opt.completeopt = { "menu", "menuone", "noselect" }
 
   opt.backspace = { -- make backspace behave in a sane manner
     "indent",
@@ -83,10 +84,13 @@ function M.apply_options()
     "unnamed",
     "unnamedplus"
   }
-  opt.wildmode = { -- complete files like a shell
-    "list",
-    "longest"
-  }
+
+  -- disabled to allow cmp-cmdline to use a popup window
+  -- opt.wildmode = { -- complete files like a shell
+  --   "list",
+  --   "longest"
+  -- }
+  -- opt.wildmenu=true
   opt.showbreak = "↪"
   opt.listchars = {
     tab = "→ ",

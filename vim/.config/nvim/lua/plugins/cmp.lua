@@ -12,7 +12,10 @@ local has_words_before = function()
 end
 
 cmp.setup({
-
+  confirm_opts = {
+    behavior = cmp.ConfirmBehavior.Replace,
+    select = false,
+  },
   completion = {
     keyword_length = 1,
   },
@@ -68,13 +71,28 @@ cmp.setup({
       end
     end, { "i", "s" }),
   },
-
-  sources = cmp.config.sources({
+  cmdline = {
+    enable = true,
+    options = {
+      {
+        type = ":",
+        sources = {
+          { name = "path" },
+        },
+      },
+      {
+        type = { "/", "?" },
+        sources = {
+          { name = "buffer" },
+        },
+      },
+    },
+  },
+  sources = {
     { name = 'nvim_lsp' },
     { name = 'vsnip' }, -- requires 'hrsh7th/cmp-vsnip' plugin
     { name = 'buffer' },
-  }),
-
+  },
   formatting = {
     format = function(entry, item)
       item.kind = icons.kind[item.kind]
@@ -89,4 +107,20 @@ cmp.setup({
       return item
     end,
   },
+})
+
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline("/", {
+	sources = {
+		{ name = "buffer" },
+	},
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(":", {
+	sources = cmp.config.sources({
+		{ name = "path" },
+	}, {
+		{ name = "cmdline" },
+	}),
 })
