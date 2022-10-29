@@ -30,20 +30,18 @@ cmp.setup({
   },
 
   mapping = {
-    ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
     ['<C-e>'] = cmp.mapping({
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     }),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
-
     -- use c-{j,k} to scroll through completions
-    ['<C-j>'] = cmp.mapping(cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert }), { 'i', 'c' }),
-    ['<C-k>'] = cmp.mapping(cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert }), { 'i', 'c' }),
-
+    ['<C-j>'] = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert }),
+    ['<C-k>'] = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert }),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         if vim.fn["vsnip#available"](1) == 1 then
@@ -73,20 +71,6 @@ cmp.setup({
   },
   cmdline = {
     enable = true,
-    options = {
-      {
-        type = ":",
-        sources = {
-          { name = "path" },
-        },
-      },
-      {
-        type = { "/", "?" },
-        sources = {
-          { name = "buffer" },
-        },
-      },
-    },
   },
   sources = {
     { name = 'nvim_lsp' },
@@ -100,9 +84,6 @@ cmp.setup({
         nvim_lsp = "[LSP]",
         vsnip = "[Snippet]",
         buffer = "[Buffer]",
-        path = "[Path]",
-        crates = "[Crates]",
-        latex_symbols = "[LaTex]",
       })[entry.source.name]
       return item
     end,
