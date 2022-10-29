@@ -46,22 +46,32 @@ cmp.setup({
     }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        -- Allow using tab to jump to next field when the cmp window is visible
-        -- Helpful for jumping to the next function arg template
-        if luasnip.jumpable(1) then
-          luasnip.jump()
-        else
-          cmp.select_next_item()
-        end
-      elseif luasnip.expandable() then
-        luasnip.expand()
-      elseif luasnip.expand_or_jumpable() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_locally_jumpable() then
         luasnip.expand_or_jump()
       elseif has_words_before() then
         cmp.complete()
       else
         fallback()
       end
+      -- if cmp.visible() then
+      --   -- TODO: Find a better way to do this
+      --   -- Allow using tab to jump to next field when the cmp window is visible
+      --   -- Helpful for jumping to the next function arg template
+      --   -- if luasnip.jumpable(1) then
+      --   --   luasnip.jump(1)
+      --   -- else
+      --   --   cmp.select_next_item()
+      --   -- end
+      -- elseif luasnip.expandable() then
+      --   luasnip.expand()
+      -- elseif luasnip.expand_or_jumpable() then
+      --   luasnip.expand_or_jump()
+      -- elseif has_words_before() then
+      --   cmp.complete()
+      -- else
+      --   fallback()
+      -- end
     end, { "i", "s" }),
     ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
