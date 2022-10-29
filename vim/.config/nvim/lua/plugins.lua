@@ -130,13 +130,6 @@ return require('packer').startup(function(use)
   }
 
   ----------------
-  -- Snippets
-  ----------------
-  use 'hrsh7th/vim-vsnip'
-  use 'hrsh7th/vim-vsnip-integ'
-  use 'hrsh7th/cmp-vsnip'
-
-  ----------------
   -- LSP
   ----------------
   use {
@@ -159,10 +152,18 @@ return require('packer').startup(function(use)
       require("plugins/cmp")
     end
   }
-  -- nvim-cmp sources
+  -- nvim-cmp sources/snippets
   use { 'hrsh7th/cmp-nvim-lsp' }
   use { 'hrsh7th/cmp-buffer' }
   use { 'hrsh7th/cmp-cmdline' }
+  use {
+    "L3MON4D3/LuaSnip",
+    tag = "v1.*",
+  }
+  use {
+    "saadparwaiz1/cmp_luasnip",
+    after = "LuaSnip",
+  }
 
   -- Provides lsp renames with a popup window
   use {
