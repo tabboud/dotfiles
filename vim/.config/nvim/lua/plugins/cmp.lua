@@ -46,8 +46,13 @@ cmp.setup({
     }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        -- TODO: add logic to jump to next if available
-        cmp.select_next_item()
+        -- Allow using tab to jump to next field when the cmp window is visible
+        -- Helpful for jumping to the next function arg template
+        if luasnip.jumpable(1) then
+          luasnip.jump()
+        else
+          cmp.select_next_item()
+        end
       elseif luasnip.expandable() then
         luasnip.expand()
       elseif luasnip.expand_or_jumpable() then
