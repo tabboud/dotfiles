@@ -64,7 +64,7 @@ local options = function()
     defaults = {
       layout_strategy = 'flex',
       file_ignore_patterns = {
-        "vendor",
+        -- "vendor",
         "^.git/",
       },
       vimgrep_arguments = {
