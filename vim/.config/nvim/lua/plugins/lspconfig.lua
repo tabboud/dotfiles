@@ -48,10 +48,15 @@ M.document_formatting = function(client, bufnr)
 end
 
 local setup_keymaps = function()
+  local keymap = function(mode, l, r, opts)
+    opts = opts or {}
+    opts.buffer = true
+    vim.keymap.set(mode, l, r, opts)
+  end
   local opts = { noremap = true, silent = true }
   vim.api.nvim_set_keymap("n", "<Leader>o", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", opts)
   vim.api.nvim_set_keymap("n", "<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  vim.api.nvim_set_keymap("n", "<c-p>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  keymap({ 'n', 'i' }, '<C-p>', vim.lsp.buf.signature_help, { desc = 'Lsp: Signature help' })
   vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
   vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
   vim.api.nvim_set_keymap("n", "gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", opts)
@@ -84,6 +89,13 @@ for _, sign in ipairs(diagnostic_signs) do
   })
 end
 
+-- Use <c-s> to open signature help window
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers['signature_help'], {
+  border = 'single',
+  close_events = { "CursorMoved", "BufHidden" },
+})
+vim.keymap.set('i', '<c-s>', vim.lsp.buf.signature_help)
+
 --
 -- gopls setup
 -- Settings can be found here: https://github.com/golang/tools/blob/master/gopls/doc/settings.md
@@ -106,7 +118,6 @@ if fn.executable("gopls") > 0 then
       gopls = {
         -- enables placeholders for function parameters or struct fields in completion responses
         usePlaceholders = true,
-
         gofumpt = false,
         staticcheck = false,
         analyses = {
@@ -131,13 +142,19 @@ if fn.executable("lua-language-server") > 0 then
         runtime = {
           version = "LuaJIT",
         },
+        completion = {
+          callSnippet = 'Replace',
+        },
         diagnostics = {
           -- Get the language server to recognize the `vim` global
           globals = { "vim" },
         },
         workspace = {
           -- Make the server aware of Neovim runtime files,
-          library = vim.api.nvim_get_runtime_file("", true),
+          library = {
+            [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+            [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+          },
           maxPreload = 2000,
           preloadFileSize = 50000,
         },

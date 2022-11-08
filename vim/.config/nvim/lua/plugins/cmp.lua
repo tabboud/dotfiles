@@ -19,6 +19,9 @@ cmp.setup({
   },
   completion = {
     keyword_length = 1,
+    -- If true, allows the completion menu to popup when typing rather than be invoked with <Tab>
+    -- If false, you must press <Tab> to show the completion window
+    autocomplete = true,
   },
   window = {
     completion = cmp.config.window.bordered(),
@@ -37,12 +40,17 @@ cmp.setup({
       c = cmp.mapping.close(),
     }),
     -- use c-{j,k} to scroll through completions
+    -- SelectBehavior.Insert "inserts" the completed option where the cursor is.
+    -- SelectBehavior.Select will just "select/highlight" the completed option in the completion menu
+    -- Just insert the text don't replace, see https://github.com/hrsh7th/nvim-cmp/issues/664
     ['<C-j>'] = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert }),
     ['<C-k>'] = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert }),
     ['<CR>'] = cmp.mapping.confirm({
+      -- TODO: Fix the insert behavior when there is an LSP completion item. Using ConfirmBehavior.Insert
+      -- works correctly for non-LSP completions, but LSP causes the next word to be deleted.
       -- See https://github.com/hrsh7th/nvim-cmp/issues/664 for ConfirmBehavior explanation
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = true,
     }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
@@ -50,9 +58,9 @@ cmp.setup({
         -- Allow using tab to jump to next field when the cmp window is visible
         -- Helpful for jumping to the next function arg template
         -- if luasnip.jumpable(1) then
-          -- luasnip.jump(1)
+        -- luasnip.jump(1)
         -- else
-          cmp.select_next_item()
+        cmp.select_next_item()
         -- end
       elseif luasnip.expandable() then
         luasnip.expand()
@@ -81,6 +89,7 @@ cmp.setup({
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'buffer' },
+    { name = 'nvim_lsp_signature_help' },
   },
   formatting = {
     format = function(entry, item)
