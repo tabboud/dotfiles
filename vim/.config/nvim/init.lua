@@ -5,13 +5,10 @@
 --      however we set the treesitter foldexpr here so it has to be before the core
 require("plugins")
 
-----------------------
 -- Core
-----------------------
-local core = require("core")
-core.apply_options()
-core.apply_keymaps()
-core.apply_autogroups()
+require("options")
+require("keymaps")
+require("autocmds")
 
--- Go specific functions
-require("go/alternate")
+-- Go specific settings
+require("go")

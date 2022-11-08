@@ -1,5 +1,3 @@
--- Alternate to/from a Go test file
-
 local vim = vim
 local fn = vim.fn
 local api = vim.api
@@ -9,7 +7,7 @@ local function ends_with(str, ending)
   return ending == "" or str:sub(- #ending) == ending
 end
 
--- AlternateGoFile toggles a Go file and the corresponding test.
+-- AlternateGoFile toggles to/from a Go file and the corresponding test.
 function AlternateGoFile()
   local alternate_file = ""
 
