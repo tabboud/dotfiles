@@ -46,7 +46,6 @@ return require('packer').startup(function(use)
   -- Appearence
   ----------------
   use 'tpope/vim-surround' -- Add surroundings (quotes, parenthesis, etc)
-  use 'ryanoasis/vim-devicons' -- Icons
   use 'Raimondi/delimitMate' -- Match parenthesis and quotes
   use {
     'nvim-lualine/lualine.nvim',
