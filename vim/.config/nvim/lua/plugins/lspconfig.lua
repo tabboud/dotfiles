@@ -54,13 +54,13 @@ local setup_keymaps = function()
     vim.keymap.set(mode, l, r, opts)
   end
   local opts = { noremap = true, silent = true }
-  vim.api.nvim_set_keymap("n", "<Leader>o", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", opts)
-  vim.api.nvim_set_keymap("n", "<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+  keymap("n", "<Leader>o", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", opts)
+  keymap("n", "<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
   keymap({ 'n', 'i' }, '<C-p>', vim.lsp.buf.signature_help, { desc = 'Lsp: Signature help' })
-  vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-  vim.api.nvim_set_keymap("n", "gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", opts)
-  vim.api.nvim_set_keymap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+  keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+  keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+  keymap("n", "gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", opts)
+  keymap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
 end
 
 local on_attach = function(client, bufnr)

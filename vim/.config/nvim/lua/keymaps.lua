@@ -60,8 +60,8 @@ end
 
 -- Setup leader mappings - normal (n) / visual (x) mode map a space to a noop
 vim.g.mapleader = " "
-vim.api.nvim_set_keymap("n", " ", "", { noremap = true })
-vim.api.nvim_set_keymap("x", " ", "", { noremap = true })
+vim.keymap.set("n", " ", "", { noremap = true })
+vim.keymap.set("x", " ", "", { noremap = true })
 
 -- TODO: Make new methods to do nmap nnoremap so we can split up core from plugins
 -- TODO: Move all nmap to nnoremap
