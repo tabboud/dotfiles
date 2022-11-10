@@ -6,6 +6,7 @@
     cm = commit -m
     co = checkout
     cob = checkout -b
+    cobf = checkout -B
     s = status --short
     ss = status
     br = branch -v

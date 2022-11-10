@@ -37,3 +37,14 @@ Visual select the line(s) then enter `:'<,'>s/,/\r/g`
 ```text
 component:a, name:test, other:field
 ```
+
+## Git
+
+Force create a branch that exists.
+This resets the target branch and checks it out
+```text
+git switch -C <branch>
+or
+git checkout -B <branch>
+```
+
