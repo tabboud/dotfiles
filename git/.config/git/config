@@ -5,8 +5,8 @@
     cnv = commit --no-verify
     cm = commit -m
     co = checkout
-    cob = checkout -b
-    cobf = checkout -B
+    cob = switch -c
+    cobf = switch -C
     s = status --short
     ss = status
     br = branch -v
