@@ -64,7 +64,8 @@ local options = function()
     defaults = {
       layout_strategy = 'flex',
       file_ignore_patterns = {
-        "vendor",
+        -- Adding this explicitly to the commands that should ignore it instead of being global
+        -- "vendor",
         "^.git/",
       },
       vimgrep_arguments = {
@@ -146,8 +147,12 @@ local configure_keymaps = function()
   nmap("<leader>p", function() return builtin.find_files() end)
 
   -- live_grep with dynamic args for rg
-  nmap("<leader>rg", function()
-    return require("telescope").extensions.live_grep_args()
+  nmap("<leader>rg", function() return builtin.live_grep() end)
+  nmap("rg", function()
+    return builtin.live_grep({
+      prompt = " Live grep (rg) ",
+      file_ignore_patterns = { "vendor" },
+    })
   end)
 
   -- LSP commands through Telescope - These supercede the ones defined in lspconfig.lua
