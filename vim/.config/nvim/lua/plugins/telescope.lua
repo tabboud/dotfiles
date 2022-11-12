@@ -136,28 +136,46 @@ end
 
 local configure_keymaps = function()
   local builtin = require('telescope.builtin')
-  local opts = { noremap = false, silent = true }
   local ignore_patterns = { file_ignore_patterns = { "%_test.go", "%_mocks.go" } }
 
-  vim.keymap.set("n", "<leader><Enter>", function() return builtin.buffers({ previewer = false }) end, opts)
-  vim.keymap.set("n", "<leader>p", function() return builtin.find_files() end, opts)
+  local nmap = function(lhs, rhs)
+    vim.keymap.set("n", lhs, rhs, { noremap = false, silent = true })
+  end
+
+  nmap("<leader><Enter>", function() return builtin.buffers({ previewer = false }) end)
+  nmap("<leader>p", function() return builtin.find_files() end)
 
   -- live_grep with dynamic args for rg
-  vim.keymap.set("n", "<leader>rg", function()
+  nmap("<leader>rg", function()
     return require("telescope").extensions.live_grep_args()
-  end, opts)
+  end)
 
   -- LSP commands through Telescope - These supercede the ones defined in lspconfig.lua
   -- Show symbols for the current document
-  vim.keymap.set("n", "g0", function() return builtin.lsp_document_symbols() end, opts)
+  nmap("g0", function() return builtin.lsp_document_symbols() end)
 
   -- Find all implementations + ignore tests/mocks
-  vim.keymap.set("n", "<leader>gi", function() return builtin.lsp_implementations() end, opts)
-  vim.keymap.set("n", "gi", function() return builtin.lsp_implementations(ignore_patterns) end, opts)
+  nmap("<leader>gi", function() return builtin.lsp_implementations() end)
+  nmap("gi", function() return builtin.lsp_implementations(ignore_patterns) end)
 
   -- Find all references + ignore tests/mocks
-  vim.keymap.set("n", "<leader>gr", function() return builtin.lsp_references() end, opts)
-  vim.keymap.set("n", "gr", function() return builtin.lsp_references(ignore_patterns) end, opts)
+  nmap("<leader>gr", function() return builtin.lsp_references() end)
+  nmap("gr", function() return builtin.lsp_references(ignore_patterns) end)
+
+  -- Edit dotfiles
+  nmap("<leader>ed", function()
+    local dotfilesPath = vim.env.DOTFILES
+    if dotfilesPath == "" then
+      print("[editDotfiles] $DOTFILES is not configured")
+      return
+    end
+    return builtin.find_files({
+      shorten_path = false,
+      cwd = dotfilesPath,
+      prompt = "~ dotfiles ~",
+      hidden = true,
+    })
+  end)
 end
 
 
