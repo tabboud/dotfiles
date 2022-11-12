@@ -13,16 +13,6 @@ local has_words_before = function()
 end
 
 cmp.setup({
-  confirm_opts = {
-    behavior = cmp.ConfirmBehavior.Replace,
-    select = false,
-  },
-  completion = {
-    keyword_length = 1,
-    -- If true, allows the completion menu to popup when typing rather than be invoked with <Tab>
-    -- If false, you must press <Tab> to show the completion window
-    autocomplete = true,
-  },
   window = {
     completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
