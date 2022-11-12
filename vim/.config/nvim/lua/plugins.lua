@@ -16,6 +16,8 @@ local packer_bootstrap = ensure_packer()
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
+  use "lewis6991/impatient.nvim"
+
   ----------------
   -- LSP Setup
   ----------------
@@ -133,10 +135,6 @@ return require('packer').startup(function(use)
   ----------------
   use {
     'neovim/nvim-lspconfig',
-    -- nvim-cmp source for LSP client
-    requires = {
-      { 'hrsh7th/cmp-nvim-lsp' },
-    },
     config = function()
       require("plugins/lspconfig")
     end
