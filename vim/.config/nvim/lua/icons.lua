@@ -35,6 +35,12 @@ return {
     Operator = "   (Operator)",
     TypeParameter = "   (TypeParameter)",
   },
+  lualine = {
+    Folder = " ",
+    Lsp = " ",
+    Position = "",
+    ComponentSeparator= "|",
+  },
   -- used by lspconfig
   lsp = {
     error = " ",
