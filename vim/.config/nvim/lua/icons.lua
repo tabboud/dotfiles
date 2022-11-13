@@ -49,6 +49,11 @@ return {
     hint = " ",
     info = " ",
   },
+  dap = {
+    error = "",
+    rejected = "-",
+    stop = ">",
+  },
   neotest = {
     failed = "✗",
     passed = "✔",

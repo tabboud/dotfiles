@@ -1,9 +1,11 @@
 local M = {}
 
+local icons = require("icons").dap
+
 local function configure()
   local dap_breakpoint = {
     error = {
-      text = "🟥",
+      text = icons.error,
       texthl = "LspDiagnosticsSignError",
       linehl = "",
       numhl = "",
@@ -15,7 +17,7 @@ local function configure()
       numhl = "",
     },
     stopped = {
-      text = "⭐️",
+      text = icons.stop,
       texthl = "LspDiagnosticsSignInformation",
       linehl = "DiagnosticUnderlineInfo",
       numhl = "LspDiagnosticsSignInformation",
@@ -60,10 +62,22 @@ local function configure_debuggers()
   require('dap-go').setup()
 end
 
+local setup_keymaps = function()
+  local keymap = function(mode, l, r, opts)
+    opts = opts or {}
+    opts.buffer = true
+    vim.keymap.set(mode, l, r, opts)
+  end
+
+  keymap("n", "<leader>dt", "<cmd>lua require('dap-go').debug_test()<CR>", {desc = "Dap: debug test"})
+  keymap("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", { desc = "Dap: Toggle breakpoint"})
+end
+
 function M.setup()
   configure() -- Configuration
   configure_exts() -- Extensions
   configure_debuggers() -- Debugger
+  setup_keymaps()
 end
 
 return M

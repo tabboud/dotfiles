@@ -64,7 +64,7 @@ return require('packer').startup(function(use)
   use { 'vim-test/vim-test', disable = true }
   use {
     "nvim-neotest/neotest",
-    disable = true,
+    disable = false,
     requires = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
