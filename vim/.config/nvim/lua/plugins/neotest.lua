@@ -2,9 +2,7 @@ local neotest_ns = vim.api.nvim_create_namespace("neotest")
 vim.diagnostic.config({
   virtual_text = {
     format = function(diagnostic)
-      local message =
-      diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
-      return message
+      return diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
     end,
   },
 }, neotest_ns)
@@ -15,11 +13,10 @@ local keymaps = function()
     opts.buffer = true
     vim.keymap.set(mode, l, r, opts)
   end
-  -- see :h neotest.Config
-  -- toggle test summary
-  keymap({ 'n', 'i' }, '<leader>st', function()
-    return require("neotest").summary.toggle()
-  end, { desc = 'Neotest: Toggle summary' })
+
+  keymap({ 'n' }, '<leader>ts', function() return require("neotest").summary.toggle() end, { desc = 'Test: Toggle test summary' })
+  keymap({ 'n' }, '<leader>tr', function() return require("neotest").run.run() end, { desc = 'Test: Run nearest test' })
+  keymap({ 'n' }, '<leader>tl', function() return require("neotest").run.run_last() end, { desc = 'Test: Run last test' })
 end
 
 local icons = require('icons').neotest
@@ -38,16 +35,20 @@ require("neotest").setup({
     child_prefix = "├",
     collapsed = "─",
     expanded = "╮",
-    failed = icons.failed,
     final_child_indent = " ",
     final_child_prefix = "╰",
     non_collapsible = "─",
-    passed = icons.passed,
     running = "",
     running_animated = { "/", "|", "\\", "-", "/", "|", "\\", "-" },
+    passed = icons.passed,
+    failed = icons.failed,
     skipped = icons.skipped,
     unknown = icons.unknown,
   },
+	status = {
+		virtual_text = false,
+		signs = true,
+	},
   summary = {
     animated = true,
     enabled = true,

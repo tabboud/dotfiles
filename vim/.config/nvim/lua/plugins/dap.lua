@@ -69,8 +69,8 @@ local setup_keymaps = function()
     vim.keymap.set(mode, l, r, opts)
   end
 
-  keymap("n", "<leader>dt", "<cmd>lua require('dap-go').debug_test()<CR>", {desc = "Dap: debug test"})
-  keymap("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", { desc = "Dap: Toggle breakpoint"})
+  keymap("n", "<leader>dr", "<cmd>lua require('dap-go').debug_test()<CR>", {desc = "Debug: Run nearest test"})
+  keymap("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", { desc = "Debug: Toggle breakpoint"})
 end
 
 function M.setup()

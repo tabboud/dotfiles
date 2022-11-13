@@ -25,4 +25,4 @@ function AlternateGoFile()
 end
 
 -- configure key mappings
-vim.keymap.set("n", "<leader>t", function() return AlternateGoFile() end, { noremap = false, silent = true })
+vim.keymap.set("n", "<leader>tt", function() return AlternateGoFile() end, { noremap = false, silent = true })
