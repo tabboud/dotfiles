@@ -21,13 +21,18 @@ return require('packer').startup(function(use)
   ----------------
   -- LSP Setup
   ----------------
-  use { "williamboman/mason-lspconfig.nvim" }
   use {
     "williamboman/mason.nvim",
     config = function()
       require("plugins/mason").setup()
     end,
+    requires = {
+      { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
+      { "williamboman/mason-lspconfig.nvim" }
+    }
   }
+  use { "williamboman/mason-lspconfig.nvim" }
+  use { 'WhoIsSethDaniel/mason-tool-installer.nvim' }
 
   use 'ntpeters/vim-better-whitespace'
   use 'airblade/vim-rooter' -- Auto cd to root of git repo
@@ -45,17 +50,18 @@ return require('packer').startup(function(use)
   }
 
   ----------------
-  -- DAP
-  ---------------
+  -- DAP / Testing
+  ----------------
   use {
     'mfussenegger/nvim-dap',
-    config = function ()
+    config = function()
       require("plugins/dap").setup()
     end
-}
+  }
   use { 'leoluz/nvim-dap-go' }
-  use { 'rcarriga/nvim-dap-ui', requires = {'mfussenegger/nvim-dap'} }
+  use { 'rcarriga/nvim-dap-ui', requires = { 'mfussenegger/nvim-dap' } }
   use { 'theHamsta/nvim-dap-virtual-text' }
+  use { 'vim-test/vim-test' }
 
   ----------------
   -- Appearence
