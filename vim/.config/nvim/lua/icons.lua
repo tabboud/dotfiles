@@ -49,6 +49,12 @@ return {
     hint = " ",
     info = " ",
   },
+  neotest = {
+    failed = "✗",
+    passed = "✔",
+    skipped = "◌",
+    unknown = "?",
+  },
   nvimtree = {
     diagnostics = {
       hint = "",

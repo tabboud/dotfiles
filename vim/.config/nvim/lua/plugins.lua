@@ -61,7 +61,21 @@ return require('packer').startup(function(use)
   use { 'leoluz/nvim-dap-go' }
   use { 'rcarriga/nvim-dap-ui', requires = { 'mfussenegger/nvim-dap' } }
   use { 'theHamsta/nvim-dap-virtual-text' }
-  use { 'vim-test/vim-test' }
+  use { 'vim-test/vim-test', disable = true }
+  use {
+    "nvim-neotest/neotest",
+    disable = true,
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "antoinemadec/FixCursorHold.nvim",
+      -- Go test adapter
+      "nvim-neotest/neotest-go",
+    },
+    config = function()
+      require("plugins/neotest")
+    end
+  }
 
   ----------------
   -- Appearence
