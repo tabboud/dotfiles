@@ -26,8 +26,22 @@ local lsp_status = function ()
         return string.format(" %s LSP", icons.Lsp)
     end
   end
-
   return string.format(" %s LSP: none", icons.Lsp)
+end
+
+-- TODO: show lsp status with a progress loader or %
+local lsp_status_with_progress = function ()
+end
+
+-- Show the current search count
+local search_count = function ()
+  if vim.v.hlsearch == 0 then
+    return ''
+  end
+
+  local result = vim.fn.searchcount { maxcount = 999, timeout = 500 }
+  local denominator = math.min(result.total, result.maxcount)
+  return string.format('%s [%d/%d]', icons.Search, result.current, denominator)
 end
 
 require('lualine').setup {
@@ -37,17 +51,17 @@ require('lualine').setup {
     section_separators = { left = '', right = ''},
   },
   sections = {
-    lualine_a = { project_name },
-    lualine_b = { "branch", "diff", "diagnostics" },
-    lualine_c = {},
-    lualine_x = { lsp_status },
-    lualine_y = { "searchCount" },
-    lualine_z = { file_progress },
+    lualine_a = { "branch" },
+    lualine_b = {  "diff" },
+    lualine_c = { search_count },
+    lualine_x = { "lsp_progress", lsp_status, "diagnostics" },
+    lualine_y = {},
+    lualine_z = {  project_name },
   },
   inactive_sections = {
-    lualine_a = {},
+    lualine_a = { "filename" },
     lualine_b = {},
-    lualine_c = { "filename" },
+    lualine_c = {},
     lualine_x = {},
     lualine_y = {},
     lualine_z = {},

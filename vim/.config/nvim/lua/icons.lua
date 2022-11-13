@@ -39,7 +39,8 @@ return {
     Folder = " ",
     Lsp = " ",
     Position = "",
-    ComponentSeparator= "|",
+    ComponentSeparator = "|",
+    Search = "",
   },
   -- used by lspconfig
   lsp = {
