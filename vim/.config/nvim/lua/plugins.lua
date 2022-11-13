@@ -45,6 +45,19 @@ return require('packer').startup(function(use)
   }
 
   ----------------
+  -- DAP
+  ---------------
+  use {
+    'mfussenegger/nvim-dap',
+    config = function ()
+      require("plugins/dap").setup()
+    end
+}
+  use { 'leoluz/nvim-dap-go' }
+  use { 'rcarriga/nvim-dap-ui', requires = {'mfussenegger/nvim-dap'} }
+  use { 'theHamsta/nvim-dap-virtual-text' }
+
+  ----------------
   -- Appearence
   ----------------
   use 'tpope/vim-surround' -- Add surroundings (quotes, parenthesis, etc)
