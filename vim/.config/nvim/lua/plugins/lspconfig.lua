@@ -67,6 +67,11 @@ local on_attach = function(client, bufnr)
   setup_keymaps()
   M.document_highlight(client, bufnr)
   M.document_formatting(client, bufnr)
+
+  -- Inject nvim-navic to allow for breadcrumbs in the winbar
+  if client.server_capabilities.documentSymbolProvider then
+    require("nvim-navic").attach(client, bufnr)
+  end
 end
 
 -- Diagnostic sign mappings
@@ -102,11 +107,7 @@ vim.keymap.set('i', '<c-s>', vim.lsp.buf.signature_help)
 if fn.executable("gopls") > 0 then
   lspconfig.gopls.setup {
     filetypes = { "go", "gomod", },
-    on_attach = function(client, bufnr)
-      -- TODO(tabboud): lsp-signature is not used anymore. find a replacement
-      -- require "lsp_signature".on_attach() -- Note: add in lsp client on-attach
-      on_attach(client, bufnr)
-    end,
+    on_attach = on_attach,
     capabilities = M.get_capabilities(),
     cmd = {
       "gopls",

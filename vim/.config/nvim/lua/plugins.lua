@@ -160,6 +160,15 @@ return require('packer').startup(function(use)
   }
   -- Extensions to built-in LSP, for example, providing type inlay hints
   use 'nvim-lua/lsp_extensions.nvim'
+  -- Show current code context in the winbar
+  use {
+    "SmiteshP/nvim-navic",
+    requires = "neovim/nvim-lspconfig",
+    config = function()
+      -- add in the winbar extension after loading
+      vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+    end
+  }
 
   -- autocomplete with nvim-cmp
   use {
