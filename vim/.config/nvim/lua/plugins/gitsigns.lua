@@ -50,7 +50,6 @@ require('gitsigns').setup {
     local gs = package.loaded.gitsigns
 
     local function map(mode, l, r, opts)
-
       opts = opts or {}
       opts.buffer = bufnr
       vim.keymap.set(mode, l, r, opts)
@@ -61,19 +60,19 @@ require('gitsigns').setup {
       if vim.wo.diff then return ']c' end
       vim.schedule(function() gs.next_hunk() end)
       return '<Ignore>'
-    end, { expr = true })
+    end, { expr = true, desc = "Git: go to next hunk" })
 
     map('n', '[c', function()
       if vim.wo.diff then return '[c' end
       vim.schedule(function() gs.prev_hunk() end)
       return '<Ignore>'
-    end, { expr = true })
+    end, { expr = true, desc = "Git: go to previous hunk" })
 
     -- Actions
     -- Using a different prefix rather than "g" since that conflicts with
     -- some of the "g" native vim commands and subsequent remaps for lspconfig/telescope
-    map('n', '<leader>hb', gs.toggle_current_line_blame)
-    map('n', '<leader>hd', gs.diffthis)
-    map('n', '<leader>hp', gs.preview_hunk)
+    map('n', '<leader>hb', gs.toggle_current_line_blame, { buffer = true, desc = "Git: Toggle current line blame" })
+    map('n', '<leader>hd', gs.diffthis, { buffer = true, desc = "Git: diff current file" })
+    map('n', '<leader>hp', gs.preview_hunk, { buffer = true, desc = "Git: preview hunk" })
   end
 }

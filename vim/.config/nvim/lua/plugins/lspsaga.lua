@@ -2,19 +2,13 @@ local M = {}
 
 -- TODO(tabboud):  Enable symbols in the winbar
 
-local map = function(mode, l, r, opts)
-  opts = opts or {}
-  opts.buffer = bufnr
-  vim.keymap.set(mode, l, r, opts)
-end
-
 local setup_keymaps = function()
   local opts = { noremap = true, silent = true }
-  map("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts)
-  map("n", "ga", "<cmd>Lspsaga code_action<CR>", opts)
-  map("n", "g]", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
-  map("n", "g[", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
-  map("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
+  vim.keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts)
+  vim.keymap.set("n", "ga", "<cmd>Lspsaga code_action<CR>", opts)
+  vim.keymap.set("n", "g]", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
+  vim.keymap.set("n", "g[", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
+  vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
 end
 
 function M.setup()

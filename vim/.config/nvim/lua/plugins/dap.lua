@@ -34,14 +34,14 @@ local function configure_exts()
     enable = true,
     enable_commands = true,
     highlight_changed_variables = true, -- highlight changed values with NvimDapVirtualTextChanged, else always NvimDapVirtualText
-    highlight_new_as_changed = false,   -- highlight new variables in the same way as changed variables (if highlight_changed_variables)
-    show_stop_reason = true,            -- show stop reason when stopped for exceptions
-    commented = true,                  -- prefix virtual text with comment string
+    highlight_new_as_changed = false, -- highlight new variables in the same way as changed variables (if highlight_changed_variables)
+    show_stop_reason = true, -- show stop reason when stopped for exceptions
+    commented = true, -- prefix virtual text with comment string
     -- experimental features:
-    virt_text_pos = 'eol',              -- position of virtual text, see `:h nvim_buf_set_extmark()`
-    all_frames = false,                 -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
-    virt_lines = false,                 -- show virtual lines instead of virtual text (will flicker!)
-    virt_text_win_col = nil             -- position the virtual text at a fixed window column (starting from the first text column) ,
+    virt_text_pos = 'eol', -- position of virtual text, see `:h nvim_buf_set_extmark()`
+    all_frames = false, -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
+    virt_lines = false, -- show virtual lines instead of virtual text (will flicker!)
+    virt_text_win_col = nil -- position the virtual text at a fixed window column (starting from the first text column) ,
   }
 
   local dap, dapui = require "dap", require "dapui"
@@ -63,14 +63,8 @@ local function configure_debuggers()
 end
 
 local setup_keymaps = function()
-  local keymap = function(mode, l, r, opts)
-    opts = opts or {}
-    opts.buffer = true
-    vim.keymap.set(mode, l, r, opts)
-  end
-
-  keymap("n", "<leader>dr", "<cmd>lua require('dap-go').debug_test()<CR>", {desc = "Debug: Run nearest test"})
-  keymap("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", { desc = "Debug: Toggle breakpoint"})
+  vim.keymap.set("n", "<leader>dr", "<cmd>lua require('dap-go').debug_test()<CR>", { desc = "Debug: Run nearest test" })
+  vim.keymap.set("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", { desc = "Debug: Toggle breakpoint" })
 end
 
 function M.setup()

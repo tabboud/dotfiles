@@ -77,7 +77,8 @@ local options = function()
         "--column",
         "--smart-case",
         -- Trim indentation at the beginning of presented line in result window
-        "--trim"
+        "--trim",
+        "--hidden"
       },
       mappings = {
         i = {
@@ -151,7 +152,7 @@ local configure_keymaps = function()
   nmap("rg", function()
     return builtin.live_grep({
       prompt = " Live grep (rg) ",
-      file_ignore_patterns = { "vendor" },
+      file_ignore_patterns = { "vendor", "^.git/" },
     })
   end)
 
