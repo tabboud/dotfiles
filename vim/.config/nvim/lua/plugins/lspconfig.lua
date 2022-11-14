@@ -47,24 +47,23 @@ M.document_formatting = function(client, bufnr)
   end
 end
 
-local setup_keymaps = function()
+local setup_keymaps = function(bufnr)
   local keymap = function(mode, l, r, opts)
-    opts = opts or {}
-    opts.buffer = true
+    opts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set(mode, l, r, opts)
   end
-  local opts = { noremap = true, silent = true }
-  keymap("n", "<Leader>o", "<cmd>lua vim.lsp.buf.document_symbol()<CR>", opts)
-  keymap("n", "<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  keymap({ 'n', 'i' }, '<C-p>', vim.lsp.buf.signature_help, { desc = 'Lsp: Signature help' })
-  keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-  keymap("n", "gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", opts)
-  keymap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+  local keymaps = require("keymaps")
+  keymap("n", "<Leader>o", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")
+  keymap("n", "<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>")
+  keymap({ 'n', 'i' }, '<C-p>', vim.lsp.buf.signature_help)
+  keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
+  keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
+  keymap("n", "gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>")
+  keymap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
 end
 
 local on_attach = function(client, bufnr)
-  setup_keymaps()
+  setup_keymaps(bufnr)
   M.document_highlight(client, bufnr)
   M.document_formatting(client, bufnr)
 

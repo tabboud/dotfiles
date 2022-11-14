@@ -1,3 +1,5 @@
+local M = {}
+
 local vim = vim
 local fn = vim.fn
 local api = vim.api
@@ -7,8 +9,8 @@ local function ends_with(str, ending)
   return ending == "" or str:sub(- #ending) == ending
 end
 
--- AlternateGoFile toggles to/from a Go file and the corresponding test.
-function AlternateGoFile()
+-- ToggleTest toggles to/from a Go file and the corresponding test.
+function M.ToggleTest()
   local alternate_file = ""
 
   local file = api.nvim_buf_get_name(0)
@@ -24,5 +26,4 @@ function AlternateGoFile()
   vim.cmd("edit" .. alternate_file)
 end
 
--- configure key mappings
-vim.keymap.set("n", "<leader>tt", function() return AlternateGoFile() end, { noremap = false, silent = true })
+return M

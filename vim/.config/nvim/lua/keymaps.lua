@@ -1,70 +1,82 @@
-local keymaps = {
-  nmap = {
-    { "Q", "" }, -- disable Ex mode
-    { "<leader>v", ":set paste!<cr>" }, -- toggle paste mode
-    { "<leader>a", ":%y+<cr>" }, -- copy the entire buffer
-    { "<leader>w", ":w<cr>" }, -- write file
-    { "<leader>q", ":q<cr>" }, -- quit
-    { "<leader>l", ":set list!<cr>" }, -- toggle listchars
-    { "<leader>n", ":set nowrap!<cr>" }, -- toggle wrapping
-    { "<leader>[", "<<" }, -- indent left
-    { "<leader>]", ">>" }, -- indent right
-    { "gn", ":bn<cr>" }, -- faster buffer switching
-    { "gp", ":bp<cr>" }, -- faster buffer switching
-    { "gd", ":bd<cr>" }, -- faster buffer switching
+local M = {}
 
-    -- TODO: Add more convenience plugin/gitconfig
-    { "<leader>ev", ":e! $MYVIMRC<cr>" }, -- edit vimrc
-
-    -- copy file to a split
-    { "<C-h>", "<Plug>WinMoveLeft" },
-    { "<C-j>", "<Plug>WinMoveDown" },
-    { "<C-k>", "<Plug>WinMoveUp" },
-    { "<C-l>", "<Plug>WinMoveRight" },
-  },
-  nnoremap = {
-    { "Y", "y$" }, -- yank until EOL
-    { "n", "nzzzv" }, -- Center screen on search
-    { "N", "Nzzzv" },
-    { "<CR>", ":noh<cr><cr>" }, -- clear all highlighting
-    { "<C-e>", "3<C-e>" }, -- scroll viewport faster down
-    { "<C-y>", "3<C-y>" }, -- scroll viewport faster up
-
-    -- Jump to next/prev function
-    { "]]", ':call search("^func")<cr>' },
-    { "[[", ':call search("^func", "b")<cr>' },
-
-    -- Move up/down per line including wrapped chars
-    { "j", "gj" },
-    { "k", "gk" },
-    { "^", "g^" },
-    { "$", "g$" },
-
-    { "tt", ":tab split<cr>" }, -- open current buffer in a new tab (mimics full screen mode)
-  },
-  vmap = {
-    { "*", "<Esc>/\\%V" }, -- Visual search /
-    { "#", "<Esc>?\\%V" }, -- Visual search ?
-    { "<leader>[", "<gv" }, -- Shift left
-    { "<leader>]", ">gv" }, -- Shift right
-  }
-}
-
--- set a key mapping for a given mode and options.
--- keymaps should be a list of tables that map the key to command
-local function map_keys(mode, opts, mappings)
-  for _, keymap in ipairs(mappings) do
-    vim.keymap.set(mode, keymap[1], keymap[2], opts)
+-- desc returns the the description for a keymapping.
+-- If one exists, it will prefix "Dots: " before it for easier lookup.
+-- If one does not exist "Dots: not specified" will be returned.
+local desc = function(opts)
+  opts = opts or { desc = "" }
+  if opts.desc == "" then
+    return "Dots: not specified"
   end
+  return "Dots: " .. opts.desc
+end
+
+function M.nnoremap(lhs, rhs, opts)
+  opts = opts or {}
+  opts.noremap = true
+  opts.silent = true
+  opts.desc = desc(opts)
+  vim.keymap.set({ 'n' }, lhs, rhs, opts)
+end
+
+function M.vnoremap(lhs, rhs, opts)
+  opts = opts or {}
+  opts.noremap = true
+  opts.silent = true
+  opts.desc = desc(opts)
+  vim.keymap.set({ 'v' }, lhs, rhs, opts)
+end
+
+function M.nmap(lhs, rhs, opts)
+  opts = opts or {}
+  opts.noremap = false
+  opts.silent = true
+  opts.desc = desc(opts)
+  vim.keymap.set({ 'n' }, lhs, rhs, opts)
 end
 
 -- Setup leader mappings - normal (n) / visual (x) mode map a space to a noop
+-- using noremap to prevent a recursive mapping overwriting this.
 vim.g.mapleader = " "
 vim.keymap.set("n", " ", "", { noremap = true })
 vim.keymap.set("x", " ", "", { noremap = true })
 
--- TODO: Make new methods to do nmap nnoremap so we can split up core from plugins
--- TODO: Move all nmap to nnoremap
-map_keys("n", { noremap = false, silent = true }, keymaps.nmap)
-map_keys("n", { noremap = true, silent = true }, keymaps.nnoremap)
-map_keys("x", { noremap = false, silent = true }, keymaps.vmap)
+M.nmap("<C-h>", "<Plug>WinMoveLeft", { desc = "Copy or move to file (left)" })
+M.nmap("<C-j>", "<Plug>WinMoveDown", { desc = "Copy or move to file (down)" })
+M.nmap("<C-k>", "<Plug>WinMoveUp", { desc = "Copy or move to file (up)" })
+M.nmap("<C-l>", "<Plug>WinMoveRight", { desc = "Copy or move to file (right)" })
+
+M.nnoremap("Q", "", { desc = "Disable Ex mode" })
+M.nnoremap("Y", "y$", { desc = "Yank until EOL" })
+M.nnoremap("n", "nzzzv", { desc = "Center screen on search (next)" })
+M.nnoremap("N", "Nzzzv", { desc = "Center screen on search (prev)" })
+M.nnoremap("j", "gj", { desc = "Move down" })
+M.nnoremap("k", "gk", { desc = "Move up" })
+M.nnoremap("^", "g^", { desc = "Move to start" })
+M.nnoremap("$", "g$", { desc = "Move to end" })
+M.nnoremap("tt", "<cmd>tab split<cr>", { desc = "Open current buffer in a new tab (full-screen mode)" })
+M.nnoremap("bn", "<cmd>bn<cr>", { desc = "Go to buffer (next)" })
+M.nnoremap("bp", "<cmd>bp<cr>", { desc = "Go to buffer (prev)" })
+M.nnoremap("<CR>", "<cmd>noh<cr><cr>", { desc = "Clear all highlighting" })
+M.nnoremap("<C-e>", "3<C-e>", { desc = "Scroll down viewport" })
+M.nnoremap("<C-y>", "3<C-y>", { desc = "Scroll up viewport" })
+M.nnoremap("]]", '<cmd>call search("^func")<cr>', { desc = "Jump to next func" })
+M.nnoremap("[[", ':call search("^func", "b")<cr>', { desc = "Jump to prev func" })
+M.nnoremap("<leader>v", "<cmd>set paste!<cr>", { desc = "Toggle paste mode" })
+M.nnoremap("<leader>a", "<cmd>%y+<cr>", { desc = "Copy the entire buffer" })
+M.nnoremap("<leader>w", "<cmd>w<cr>", { desc = "Write file" })
+M.nnoremap("<leader>q", "<cmd>q<cr>", { desc = "Quit" })
+M.nnoremap("<leader>l", "<cmd>set list!<cr>", { desc = "Toggle 'listchars'" })
+M.nnoremap("<leader>n", "<cmd>set nowrap!<cr>", { desc = "Toggle line wrapping" })
+M.nnoremap("<leader>[", "<<", { desc = "Shift left" })
+M.nnoremap("<leader>]", ">>", { desc = "Shift right" })
+M.nnoremap("<leader>tt", function()
+  return require("go").ToggleTest()
+end, { desc = "Go: Toggle Go test" })
+
+M.vnoremap("*", "<Esc>/\\%V", { desc = "Visual search word under cursor (next)" })
+M.vnoremap("#", "<Esc>?\\%V", { desc = "Visual search word under cursor (prev)" })
+M.vnoremap("<leader>[", "<gv", { desc = "Shift left" })
+M.vnoremap("<leader>]", ">gv", { desc = "Shift right" })
+
+return M
