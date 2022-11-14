@@ -3,12 +3,12 @@ local M = {}
 -- TODO(tabboud):  Enable symbols in the winbar
 
 local setup_keymaps = function()
-  local opts = { noremap = true, silent = true }
-  vim.keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts)
-  vim.keymap.set("n", "ga", "<cmd>Lspsaga code_action<CR>", opts)
-  vim.keymap.set("n", "g]", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
-  vim.keymap.set("n", "g[", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
-  vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
+  local keymaps = require('keymaps')
+  keymaps.nnoremap("<leader>rn", "<cmd>Lspsaga rename<CR>", { desc = "LSP: Rename word under cursor" })
+  keymaps.nnoremap("ga", "<cmd>Lspsaga code_action<CR>", { desc = "LSP: Code Action" })
+  keymaps.nnoremap("g]", "<cmd>Lspsaga diagnostic_jump_next<CR>", { desc = "LSP: Diagnostics next" })
+  keymaps.nnoremap("g[", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { desc = "LSP: Diagnostics prev" })
+  keymaps.nnoremap("K", "<cmd>Lspsaga hover_doc<CR>", { desc = "LSP: Hover docs" })
 end
 
 function M.setup()

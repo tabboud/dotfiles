@@ -48,18 +48,11 @@ M.document_formatting = function(client, bufnr)
 end
 
 local setup_keymaps = function(bufnr)
-  local keymap = function(mode, l, r, opts)
-    opts = { noremap = true, silent = true, buffer = bufnr }
-    vim.keymap.set(mode, l, r, opts)
-  end
-  local keymaps = require("keymaps")
-  keymap("n", "<Leader>o", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")
-  keymap("n", "<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>")
-  keymap({ 'n', 'i' }, '<C-p>', vim.lsp.buf.signature_help)
-  keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
-  keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
-  keymap("n", "gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>")
-  keymap("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
+  local nnoremap = require("keymaps").nnoremap
+  local noremap = require("keymaps").noremap
+  nnoremap("gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", { buffer = bufnr, desc = "LSP: Workspace symbols" })
+  nnoremap("<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", { buffer = bufnr, desc = "LSP: Go to definition" })
+  noremap({ 'n', 'i' }, '<C-p>', vim.lsp.buf.signature_help, { buffer = bufnr, desc = "LSP: Signature help" })
 end
 
 local on_attach = function(client, bufnr)
@@ -92,13 +85,6 @@ for _, sign in ipairs(diagnostic_signs) do
     numhl = sign.name,
   })
 end
-
--- Use <c-s> to open signature help window
-vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers['signature_help'], {
-  border = 'single',
-  close_events = { "CursorMoved", "BufHidden" },
-})
-vim.keymap.set('i', '<c-s>', vim.lsp.buf.signature_help)
 
 --
 -- gopls setup

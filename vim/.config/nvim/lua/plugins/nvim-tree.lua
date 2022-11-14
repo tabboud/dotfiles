@@ -78,6 +78,6 @@ nvimtree.setup({
 )
 
 -- configure key mappings
-vim.keymap.set("n", "<leader>k", ":NvimTreeToggle<cr>", { noremap = false, silent = true })
-vim.keymap.set("n", "<leader>f", ":NvimTreeFindFile<cr>", { noremap = false, silent = true })
-
+local keymaps = require('keymaps')
+keymaps.nnoremap("<leader>k", ":NvimTreeToggle<cr>", { desc = "NvimTree: Toggle file tree" })
+keymaps.nnoremap("<leader>f", ":NvimTreeFindFile<cr>", { desc = "NvimTree: Find file" })

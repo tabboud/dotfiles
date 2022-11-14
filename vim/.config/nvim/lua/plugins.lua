@@ -39,13 +39,13 @@ return require('packer').startup(function(use)
   use {
     'qpkorr/vim-bufkill', -- Bring sanity to closing buffers
     config = function()
-      vim.keymap.set("n", "<C-c>", ":BD<cr>", { noremap = true, silent = true })
+      require('keymaps').nnoremap("<c-c>", "<cmd>BD<cr>", { desc = "Buffer: Delete" })
     end
   }
   use {
     'tpope/vim-commentary', -- Toggle comments like sublime
     config = function()
-      vim.keymap.set({ 'n', 'v', 'x' }, "<leader>/", ":Commentary<cr>", { noremap = true, silent = true })
+      require('keymaps').noremap({ 'n', 'v' }, '<leader>/', '<cmd>Commentary<cr>', { desc = "Toggle comment" })
     end
   }
 

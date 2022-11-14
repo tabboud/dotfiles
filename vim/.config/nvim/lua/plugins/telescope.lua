@@ -139,37 +139,37 @@ end
 local configure_keymaps = function()
   local builtin = require('telescope.builtin')
   local ignore_patterns = { file_ignore_patterns = { "%_test.go", "%_mocks.go" } }
+  local nnoremap = require('keymaps').nnoremap
 
-  local nmap = function(lhs, rhs)
-    vim.keymap.set("n", lhs, rhs, { noremap = false, silent = true })
-  end
-
-  nmap("<leader><Enter>", function() return builtin.buffers({ previewer = false }) end)
-  nmap("<leader>p", function() return builtin.find_files() end)
+  nnoremap("<leader><Enter>", function() return builtin.buffers({ previewer = false }) end,
+    { desc = "Telescope: List open buffers" })
+  nnoremap("<leader>p", function() return builtin.find_files() end, { desc = "Telescope: Find files" })
 
   -- live_grep with dynamic args for rg
-  nmap("<leader>rg", function() return builtin.live_grep() end)
-  nmap("rg", function()
+  nnoremap("<leader>rg", function() return builtin.live_grep() end)
+  nnoremap("rg", function()
     return builtin.live_grep({
       prompt = " Live grep (rg) ",
       file_ignore_patterns = { "vendor", "^.git/" },
     })
-  end)
+  end, { desc = "Telescope: Live grep (rg)" })
 
   -- LSP commands through Telescope - These supercede the ones defined in lspconfig.lua
   -- Show symbols for the current document
-  nmap("g0", function() return builtin.lsp_document_symbols() end)
+  nnoremap("<leader>gs", function() return builtin.lsp_document_symbols() end, { desc = "LSP: Document symbols" })
 
   -- Find all implementations + ignore tests/mocks
-  nmap("<leader>gi", function() return builtin.lsp_implementations() end)
-  nmap("gi", function() return builtin.lsp_implementations(ignore_patterns) end)
+  nnoremap("<leader>gi", function() return builtin.lsp_implementations() end, { desc = "LSP: Go to implementations" })
+  nnoremap("gi", function() return builtin.lsp_implementations(ignore_patterns) end,
+    { desc = "LSP: Go to implementations ignoring tests/mocks" })
 
   -- Find all references + ignore tests/mocks
-  nmap("<leader>gr", function() return builtin.lsp_references() end)
-  nmap("gr", function() return builtin.lsp_references(ignore_patterns) end)
+  nnoremap("<leader>gr", function() return builtin.lsp_references() end, { desc = "LSP: Go to references" })
+  nnoremap("gr", function() return builtin.lsp_references(ignore_patterns) end,
+    { desc = "LSP: Go to references ignoring tests/mocks" })
 
   -- Edit dotfiles
-  nmap("<leader>ed", function()
+  nnoremap("<leader>ed", function()
     local dotfilesPath = vim.env.DOTFILES
     if dotfilesPath == "" then
       print("[editDotfiles] $DOTFILES is not configured")
@@ -181,7 +181,7 @@ local configure_keymaps = function()
       prompt = "~ dotfiles ~",
       hidden = true,
     })
-  end)
+  end, { desc = "Telescope: Edit dotfiles" })
 end
 
 

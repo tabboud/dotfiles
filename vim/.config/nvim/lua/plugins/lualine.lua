@@ -6,16 +6,6 @@ local project_name = function()
   return string.format("%s %s", icons.Folder, project)
 end
 
-local file_progress = function()
-  local cur = vim.fn.line "."
-  local total = vim.fn.line "$"
-  local progress = math.modf((cur / total) * 100) .. tostring "%%"
-  progress = (cur == 1 and "Top") or progress
-  progress = (cur == total and "Bot") or progress
-
-  return string.format("%s %s", icons.Position, progress)
-end
-
 local lsp_status = function()
   for _, client in ipairs(vim.lsp.get_active_clients()) do
     if client.attached_buffers[vim.api.nvim_get_current_buf()] then
