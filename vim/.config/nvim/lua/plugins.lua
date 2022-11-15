@@ -170,7 +170,10 @@ return require('packer').startup(function(use)
     'neovim/nvim-lspconfig',
     config = function()
       require("plugins/lspconfig")
-    end
+    end,
+    -- Only load this after mason-lspconfig since lspconfig installs
+    -- happen via mason, but server config happens here.
+    after = "mason-lspconfig.nvim"
   }
   -- Extensions to built-in LSP, for example, providing type inlay hints
   use 'nvim-lua/lsp_extensions.nvim'

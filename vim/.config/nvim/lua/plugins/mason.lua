@@ -69,18 +69,6 @@ function M.setup()
 
   mason_lspconfig.setup()
 
-  local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
-  if not lspconfig_ok then
-    print("lspconfig cannot be required for mason setup...skipping setting up handlers")
-    return
-  end
-
-  mason_lspconfig.setup_handlers({
-    function(server_name)
-      lspconfig[server_name].setup({})
-    end,
-  })
-
   local tool_installer_ok, tool_installer = pcall(require, "mason-tool-installer")
   if not tool_installer_ok then
     print("mason-tool-installer could not be required for mason setup...skipping install")
