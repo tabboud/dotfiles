@@ -9,9 +9,17 @@
 gocd() {
     local gorepo
 
-    gorepo="$(find "${ROOT_CODE_DIR:-$GOPATH/src}" -maxdepth 3 -mindepth 1 -type d | fzf -d / --with-nth=-2.. --reverse --height=20)"
+    gorepo="$(find "${ROOT_CODE_DIR:-$GOPATH/src}" -maxdepth 3 -mindepth 1 -type d | fzf -d / --with-nth=-2.. --reverse --height=20 --border)"
     if [[ -n $gorepo ]]; then
         cd $gorepo
+    fi
+}
+
+dots() {
+    cd $DOTFILES
+    files=$(fzf --reverse --height=20 --border)
+    if [[ -n "$files" ]]; then
+        ${EDITOR:-vim} "${files[@]}"
     fi
 }
 
@@ -30,7 +38,7 @@ tm() {
   # list sessions by most recently attached first
   # Uses the "session_last_attached" format as the sorting field but strips off this timestamp
   # before presenting the selection.
-  session=$(tmux list-sessions -F "/#{session_last_attached}/#{session_name}" | sort -Vr | xargs basename | fzf --exit-0 --reverse --height=20)
+  session=$(tmux list-sessions -F "/#{session_last_attached}/#{session_name}" | sort -Vr | xargs basename | fzf --exit-0 --reverse --height=20 --border)
   tmux $change -t "$session" || echo "No sessions found."
 }
 
@@ -40,7 +48,7 @@ tm() {
 gdel() {
   local branches branch
   branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
-  branch=$(echo "$branches" | fzf --multi --reverse --height=20) &&
+  branch=$(echo "$branches" | fzf --multi --reverse --height=20 --border) &&
   git branch -D $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 
   return
