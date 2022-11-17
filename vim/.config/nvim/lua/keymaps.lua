@@ -85,4 +85,5 @@ M.vnoremap("#", "<Esc>?\\%V", { desc = "Visual search word under cursor (prev)" 
 M.vnoremap("<leader>[", "<gv", { desc = "Shift left" })
 M.vnoremap("<leader>]", ">gv", { desc = "Shift right" })
 
+M.noremap({ "t" }, "<Esc>", "<c-\\><c-n>", { desc = "Terminal: exit terminal mode" })
 return M

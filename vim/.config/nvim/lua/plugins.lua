@@ -70,11 +70,19 @@ return require('packer').startup(function(use)
       "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim",
       -- Go test adapter
-      "nvim-neotest/neotest-go",
+      "/Volumes/git/go/src/github.com/nvim-neotest/neotest-go",
     },
     config = function()
       require("plugins/neotest")
     end
+  }
+
+  -- TESTING
+  use {
+    "NvChad/nvterm",
+    config = function()
+      require("nvterm").setup()
+    end,
   }
 
   ----------------

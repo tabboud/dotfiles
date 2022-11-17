@@ -39,7 +39,7 @@ cmp.setup({
       -- TODO: Fix the insert behavior when there is an LSP completion item. Using ConfirmBehavior.Insert
       -- works correctly for non-LSP completions, but LSP causes the next word to be deleted.
       -- See https://github.com/hrsh7th/nvim-cmp/issues/664 for ConfirmBehavior explanation
-      behavior = cmp.ConfirmBehavior.Insert,
+      behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     }),
     ["<Tab>"] = cmp.mapping(function(fallback)
