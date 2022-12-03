@@ -38,8 +38,10 @@ tm() {
   # list sessions by most recently attached first
   # Uses the "session_last_attached" format as the sorting field but strips off this timestamp
   # before presenting the selection.
-  session=$(tmux list-sessions -F "/#{session_last_attached}/#{session_name}" | sort -Vr | xargs basename | fzf --exit-0 --reverse --height=20 --border)
-  tmux $change -t "$session" || echo "No sessions found."
+  session=$(tmux list-sessions -F "#{session_last_attached} #{session_name}" | sort -Vr | awk '{print $2}' | fzf --exit-0 --reverse --height=20 --border)
+  if [[ -n "${session}" ]]; then
+    tmux $change -t "$session" || echo "No sessions found."
+  fi
 }
 
 # Delete git branches.
