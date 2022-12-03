@@ -70,8 +70,8 @@ require('gitsigns').setup {
     -- Actions
     -- Using a different prefix rather than "g" since that conflicts with
     -- some of the "g" native vim commands and subsequent remaps for lspconfig/telescope
-    nnoremap('<leader>hb', gs.toggle_current_line_blame, { buffer = bufnr, desc = "Git: Toggle current line blame" })
-    nnoremap('<leader>hd', gs.diffthis, { buffer = bufnr, desc = "Git: diff current file" })
-    nnoremap('<leader>hp', gs.preview_hunk, { buffer = bufnr, desc = "Git: preview hunk" })
+    nnoremap('<leader>gb', gs.toggle_current_line_blame, { buffer = bufnr, desc = "Git: Toggle current line blame" })
+    nnoremap('<leader>gd', gs.diffthis, { buffer = bufnr, desc = "Git: diff current file" })
+    nnoremap('<leader>gp', gs.preview_hunk, { buffer = bufnr, desc = "Git: preview hunk" })
   end
 }

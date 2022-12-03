@@ -1,14 +1,14 @@
 local M = {}
 
 -- desc returns the the description for a keymapping.
--- If one exists, it will prefix "Dots: " before it for easier lookup.
+-- If one exists, it will use the provided description.
 -- If one does not exist "Dots: not specified" will be returned.
 local desc = function(opts)
   opts = opts or { desc = "" }
   if opts.desc == nil or opts.desc == "" then
     return "Dots: not specified"
   end
-  return "Dots: " .. opts.desc
+  return opts.desc
 end
 
 -- map is used to configure various :map keymappings.

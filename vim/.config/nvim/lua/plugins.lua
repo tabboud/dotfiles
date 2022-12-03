@@ -84,6 +84,18 @@ return require('packer').startup(function(use)
       require("nvterm").setup()
     end,
   }
+  -- TODO: Group keys with tool prefix
+  -- TODO: Conditionally add keymaps based on current buffer (ex: Go tests and toggle tests only for Go files)
+  use {
+    "folke/which-key.nvim",
+    config = function()
+      require("which-key").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end
+  }
 
   ----------------
   -- Appearence
