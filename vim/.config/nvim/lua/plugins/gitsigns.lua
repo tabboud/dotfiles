@@ -53,13 +53,17 @@ require('gitsigns').setup {
     -- Navigation
     nnoremap(']c', function()
       if vim.wo.diff then return ']c' end
-      vim.schedule(function() gs.next_hunk() end)
+      vim.schedule(function()
+        gs.next_hunk({ preview = true })
+      end)
       return '<Ignore>'
     end, { expr = true, buffer = bufnr, desc = "Git: go to next hunk" })
 
     nnoremap('[c', function()
       if vim.wo.diff then return '[c' end
-      vim.schedule(function() gs.prev_hunk() end)
+      vim.schedule(function()
+        gs.prev_hunk({ preview = true })
+      end)
       return '<Ignore>'
     end, { expr = true, buffer = bufnr, desc = "Git: go to previous hunk" })
 
