@@ -54,7 +54,7 @@ PROMPT='${user_host}${current_dir}$(git_branch_test_color)%F{none}
 
 # Right-Side Prompt
 RPROMPT=""
-RPROMPT="%B${return_code}%b"
+# RPROMPT="%B${return_code}%b"
 # RPROMPT="${current_time}"
 
 # ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[yellow]%}‹"
