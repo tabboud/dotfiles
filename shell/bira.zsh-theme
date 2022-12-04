@@ -7,7 +7,8 @@ if [[ $UID -eq 0 ]]; then
     local user_symbol='#'
 else
     # local user_host='%{$terminfo[bold]$fg[green]%}%n@%m %{$reset_color%}'
-    local user_symbol=';'
+    # local user_symbol=';'
+    local user_symbol='❯'
 fi
 
 if [[ -n $PROMPT_OVERRIDE_USER ]]; then
@@ -24,7 +25,8 @@ function git_branch() {
 }
 
 git_branch_test_color() {
-  local ref=$(git symbolic-ref --short HEAD 2> /dev/null)
+  # Use the branch name if it exists and fallback to the current commit
+  local ref=$(git symbolic-ref --short -q HEAD || git rev-parse --short HEAD)
   if [ -n "${ref}" ]; then
     if [ -n "$(git status --porcelain)" ]; then
       local gitstatuscolor='%F{red}'
@@ -33,7 +35,7 @@ git_branch_test_color() {
     fi
     echo "${gitstatuscolor} (${ref})"
   else
-    echo ""
+    echo "?"
   fi
 }
 # Enable command substitution in prompt
@@ -50,7 +52,7 @@ local current_time='[%D{%y/%m/%f}|%@]'
 # PROMPT="╭─${user_host}${current_dir}
 # ╰─%B${user_symbol}%b "
 PROMPT='${user_host}${current_dir}$(git_branch_test_color)%F{none}
-%B${user_symbol}%b '
+${user_symbol} '
 
 # Right-Side Prompt
 RPROMPT=""
