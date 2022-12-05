@@ -26,7 +26,7 @@ function git_branch() {
 
 git_branch_test_color() {
   # Use the branch name if it exists and fallback to the current commit
-  local ref=$(git symbolic-ref --short -q HEAD || git rev-parse --short HEAD)
+  local ref=$(git symbolic-ref --short -q HEAD 2> /dev/null || git rev-parse --short HEAD 2> /dev/null)
   if [ -n "${ref}" ]; then
     if [ -n "$(git status --porcelain)" ]; then
       local gitstatuscolor='%F{red}'
@@ -35,7 +35,7 @@ git_branch_test_color() {
     fi
     echo "${gitstatuscolor} (${ref})"
   else
-    echo "?"
+    echo ""
   fi
 }
 # Enable command substitution in prompt
