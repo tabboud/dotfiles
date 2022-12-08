@@ -59,6 +59,7 @@ local options = function()
   local action_layout = require("telescope.actions.layout")
   local themes = require('telescope.themes')
   local lga_actions = require("telescope-live-grep-args.actions")
+  local trouble = require("trouble.providers.telescope")
 
   return {
     defaults = {
@@ -82,6 +83,8 @@ local options = function()
       },
       mappings = {
         i = {
+          ["<c-s>"] = trouble.open_with_trouble,
+
           -- map actions.which_key to <C-h> (default: <C-/>)
           -- actions.which_key shows the mappings for your picker,
           -- e.g. git_{create, delete, ...}_branch for the git_branches picker
@@ -95,6 +98,7 @@ local options = function()
           ["<C-k>"] = actions.move_selection_previous
         },
         n = {
+          ["<c-s>"] = trouble.open_with_trouble,
           -- Allow using ctrl-{j,k} to move to next selection, similar to fzf
           ["<C-j>"] = actions.move_selection_next,
           ["<C-k>"] = actions.move_selection_previous
@@ -140,18 +144,27 @@ local configure_keymaps = function()
   local builtin = require('telescope.builtin')
   local ignore_patterns = { file_ignore_patterns = { "%_test.go", "%_mocks.go" } }
   local nnoremap = require('keymaps').nnoremap
+  local themes = require('telescope.themes')
 
   nnoremap("<leader><Enter>", function() return builtin.buffers({ previewer = false }) end,
     { desc = "Telescope: List open buffers" })
-  nnoremap("<leader>p", function() return builtin.find_files() end, { desc = "Telescope: Find files" })
+  nnoremap("<leader>p", function() return builtin.find_files({
+      prompt = "My Find Files",
+      file_ignore_patterns = {
+        "^vendor/",
+        "^.git/",
+        "^changelog/"
+      }
+    })
+  end, { desc = "Telescope: Find files" })
 
   -- live_grep with dynamic args for rg
   nnoremap("<leader>rg", function() return builtin.live_grep() end)
   nnoremap("rg", function()
-    return builtin.live_grep({
+    return builtin.live_grep(themes.get_ivy({
       prompt = " Live grep (rg) ",
       file_ignore_patterns = { "vendor", "^.git/" },
-    })
+    }))
   end, { desc = "Telescope: Live grep (rg)" })
 
   -- LSP commands through Telescope - These supercede the ones defined in lspconfig.lua
@@ -182,6 +195,8 @@ local configure_keymaps = function()
       hidden = true,
     })
   end, { desc = "Telescope: Edit dotfiles" })
+
+  nnoremap("<leader>h", function() return builtin.help_tags() end, { desc = "Telescope: help" })
 end
 
 

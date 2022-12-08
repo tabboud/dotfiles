@@ -24,6 +24,18 @@ function git_branch() {
     fi
 }
 
+# indicate a job (for example, vim) has been backgrounded
+# If there is a job in the background, display a ✱
+suspended_jobs() {
+    local sj
+    sj=$(jobs 2>/dev/null | tail -n 1)
+    if [[ $sj == "" ]]; then
+        echo ""
+    else
+        echo "%{%F{208}%}✱%f "
+    fi
+}
+
 git_branch_test_color() {
   # Use the branch name if it exists and fallback to the current commit
   local ref=$(git symbolic-ref --short -q HEAD 2> /dev/null || git rev-parse --short HEAD 2> /dev/null)
@@ -52,7 +64,7 @@ local current_time='[%D{%y/%m/%f}|%@]'
 # PROMPT="╭─${user_host}${current_dir}
 # ╰─%B${user_symbol}%b "
 PROMPT='${user_host}${current_dir}$(git_branch_test_color)%F{none}
-${user_symbol} '
+$(suspended_jobs)${user_symbol} '
 
 # Right-Side Prompt
 RPROMPT=""

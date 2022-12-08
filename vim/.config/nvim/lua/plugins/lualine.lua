@@ -21,10 +21,10 @@ end
 -- LSP callback to trigger progress updates
 -- see :h vim.lsp.handlers
 -- see the API spec for more details: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#progress
-vim.lsp.handlers["$/progress"] = function(err, result, ctx, config)
-  -- TODO: implement this handler callback to update lsp-progress
-  -- see: https://github.com/nvim-lua/lsp-status.nvim
-end
+-- vim.lsp.handlers["$/progress"] = function(err, result, ctx, config)
+-- TODO: implement this handler callback to update lsp-progress
+-- see: https://github.com/nvim-lua/lsp-status.nvim
+-- end
 
 -- Show the current search count
 local search_count = function()

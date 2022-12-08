@@ -1,5 +1,6 @@
 " Window movement shortcuts
 " move to the window in the direction shown, or create a new window
+" TODO(tabboud): Move this to lua
 function s:WinMove(key)
     let t:curwin = winnr()
     exec "wincmd ".a:key
