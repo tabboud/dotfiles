@@ -108,19 +108,20 @@ window:
   #multiplier: 3
 
 # Font configuration
+font-family: &font-family JetBrainsMono Nerd Font
 font:
   size: 14.0
   normal:
-    family: JetBrainsMono Nerd Font
+    family: *font-family
     style: Regular
-  # bold:
-    # family: JetBrainsMono Nerd Font
-    # style: Bold
+  bold:
+    family: *font-family
+    style: Bold
   italic:
-    family: JetBrainsMono Nerd Font
+    family: *font-family
     style: Italic
   bold_italic:
-    family: JetBrainsMono Nerd Font
+    family: *font-family
     style: Bold Italic
 
   # Offset is the extra space around each character. `offset.y` can be thought
