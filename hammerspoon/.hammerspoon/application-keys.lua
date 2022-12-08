@@ -1,88 +1,44 @@
 -- Application key mappings
 -- This file sets up the various hotkeys to use to
 -- quickly switch between applications.
---
+M = {}
+
 local application = require("hs.application")
 local hotkey = require("hs.hotkey")
-local log = require("hs.logger").new("Application Keys", "info")
 
-shortcutKey = { "cmd", "ctrl" }
-local shortcuts = {
-  ["normal"] = {},
+local modKeys = { "cmd", "ctrl" }
+local keymaps = {
+  -- { app = "iTerm", key = "t" },
+  -- { app = "kitty", key = "t" },
+  { app = "Alacritty", key = "t" },
+  { app = "Google Chrome", key = "i" },
+  { app = "Slack", key = "s" },
+  { app = "Microsoft Outlook", key = "o" },
+  { app = "GoLand", key = "g" },
+  { app = "IntelliJ IDEA Community Edition", key = "0" },
+  { app = "Quip", key = "q" },
 }
 
-Keys = {
-  ["specialTriggers"] = {},
-  ["triggers"] = {
-    ["iTerm"] = { { shortcutKey, "t" } },
-    -- ["Alacritty"] = { { shortcutKey, "t" } },
-    -- ["kitty"] = { { shortcutKey, "t" } },
-    ["Google Chrome"] = { { shortcutKey, "i" } },
-    ["Slack"] = { { shortcutKey, "s" } },
-    ["Messages"] = { { shortcutKey, "m" } },
-    ["Microsoft Outlook"] = { { shortcutKey, "o" } },
-    ["GoLand"] = { { shortcutKey, "g" } },
-    ["IntelliJ IDEA Community Edition"] = { { shortcutKey, "0" } },
-    ["Visual Studio Code"] = { { shortcutKey, "c" } },
-    ["Quip"] = { { shortcutKey, "q" } },
-  },
-}
-
-function Keys.keyFor(name)
-  local keys = Keys.triggers[name]
-  if not keys then
-    keys = Keys.specialTriggers[name]
-  end
-
-  return keys
-end
-
-function Keys.bindKeyFor(appName, fn)
-  keys = Keys.keyFor(appName)
-  normalKeys = keys[1]
-  shortcuts["normal"][appName] = hotkey.new(normalKeys[1], normalKeys[2], fn)
-end
-
-function Keys.deactivate()
-  for _, keys in pairs(shortcuts) do
-    for __, k in pairs(keys) do
-      k:disable()
-    end
+-- Setup the applications to bind to based on the configured key mappings.
+M.setup = function()
+  for _, keymap in ipairs(keymaps) do
+    hotkey.bind(modKeys, keymap.key, function()
+      application.launchOrFocus(keymap.app)
+    end)
   end
 end
 
-function Keys.activate()
-  keys = shortcuts["normal"]
-  for _, k in pairs(keys) do
-    log.i(k)
-    k:enable()
-  end
-end
-
--- Setup the applications to bind to based on the configured key mapping/trigger.
-for applicationName, _ in pairs(Keys.triggers) do
-  Keys.bindKeyFor(applicationName, function()
-    application.launchOrFocus(applicationName)
-  end)
-end
-
--- Returns a string that contains all currently mapped keys
--- for use in an alert.
-function Keys.getAlertMapping(name)
+-- Returns a string that contains all currently mapped keys for use in an alert.
+M.getAlertMapping = function()
   local allKeys = ""
-
-  -- TODO(): sort the table for consistent output
-  for appName, mappings in pairs(Keys.triggers) do
-    normalKeys = mappings[1]
-    appKey = normalKeys[2]
-    local modKeys = ""
-    for k, v in pairs(normalKeys[1]) do
-      modKeys = modKeys .. v .. "+"
+  for _, keymap in ipairs(keymaps) do
+    local mod_keys = ""
+    for _, v in ipairs(modKeys) do
+      mod_keys = mod_keys .. v .. "+"
     end
-
-    allKeys = allKeys .. string.format("%-32s: %s", appName, modKeys .. appKey) .. "\n"
+    allKeys = allKeys .. string.format("%s:    %s", mod_keys .. keymap.key, keymap.app) .. "\n"
   end
   return allKeys
 end
 
-return Keys
+return M
