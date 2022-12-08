@@ -1,19 +1,14 @@
 -- Hammerspoon Configs
 
 -- Modules
+local hotkey = require("hs.hotkey")
 local alert = require("hs.alert")
+local application = require("hs.application")
 local applicationKeys = require("application-keys")
+local notify = require("hs.notify")
 
 -- Shortcut to reload config
-hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "R", function() hs.reload() end)
-
--- Show date, time, and battery life
-hs.hotkey.bind({ "cmd", "ctrl" }, "D", function()
-  local seconds = 3
-  local message = os.date("%I:%M%p") .. "\n" .. os.date("%a %b %d") .. "\nBattery: " ..
-      hs.battery.percentage() .. "%"
-  alert.show(message, seconds)
-end)
+hotkey.bind({ "cmd", "alt", "ctrl" }, "R", function() hs.reload() end)
 
 -- Load ControlEscape which maps capslock to ESC when tapped and ctrl when held
 hs.loadSpoon('ControlEscape'):start()
@@ -23,21 +18,21 @@ applicationKeys.deactivate()
 applicationKeys.activate()
 
 -- Automatically toggle alacritty
--- hs.hotkey.bind({ "ctrl" }, "space", function()
--- local alacritty = hs.application.find('alacritty')
+-- hotkey.bind({ "ctrl" }, "space", function()
+-- local alacritty = application.find('alacritty')
 -- if alacritty:isFrontmost() then
 --   alacritty:hide()
 -- else
---   hs.application.launchOrFocus("/Applications/Alacritty.app")
+--   application.launchOrFocus("/Applications/Alacritty.app")
 -- end
 -- end)
-hs.hotkey.bind({ "ctrl" }, "space", function()
-  alacritty = hs.application.find('alacritty')
+hotkey.bind({ "ctrl" }, "space", function()
+  local alacritty = application.find('alacritty')
   if alacritty ~= nil and alacritty:isFrontmost() then
     alacritty:hide()
   else
-    hs.application.launchOrFocus("/Applications/Alacritty.app")
-    local alacritty = hs.application.find('alacritty')
+    application.launchOrFocus("/Applications/Alacritty.app")
+    alacritty = application.find('alacritty')
     alacritty.setFrontmost(alacritty)
     alacritty.activate(alacritty)
   end
@@ -45,10 +40,9 @@ end
 )
 
 -- List the current application key mappings in an alert window
-hs.hotkey.bind({ "cmd", "ctrl" }, "N", function()
+hotkey.bind({ "cmd", "ctrl" }, "N", function()
   local seconds = 5
-  local allApplicationKeys = applicationKeys.getAlertMapping()
-  alert.show(allApplicationKeys, seconds)
+  alert.show(applicationKeys.getAlertMapping(), seconds)
 end)
 
-hs.notify.new({ title = 'Hammerspoon', informativeText = 'Ready to rock 🤘' }):send()
+notify.new({ title = 'Hammerspoon', informativeText = 'Ready to rock 🤘' }):send()
