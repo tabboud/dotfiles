@@ -69,7 +69,7 @@ return require('packer').startup(function(use)
       "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim",
       -- Go test adapter
-      "/Volumes/git/go/src/github.com/nvim-neotest/neotest-go",
+      "nvim-neotest/neotest-go",
     },
     config = function()
       require("plugins/neotest")
@@ -158,6 +158,7 @@ return require('packer').startup(function(use)
   ----------------
   use 'chiendo97/intellij.vim'
   use 'doums/darcula'
+  use { "briones-gabriel/darcula-solid.nvim", requires = "rktjmp/lush.nvim" }
   use {
     'mcchrish/zenbones.nvim',
     requires = { 'rktjmp/lush.nvim' },
