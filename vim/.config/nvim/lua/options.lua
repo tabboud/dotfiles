@@ -32,6 +32,7 @@ opt.cmdheight = 1 -- bottom command bar height
 opt.modeline = true -- enable modeline to get per-file settings (i.e. # vim:syntax=bash)
 opt.cursorline = true -- enable the cursorline
 opt.number = true -- show line numbers
+opt.relativenumber = true -- show relative numbers
 opt.wrap = false -- don't wrap lines by default
 opt.linebreak = true -- set soft wrapping
 opt.showbreak = "…" -- show ellipsis at breaking
@@ -74,14 +75,9 @@ opt.pumheight = 20 -- pop up menu height
 -- for you to press <Tab>
 opt.completeopt = { "menu", "menuone", "noselect" }
 
-opt.backspace = { -- make backspace behave in a sane manner
-  "indent",
-  "eol,start"
-}
-opt.clipboard = { -- use the system clipboard
-  "unnamed",
-  "unnamedplus"
-}
+-- This is the default (see :h 'backspace')
+-- opt.backspace = { "indent", "eol,start" }
+opt.clipboard = { "unnamedplus" }
 
 -- disabled to allow cmp-cmdline to use a popup window
 -- opt.wildmode = { -- complete files like a shell
