@@ -73,7 +73,7 @@ opt.pumheight = 20 -- pop up menu height
 -- noselect is useful for not selecting a first entry in the cmp completion window
 -- By "select" this means "foo|<Tab>" would not immediately insert the first completed item, but instead wait
 -- for you to press <Tab>
-opt.completeopt = { "menu", "menuone", "noselect" }
+-- opt.completeopt = { "menu", "menuone", "noselect" }
 
 -- This is the default (see :h 'backspace')
 -- opt.backspace = { "indent", "eol,start" }

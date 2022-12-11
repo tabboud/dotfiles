@@ -3,6 +3,12 @@ local cmp = require('cmp')
 local types = require('cmp.types')
 local icons = require("icons")
 
+
+vim.o.completeopt = "menu,menuone,noselect"
+
+-- Load snippets from luasnip
+require("luasnip.loaders.from_vscode").lazy_load()
+
 -- local feedkey = function(key, mode)
 --   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 -- end
