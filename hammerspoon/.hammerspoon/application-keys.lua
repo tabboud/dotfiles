@@ -3,6 +3,7 @@
 -- quickly switch between applications.
 M = {}
 
+local alert = require("hs.alert")
 local application = require("hs.application")
 local hotkey = require("hs.hotkey")
 
@@ -19,17 +20,8 @@ local keymaps = {
   { app = "Quip", key = "q" },
 }
 
--- Setup the applications to bind to based on the configured key mappings.
-M.setup = function()
-  for _, keymap in ipairs(keymaps) do
-    hotkey.bind(modKeys, keymap.key, function()
-      application.launchOrFocus(keymap.app)
-    end)
-  end
-end
-
 -- Returns a string that contains all currently mapped keys for use in an alert.
-M.getAlertMapping = function()
+local getAlertMapping = function()
   local allKeys = ""
   for _, keymap in ipairs(keymaps) do
     local mod_keys = ""
@@ -39,6 +31,21 @@ M.getAlertMapping = function()
     allKeys = allKeys .. string.format("%s:    %s", mod_keys .. keymap.key, keymap.app) .. "\n"
   end
   return allKeys
+end
+
+
+-- Setup the applications to bind to based on the configured key mappings.
+M.setup = function()
+  for _, keymap in ipairs(keymaps) do
+    hotkey.bind(modKeys, keymap.key, function()
+      application.launchOrFocus(keymap.app)
+    end)
+  end
+
+  -- List the current application key mappings in an alert window
+  hotkey.bind({ "cmd", "ctrl" }, "N", function()
+    alert.show(getAlertMapping())
+  end)
 end
 
 return M

@@ -12,10 +12,6 @@ hs.loadSpoon('ControlEscape'):start()
 
 -- Fast Application Switching
 applicationKeys.setup()
--- List the current application key mappings in an alert window
-hotkey.bind({ "cmd", "ctrl" }, "N", function()
-  alert.show(applicationKeys.getAlertMapping())
-end)
 
 -- Shortcut to reload config
 hotkey.bind({ "cmd", "alt", "ctrl" }, "R", function() hs.reload() end)
