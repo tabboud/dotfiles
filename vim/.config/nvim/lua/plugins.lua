@@ -50,7 +50,7 @@ return require('packer').startup(function(use)
   use {
     "lukas-reineke/indent-blankline.nvim",
     config = function()
-      require("plugins/indent-blankline").setup()
+      require("plugins.indent-blankline").setup()
     end,
   }
   use {
@@ -86,7 +86,7 @@ return require('packer').startup(function(use)
   use {
     'mfussenegger/nvim-dap',
     config = function()
-      require("plugins/dap").setup()
+      require("plugins.dap").setup()
     end
   }
   use { 'leoluz/nvim-dap-go' }
@@ -104,7 +104,7 @@ return require('packer').startup(function(use)
       "nvim-neotest/neotest-go",
     },
     config = function()
-      require("plugins/neotest")
+      require("plugins.neotest")
     end
   }
 
@@ -126,7 +126,7 @@ return require('packer').startup(function(use)
   use {
     'lewis6991/gitsigns.nvim',
     config = function()
-      require("plugins/gitsigns")
+      require("plugins.gitsigns")
     end
   }
 
@@ -141,8 +141,7 @@ return require('packer').startup(function(use)
   use { 'chiendo97/intellij.vim' }
   use { 'doums/darcula' }
   use { "briones-gabriel/darcula-solid.nvim", requires = "rktjmp/lush.nvim" }
-  use { 'mcchrish/zenbones.nvim', requires = { 'rktjmp/lush.nvim' },
-  }
+  use { 'mcchrish/zenbones.nvim', requires = 'rktjmp/lush.nvim' }
 
   -----------------
   -- Treesitter
@@ -152,7 +151,7 @@ return require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     run = 'TSUpdate',
     config = function()
-      require("plugins/nvim-treesitter")
+      require("plugins.nvim-treesitter")
     end
   }
 
@@ -162,7 +161,7 @@ return require('packer').startup(function(use)
   use {
     "williamboman/mason.nvim",
     config = function()
-      require("plugins/mason").setup()
+      require("plugins.mason").setup()
     end,
     requires = {
       { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
@@ -174,7 +173,7 @@ return require('packer').startup(function(use)
   use {
     'neovim/nvim-lspconfig',
     config = function()
-      require("plugins/lspconfig")
+      require("plugins.lspconfig")
     end,
     -- Only load this after mason-lspconfig since lspconfig installs
     -- happen via mason, but server config happens here.
@@ -196,11 +195,7 @@ return require('packer').startup(function(use)
     "folke/trouble.nvim",
     requires = "kyazdani42/nvim-web-devicons",
     config = function()
-      require("trouble").setup {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      }
+      require("trouble").setup {}
     end
   }
   -- Provides lsp renames with a popup window
@@ -208,7 +203,7 @@ return require('packer').startup(function(use)
     'glepnir/lspsaga.nvim',
     branch = 'main',
     config = function()
-      require('plugins/lspsaga').setup()
+      require('plugins.lspsaga').setup()
     end
   }
   -- Provides status of LSP starting up
@@ -255,7 +250,7 @@ return require('packer').startup(function(use)
       { 'nvim-telescope/telescope-live-grep-args.nvim' },
     },
     config = function()
-      require("plugins/telescope").setup()
+      require("plugins.telescope").setup()
     end
   }
 
