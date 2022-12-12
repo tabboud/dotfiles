@@ -44,15 +44,18 @@ opt.signcolumn = "yes" -- always show the sign column
 -- Coloring
 -- First loads won't have plugin colorschemes loaded until they're installed.
 -- Fallback to the default in this case.
-_, ok = pcall(vim.cmd.colorscheme, 'darcula-solid')
+local _, ok = pcall(vim.cmd.colorscheme, 'darcula-solid')
 if not ok then
   vim.cmd.colorscheme('default')
 end
 
 -- Code folding
--- TODO: This needs to be set in the treesitter config instead
-opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- Enable nvim-treesitter code folding if available
+local _, okk = pcall(require, 'nvim-treesitter')
+if okk then
+  opt.foldmethod = "expr"
+  opt.foldexpr = "nvim_treesitter#foldexpr()"
+end
 opt.foldlevelstart = 99
 opt.foldnestmax = 10 -- deepest fold is 10 levels
 opt.foldenable = false -- don't fold by default
