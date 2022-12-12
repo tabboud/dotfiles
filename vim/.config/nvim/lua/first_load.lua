@@ -12,6 +12,7 @@ local download_packer = function()
   )
   print(out)
   vim.cmd [[packadd packer.nvim]]
+  print("You'll need to restart now, then run :PackerSync and :MasonToolsInstall to update all plugins/tools")
   require('plugins')
   vim.cmd [[PackerSync]]
   -- vim.cmd [[qa]]
