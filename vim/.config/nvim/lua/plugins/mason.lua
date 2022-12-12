@@ -19,15 +19,18 @@ local options = {
 local tool_installer_options = {
   ensure_installed = {
     -- go
+    "delve",
+    "gofumpt",
+    "goimports",
     "golangci-lint",
     "gopls",
-    "gofumpt",
-    "staticcheck",
     "impl",
-    "delve",
+    "staticcheck",
+
     -- lua
     'lua-language-server',
     'stylua',
+
     -- vim
     'vim-language-server',
     'shellcheck',

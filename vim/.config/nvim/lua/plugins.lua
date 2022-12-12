@@ -134,10 +134,6 @@ return require('packer').startup(function(use)
   -- Languages
   -----------------
   use { 'plasticboy/vim-markdown', ft = { 'markdown' } }
-  -- Add go-imports plugin since nvim LSP with gopls, does not yet support it
-  --  ref: https://github.com/neovim/nvim-lspconfig/issues/115
-  use { 'mattn/vim-goimports', ft = { 'go' } }
-  use { 'mattn/vim-goimpl', ft = { 'go' } }
 
   -----------------
   -- Color Schemes
