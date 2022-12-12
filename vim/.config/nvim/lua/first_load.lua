@@ -11,11 +11,8 @@ local download_packer = function()
     string.format("git clone %s %s", "https://github.com/wbthomason/packer.nvim", directory .. "/packer.nvim")
   )
   print(out)
-  vim.cmd [[packadd packer.nvim]]
-  print("You'll need to restart now, then run :PackerSync and :MasonToolsInstall to update all plugins/tools")
-  require('plugins')
-  vim.cmd [[PackerSync]]
-  -- vim.cmd [[qa]]
+  -- vim.cmd [[packadd packer.nvim]]
+  print("Run :PackerSync and :MasonToolsInstall to install all plugins/tools")
 end
 
 return function()

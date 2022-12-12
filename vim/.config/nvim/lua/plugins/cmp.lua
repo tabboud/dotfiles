@@ -41,6 +41,8 @@ cmp.setup({
     -- Just insert the text don't replace, see https://github.com/hrsh7th/nvim-cmp/issues/664
     ['<C-j>'] = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert }),
     ['<C-k>'] = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert }),
+    ['<C-n>'] = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert }),
+    ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert }),
     ['<CR>'] = cmp.mapping.confirm({
       -- TODO: Fix the insert behavior when there is an LSP completion item. Using ConfirmBehavior.Insert
       -- works correctly for non-LSP completions, but LSP causes the next word to be deleted.
@@ -84,10 +86,7 @@ cmp.setup({
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
-    {
-      name = 'buffer',
-      keyword_length = 5,
-    },
+    { name = 'buffer', keyword_length = 5 },
     { name = 'nvim_lsp_signature_help' },
   },
   formatting = {

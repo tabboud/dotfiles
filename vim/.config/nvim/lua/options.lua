@@ -42,8 +42,12 @@ opt.updatetime = 300 -- wait configured ms before updating
 opt.signcolumn = "yes" -- always show the sign column
 
 -- Coloring
--- TODO: colorscheme depends on a plugin so this should be moved to the plugin config
-vim.cmd [[colorscheme darcula-solid ]]
+-- First loads won't have plugin colorschemes loaded until they're installed.
+-- Fallback to the default in this case.
+_, ok = pcall(vim.cmd.colorscheme, 'darcula-solid')
+if not ok then
+  vim.cmd.colorscheme('default')
+end
 
 -- Code folding
 -- TODO: This needs to be set in the treesitter config instead
