@@ -4,6 +4,7 @@
 require("globals")
 require("keymaps")
 require("autocmds")
+require("options")
 
 -- Go specific settings
 require("go")
@@ -13,6 +14,3 @@ if require("first_load")() then
   return
 end
 require("plugins")
-
--- TODO: Options should not depend on plugins and should be in the core above
-require("options")
