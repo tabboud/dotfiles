@@ -43,7 +43,7 @@ opt.signcolumn = "yes" -- always show the sign column
 
 -- Coloring
 -- TODO: colorscheme depends on a plugin so this should be moved to the plugin config
-vim.cmd [[colorscheme forestbones ]]
+vim.cmd [[colorscheme darcula-solid ]]
 
 -- Code folding
 -- TODO: This needs to be set in the treesitter config instead
