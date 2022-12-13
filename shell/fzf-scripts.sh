@@ -38,7 +38,7 @@ tm() {
   # list sessions by most recently attached first
   # Uses the "session_last_attached" format as the sorting field but strips off this timestamp
   # before presenting the selection.
-  session=$(tmux list-sessions -F "#{session_last_attached} #{session_name}" | sort -Vr | awk '{print $2}' | fzf --exit-0 --reverse --height=20 --border)
+  session=$(tmux list-sessions -F "#{session_last_attached} #{session_name}" | sort -Vr | awk '{print $2}' | fzf --prompt="Select tmux session: " --exit-0 --reverse --height=20 --border)
   if [[ -n "${session}" ]]; then
     tmux $change -t "$session" || echo "No sessions found."
   fi
@@ -69,4 +69,44 @@ gdel() {
               printf %s\\n "Please answer yes or no."
       esac
   done
+}
+
+# Switch between git branches.
+gswitch() {
+    header="Select a branch to switch to"
+    autostash=0
+    flags=
+    while getopts "s" opt; do
+    case $opt in
+        s)
+        autostash=1
+        flags="-s $flags"
+        ;;
+    esac
+    done
+
+    choice=$(git branch | rg -v "^\*" | tr -d ' ' | fzf \
+    --header="$header [$flags]" \
+    --prompt="Switch branch: " \
+    )
+    r=$?
+
+    [[ autostash -eq 1 ]] && git stash
+    [ $r = 0 ] && git switch $choice
+}
+
+# Checkout a PR via gh APIs.
+pr-checkout() {
+  local pr_number
+
+  pr_number=$(
+    gh api 'repos/:owner/:repo/pulls' |
+    jq --raw-output '.[] | "#\(.number) \(.title)"' |
+    fzf |
+    sed 's/^#\([0-9]\+\).*/\1/'
+  )
+
+  if [ -n "$pr_number" ]; then
+    gh pr checkout "$pr_number"
+  fi
 }

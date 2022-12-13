@@ -78,6 +78,7 @@ nvimtree.setup({
 )
 
 -- configure key mappings
+-- TODO: Setup these keymaps to load the plugin otherwise they are not available until one is run
 local keymaps = require('keymaps')
 keymaps.nnoremap("<leader>k", ":NvimTreeToggle<cr>", { desc = "NvimTree: Toggle file tree" })
 keymaps.nnoremap("<leader>f", ":NvimTreeFindFile<cr>", { desc = "NvimTree: Find file" })

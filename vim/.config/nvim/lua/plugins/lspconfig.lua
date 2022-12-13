@@ -64,6 +64,8 @@ local on_attach = function(client, bufnr)
   if client.server_capabilities.documentSymbolProvider then
     require("nvim-navic").attach(client, bufnr)
   end
+  -- Disable semantic tokens
+  client.server_capabilities.semanticTokensProvider = nil
 end
 
 -- Diagnostic sign mappings
