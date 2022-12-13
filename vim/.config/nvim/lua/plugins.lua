@@ -118,6 +118,10 @@ return require('packer').startup(function(use)
     end
   }
   use {
+    'TimUntersberger/neogit',
+    requires = 'nvim-lua/plenary.nvim'
+  }
+  use {
     'sindrets/diffview.nvim',
     requires = { 'nvim-lua/plenary.nvim' },
     -- only load this plugin on the following commands
