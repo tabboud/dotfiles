@@ -7,36 +7,35 @@ COLOR_YELLOW='\033[1;33m'
 
 OS="$(uname)"
 
+# Ensure homebrew is installed.
+function ensure_homebrew() {
+    if test ! "$(command -v brew)"; then
+        echo "Homebrew is not installed. Installing."
+        # Run as a login shell (non-interactive) so that the script doesn't pause for user input
+        curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash --login
+    fi
+}
 
 function bootstrap() {
     echo "Bootstrapping the system"
-
-    echo "Updating submodule(s)..."
-    git submodule update --init --recursive
-
     if [ "$OS" == "Darwin" ]; then
         echo "Brewing Everything..."
-        bash scripts/brew.sh all
+        ensure_homebrew
+        brew bundle
 
         echo "Updating OSX settings..."
         bash scripts/osx.sh
-
-        echo "Link in the iTerm font"
-        source scripts/link_iterm_fonts.sh
-    elif [ "$OS" == "Linux" ]; then
-        echo "nothing to do"
-    else
-        echo "Unsupported OS type!"
-        exit 1
     fi
 }
 
 function dotfiles() {
     if [ "$OS" == "Darwin" ]; then
         if [ ! $(type -p stow) ]; then
-            echo "stow is not installed. Going to install..."
-            bash scripts/brew.sh install-stow
+            echo "stow is not installed. Installing."
+            ensure_homebrew
+            brew install stow
         fi
+
         echo "Linking osx dotfiles..."
         bash scripts/run_stow.sh osx
     elif [ "$OS" == "Linux" ]; then
@@ -46,11 +45,6 @@ function dotfiles() {
         echo "Unsupported OS type!"
         exit 1
     fi
-}
-
-function all() {
-    dotfiles
-    bootstrap
 }
 
 function uninstall() {
@@ -82,7 +76,8 @@ fi
 
 case "$command" in
   all)
-    all
+    bootstrap
+    dotfiles
     ;;
   dotfiles)
     dotfiles
