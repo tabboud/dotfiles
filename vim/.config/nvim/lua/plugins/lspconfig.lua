@@ -64,6 +64,13 @@ local on_attach = function(client, bufnr)
   if client.server_capabilities.documentSymbolProvider then
     require("nvim-navic").attach(client, bufnr)
   end
+
+  -- register lsp-status if available to show LSP progress messages
+  -- in the status line. See plugins/lualine.lua for how this is setup.
+  local lsp_status_ok, lsp_status = pcall(require, 'lsp-status')
+  if lsp_status_ok then
+    lsp_status.on_attach(client, bufnr)
+  end
 end
 
 -- Diagnostic sign mappings

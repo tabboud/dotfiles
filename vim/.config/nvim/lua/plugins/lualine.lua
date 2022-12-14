@@ -1,4 +1,8 @@
 local icons = require("icons").lualine
+local ok, lsp_status = pcall(require, 'lsp-status')
+if ok then
+  lsp_status.register_progress()
+end
 
 -- projectName returns the name of the containing directory (or project).
 local project_name = function()
@@ -6,25 +10,27 @@ local project_name = function()
   return string.format("%s %s", icons.Folder, project)
 end
 
-local lsp_status = function()
+-- get_lsp_status returns the current status of the LSP server.
+-- If progress messages are available, then they will be shown in real-time, otherwise
+-- just the currently attached LSP server will be shown or 'none' if none are attached.
+-- Progress messages are retrieved from https://github.com/nvim-lua/lsp-status.nvim
+-- via the "lsp-status.status_progress()" method, which is configured to be attached
+-- in lspconfig's "on_attach" callback.
+local get_lsp_status = function()
   for _, client in ipairs(vim.lsp.get_active_clients()) do
     if client.attached_buffers[vim.api.nvim_get_current_buf()] then
-      if vim.o.columns > 100 then
-        return string.format(" %s LSP: %s", icons.Lsp, client.name)
+      local msgs_ok, progress_msg = pcall(function() return require('lsp-status').status_progress() end)
+      if msgs_ok and progress_msg ~= '' then
+        -- show LSP progress message if available
+        return string.format("%s LSP: %s ", icons.Lsp, progress_msg)
       end
-      return string.format(" %s LSP", icons.Lsp)
+      -- fallback to just the currently attached LSP server
+      return string.format("%s LSP: %s ", icons.Lsp, client.name)
     end
   end
-  return string.format(" %s LSP: none", icons.Lsp)
+  -- no clients attached
+  return string.format("%s LSP: none ", icons.Lsp)
 end
-
--- LSP callback to trigger progress updates
--- see :h vim.lsp.handlers
--- see the API spec for more details: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#progress
--- vim.lsp.handlers["$/progress"] = function(err, result, ctx, config)
--- TODO: implement this handler callback to update lsp-progress
--- see: https://github.com/nvim-lua/lsp-status.nvim
--- end
 
 -- Show the current search count
 local search_count = function()
@@ -47,7 +53,7 @@ require('lualine').setup {
     lualine_a = { "branch" },
     lualine_b = { "diff" },
     lualine_c = { search_count },
-    lualine_x = { lsp_status, "diagnostics" },
+    lualine_x = { get_lsp_status, "diagnostics" },
     lualine_y = {},
     lualine_z = { project_name },
   },

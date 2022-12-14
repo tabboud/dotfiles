@@ -26,6 +26,7 @@ return require('packer').startup(function(use)
   use { 'airblade/vim-rooter' } -- Auto cd to root of git repo
   use {
     'nvim-lualine/lualine.nvim',
+    requires = { 'nvim-lua/lsp-status.nvim' },
     config = function()
       require("plugins/lualine")
     end
@@ -208,13 +209,6 @@ return require('packer').startup(function(use)
     branch = 'main',
     config = function()
       require('plugins.lspsaga').setup()
-    end
-  }
-  -- Provides status of LSP starting up
-  use {
-    'j-hui/fidget.nvim',
-    config = function()
-      require("fidget").setup {}
     end
   }
 
