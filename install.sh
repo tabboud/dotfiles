@@ -55,11 +55,11 @@ function uninstall() {
 function usage() {
 cat<<EOD
 Usage:
-    bootstrap   [options] -- Just install software packages
-    dotfiles    [options] -- Just link all dotfiles
+    bootstrap   [options] -- Install software packages
+    dotfiles    [options] -- Link all dotfiles
     all         [options] -- Install software and link dotfiles
 
-    uninstall   [options] -- uninstall all dotfiles
+    uninstall   [options] -- Remove all dotfile symlinks
 EOD
   exit 1
 }
