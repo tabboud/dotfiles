@@ -63,34 +63,5 @@ return {
     passed = "",
     skipped = "",
     unknown = "",
-  },
-  nvimtree = {
-    diagnostics = {
-      hint = "",
-      info = "",
-      warning = "",
-      error = "",
-    },
-    renderer = {
-      corner = "└ ",
-      edge = "│ ",
-      none = "  ",
-    },
-    glyphs = {
-      default = "",
-      symlink = "",
-      GitUnstaged = "",
-      GitStaged = "S",
-      GitUnmerged = "",
-      GitRenamed = "➜",
-      GitDeleted = "",
-      GitUntracked = "U",
-      GitIgnored = "◌",
-      FolderDefault = "",
-      FolderOpen = "",
-      FolderEmpty = "",
-      FolderEmptyOpen = "",
-      FolderSymlink = "",
-    }
   }
 }
