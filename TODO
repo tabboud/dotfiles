@@ -1,9 +1,0 @@
-- [] Lazy load all of the configs
-- [] Add an "outside mode"
-    - [] Make iterm and vim colors white/light background
-    - [] increase brightness all the way
-    - [] increase the text font in most windows
-- [] Auto install plugins on launch of vim
-- [] Add ability to sync dotfiles that may not be registered yet or have been updated. If the link is already there, do
-  nothing, but otherwise add the rest. May already be supported in the `stow` workflow, but need to verify.
-

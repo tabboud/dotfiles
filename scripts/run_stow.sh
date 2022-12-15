@@ -10,7 +10,6 @@ declare -a COMMON=(
 declare -a OSX=(
     alacritty
     hammerspoon
-    iterm2
     raycast
 )
 declare -a LINUX=()
