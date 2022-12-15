@@ -153,7 +153,7 @@ return require('packer').startup(function(use)
   -- Used in syntax highlighting and other syntax related plugins
   use {
     'nvim-treesitter/nvim-treesitter',
-    run = 'TSUpdate',
+    run = function() require("nvim-treesitter.install").update { with_sync = true } end,
     config = function()
       require("plugins.nvim-treesitter")
     end
