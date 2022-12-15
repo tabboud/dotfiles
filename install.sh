@@ -16,12 +16,21 @@ function ensure_homebrew() {
     fi
 }
 
+# Setup terminfo for tmux usage with italics support.
+function setup_terminfo() {
+    tic -x "tmux/tmux.terminfo"
+    tic -x "tmux/xterm-256color-italic.terminfo"
+}
+
 function bootstrap() {
     echo "Bootstrapping the system"
     if [ "$OS" == "Darwin" ]; then
         echo "Brewing Everything..."
         ensure_homebrew
         brew bundle
+
+        echo "Configuring terminfo"
+        setup_terminfo
 
         echo "Updating OSX settings..."
         bash scripts/osx.sh
@@ -38,6 +47,9 @@ function dotfiles() {
 
         echo "Linking osx dotfiles..."
         bash scripts/run_stow.sh osx
+
+        echo "Configuring terminfo"
+        setup_terminfo
     elif [ "$OS" == "Linux" ]; then
         echo "Linking linux dotfiles..."
         bash scripts/run_stow.sh linux
