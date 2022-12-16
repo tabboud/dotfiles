@@ -1,11 +1,5 @@
 local neotest_ns = vim.api.nvim_create_namespace("neotest")
-vim.diagnostic.config({
-  virtual_text = {
-    format = function(diagnostic)
-      return diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
-    end,
-  },
-}, neotest_ns)
+vim.diagnostic.config({ virtual_text = false }, neotest_ns)
 
 local keymaps = function()
   local keymaps = require('keymaps')
