@@ -42,7 +42,6 @@ return require('packer').startup(function(use)
   use {
     'nvim-tree/nvim-tree.lua',
     requires = { 'nvim-tree/nvim-web-devicons' },
-    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     tag = 'nightly',
     config = function()
       require("plugins.nvim-tree")
