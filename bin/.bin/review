@@ -32,22 +32,67 @@ function gitDefaultBranch() {
 }
 
 function main() {
-    BRANCH=$1
-    git switch "$BRANCH"
-    defaultBranch=$(gitDefaultBranch)
-    env REVIEW_BASE="$defaultBranch" git stat
+    set -e
+
+    # TODO(X): Make sure the REVIEW_BASE is up to date before diffing
+    #       This is handled below by doing the "git merge-base HEAD origin/develop" which
+    #       gets the merge commit from the remote source so the local verson doesn't have
+    #       to be updated. Actually, this is not a bad idea, however in order to make this work
+    #       for my use case, I need to figure out how to dynamically get that origin/remote name
+    #       because sometimes origin refers to my fork (this is how `gh` operates by default),
+    #       which means the "upstream" branch might actually be what I want to diff against.
+    # TODO: Fix the gh behavior to make forks go to a "mine" branch so that "origin" can always
+    #       be assumed as the thing we want to diff against. This can be solved by a gh alias.
+    #       See a flup PR to add 'gh/.config/gh/config.yml' to my dotfiles
+    git fetch origin
+    # REMOTE_BRANCH=$(git branch -r | fzf)
+    # SPLITS=("${(@s|/|)REMOTE_BRANCH}")
+    # BRANCH=$SPLITS[2]
+    BRANCH="lfdo/lumberjack-rotate"
+    echo $BRANCH
+    git switch $BRANCH
+    # git heatmap
+    # vared -p "Press (c) to continue reviewing: " -c tmp
+    # continueOrExit
+
+    # TODO: allow ignoring the "vendor/" directory in "git stat" below since it's noisy.
+    #       Maybe prompt for showing vendor or not? Or just show the stats for everything since vendor
+    #       changes won't show up in stats if they were excluded. Maybe use an env var with empty default?
+    #       Something like this will work:
+    #           $ git diff --stat 0452816397d71d81e3cb149a0fcd74bc76615354 ':(exclude,top)vendor/'
+    #           # / is an alias for top
+    #           # ! is an alias for exclude
+    #           # See: https://stackoverflow.com/a/39937070
+    #           # See: pathspec in https://mirrors.edge.kernel.org/pub/software/scm/git/docs/gitglossary.html
+    #           $ git diff --stat 0452816397d71d81e3cb149a0fcd74bc76615354 -- ':/!vendor'
+    #       Funny enough this is already handled via `git files` - see git config
+    #
+    git stat
     continueOrExit
 
-    git reset --soft "$defaultBranch"
-    git reset           # to make everything unstaged
-    nvim -c :G          # to use fugitive for the review
-    git reset --hard origin/"$BRANCH"
+    merge_commit=$(git merge-base HEAD origin/develop)
+    git reset --soft $merge_commit
+    # get changed files before resetting since untracked files won't show up
+    git_files=$(git files)
+    git reset  # to make everything unstaged
+    # TODO: This doesn't really work right. Need to fixup the Gvdiffsplit
+    # env REVIEW_BASE="origin/develop" git review
+    # nvim -c ":tab Git"
+    continueOrExit
+    # not correct. We only want to diff against the review base
+    # TODO: Figure out what branch to use here. Seemingly nothing works best?!
+    # nvim -p ${git_files} -c "DiffviewOpen origin/develop"
+    nvim -c "DiffviewOpen"
+    # git reset --hard origin/$BRANCH
+
+
+    # TODO: checkout the original branch we were on instead
 }
 
-if [[ "$#" -lt 1 ]]; then
-    echo "USAGE: review <branch-to-review>"
-    exit 1
-fi
+# if [[ "$#" -lt 1 ]]; then
+#     echo "USAGE: review <branch-to-review>"
+#     exit 1
+# fi
 
 main "$1"
 

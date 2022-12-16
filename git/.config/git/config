@@ -63,7 +63,16 @@
     brsort = branch --sort=-committerdate
 
     # Show stats between review base and HEAD for code review
-    stat = !git diff --stat $(git merge-base HEAD $REVIEW_BASE)
+    # stat = !git diff --stat $(git merge-base HEAD $REVIEW_BASE)
+    stat = !git diff --stat $(git merge-base HEAD origin/develop)
+    # Only review non-vendor code changes
+    files = !git diff --name-only $(git merge-base HEAD origin/develop) -- :^vendor
+    # TODO: git files --name-only leaves off the untracked files
+    #       This happens when the file is untracked. Instead we need to do the `git files`
+    #       before we do the reset otherwise it's not shown since it was not tracked in origin
+    # TODO: Switch to using :DiffviewOpen instead of fugitive.
+    #       Fugitive is still used for staging, committing, etc, and diiffview.nvim is used for diffing.
+    review = !nvim -p $(git files) +\"tabdo Gvdiffsplit $REVIEW_BASE\"
 
 	# git codereview aliases
 	change = codereview change

@@ -112,7 +112,7 @@ if fn.executable("gopls") > 0 then
         -- enables placeholders for function parameters or struct fields in completion responses
         usePlaceholders = true,
         gofumpt = false,
-        staticcheck = false,
+        staticcheck = true,
         analyses = {
           shadow = false,
           unusedparams = false,

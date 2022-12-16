@@ -15,6 +15,10 @@ local keymaps = function()
   keymaps.nnoremap('<leader>tl', function()
     return require("neotest").run.run_last()
   end, { desc = 'Test: Run last test' })
+
+  keymaps.nnoremap('<leader>to', function()
+    return require("neotest").output_panel.toggle()
+  end, { desc = 'Test: Toggle test output-panel' })
 end
 
 local icons = require('icons').neotest
