@@ -1,0 +1,8 @@
+# What protocol to use when performing git operations. Supported values: ssh, https
+git_protocol: ssh
+# When to interactively prompt. This is a global config that cannot be overridden by hostname. Supported values: enabled, disabled
+prompt: enabled
+# Aliases allow you to create nicknames for gh commands
+aliases:
+    co: pr checkout
+    fork: repo fork --remote --remote-name fork

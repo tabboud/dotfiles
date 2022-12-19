@@ -13,3 +13,6 @@ zsh/cache
 
 iterm2/.config/iterm2/AppSupport
 
+# gh CLI
+!gh/.config/gh/config.yml
+gh/.config/gh/*
