@@ -22,3 +22,15 @@ api.nvim_create_autocmd("BufReadPost", {
     end
   end
 })
+
+-- Briefly highlight the copied text
+api.nvim_create_autocmd('TextYankPost', {
+  group = dotfiles,
+  pattern = '*',
+  callback = function()
+    vim.highlight.on_yank({
+      higroup = 'IncSearch',
+      timeout = 40,
+    })
+  end,
+})
