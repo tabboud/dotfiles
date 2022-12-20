@@ -1,6 +1,6 @@
 -- init.lua
 
--- core (no plugin settings)
+-- core
 require("globals")
 require("keymaps")
 require("autocmds")
@@ -8,7 +8,7 @@ require("autocmds")
 -- Plugin loading / config
 require("plugins")
 
--- Plugin specific options
+-- Options that include plugin settings
 require("options")
 
 -- Go specific settings
