@@ -28,7 +28,7 @@ return require('packer').startup(function(use)
     'nvim-lualine/lualine.nvim',
     requires = { 'nvim-lua/lsp-status.nvim' },
     config = function()
-      require("plugins/lualine")
+      require("plugins.lualine")
     end
   }
   use {
@@ -36,7 +36,7 @@ return require('packer').startup(function(use)
     tag = "v3.*",
     requires = 'kyazdani42/nvim-web-devicons',
     config = function()
-      require("plugins/bufferline")
+      require("plugins.bufferline")
     end
   }
   use {
@@ -136,6 +136,7 @@ return require('packer').startup(function(use)
       require("plugins.gitsigns")
     end
   }
+  use { 'ThePrimeagen/git-worktree.nvim' }
 
   -----------------
   -- Languages
@@ -171,12 +172,11 @@ return require('packer').startup(function(use)
       require("plugins.mason").setup()
     end,
     requires = {
-      { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
-      { "williamboman/mason-lspconfig.nvim" }
+      -- Automatically install LSPs/tools to stdpath
+      { "williamboman/mason-lspconfig.nvim" },
+      { 'WhoIsSethDaniel/mason-tool-installer.nvim' }
     }
   }
-  use { "williamboman/mason-lspconfig.nvim" }
-  use { 'WhoIsSethDaniel/mason-tool-installer.nvim' }
   use {
     'neovim/nvim-lspconfig',
     config = function()
@@ -186,8 +186,6 @@ return require('packer').startup(function(use)
     -- happen via mason, but server config happens here.
     after = "mason-lspconfig.nvim"
   }
-  -- Extensions to built-in LSP, for example, providing type inlay hints
-  use { 'nvim-lua/lsp_extensions.nvim' }
   -- Show current code context in the winbar
   use {
     "SmiteshP/nvim-navic",
@@ -227,17 +225,12 @@ return require('packer').startup(function(use)
       { 'hrsh7th/cmp-buffer' },
       { 'hrsh7th/cmp-cmdline' },
       { 'hrsh7th/cmp-nvim-lsp-signature-help' },
-      { 'L3MON4D3/LuaSnip' },
+      { 'L3MON4D3/LuaSnip', tag = 'v1.*' },
+      { 'saadparwaiz1/cmp_luasnip' },
     },
   }
-  -- nvim-cmp sources/snippets
-  use { 'hrsh7th/cmp-nvim-lsp' }
-  use { 'hrsh7th/cmp-buffer' }
-  use { 'hrsh7th/cmp-cmdline' }
-  use { 'hrsh7th/cmp-nvim-lsp-signature-help' }
+  -- Snippet sources
   use { "rafamadriz/friendly-snippets" }
-  use { "L3MON4D3/LuaSnip", tag = "v1.*" }
-  use { "saadparwaiz1/cmp_luasnip", after = "LuaSnip" }
 
   -----------------
   -- Telescope
@@ -246,8 +239,6 @@ return require('packer').startup(function(use)
     'nvim-telescope/telescope.nvim',
     requires = {
       { 'nvim-lua/plenary.nvim' },
-      -- Provide dynamic args to grep/rg
-      { 'nvim-telescope/telescope-live-grep-args.nvim' },
     },
     config = function()
       require("plugins.telescope").setup()
