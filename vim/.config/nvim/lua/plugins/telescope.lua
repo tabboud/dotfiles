@@ -149,7 +149,7 @@ local configure_keymaps = function()
   nnoremap("<leader><Enter>", function() return builtin.buffers({ previewer = false }) end,
     { desc = "Telescope: List open buffers" })
   nnoremap("<leader>p", function() return builtin.find_files({
-      prompt = "My Find Files",
+      prompt_title = "My Find Files",
       file_ignore_patterns = {
         "^vendor/",
         "^.git/",
@@ -162,7 +162,7 @@ local configure_keymaps = function()
   nnoremap("<leader>rg", function() return builtin.live_grep() end)
   nnoremap("rg", function()
     return builtin.live_grep(themes.get_ivy({
-      prompt = " Live grep (rg) ",
+      prompt_title = " Live grep (rg) ",
       file_ignore_patterns = { "vendor", "^.git/" },
     }))
   end, { desc = "Telescope: Live grep (rg)" })
@@ -191,7 +191,7 @@ local configure_keymaps = function()
     return builtin.find_files({
       shorten_path = false,
       cwd = dotfilesPath,
-      prompt = "~ dotfiles ~",
+      prompt_title = "~ dotfiles ~",
       hidden = true,
     })
   end, { desc = "Telescope: Edit dotfiles" })
