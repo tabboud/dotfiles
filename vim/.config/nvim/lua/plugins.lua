@@ -145,19 +145,14 @@ require('lazy').setup({
   -----------------
   -- Color Schemes
   -----------------
-  { 'chiendo97/intellij.vim' },
-  { 'doums/darcula' },
   { "briones-gabriel/darcula-solid.nvim", dependencies = { "rktjmp/lush.nvim" } },
   { 'mcchrish/zenbones.nvim', dependencies = { 'rktjmp/lush.nvim' } },
 
   -----------------
   -- Treesitter
   -----------------
-  -- d in syntax highlighting and other syntax related plugins
   {
     'nvim-treesitter/nvim-treesitter',
-    -- enabled = false,
-    -- build = function() require("nvim-treesitter.install").update { with_sync = true } end,
     config = function()
       require("plugins.nvim-treesitter")
     end
