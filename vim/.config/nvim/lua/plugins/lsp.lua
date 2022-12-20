@@ -1,10 +1,49 @@
+local neodev = require('neodev')
 local lspconfig = require('lspconfig')
-local fn = vim.fn
+local mason = require('mason')
+local mason_lspconfig = require('mason-lspconfig')
+local mason_tool_installer = require('mason-tool-installer')
 local icons = require("icons")
 
-local M = {}
+local mason_options = {
+  providers = {
+    -- Use client providers instead of registry-api due to SSL issues using a VPN
+    -- ref: https://github.com/williamboman/mason.nvim/issues/633
+    "mason.providers.client",
+    -- "mason.providers.registry-api" -- This is the default provider. You can still include it here if you want, as a fallback to the client provider.
+  },
+  ui = {
+    icons = {
+      package_installed = "✓",
+      package_pending = "➜",
+      package_uninstalled = "✗",
+    },
+  },
+}
+local tool_installer_options = {
+  ensure_installed = {
+    -- go
+    "delve",
+    "gofumpt",
+    "goimports",
+    "golangci-lint",
+    "gopls",
+    "impl",
+    "staticcheck",
 
-M.get_capabilities = function()
+    -- lua
+    'lua-language-server',
+    'stylua',
+
+    -- vim
+    'vim-language-server',
+    'shellcheck',
+  },
+  auto_update = false,
+  run_on_start = false,
+}
+
+local get_capabilities = function()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities.textDocument.completion.completionItem.snippetSupport = true
   capabilities.textDocument.completion.completionItem.resolveSupport = {
@@ -23,7 +62,7 @@ end
 
 -- document_highlight adds an autocmd to enable document highlight on CursorHold
 -- if the server supports it. This should be called from clients on_attach methods.
-M.document_highlight = function(client, bufnr)
+local document_highlight = function(client, bufnr)
   if client.server_capabilities.documentHighlightProvider then
     vim.api.nvim_create_autocmd("CursorHold", {
       buffer = bufnr,
@@ -38,7 +77,7 @@ end
 
 -- document_formatting adds an autocmd to enable document formatting
 -- if the server supports it.
-M.document_formatting = function(client, bufnr)
+local document_formatting = function(client, bufnr)
   if client.server_capabilities.documentFormattingProvider then
     vim.api.nvim_create_autocmd("BufWritePre", {
       buffer = bufnr,
@@ -57,8 +96,8 @@ end
 
 local on_attach = function(client, bufnr)
   setup_keymaps(bufnr)
-  M.document_highlight(client, bufnr)
-  M.document_formatting(client, bufnr)
+  document_highlight(client, bufnr)
+  document_formatting(client, bufnr)
 
   -- Inject nvim-navic to allow for breadcrumbs in the winbar
   if client.server_capabilities.documentSymbolProvider then
@@ -69,7 +108,7 @@ local on_attach = function(client, bufnr)
   -- in the status line. See plugins/lualine.lua for how this is setup.
   local lsp_status_ok, lsp_status = pcall(require, 'lsp-status')
   if lsp_status_ok then
-    lsp_status.on_attach(client, bufnr)
+    lsp_status.on_attach(client)
   end
 end
 
@@ -93,65 +132,62 @@ for _, sign in ipairs(diagnostic_signs) do
   })
 end
 
---
--- gopls setup
--- Settings can be found here: https://github.com/golang/tools/blob/master/gopls/doc/settings.md
-if fn.executable("gopls") > 0 then
-  lspconfig.gopls.setup {
-    filetypes = { "go", "gomod", },
-    on_attach = on_attach,
-    capabilities = M.get_capabilities(),
-    cmd = {
-      "gopls",
-    },
-    flags = {
-      debounce_text_changes = 500,
-    },
-    settings = {
-      gopls = {
-        -- enables placeholders for function parameters or struct fields in completion responses
-        usePlaceholders = true,
-        gofumpt = false,
-        staticcheck = false,
-        analyses = {
-          shadow = false,
-          unusedparams = false,
-        },
-        codelenses = {
-          test = true,
-        },
-      },
-    },
-  }
-end
+-- setup neodev before lspconfig
+neodev.setup()
 
-if fn.executable("lua-language-server") > 0 then
-  -- settings for lua-language-server can be found on https://github.com/sumneko/lua-language-server/wiki/Settings .
-  lspconfig.sumneko_lua.setup {
-    on_attach = on_attach,
-    capabilities = M.get_capabilities(),
-    settings = {
-      Lua = {
-        runtime = {
-          version = "LuaJIT",
-        },
-        completion = {
-          callSnippet = 'Replace',
-        },
-        diagnostics = {
-          -- Get the language server to recognize the `vim` global
-          globals = { "vim" },
-        },
-        workspace = {
-          -- Make the server aware of Neovim runtime files,
-          library = {
-            [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-            [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-          },
-          maxPreload = 2000,
-          preloadFileSize = 50000,
-        },
+local runtime_path = vim.split(package.path, ';', {})
+table.insert(runtime_path, 'lua/?.lua')
+table.insert(runtime_path, 'lua/?/init.lua')
+
+-- Finally setup all the LSP servers
+local servers = {
+  -- gopls settings
+  -- Settings can be found here: https://github.com/golang/tools/blob/master/gopls/doc/settings.md
+  gopls = {
+    gopls = {
+      -- enables placeholders for function parameters or struct fields in completion responses
+      usePlaceholders = true,
+      gofumpt = false,
+      staticcheck = false,
+      analyses = {
+        shadow = false,
+        unusedparams = false,
+      },
+      codelenses = {
+        test = true,
       },
     },
-  }
-end
+  },
+
+  -- lua-language-server settings
+  sumneko_lua = {
+    Lua = {
+      runtime = { version = 'LuaJIT', path = runtime_path },
+      completion = { callSnippet = 'Replace' },
+      diagnostics = { globals = { 'vim' } },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file('', true),
+        checkThirdParty = false,
+        maxPreload = 2000,
+        preloadFileSize = 50000,
+      },
+      telemetry = { enable = false },
+    },
+  },
+}
+
+-- Setup mason so it can manage external tooling
+mason.setup(mason_options)
+mason_tool_installer.setup(tool_installer_options)
+
+-- Setup the LSP servers
+mason_lspconfig.setup()
+mason_lspconfig.setup_handlers {
+  function(server_name)
+    lspconfig[server_name].setup {
+      capabilities = get_capabilities(),
+      on_attach = on_attach,
+      settings = servers[server_name],
+    }
+  end,
+}

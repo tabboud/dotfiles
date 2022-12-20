@@ -33,7 +33,7 @@ require('lazy').setup({
   {
     'akinsho/bufferline.nvim',
     tag = "v3.1.0",
-    dependencies = 'kyazdani42/nvim-web-devicons',
+    dependencies = { 'kyazdani42/nvim-web-devicons' },
     config = function()
       require("plugins.bufferline")
     end
@@ -91,9 +91,9 @@ require('lazy').setup({
       require("plugins.dap").setup()
     end,
     dependencies = {
-      { 'leoluz/nvim-dap-go' },
-      { 'rcarriga/nvim-dap-ui', dependencies = { 'mfussenegger/nvim-dap' } },
-      { 'theHamsta/nvim-dap-virtual-text' },
+      'leoluz/nvim-dap-go',
+      'rcarriga/nvim-dap-ui',
+      'theHamsta/nvim-dap-virtual-text',
     },
   },
   {
@@ -122,7 +122,7 @@ require('lazy').setup({
   },
   {
     'TimUntersberger/neogit',
-    dependencies = 'nvim-lua/plenary.nvim'
+    dependencies = { 'nvim-lua/plenary.nvim' }
   },
   {
     'sindrets/diffview.nvim',
@@ -147,8 +147,8 @@ require('lazy').setup({
   -----------------
   { 'chiendo97/intellij.vim' },
   { 'doums/darcula' },
-  { "briones-gabriel/darcula-solid.nvim", dependencies = "rktjmp/lush.nvim" },
-  { 'mcchrish/zenbones.nvim', dependencies = 'rktjmp/lush.nvim' },
+  { "briones-gabriel/darcula-solid.nvim", dependencies = { "rktjmp/lush.nvim" } },
+  { 'mcchrish/zenbones.nvim', dependencies = { 'rktjmp/lush.nvim' } },
 
   -----------------
   -- Treesitter
@@ -167,30 +167,25 @@ require('lazy').setup({
   -- LSP
   -----------------
   {
-    "williamboman/mason.nvim",
+    'neovim/nvim-lspconfig',
     config = function()
-      require("plugins.mason").setup()
+      require("plugins.lsp")
     end,
     dependencies = {
       -- Automatically install LSPs/tools to stdpath
-      { "williamboman/mason-lspconfig.nvim" },
-      { 'WhoIsSethDaniel/mason-tool-installer.nvim' }
-    }
-  },
-  {
-    'neovim/nvim-lspconfig',
-    config = function()
-      require("plugins.lspconfig")
-    end,
-    -- Only load this after mason-lspconfig since lspconfig installs
-    -- happen via mason, but server config happens here.
-    -- after = "mason-lspconfig.nvim"
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
+
+      -- neovim development
+      "folke/neodev.nvim",
+    },
   },
   -- Show current code context in the winbar
   {
     "SmiteshP/nvim-navic",
     dependencies = {
-      { "neovim/nvim-lspconfig" },
+      "neovim/nvim-lspconfig",
     },
     config = function()
       -- add in the winbar extension after loading
@@ -201,7 +196,7 @@ require('lazy').setup({
   {
     "folke/trouble.nvim",
     dependencies = {
-      { "kyazdani42/nvim-web-devicons" },
+      "kyazdani42/nvim-web-devicons",
     },
     config = function()
       require("trouble").setup {}
@@ -225,16 +220,21 @@ require('lazy').setup({
       require("plugins/cmp")
     end,
     dependencies = {
-      { 'hrsh7th/cmp-nvim-lsp' },
-      { 'hrsh7th/cmp-buffer' },
-      { 'hrsh7th/cmp-cmdline' },
-      { 'hrsh7th/cmp-nvim-lsp-signature-help' },
-      { 'L3MON4D3/LuaSnip', tag = 'v1.1.0' },
-      { 'saadparwaiz1/cmp_luasnip' },
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
     },
   },
-  -- Snippet sources
-  { "rafamadriz/friendly-snippets" },
+  {
+    'L3MON4D3/LuaSnip',
+    tag = 'v1.1.0',
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+    },
+  },
 
   -----------------
   -- Telescope
@@ -242,7 +242,7 @@ require('lazy').setup({
   {
     'nvim-telescope/telescope.nvim',
     dependencies = {
-      { 'nvim-lua/plenary.nvim' },
+      'nvim-lua/plenary.nvim',
     },
     config = function()
       require("plugins.telescope").setup()
