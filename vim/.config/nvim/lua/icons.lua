@@ -55,13 +55,10 @@ return {
     stop = ">",
   },
   neotest = {
-    -- failed = "✗",
-    -- passed = "✔",
-    -- skipped = "◌",
-    -- unknown = "?",
     failed = "",
     passed = "",
-    skipped = "",
+    -- skipped = "",
+    skipped = "◌",
     unknown = "",
   }
 }
