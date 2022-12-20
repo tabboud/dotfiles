@@ -98,7 +98,6 @@ require('lazy').setup({
   },
   {
     "nvim-neotest/neotest",
-    enabled = true,
     ft = { 'go' },
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -119,10 +118,6 @@ require('lazy').setup({
     config = function()
       require('keymaps').nnoremap("<leader>gb", "<cmd>Git blame<cr>", { desc = "Git: blame" })
     end
-  },
-  {
-    'TimUntersberger/neogit',
-    dependencies = { 'nvim-lua/plenary.nvim' }
   },
   {
     'sindrets/diffview.nvim',
