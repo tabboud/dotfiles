@@ -4,7 +4,7 @@ local types = require('cmp.types')
 local icons = require("icons")
 
 
-vim.o.completeopt = "menu,menuone,noselect"
+vim.o.completeopt = "menuone,noselect"
 
 -- Load snippets from luasnip
 require("luasnip.loaders.from_vscode").lazy_load()

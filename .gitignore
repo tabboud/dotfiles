@@ -7,8 +7,6 @@ vim/.config/nvim/.netrwhist
 !hammerspoon/.hammerspoon/Spoons/SpoonInstall.spoon/
 hammerspoon/.hammerspoon/Spoons/*
 
-**/packer_compiled.lua
-
 zsh/cache
 
 iterm2/.config/iterm2/AppSupport

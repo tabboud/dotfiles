@@ -58,7 +58,7 @@ local options = function()
   local actions = require("telescope.actions")
   local action_layout = require("telescope.actions.layout")
   local themes = require('telescope.themes')
-  local lga_actions = require("telescope-live-grep-args.actions")
+  -- local lga_actions = require("telescope-live-grep-args.actions")
   local trouble = require("trouble.providers.telescope")
 
   return {
@@ -126,16 +126,16 @@ local options = function()
       },
     },
     extensions = {
-      live_grep_args = {
-        auto_quoting = true, -- enable/disable auto-quoting
-        mappings = {
-          i = {
-            ["<C-k>"] = lga_actions.quote_prompt(),
-            ["<C-l>g"] = lga_actions.quote_prompt({ postfix = ' --iglob ' }),
-            ["<C-l>t"] = lga_actions.quote_prompt({ postfix = ' -t' }),
-          }
-        }
-      }
+      -- live_grep_args = {
+      --   auto_quoting = true, -- enable/disable auto-quoting
+      --   mappings = {
+      --     i = {
+      --       ["<C-k>"] = lga_actions.quote_prompt(),
+      --       ["<C-l>g"] = lga_actions.quote_prompt({ postfix = ' --iglob ' }),
+      --       ["<C-l>t"] = lga_actions.quote_prompt({ postfix = ' -t' }),
+      --     }
+      --   }
+      -- }
     }
   }
 end
