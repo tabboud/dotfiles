@@ -89,6 +89,8 @@ end
 local setup_keymaps = function(bufnr)
   local nnoremap = require("keymaps").nnoremap
   local noremap = require("keymaps").noremap
+
+  -- nvim-lspconfig keymaps
   nnoremap("gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", { buffer = bufnr, desc = "LSP: Workspace symbols" })
   nnoremap("<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", { buffer = bufnr, desc = "LSP: Go to definition" })
   noremap({ 'n', 'i' }, '<C-p>', vim.lsp.buf.signature_help, { buffer = bufnr, desc = "LSP: Signature help" })
@@ -166,7 +168,12 @@ local servers = {
       completion = { callSnippet = 'Replace' },
       diagnostics = { globals = { 'vim' } },
       workspace = {
-        library = vim.api.nvim_get_runtime_file('', true),
+        -- Make the server aware of Neovim runtime files,
+        -- library = vim.api.nvim_get_runtime_file('', true),
+        library = {
+          [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+          [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+        },
         checkThirdParty = false,
         maxPreload = 2000,
         preloadFileSize = 50000,
