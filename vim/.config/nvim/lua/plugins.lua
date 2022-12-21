@@ -32,7 +32,7 @@ require('lazy').setup({
   },
   {
     'akinsho/bufferline.nvim',
-    tag = "v3.1.0",
+    version = "v3.*",
     dependencies = { 'kyazdani42/nvim-web-devicons' },
     config = function()
       require("plugins.bufferline")
@@ -167,20 +167,15 @@ require('lazy').setup({
       "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
 
-      -- neovim development
-      "folke/neodev.nvim",
+      -- Better UI for hover, code-actions, and diagnostics
+      "glepnir/lspsaga.nvim",
+
+      -- Show current code context in the winbar
+      "SmiteshP/nvim-navic",
+
+      -- Get LSP loading status in the status bar
+      "nvim-lua/lsp-status.nvim"
     },
-  },
-  -- Show current code context in the winbar
-  {
-    "SmiteshP/nvim-navic",
-    dependencies = {
-      "neovim/nvim-lspconfig",
-    },
-    config = function()
-      -- add in the winbar extension after loading
-      vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
-    end
   },
   -- Provides a small window to show diagnostics, telescope results, etc.
   {
@@ -190,14 +185,6 @@ require('lazy').setup({
     },
     config = function()
       require("trouble").setup {}
-    end
-  },
-  -- Provides lsp renames with a popup window
-  {
-    'glepnir/lspsaga.nvim',
-    branch = 'main',
-    config = function()
-      require('plugins.lspsaga').setup()
     end
   },
 
@@ -220,7 +207,7 @@ require('lazy').setup({
   },
   {
     'L3MON4D3/LuaSnip',
-    tag = 'v1.1.0',
+    version = 'v1.*',
     dependencies = {
       "rafamadriz/friendly-snippets",
     },

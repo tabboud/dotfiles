@@ -1,47 +1,9 @@
-local neodev = require('neodev')
 local lspconfig = require('lspconfig')
+local lspsaga = require('lspsaga')
 local mason = require('mason')
 local mason_lspconfig = require('mason-lspconfig')
 local mason_tool_installer = require('mason-tool-installer')
 local icons = require("icons")
-
-local mason_options = {
-  providers = {
-    -- Use client providers instead of registry-api due to SSL issues using a VPN
-    -- ref: https://github.com/williamboman/mason.nvim/issues/633
-    "mason.providers.client",
-    -- "mason.providers.registry-api" -- This is the default provider. You can still include it here if you want, as a fallback to the client provider.
-  },
-  ui = {
-    icons = {
-      package_installed = "✓",
-      package_pending = "➜",
-      package_uninstalled = "✗",
-    },
-  },
-}
-local tool_installer_options = {
-  ensure_installed = {
-    -- go
-    "delve",
-    "gofumpt",
-    "goimports",
-    "golangci-lint",
-    "gopls",
-    "impl",
-    "staticcheck",
-
-    -- lua
-    'lua-language-server',
-    'stylua',
-
-    -- vim
-    'vim-language-server',
-    'shellcheck',
-  },
-  auto_update = false,
-  run_on_start = false,
-}
 
 local get_capabilities = function()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -87,13 +49,20 @@ local document_formatting = function(client, bufnr)
 end
 
 local setup_keymaps = function(bufnr)
-  local nnoremap = require("keymaps").nnoremap
-  local noremap = require("keymaps").noremap
+  local m = function(lhs, rhs, desc)
+    require('keymaps').nnoremap(lhs, rhs, { buffer = bufnr, desc = desc })
+  end
 
   -- nvim-lspconfig keymaps
-  nnoremap("gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", { buffer = bufnr, desc = "LSP: Workspace symbols" })
-  nnoremap("<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", { buffer = bufnr, desc = "LSP: Go to definition" })
-  noremap({ 'n', 'i' }, '<C-p>', vim.lsp.buf.signature_help, { buffer = bufnr, desc = "LSP: Signature help" })
+  m("gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", "LSP: Workspace symbols")
+  m("<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", "LSP: Go to definition")
+
+  -- lsp-saga keymaps
+  m("<leader>rn", "<cmd>Lspsaga rename<CR>", "LSP: Rename word under cursor")
+  m("ga", "<cmd>Lspsaga code_action<CR>", "LSP: Code Action")
+  m("g]", "<cmd>Lspsaga diagnostic_jump_next<CR>", "LSP: Diagnostics next")
+  m("g[", "<cmd>Lspsaga diagnostic_jump_prev<CR>", "LSP: Diagnostics prev")
+  m("K", "<cmd>Lspsaga hover_doc<CR>", "LSP: Hover docs")
 end
 
 local on_attach = function(client, bufnr)
@@ -134,12 +103,47 @@ for _, sign in ipairs(diagnostic_signs) do
   })
 end
 
--- setup neodev before lspconfig
-neodev.setup()
+-- nvim-navic: add in the winbar extension after loading
+vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
 
-local runtime_path = vim.split(package.path, ';', {})
-table.insert(runtime_path, 'lua/?.lua')
-table.insert(runtime_path, 'lua/?/init.lua')
+-- Setup mason so it can manage external tooling
+mason.setup({
+  providers = {
+    -- Use client providers instead of registry-api due to SSL issues using a VPN
+    -- ref: https://github.com/williamboman/mason.nvim/issues/633
+    "mason.providers.client",
+    -- "mason.providers.registry-api" -- This is the default provider. You can still include it here if you want, as a fallback to the client provider.
+  },
+  ui = {
+    icons = {
+      package_installed = "✓",
+      package_pending = "➜",
+      package_uninstalled = "✗",
+    },
+  },
+})
+mason_tool_installer.setup({
+  ensure_installed = {
+    -- go
+    "delve",
+    "gofumpt",
+    "goimports",
+    "golangci-lint",
+    "gopls",
+    "impl",
+    "staticcheck",
+
+    -- lua
+    'lua-language-server',
+    'stylua',
+
+    -- vim
+    'vim-language-server',
+    'shellcheck',
+  },
+  auto_update = false,
+  run_on_start = false,
+})
 
 -- Finally setup all the LSP servers
 local servers = {
@@ -164,30 +168,33 @@ local servers = {
   -- lua-language-server settings
   sumneko_lua = {
     Lua = {
-      runtime = { version = 'LuaJIT', path = runtime_path },
-      completion = { callSnippet = 'Replace' },
-      diagnostics = { globals = { 'vim' } },
+      runtime = {
+        version = 'LuaJIT',
+      },
+      completion = {
+        callSnippet = 'Replace',
+      },
+      diagnostics = {
+        globals = {
+          'vim',
+        },
+      },
       workspace = {
         -- Make the server aware of Neovim runtime files,
-        -- library = vim.api.nvim_get_runtime_file('', true),
         library = {
           [vim.fn.expand "$VIMRUNTIME/lua"] = true,
           [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
         },
         checkThirdParty = false,
         maxPreload = 2000,
-        preloadFileSize = 50000,
       },
-      telemetry = { enable = false },
+      telemetry = {
+        enable = false,
+      },
     },
   },
 }
 
--- Setup mason so it can manage external tooling
-mason.setup(mason_options)
-mason_tool_installer.setup(tool_installer_options)
-
--- Setup the LSP servers
 mason_lspconfig.setup()
 mason_lspconfig.setup_handlers {
   function(server_name)
@@ -198,3 +205,6 @@ mason_lspconfig.setup_handlers {
     }
   end,
 }
+
+-- setup lsp-saga
+lspsaga.init_lsp_saga()
