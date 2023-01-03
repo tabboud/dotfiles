@@ -18,6 +18,7 @@ local keymaps = {
   { app = "GoLand", key = "g" },
   { app = "IntelliJ IDEA Community Edition", key = "0" },
   { app = "Quip", key = "q" },
+  { app = "1Password", key = "1" },
 }
 
 -- Returns a string that contains all currently mapped keys for use in an alert.
