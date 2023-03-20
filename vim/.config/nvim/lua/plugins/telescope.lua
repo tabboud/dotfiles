@@ -114,7 +114,8 @@ local options = function()
       buffers = {
         theme = "dropdown",
         ignore_current_buffer = true,
-        sort_lastused = true,
+        -- sort_lastused = true,
+        sort_mru = true,
       },
       lsp_references = themes.get_ivy {
         trim_text = false,
@@ -178,7 +179,7 @@ local configure_keymaps = function()
 
   -- Find all references + ignore tests/mocks
   nnoremap("<leader>gr", function() return builtin.lsp_references() end, { desc = "LSP: Go to references" })
-  nnoremap("gr", function() return builtin.lsp_references(ignore_patterns) end,
+  nnoremap("gr", "<cmd>Telescope lsp_references<CR>",
     { desc = "LSP: Go to references ignoring tests/mocks" })
 
   -- Edit dotfiles
