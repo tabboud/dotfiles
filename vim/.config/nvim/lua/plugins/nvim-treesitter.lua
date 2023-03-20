@@ -5,6 +5,8 @@ require 'nvim-treesitter.configs'.setup({
     'help',
     'json',
     'lua',
+    'markdown',
+    'markdown_inline',
     'vim',
     'yaml',
   },
