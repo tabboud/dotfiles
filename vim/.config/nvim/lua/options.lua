@@ -25,7 +25,7 @@ opt.showmode = false -- don't show the vim mode (normal, insert, etc)
 opt.background = "dark" -- Use a dark background by default
 opt.termguicolors = true
 opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
-opt.scrolloff = 8 -- set # of lines to the cursors - when moving vertical
+opt.scrolloff = 3 -- set # of lines to the cursors - when moving vertical
 opt.confirm = true -- prompt to save, rather than raise an error
 opt.shell = env.SHELL
 opt.cmdheight = 1 -- bottom command bar height
@@ -100,6 +100,8 @@ opt.listchars = {
   extends = "❯",
   precedes = "❮"
 }
+
+vim.notify = require('notify')
 
 -- disable built-in plugins I do not use
 vim.g.loaded_zip = 1

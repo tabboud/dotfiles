@@ -80,6 +80,18 @@ require('lazy').setup({
       require("which-key").setup({})
     end
   },
+  {
+    "simrat39/symbols-outline.nvim",
+    config = function()
+      require("symbols-outline").setup()
+    end
+  },
+  {
+    "stevearc/aerial.nvim",
+    config = function()
+      require('aerial').setup()
+    end
+  },
 
   ----------------
   -- DAP / Testing
@@ -135,13 +147,28 @@ require('lazy').setup({
   -----------------
   -- Languages
   -----------------
+  -- Markdown syntax and previewer via glow
   { 'plasticboy/vim-markdown', ft = { 'markdown' } },
+  { "ellisonleao/glow.nvim", config = true, cmd = "Glow" },
 
   -----------------
   -- Color Schemes
   -----------------
   { "briones-gabriel/darcula-solid.nvim", dependencies = { "rktjmp/lush.nvim" } },
   { 'mcchrish/zenbones.nvim', dependencies = { 'rktjmp/lush.nvim' } },
+  {
+    'projekt0n/github-nvim-theme',
+    config = function()
+      require("github-theme").setup({
+        theme_style = "light",
+        -- function_style = "italic",
+        -- sidebars = { "qf", "vista_kind", "terminal", "packer" },
+
+        -- Change the "hint" color to the "orange" color, and make the "error" color bright red
+        -- colors = { hint = "orange", error = "#ff0000" },
+      })
+    end
+  },
 
   -----------------
   -- Treesitter
@@ -174,7 +201,8 @@ require('lazy').setup({
       "SmiteshP/nvim-navic",
 
       -- Get LSP loading status in the status bar
-      "nvim-lua/lsp-status.nvim"
+      "nvim-lua/lsp-status.nvim",
+      "mrded/nvim-lsp-notify"
     },
   },
   -- Provides a small window to show diagnostics, telescope results, etc.
@@ -185,6 +213,15 @@ require('lazy').setup({
     },
     config = function()
       require("trouble").setup {}
+    end
+  },
+  {
+    'mrded/nvim-lsp-notify',
+    dependencies = { 'rcarriga/nvim-notify' },
+    config = function()
+      require('lsp-notify').setup({
+        notify = require('notify'),
+      })
     end
   },
 
