@@ -207,4 +207,4 @@ mason_lspconfig.setup_handlers {
 }
 
 -- setup lsp-saga
-lspsaga.init_lsp_saga()
+lspsaga.setup()
