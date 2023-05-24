@@ -8,6 +8,10 @@ local keymaps = function()
     return require("neotest").summary.toggle()
   end, { desc = "Test: Toggle test summary" })
 
+  keymaps.nnoremap('<leader>to', function()
+    return require("neotest").output_panel.toggle()
+  end, { desc = "Test: Toggle test output panel" })
+
   keymaps.nnoremap('<leader>tr', function()
     return require("neotest").run.run()
   end, { desc = 'Test: Run nearest test' })

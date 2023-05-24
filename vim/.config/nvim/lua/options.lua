@@ -22,7 +22,6 @@ opt.updatecount = 0 -- don't write swap files after some number of updates
 opt.showmode = false -- don't show the vim mode (normal, insert, etc)
 
 -- Appearance
-opt.background = "dark" -- Use a dark background by default
 opt.termguicolors = true
 opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 opt.scrolloff = 3 -- set # of lines to the cursors - when moving vertical
@@ -42,9 +41,15 @@ opt.updatetime = 300 -- wait configured ms before updating
 opt.signcolumn = "yes" -- always show the sign column
 
 -- Coloring
--- First loads won't have plugin colorschemes loaded until they're installed.
--- Fallback to the default in this case.
-local _, ok = pcall(vim.cmd.colorscheme, 'darcula-solid')
+local colorscheme = 'darcula-solid'
+opt.background = 'dark'
+if LightMode() then
+  colorscheme = 'github-light'
+  -- colorscheme = 'zenbones'
+  opt.background = "light"
+end
+
+local _, ok = pcall(vim.cmd.colorscheme, colorscheme)
 if not ok then
   vim.cmd.colorscheme('default')
 end

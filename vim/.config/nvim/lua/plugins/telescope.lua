@@ -168,6 +168,15 @@ local configure_keymaps = function()
     }))
   end, { desc = "Telescope: Live grep (rg)" })
 
+  -- Add keymap for searching in dirs with glob
+  -- Telescope live_grep search_dirs=cmd/helm glob_pattern=*_test.go
+  -- nnoremap("rg", function()
+  --   return builtin.live_grep(themes.get_ivy({
+  --     prompt_title = " Live grep (rg) ",
+  --     file_ignore_patterns = { "vendor", "^.git/" },
+  --   }))
+  -- end, { desc = "Telescope: Live grep (rg)" })
+
   -- LSP commands through Telescope - These supercede the ones defined in lspconfig.lua
   -- Show symbols for the current document
   nnoremap("<leader>gs", function() return builtin.lsp_document_symbols() end, { desc = "LSP: Document symbols" })

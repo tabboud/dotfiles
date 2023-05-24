@@ -6,6 +6,15 @@ return {
     GitSignsDelete = '_',
     GitSignsTopDelete = '‾',
     GitSignsChangedDelete = '~',
+
+    -- from nvim-tree defaults
+    unstaged = "✗",
+    staged = "✓",
+    unmerged = "",
+    renamed = "➜",
+    untracked = "★",
+    deleted = "",
+    ignored = "◌",
   },
   -- used by nvim-cmp
   kind = {

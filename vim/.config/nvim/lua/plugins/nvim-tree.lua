@@ -1,6 +1,10 @@
 local nvimtree = require('nvim-tree')
 
 nvimtree.setup({
+  view = {
+    width = 40,
+    side  = "left",
+  },
   git = {
     enable = false,
     -- Don't hide .gitignore files. These will show up with this symbol ◌
@@ -10,7 +14,7 @@ nvimtree.setup({
     dotfiles = false,
     -- Filter out the vendor directory.
     -- Toggle this with the toggle_custom command ('U')
-    custom = { 'vendor' },
+    -- custom = { 'vendor' },
   },
   diagnostics = {
     enable = true,

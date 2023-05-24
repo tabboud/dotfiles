@@ -92,6 +92,16 @@ require('lazy').setup({
       require('aerial').setup()
     end
   },
+  {
+    'Bekaboo/deadcolumn.nvim'
+  },
+  {
+    'echasnovski/mini.colors',
+    version = false,
+    config = function()
+      require('mini.colors').setup()
+    end
+  },
 
   ----------------
   -- DAP / Testing
@@ -129,6 +139,7 @@ require('lazy').setup({
     'tpope/vim-fugitive',
     config = function()
       require('keymaps').nnoremap("<leader>gb", "<cmd>Git blame<cr>", { desc = "Git: blame" })
+      require('keymaps').nnoremap("<leader>gg", "<cmd>Git<cr>", { desc = "Git: Show status pane" })
     end
   },
   {
@@ -150,6 +161,8 @@ require('lazy').setup({
   -- Markdown syntax and previewer via glow
   { 'plasticboy/vim-markdown', ft = { 'markdown' } },
   { "ellisonleao/glow.nvim", config = true, cmd = "Glow" },
+  { "rhysd/vim-go-impl", ft = { 'go' } },
+  { "github/copilot.vim" },
 
   -----------------
   -- Color Schemes
@@ -160,7 +173,6 @@ require('lazy').setup({
     'projekt0n/github-nvim-theme',
     config = function()
       require("github-theme").setup({
-        theme_style = "light",
         -- function_style = "italic",
         -- sidebars = { "qf", "vista_kind", "terminal", "packer" },
 

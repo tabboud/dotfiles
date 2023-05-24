@@ -87,5 +87,11 @@ M.vnoremap("#", "<Esc>?\\%V", { desc = "Visual search word under cursor (prev)" 
 M.vnoremap("<leader>[", "<gv", { desc = "Shift left" })
 M.vnoremap("<leader>]", ">gv", { desc = "Shift right" })
 
+-- Highlight word without jumping
+-- Convert into lua
+-- M.nnoremap("*", "<cmd>let @/= '<' . expand('<cword>') . '>' <bar> set hls <cr>",
+--   { desc = "Highlight word without jumping" })
+vim.cmd [[ nnoremap <silent> * :let @/= '\<' . expand('<cword>') . '\>' <bar> set hls <cr> ]]
+
 M.noremap({ "t" }, "<Esc>", "<c-\\><c-n>", { desc = "Terminal: exit terminal mode" })
 return M
