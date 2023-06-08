@@ -19,10 +19,10 @@ require('lazy').setup({
   -----------------
   -- Theme / Tools
   -----------------
-  { 'tpope/vim-surround' }, -- Add surroundings (quotes, parenthesis, etc)
+  { 'tpope/vim-surround' },   -- Add surroundings (quotes, parenthesis, etc)
   { 'Raimondi/delimitMate' }, -- Match parenthesis and quotes
   { 'ntpeters/vim-better-whitespace' },
-  { 'airblade/vim-rooter' }, -- Auto cd to root of git repo
+  { 'airblade/vim-rooter' },  -- Auto cd to root of git repo
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-lua/lsp-status.nvim' },
@@ -41,8 +41,26 @@ require('lazy').setup({
   {
     'nvim-tree/nvim-tree.lua',
     tag = 'nightly',
+    -- Trying neo-tree instead
+    enabled = false,
     config = function()
       require("plugins.nvim-tree")
+    end
+  },
+  {
+    'nvim-neo-tree/neo-tree.nvim',
+    branch = 'v2.x',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      "kyazdani42/nvim-web-devicons",
+      'MunifTanjim/nui.nvim',
+    },
+    keys = {
+      { "<leader>k", "<cmd>Neotree toggle<cr>", desc = "NeoTree" },
+      { "<leader>f", "<cmd>Neotree reveal<cr>", desc = "NeoTree" },
+    },
+    config = function()
+      require("plugins.neo-tree")
     end
   },
   {
@@ -159,16 +177,16 @@ require('lazy').setup({
   -- Languages
   -----------------
   -- Markdown syntax and previewer via glow
-  { 'plasticboy/vim-markdown', ft = { 'markdown' } },
-  { "ellisonleao/glow.nvim", config = true, cmd = "Glow" },
-  { "rhysd/vim-go-impl", ft = { 'go' } },
+  { 'plasticboy/vim-markdown',            ft = { 'markdown' } },
+  { "ellisonleao/glow.nvim",              config = true,                        cmd = "Glow" },
+  { "rhysd/vim-go-impl",                  ft = { 'go' } },
   { "github/copilot.vim" },
 
   -----------------
   -- Color Schemes
   -----------------
   { "briones-gabriel/darcula-solid.nvim", dependencies = { "rktjmp/lush.nvim" } },
-  { 'mcchrish/zenbones.nvim', dependencies = { 'rktjmp/lush.nvim' } },
+  { 'mcchrish/zenbones.nvim',             dependencies = { 'rktjmp/lush.nvim' } },
   {
     'projekt0n/github-nvim-theme',
     config = function()

@@ -32,21 +32,7 @@ require("neotest").setup({
       args = { "-count=1", "-timeout=60s" }
     })
   },
-  icons = {
-    child_indent = "│",
-    child_prefix = "├",
-    collapsed = "─",
-    expanded = "╮",
-    final_child_indent = " ",
-    final_child_prefix = "╰",
-    non_collapsible = "─",
-    running = "",
-    running_animated = { "/", "|", "\\", "-", "/", "|", "\\", "-" },
-    passed = icons.passed,
-    failed = icons.failed,
-    skipped = icons.skipped,
-    unknown = icons.unknown,
-  },
+  icons = icons,
   status = {
     virtual_text = false,
     signs = true,
@@ -79,3 +65,11 @@ require("neotest").setup({
 })
 
 keymaps()
+
+-- Auto scroll to the bottom of the output-panel
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "neotest-output-panel",
+  callback = function()
+    vim.cmd("norm G")
+  end,
+})

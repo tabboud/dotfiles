@@ -64,10 +64,26 @@ return {
     stop = ">",
   },
   neotest = {
-    failed = "",
-    passed = "",
-    -- skipped = "",
+    expanded = "╮",
+    child_indent = "│",
+    child_prefix = "├",
+    collapsed = "─",
+    final_child_indent = " ",
+    final_child_prefix = "╰",
+    non_collapsible = "─",
+    running_animated = { "/", "|", "\\", "-", "/", "|", "\\", "-" },
+
+    -- expanded = "",
+    -- child_prefix = "",
+    -- child_indent = "",
+    -- final_child_prefix = "",
+    -- non_collapsible = "",
+    -- collapsed = "",
+
+    failed = "",
+    passed = "",
     skipped = "◌",
-    unknown = "",
+    unknown = "",
+    running = "",
   }
 }
