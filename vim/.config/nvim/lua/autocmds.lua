@@ -1,31 +1,6 @@
-local api = vim.api
-
-local dotfiles = api.nvim_create_augroup("dotfiles", { clear = true })
-
--- Jump to last known position on BufReadPost for all files
-api.nvim_create_autocmd("BufReadPost", {
-  pattern = "*",
-  group = dotfiles,
-  callback = function()
-    local ft = vim.opt_local.filetype:get()
-    -- don't apply to git messages
-    if (ft:match('commit') or ft:match('rebase')) then
-      return
-    end
-    -- get position of last saved edit
-    local markpos = api.nvim_buf_get_mark(0, '"')
-    local line = markpos[1]
-    local col = markpos[2]
-    -- if in range, go there
-    if (line > 1) and (line <= api.nvim_buf_line_count(0)) then
-      api.nvim_win_set_cursor(0, { line, col })
-    end
-  end
-})
-
 -- Briefly highlight the copied text
-api.nvim_create_autocmd('TextYankPost', {
-  group = dotfiles,
+vim.api.nvim_create_autocmd('TextYankPost', {
+  group = vim.api.nvim_create_augroup("dotfiles", { clear = true }),
   pattern = '*',
   callback = function()
     vim.highlight.on_yank({
@@ -33,4 +8,26 @@ api.nvim_create_autocmd('TextYankPost', {
       timeout = 40,
     })
   end,
+})
+
+-- Run gofmt/gofmpt, import packages automatically on save
+vim.api.nvim_create_autocmd('BufWritePre', {
+  group = vim.api.nvim_create_augroup('setGoFormatting', { clear = true }),
+  pattern = '*.go',
+  callback = function()
+    local params = vim.lsp.util.make_range_params()
+    params.context = { only = { "source.organizeImports" } }
+    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 2000)
+    for _, res in pairs(result or {}) do
+      for _, r in pairs(res.result or {}) do
+        if r.edit then
+          vim.lsp.util.apply_workspace_edit(r.edit, "utf-16")
+        else
+          vim.lsp.buf.execute_command(r.command)
+        end
+      end
+    end
+
+    vim.lsp.buf.format()
+  end
 })
