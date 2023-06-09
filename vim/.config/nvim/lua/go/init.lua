@@ -10,7 +10,7 @@ local function ends_with(str, ending)
 end
 
 -- ToggleTest toggles to/from a Go file and the corresponding test.
-function M.ToggleTest()
+function M.ToggleTest(vsplit)
   local alternate_file = ""
 
   local file = api.nvim_buf_get_name(0)
@@ -23,7 +23,11 @@ function M.ToggleTest()
     return
   end
 
-  vim.cmd("edit" .. alternate_file)
+  if vsplit then
+    vim.cmd("vsplit" .. alternate_file)
+  else
+    vim.cmd("edit" .. alternate_file)
+  end
 end
 
 return M
