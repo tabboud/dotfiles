@@ -85,14 +85,14 @@ end
 
 -- Diagnostic sign mappings
 local diagnostic_signs = {
-  { name = "LspDiagnosticsSignError", text = icons.lsp.error },
-  { name = "LspDiagnosticsSignWarning", text = icons.lsp.warning },
-  { name = "LspDiagnosticsSignHint", text = icons.lsp.hint },
+  { name = "LspDiagnosticsSignError",       text = icons.lsp.error },
+  { name = "LspDiagnosticsSignWarning",     text = icons.lsp.warning },
+  { name = "LspDiagnosticsSignHint",        text = icons.lsp.hint },
   { name = "LspDiagnosticsSignInformation", text = icons.lsp.info },
-  { name = "DiagnosticSignError", text = icons.lsp.error },
-  { name = "DiagnosticSignWarn", text = icons.lsp.warning },
-  { name = "DiagnosticSignHint", text = icons.lsp.hint },
-  { name = "DiagnosticSignInfo", text = icons.lsp.info },
+  { name = "DiagnosticSignError",           text = icons.lsp.error },
+  { name = "DiagnosticSignWarn",            text = icons.lsp.warning },
+  { name = "DiagnosticSignHint",            text = icons.lsp.hint },
+  { name = "DiagnosticSignInfo",            text = icons.lsp.info },
 }
 for _, sign in ipairs(diagnostic_signs) do
   vim.fn.sign_define(sign.name, {
@@ -158,9 +158,15 @@ local servers = {
       analyses = {
         shadow = false,
         unusedparams = false,
+        nilness = true,
+        unusedwrite = true,
+        useany = true,
       },
       codelenses = {
         test = true,
+        tidy = true,
+        upgrade_dependency = true,
+        vendor = true,
       },
     },
   },

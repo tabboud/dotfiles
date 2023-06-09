@@ -149,7 +149,8 @@ local configure_keymaps = function()
 
   nnoremap("<leader><Enter>", function() return builtin.buffers({ previewer = false }) end,
     { desc = "Telescope: List open buffers" })
-  nnoremap("<leader>p", function() return builtin.find_files({
+  nnoremap("<leader>p", function()
+    return builtin.find_files({
       prompt_title = "My Find Files",
       file_ignore_patterns = {
         "^vendor/",
@@ -187,7 +188,8 @@ local configure_keymaps = function()
     { desc = "LSP: Go to implementations ignoring tests/mocks" })
 
   -- Find all references + ignore tests/mocks
-  nnoremap("<leader>gr", function() return builtin.lsp_references() end, { desc = "LSP: Go to references" })
+  nnoremap("<leader>gr", function() return builtin.lsp_references(ignore_patterns) end,
+    { desc = "LSP: Go to references" })
   nnoremap("gr", "<cmd>Telescope lsp_references<CR>",
     { desc = "LSP: Go to references ignoring tests/mocks" })
 
