@@ -32,6 +32,8 @@ function gitDefaultBranch() {
 }
 
 function main() {
+    # TODO: Use gh CLI to switch to a specific PR to review?
+    #       `review 750` rather than the branch name?
     BRANCH=$1
     git switch "$BRANCH"
     defaultBranch=$(gitDefaultBranch)

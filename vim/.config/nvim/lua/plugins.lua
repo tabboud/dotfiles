@@ -131,6 +131,14 @@ require('lazy').setup({
       })
     end,
   },
+  -- better code folding
+  {
+    'kevinhwang91/nvim-ufo',
+    enabled = true,
+    dependencies = {
+      'kevinhwang91/promise-async'
+    }
+  },
 
   ----------------
   -- DAP / Testing
@@ -158,6 +166,12 @@ require('lazy').setup({
     },
     config = function()
       require("plugins.neotest")
+    end
+  },
+  {
+    "klen/nvim-test",
+    config = function()
+      require('nvim-test').setup()
     end
   },
 
@@ -216,6 +230,10 @@ require('lazy').setup({
   -----------------
   {
     'nvim-treesitter/nvim-treesitter',
+    dependencies = {
+      -- Required for textobjects configuration, such as "]]" for goto-next-func
+      -- 'nvim-treesitter/nvim-treesitter-textobjects',
+    },
     config = function()
       require("plugins.nvim-treesitter")
     end

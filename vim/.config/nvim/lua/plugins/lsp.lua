@@ -75,6 +75,14 @@ local on_attach = function(client, bufnr)
     require("nvim-navic").attach(client, bufnr)
   end
 
+  -- inlay-hints
+  if client.server_capabilities.inlayHintProvider then
+    -- vim.lsp.buf.inlay_hint(bufnr, true)
+    print("enabled inlay-hints")
+  else
+    print("inlay-hints not enabled")
+  end
+
   -- register lsp-status if available to show LSP progress messages
   -- in the status line. See plugins/lualine.lua for how this is setup.
   local lsp_status_ok, lsp_status = pcall(require, 'lsp-status')
@@ -167,6 +175,15 @@ local servers = {
         tidy = true,
         upgrade_dependency = true,
         vendor = true,
+      },
+      hints = {
+        assignVariableTypes = false,
+        compositeLiteralFields = true,
+        compositeLiteralTypes = true,
+        constantValues = true,
+        functionTypeParameters = true,
+        parameterNames = true,
+        rangeVariableTypes = false,
       },
     },
   },
