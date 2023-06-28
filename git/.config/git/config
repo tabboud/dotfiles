@@ -12,6 +12,7 @@
     br = branch -v
     r = remote -v
     b = branch --show-current
+    wt = worktree
 
     l = log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
     # show a pretty log graph
@@ -64,6 +65,7 @@
 
     # Show stats between review base and HEAD for code review
     stat = !git diff --stat $(git merge-base HEAD $REVIEW_BASE)
+    files = !git diff --name-only $(git merge-base HEAD \"$REVIEW_BASE\") -- :^vendor
 
 	# git codereview aliases
 	change = codereview change
