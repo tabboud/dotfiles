@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Review pull-requests entirely in vim using vim-fugitive.
+# Review pull-requests entirely in vim using "sindrets/diffview.nvim".
 
 # Use gum (https://github.com/charmbracelet/gum) if it exists
 GUM_EXISTS=
@@ -9,8 +9,9 @@ if command -v gum &>/dev/null; then
 fi
 
 function continueOrExit() {
+    continueMsg="$1"
     if [ $GUM_EXISTS -eq 1 ]; then
-        gum confirm "Continue reviewing?" && return || echo "Stopping review" && exit 0
+        gum confirm "$continueMsg" && return || echo "Stopping review" && exit 0
     else
         read -r -n 1 -p "Press (c) to continue reviewing: " c
         case "$c" in
@@ -25,29 +26,37 @@ function continueOrExit() {
     fi
 }
 
-function gitDefaultBranch() {
-    # TODO: Allow for different remote names
-    # local remoteName=${1:-"origin"}
-    git remote show origin | grep 'HEAD branch' | cut -d' ' -f5
-}
-
-function main() {
-    BRANCH=$1
-    git switch "$BRANCH"
-    defaultBranch=$(gitDefaultBranch)
-    env REVIEW_BASE="$defaultBranch" git stat
-    continueOrExit
-
-    git reset --soft "$defaultBranch"
-    git reset           # to make everything unstaged
-    nvim -c :G          # to use fugitive for the review
-    git reset --hard origin/"$BRANCH"
-}
-
-if [[ "$#" -lt 1 ]]; then
-    echo "USAGE: review <branch-to-review>"
-    exit 1
+# Select PR number, branch and base branch from currently open PRs
+selection=$(gh pr list --json number,baseRefName,headRefName,title --template '{{range .}}{{tablerow (printf "%-5v %-30v %-10v" .number .headRefName .baseRefName)}}{{end}}' | fzf --reverse --height=20 --border --reverse)
+if [[ -z $selection ]]; then
+    return
 fi
+PR_NUMBER=$(echo "$selection" | awk '{print $1}')
+PR_BRANCH=$(echo "$selection" | awk '{print $2}')
+PR_BASE_BRANCH=$(echo "$selection" | awk '{print $3}')
 
-main "$1"
+# Update origin base branch so review is correct
+printf "Updating base branch (%s) from origin\n" "$PR_BASE_BRANCH"
+git fetch origin
+git switch "$PR_BASE_BRANCH"
+git pull
+
+# checkout the desired review branch and show stats
+printf "Checking out PR #%s\n" "$PR_NUMBER"
+gh pr checkout "$PR_NUMBER"
+
+# Show stats from PR branch to remote origin default branch
+env REVIEW_BASE="${PR_BASE_BRANCH}" git stat
+continueOrExit "Review PR?"
+
+# Reset PR branch to merge point and open in vim
+mergeCommit=$(git merge-base HEAD origin/"$PR_BASE_BRANCH")
+git reset --soft "$mergeCommit"
+git reset               # to make everything unstaged
+nvim -c :DiffviewOpen   # to use fugitive for the review
+
+continueOrExit "Reset PR branch back to origin?"
+
+# Reset PR branch back to remote
+git reset --hard origin/"$PR_BRANCH"
 

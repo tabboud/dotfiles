@@ -139,8 +139,11 @@ function gpushf() {
 # gdefault prints the default branch for a git repo.
 # The remote name can be provided, but otherwise defaults to origin.
 function gdefault() {
-    local remoteName=${1:-"origin"}
-    git remote show $remoteName | grep 'HEAD branch' | cut -d' ' -f5
+    # local remoteName=${1:-"origin"}
+    # git remote show $remoteName | grep 'HEAD branch' | cut -d' ' -f5
+
+    # Switch to this. Much faster but assumes "origin"
+    git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
 }
 
 # gupdate will checkout the provided branch
