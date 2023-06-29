@@ -11,6 +11,7 @@ declare -a OSX=(
     alacritty
     hammerspoon
     raycast
+    wezterm
 )
 declare -a LINUX=()
 
