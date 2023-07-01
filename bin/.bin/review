@@ -2,6 +2,12 @@
 
 # Review pull-requests entirely in vim using "sindrets/diffview.nvim".
 
+# Ensure we fail on errors
+set -e
+
+COLOR_NONE='\033[0m'
+COLOR_YELLOW='\033[1;33m'
+
 # Use gum (https://github.com/charmbracelet/gum) if it exists
 GUM_EXISTS=
 if command -v gum &>/dev/null; then
@@ -26,23 +32,35 @@ function continueOrExit() {
     fi
 }
 
+# TODO: Show the PR preview below when selecting one to review
+# TODO: Sort by recency
+# TODO: Add URL hyperlink for PR:   gh issue list --json title,url --template '{{range .}}{{hyperlink .url .title}}{{"\n"}}{{end}}'
+# TODO: Show symbol for PRs where I am explicitly the "reviewer"
 # Select PR number, branch and base branch from currently open PRs
-selection=$(gh pr list --json number,baseRefName,headRefName,title --template '{{range .}}{{tablerow (printf "%-5v %-30v %-10v" .number .headRefName .baseRefName)}}{{end}}' | fzf --reverse --height=20 --border --reverse)
+selection=$(gh pr list --json number,baseRefName,headRefName,title,url --template '{{range .}}{{tablerow (printf "%-5v %-30v %-10v %v" .number .headRefName .baseRefName .url)}}{{end}}' | fzf --reverse --height=20 --border --reverse --prompt="Select PR to review: ")
 if [[ -z $selection ]]; then
-    return
+    echo -e "${COLOR_YELLOW}No PR selected${COLOR_NONE}"
+    exit 0
 fi
+
 PR_NUMBER=$(echo "$selection" | awk '{print $1}')
 PR_BRANCH=$(echo "$selection" | awk '{print $2}')
 PR_BASE_BRANCH=$(echo "$selection" | awk '{print $3}')
+PR_URL=$(echo "$selection" | awk '{print $4}')
+
+echo -e "${COLOR_YELLOW}Starting review for PR #${PR_NUMBER} (${PR_URL}) ${COLOR_NONE}"
 
 # Update origin base branch so review is correct
-printf "Updating base branch (%s) from origin\n" "$PR_BASE_BRANCH"
+# TODO: Fail hard if updating fails (i.e. divergent branches)
+echo -e "${COLOR_YELLOW}Updating base branch (${PR_BASE_BRANCH}) from origin ${COLOR_NONE}"
 git fetch origin
 git switch "$PR_BASE_BRANCH"
 git pull
 
+# TODO: checkout the original branch when exiting, especially when we reset things below
+
 # checkout the desired review branch and show stats
-printf "Checking out PR #%s\n" "$PR_NUMBER"
+echo -e "${COLOR_YELLOW}Checking out PR #${PR_NUMBER} ${COLOR_NONE}"
 gh pr checkout "$PR_NUMBER"
 
 # Show stats from PR branch to remote origin default branch
