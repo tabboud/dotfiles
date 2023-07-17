@@ -80,13 +80,23 @@ cmp.setup({
       end
     end, { "i", "s" }),
   },
+  sorting = {
+    comparators = {
+      cmp.config.compare.offset,
+      cmp.config.compare.exact,
+      cmp.config.compare.score,
+      cmp.config.compare.recently_used,
+      -- require("cmp-under-comparator").under,
+      cmp.config.compare.kind,
+    },
+  },
   cmdline = {
     enable = true,
   },
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
-    { name = 'buffer', keyword_length = 5 },
+    { name = 'buffer',                 keyword_length = 5 },
     { name = 'nvim_lsp_signature_help' },
   },
   formatting = {
