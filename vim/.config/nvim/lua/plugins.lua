@@ -33,26 +33,17 @@ require('lazy').setup({
   {
     'akinsho/bufferline.nvim',
     version = "v3.*",
-    dependencies = { 'kyazdani42/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require("plugins.bufferline")
     end
   },
   {
-    'nvim-tree/nvim-tree.lua',
-    tag = 'nightly',
-    -- Trying neo-tree instead
-    enabled = false,
-    config = function()
-      require("plugins.nvim-tree")
-    end
-  },
-  {
     'nvim-neo-tree/neo-tree.nvim',
-    branch = 'v2.x',
+    branch = 'v3.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
-      "kyazdani42/nvim-web-devicons",
+      'nvim-tree/nvim-web-devicons',
       'MunifTanjim/nui.nvim',
     },
     keys = {
@@ -191,7 +182,6 @@ require('lazy').setup({
   { 'plasticboy/vim-markdown',            ft = { 'markdown' } },
   { "ellisonleao/glow.nvim",              config = true,                        cmd = "Glow" },
   { "rhysd/vim-go-impl",                  ft = { 'go' } },
-  { "github/copilot.vim" },
 
   -----------------
   -- Color Schemes
@@ -250,7 +240,7 @@ require('lazy').setup({
   {
     "folke/trouble.nvim",
     dependencies = {
-      "kyazdani42/nvim-web-devicons",
+      'nvim-tree/nvim-web-devicons',
     },
     config = function()
       require("trouble").setup {}
