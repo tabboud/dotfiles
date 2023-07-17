@@ -9,16 +9,17 @@ local hotkey = require("hs.hotkey")
 
 local modKeys = { "cmd", "ctrl" }
 local keymaps = {
-  { app = "iTerm", key = "t" },
+  { app = "iTerm",                           key = "t" },
+  -- { app = "WezTerm",                         key = "t" },
   -- { app = "kitty", key = "t" },
   -- { app = "Alacritty", key = "t" },
-  { app = "Google Chrome", key = "i" },
-  { app = "Slack", key = "s" },
-  { app = "Microsoft Outlook", key = "o" },
-  { app = "GoLand", key = "g" },
+  { app = "Google Chrome",                   key = "i" },
+  { app = "Slack",                           key = "s" },
+  { app = "Microsoft Outlook",               key = "o" },
+  { app = "GoLand",                          key = "g" },
   { app = "IntelliJ IDEA Community Edition", key = "0" },
-  { app = "Quip", key = "q" },
-  { app = "1Password", key = "1" },
+  { app = "Quip",                            key = "q" },
+  { app = "1Password",                       key = "1" },
 }
 
 -- Returns a string that contains all currently mapped keys for use in an alert.
