@@ -86,6 +86,7 @@ M.vnoremap("*", "<Esc>/\\%V", { desc = "Visual search word under cursor (next)" 
 M.vnoremap("#", "<Esc>?\\%V", { desc = "Visual search word under cursor (prev)" })
 M.vnoremap("<leader>[", "<gv", { desc = "Shift left" })
 M.vnoremap("<leader>]", ">gv", { desc = "Shift right" })
+M.vnoremap("jq", ":!jq<cr>", { desc = "Format JSON" })
 
 -- Highlight word without jumping
 -- Convert into lua
