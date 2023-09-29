@@ -1,3 +1,4 @@
+local icons = require('icons')
 require('todo-comments').setup({
   signs = true,      -- show icons in the signs column
   sign_priority = 8, -- sign priority
@@ -16,6 +17,7 @@ require('todo-comments').setup({
     PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
     NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
     TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+    TDA = { icon = icons.lsp.hint, color = "hint" },
   },
   gui_style = {
     fg = "NONE",         -- The gui style to use for the fg highlight group.

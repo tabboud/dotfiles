@@ -180,7 +180,9 @@ local configure_keymaps = function()
 
   -- LSP commands through Telescope - These supercede the ones defined in lspconfig.lua
   -- Show symbols for the current document
-  nnoremap("<leader>gs", function() return builtin.lsp_document_symbols() end, { desc = "LSP: Document symbols" })
+  nnoremap("<leader>sd", function() return builtin.lsp_document_symbols() end, { desc = "LSP: Document symbols" })
+  nnoremap("<leader>sw", function() return builtin.lsp_dynamic_workspace_symbols() end,
+    { desc = "LSP: Workspace symbols" })
 
   -- Find all implementations + ignore tests/mocks
   nnoremap("<leader>gi", function() return builtin.lsp_implementations() end, { desc = "LSP: Go to implementations" })

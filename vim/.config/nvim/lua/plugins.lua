@@ -55,7 +55,9 @@ require('lazy').setup({
     end
   },
   {
+    enabled = true,
     "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
     config = function()
       require("plugins.indent-blankline").setup()
     end,
@@ -84,6 +86,7 @@ require('lazy').setup({
   -- TODO: Group keys with tool prefix
   -- TODO: Conditionally add keymaps based on current buffer (ex: Go tests and toggle tests only for Go files)
   {
+    enabled = false,
     "folke/which-key.nvim",
     config = function()
       require("which-key").setup({})
@@ -205,18 +208,7 @@ require('lazy').setup({
   -----------------
   { "briones-gabriel/darcula-solid.nvim", dependencies = { "rktjmp/lush.nvim" } },
   { 'mcchrish/zenbones.nvim',             dependencies = { 'rktjmp/lush.nvim' } },
-  {
-    'projekt0n/github-nvim-theme',
-    config = function()
-      require("github-theme").setup({
-        -- function_style = "italic",
-        -- sidebars = { "qf", "vista_kind", "terminal", "packer" },
-
-        -- Change the "hint" color to the "orange" color, and make the "error" color bright red
-        -- colors = { hint = "orange", error = "#ff0000" },
-      })
-    end
-  },
+  { 'projekt0n/github-nvim-theme' },
 
   -----------------
   -- Treesitter
@@ -264,6 +256,8 @@ require('lazy').setup({
     end
   },
   {
+    -- TODO: Re-enable after fixing nvim-notify startup errors
+    enabled = false,
     'mrded/nvim-lsp-notify',
     dependencies = { 'rcarriga/nvim-notify' },
     config = function()
