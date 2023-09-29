@@ -55,7 +55,7 @@ echo -e "${COLOR_YELLOW}Starting review for PR #${PR_NUMBER} (${PR_URL}) ${COLOR
 echo -e "${COLOR_YELLOW}Updating base branch (${PR_BASE_BRANCH}) from origin ${COLOR_NONE}"
 git fetch origin
 git switch "$PR_BASE_BRANCH"
-git pull
+git pull origin "$PR_BASE_BRANCH"
 
 # TODO: checkout the original branch when exiting, especially when we reset things below
 

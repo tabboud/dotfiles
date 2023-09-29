@@ -30,6 +30,12 @@ alias grep='grep --color=auto'
 alias df='df -h' # disk free, in Gigabytes, not bytes
 alias du='du -h -c' # calculate disk usage for a folder
 
+# use bat as PAGER and MANPAGER, fallback man to --help
+superman() {
+  man $1 || $1 --help 2>&1 | bat -plhelp
+}
+alias man=superman
+
 # IP addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en1"

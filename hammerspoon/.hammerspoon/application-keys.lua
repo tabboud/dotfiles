@@ -9,8 +9,8 @@ local hotkey = require("hs.hotkey")
 
 local modKeys = { "cmd", "ctrl" }
 local keymaps = {
-  { app = "iTerm",                           key = "t" },
-  -- { app = "WezTerm",                         key = "t" },
+  -- { app = "iTerm",                           key = "t" },
+  { app = "WezTerm",                         key = "t" },
   -- { app = "kitty", key = "t" },
   -- { app = "Alacritty", key = "t" },
   { app = "Google Chrome",                   key = "i" },

@@ -1,6 +1,7 @@
 set mouse = true
 set main-view = line-number:no,interval=5 id:yes date:relative author:full commit-title:yes,graph,refs,overflow=no
 set wrap-lines = yes
+set ignore-case = smart-case
 
 # --------------------
 # Vim keybindings
