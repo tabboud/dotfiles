@@ -86,7 +86,7 @@ require('lazy').setup({
   -- TODO: Group keys with tool prefix
   -- TODO: Conditionally add keymaps based on current buffer (ex: Go tests and toggle tests only for Go files)
   {
-    enabled = false,
+    enabled = true,
     "folke/which-key.nvim",
     config = function()
       require("which-key").setup({})
