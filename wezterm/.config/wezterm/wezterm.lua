@@ -20,6 +20,7 @@ config.color_scheme = 'Tomorrow Night Eighties'
 
 config.hide_tab_bar_if_only_one_tab = true
 config.window_background_opacity = 0.97
+config.audible_bell = "Disabled"
 
 -- Make option+{left,right} go backwark/forward words on OSX
 config.keys = {
