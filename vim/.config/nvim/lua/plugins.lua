@@ -21,8 +21,14 @@ require('lazy').setup({
   -----------------
   { 'tpope/vim-surround' },   -- Add surroundings (quotes, parenthesis, etc)
   { 'Raimondi/delimitMate' }, -- Match parenthesis and quotes
-  { 'ntpeters/vim-better-whitespace' },
-  { 'airblade/vim-rooter' },  -- Auto cd to root of git repo
+  {
+    'ntpeters/vim-better-whitespace',
+    config = function()
+      -- ignore trailing whitespace for dashboard-nvim
+      vim.g.better_whitespace_filetypes_blacklist = { 'dashboard' }
+    end
+  },
+  { 'airblade/vim-rooter' }, -- Auto cd to root of git repo
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-lua/lsp-status.nvim' },
@@ -141,6 +147,69 @@ require('lazy').setup({
         lastplace_open_folds = true
       })
     end,
+  },
+  {
+    "Shatur/neovim-session-manager",
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      local config = require('session_manager.config')
+      require("session_manager").setup({
+        autoload_mode = config.AutoloadMode.Disabled,
+      })
+    end,
+  },
+  {
+    'glepnir/dashboard-nvim',
+    event = 'VimEnter',
+    opts = function()
+      local opts = {
+        theme = "doom",
+        config = {
+          week_header = {
+            enable = true,
+            concat = "something else",
+          },
+          center = {
+            { action = "Telescope find_files", desc = " Find file", icon = " ", key = "f" },
+            { action = "ene | startinsert", desc = " New file", icon = " ", key = "n" },
+            { action = "Telescope oldfiles", desc = " Recent files", icon = " ", key = "r" },
+            { action = "Telescope live_grep", desc = " Find text", icon = " ", key = "g" },
+            { action = "e $MYVIMRC", desc = " Config", icon = " ", key = "c" },
+            -- { action = 'lua require("persistence").load()', desc = " Restore Session", icon = " ", key = "s" },
+            {
+              action = 'lua require("session_manager").load_session()',
+              desc = " Restore Session",
+              icon = " ",
+              key = "s"
+            },
+            { action = "Lazy", desc = " Lazy", icon = "󰒲 ", key = "l" },
+            { action = "qa", desc = " Quit", icon = " ", key = "q" },
+          },
+          footer = function()
+            local stats = require("lazy").stats()
+            local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+            return { "⚡ Neovim loaded " .. stats.count .. " plugins in " .. ms .. "ms" }
+          end,
+        },
+      }
+
+      for _, button in ipairs(opts.config.center) do
+        button.desc = button.desc .. string.rep(" ", 43 - #button.desc)
+      end
+
+      -- close Lazy and re-open when the dashboard is ready
+      if vim.o.filetype == "lazy" then
+        vim.cmd.close()
+        vim.api.nvim_create_autocmd("User", {
+          pattern = "DashboardLoaded",
+          callback = function()
+            require("lazy").show()
+          end,
+        })
+      end
+      return opts
+    end,
+    dependencies = { { 'nvim-tree/nvim-web-devicons' } }
   },
 
   ----------------
