@@ -21,6 +21,7 @@ local keymaps = {
   { app = "Quip",                            key = "q" },
   { app = "1Password",                       key = "1" },
 }
+local boundKeys = {}
 
 -- Returns a string that contains all currently mapped keys for use in an alert.
 local getAlertMapping = function()
@@ -35,14 +36,40 @@ local getAlertMapping = function()
   return allKeys
 end
 
+local toggleApp = function(app, enable)
+  if enable then
+    boundKeys[app] = boundKeys[app]:enable()
+  else
+    boundKeys[app] = boundKeys[app]:disable()
+  end
+end
+
+local enableWorkMode = true
 
 -- Setup the applications to bind to based on the configured key mappings.
 M.setup = function()
   for _, keymap in ipairs(keymaps) do
-    hotkey.bind(modKeys, keymap.key, function()
+    local key = hotkey.bind(modKeys, keymap.key, function()
       application.launchOrFocus(keymap.app)
     end)
+    boundKeys[keymap.app] = key
   end
+
+  --- toggle mappings for work
+  hotkey.bind({ "cmd", "ctrl" }, "W", function()
+    toggleApp("Microsoft Outlook", enableWorkMode)
+    toggleApp("Slack", enableWorkMode)
+
+    local notifyText = ""
+    if enableWorkMode then
+      enableWorkMode = false
+      notifyText = "✅ Enabled"
+    else
+      enableWorkMode = true
+      notifyText = "⛔ Disabled"
+    end
+    hs.notify.new({ title = 'Work Mode', informativeText = notifyText }):send()
+  end)
 
   -- List the current application key mappings in an alert window
   hotkey.bind({ "cmd", "ctrl" }, "N", function()
