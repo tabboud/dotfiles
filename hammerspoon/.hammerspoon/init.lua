@@ -1,41 +1,31 @@
--- Hammerspoon Configs
-
--- Modules
 local hotkey = require("hs.hotkey")
--- local alert = require("hs.alert")
-local application = require("hs.application")
-local applicationKeys = require("application-keys")
+-- local applicationKeys = require("application-keys")
+local applications = require("applications")
 local notify = require("hs.notify")
+
+local modKeys = { "cmd", "ctrl" }
+
+-- Hammerspoon specific keybindings
+hotkey.bind(modKeys, "R", function() hs.reload() end)
+hotkey.bind(modKeys, "C", function() hs.toggleConsole() end)
+
+-- Setup Application Toggling
+applications.bind(modKeys, {
+  -- { "Alacritty",                       "t" },
+  -- { "iTerm",                           "t" },
+  -- { "kitty",                           "t" },
+  { "WezTerm",                         "t" },
+  { "Google Chrome",                   "i" },
+  { "Slack",                           "s" },
+  { "Microsoft Outlook",               "o" },
+  { "GoLand",                          "g" },
+  { "IntelliJ IDEA Community Edition", "0" },
+  { "Quip",                            "q" },
+  { "1Password",                       "1" },
+})
+hotkey.bind(modKeys, "v", function() applications.showToggleChooser() end)
 
 -- Load ControlEscape which maps capslock to ESC when tapped and ctrl when held
 hs.loadSpoon('ControlEscape'):start()
-
--- Fast Application Switching
-applicationKeys.setup()
-
--- Shortcut to reload config
-hotkey.bind({ "cmd", "alt", "ctrl" }, "R", function() hs.reload() end)
-
--- Automatically toggle alacritty
-hotkey.bind({ "ctrl" }, "space", function()
-  local alacritty = application.find('alacritty')
-  if alacritty:isFrontmost() then
-    alacritty:hide()
-  else
-    application.launchOrFocus("/Applications/Alacritty.app")
-  end
-end)
-hotkey.bind({ "ctrl" }, "space", function()
-  local alacritty = application.find('alacritty')
-  if alacritty ~= nil and alacritty:isFrontmost() then
-    alacritty:hide()
-  else
-    application.launchOrFocus("/Applications/Alacritty.app")
-    alacritty = application.find('alacritty')
-    alacritty.setFrontmost(alacritty)
-    alacritty.activate(alacritty)
-  end
-end
-)
 
 notify.new({ title = 'Hammerspoon', informativeText = 'Ready to rock 🤘' }):send()
