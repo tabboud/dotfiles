@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#
+# "Try" running a command with preview
+
+export FZF_DEFAULT_COMMAND=echo
+fzf -q "$*" --preview-window=up:99% --preview="eval {q}"
