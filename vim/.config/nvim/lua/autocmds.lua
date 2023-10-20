@@ -1,12 +1,23 @@
+local dotfiles_group = vim.api.nvim_create_augroup("dotfiles", { clear = true })
+
 -- Briefly highlight the copied text
 vim.api.nvim_create_autocmd('TextYankPost', {
-  group = vim.api.nvim_create_augroup("dotfiles", { clear = true }),
+  group = dotfiles_group,
   pattern = '*',
   callback = function()
     vim.highlight.on_yank({
       higroup = 'IncSearch',
       timeout = 40,
     })
+  end,
+})
+
+-- Set colorscheme for Diffview separate from other tabs
+vim.api.nvim_create_autocmd('ColorScheme', {
+  group = dotfiles_group,
+  pattern = '*',
+  callback = function()
+    -- https://www.reddit.com/r/neovim/comments/rxbbug/how_do_i_override_a_colorschemes_highlight_in_a/
   end,
 })
 

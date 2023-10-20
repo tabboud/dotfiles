@@ -137,6 +137,9 @@ mason_tool_installer.setup({
     'lua-language-server',
     'stylua',
 
+    -- rust
+    'rust-analyzer',
+
     -- vim
     'vim-language-server',
     'shellcheck',
@@ -172,7 +175,7 @@ local servers = {
   },
 
   -- lua-language-server settings
-  sumneko_lua = {
+  lua_ls = {
     Lua = {
       runtime = {
         version = 'LuaJIT',
@@ -190,6 +193,8 @@ local servers = {
         library = {
           [vim.fn.expand "$VIMRUNTIME/lua"] = true,
           [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+          -- Load hammerspoon files
+          ["/Users/tabboud/.hammerspoon/Spoons/EmmyLua.spoon/annotations"] = true,
         },
         checkThirdParty = false,
         maxPreload = 2000,

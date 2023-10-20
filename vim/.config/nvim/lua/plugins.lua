@@ -256,6 +256,42 @@ require('lazy').setup({
     dependencies = { 'nvim-lua/plenary.nvim' },
     -- only load this plugin on the following commands
     cmd = { 'DiffviewOpen', 'DiffviewFileHistory', 'DiffViewLog' },
+    config = function()
+      require("diffview").setup({
+        -- See ':h diffview-config-enhanced_diff_hl'
+        enhanced_diff_hl = true,
+
+        -- See ':h diffview-config-hooks'
+        hooks = {
+          diff_buf_read = function(bufnr)
+            -- Change local options in diff buffers
+            -- vim.opt_local.wrap = false
+            vim.opt_local.list = false
+            vim.opt_local.colorcolumn = { 80 }
+          end,
+
+          -- TDA: try disabling signs
+          diff_buf_win_enter = function(bufnr)
+            -- vim.opt_local.signcolumn = "no"
+          end,
+          view_opened = function(view)
+            print(
+              ("A new %s was opened on tab page %d!")
+              :format(view.class:name(), view.tabpage)
+            )
+          end,
+
+          -- TDA: An attempt to use hooks to set the colorscheme for diffview only.
+          -- It's a bit buggy, but does work.
+          view_enter = function()
+            -- vim.cmd.colorscheme('github_light')
+          end,
+          view_leave = function()
+            -- vim.cmd.colorscheme('darcula-solid')
+          end,
+        }
+      })
+    end
   },
   {
     'lewis6991/gitsigns.nvim',

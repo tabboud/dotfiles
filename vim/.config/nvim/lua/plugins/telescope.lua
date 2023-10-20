@@ -124,6 +124,10 @@ local options = function()
       lsp_implementations = themes.get_ivy {
         trim_text = false,
         entry_maker = gen_from_quickfix(),
+
+        -- see for below: https://github.com/nvim-telescope/telescope.nvim/issues/2606#issuecomment-1641220136
+        -- disable_coordinates = true,
+        -- path_display = { 'truncate' },
       },
     },
     extensions = {
@@ -183,6 +187,15 @@ local configure_keymaps = function()
   nnoremap("<leader>sd", function() return builtin.lsp_document_symbols() end, { desc = "LSP: Document symbols" })
   nnoremap("<leader>sw", function() return builtin.lsp_dynamic_workspace_symbols() end,
     { desc = "LSP: Workspace symbols" })
+  nnoremap("<leader>ss", function()
+    return require('telescopePickers').prettyGrepPicker({ picker = 'live_grep' })
+  end, { desc = "LSP: Document symbols" })
+  nnoremap("<leader>sf", function()
+    return require('telescopePickers').prettyFilesPicker({ picker = 'find_files' })
+  end, { desc = "LSP: Document symbols" })
+  nnoremap("<leader>sb", function()
+    return require('telescopePickers').prettyBuffersPicker()
+  end, { desc = "LSP: Document symbols" })
 
   -- Find all implementations + ignore tests/mocks
   nnoremap("<leader>gi", function() return builtin.lsp_implementations() end, { desc = "LSP: Go to implementations" })

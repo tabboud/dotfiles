@@ -1,4 +1,11 @@
 require('neo-tree').setup({
+  -- hide stats columns when using "width = 'fit_content'
+  default_component_configs = {
+    file_size = { enabled = false },
+    type = { enabled = false },
+    last_modified = { enabled = false },
+    created = { enabled = false },
+  },
   filesystem = {
     follow_current_file = {
       enabled = true,
@@ -13,7 +20,9 @@ require('neo-tree').setup({
     },
   },
   window = {
-    width = 40,
+    -- width = 'fit_content',
+    width = 50,
+    -- max_width = 50,
     mappings = {
       ['Y'] = function(state)
         -- NeoTree is based on [NuiTree](https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/tree)

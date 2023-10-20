@@ -1,8 +1,8 @@
 return {
   -- used by gitsigns
   git = {
-    GitSignsAdd = '│',
-    GitSignsChange = '│',
+    GitSignsAdd = "▍",
+    GitSignsChange = "▍",
     GitSignsDelete = '_',
     GitSignsTopDelete = '‾',
     GitSignsChangedDelete = '~',
