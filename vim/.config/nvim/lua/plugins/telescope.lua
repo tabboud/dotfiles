@@ -131,16 +131,10 @@ local options = function()
       },
     },
     extensions = {
-      -- live_grep_args = {
-      --   auto_quoting = true, -- enable/disable auto-quoting
-      --   mappings = {
-      --     i = {
-      --       ["<C-k>"] = lga_actions.quote_prompt(),
-      --       ["<C-l>g"] = lga_actions.quote_prompt({ postfix = ' --iglob ' }),
-      --       ["<C-l>t"] = lga_actions.quote_prompt({ postfix = ' -t' }),
-      --     }
-      --   }
-      -- }
+      -- requires the 'nvim-telescope/telescope-ui-select.nvim' plugin
+      ["ui-select"] = {
+        require("telescope.themes").get_dropdown({})
+      }
     }
   }
 end
@@ -235,6 +229,9 @@ function M.setup()
   end
   telescope.setup(options())
   configure_keymaps()
+
+  -- load extensions (must come after the setup function)
+  require("telescope").load_extension("ui-select")
 end
 
 return M
