@@ -161,6 +161,7 @@ require('lazy').setup({
   {
     'glepnir/dashboard-nvim',
     event = 'VimEnter',
+    enabled = false,
     opts = function()
       local opts = {
         theme = "doom",
@@ -413,6 +414,8 @@ require('lazy').setup({
     'nvim-telescope/telescope.nvim',
     dependencies = {
       'nvim-lua/plenary.nvim',
+      -- Allow neovim core to fill the telescope picker (e.g. lua vim.lsp.buf.code_action())
+      'nvim-telescope/telescope-ui-select.nvim',
     },
     config = function()
       require("plugins.telescope").setup()

@@ -58,6 +58,7 @@ local setup_keymaps = function(bufnr)
   m("<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", "LSP: Go to definition")
 
   -- lsp-saga keymaps
+  -- TODO: Use native lsp functions instead and leverage telescope-ui-select as the picker
   m("<leader>rn", "<cmd>Lspsaga rename<CR>", "LSP: Rename word under cursor")
   m("ga", "<cmd>Lspsaga code_action<CR>", "LSP: Code Action")
   m("g]", "<cmd>Lspsaga diagnostic_jump_next<CR>", "LSP: Diagnostics next")
