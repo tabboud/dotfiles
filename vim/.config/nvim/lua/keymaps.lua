@@ -95,4 +95,55 @@ M.vnoremap("<leader>jq", ":!jq<cr>", { desc = "Format JSON" })
 vim.cmd [[ nnoremap <silent> * :let @/= '\<' . expand('<cword>') . '\>' <bar> set hls <cr> ]]
 
 M.noremap({ "t" }, "<Esc>", "<c-\\><c-n>", { desc = "Terminal: exit terminal mode" })
+
+
+-- Custom 'gh' commands
+vim.api.nvim_create_user_command(
+  "GHRepoView",
+  function()
+    if not vim.fn.executable('gh') then
+      print("'gh' executable not found")
+      return
+    end
+    vim.fn.system("gh repo view --web")
+  end,
+  { desc = "Open repo in web browser via 'gh'" }
+)
+vim.api.nvim_create_user_command(
+  "GHPRView",
+  function(cmd)
+    if not vim.fn.executable('gh') then
+      print("'gh' executable not found")
+      return
+    end
+    if cmd.args == "" then
+      print("'PR number must be provided'")
+      return
+    end
+    vim.fn.system("gh pr view --web " .. cmd.args)
+  end,
+  {
+    desc = "Open a PR in a web browser via 'gh'",
+    nargs = "?",
+  }
+)
+vim.api.nvim_create_user_command(
+  "GHBrowse",
+  function(cmd)
+    if not vim.fn.executable('gh') then
+      print("'gh' executable not found")
+      return
+    end
+    local currentBufferFilepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":.")
+    if cmd.args ~= "" then
+      currentBufferFilepath = currentBufferFilepath .. ":" .. cmd.args
+    end
+    vim.fn.system("gh browse " .. currentBufferFilepath)
+  end,
+  {
+    desc = "Open the current file in a web browser via 'gh'",
+    nargs = "?",
+  }
+)
+
 return M
