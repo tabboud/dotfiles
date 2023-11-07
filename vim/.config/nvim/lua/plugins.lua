@@ -271,9 +271,24 @@ require('lazy').setup({
             vim.opt_local.colorcolumn = { 80 }
           end,
 
-          -- TDA: try disabling signs
-          diff_buf_win_enter = function(bufnr)
-            -- vim.opt_local.signcolumn = "no"
+          diff_buf_win_enter = function(bufnr, winid, ctx)
+            -- Highlight 'DiffChange' as 'DiffDelete' on the left, and 'DiffAdd' on the right.
+            if ctx.layout_name:match("^diff2") then
+              if ctx.symbol == "a" then
+                vim.opt_local.winhl = table.concat({
+                  "DiffAdd:DiffviewDiffAddAsDelete",
+                  "DiffDelete:DiffviewDiffDelete",
+                  "DiffChange:DiffAddAsDelete",
+                  "DiffText:DiffDeleteText",
+                }, ",")
+              elseif ctx.symbol == "b" then
+                vim.opt_local.winhl = table.concat({
+                  "DiffDelete:DiffviewDiffDelete",
+                  "DiffChange:DiffAdd",
+                  "DiffText:DiffAddText",
+                }, ",")
+              end
+            end
           end,
           view_opened = function(view)
             print(
