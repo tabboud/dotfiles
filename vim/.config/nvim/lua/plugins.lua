@@ -377,13 +377,12 @@ require('lazy').setup({
     end
   },
   {
-    -- TODO: Re-enable after fixing nvim-notify startup errors
-    enabled = false,
     'mrded/nvim-lsp-notify',
     dependencies = { 'rcarriga/nvim-notify' },
     config = function()
       require('lsp-notify').setup({
-        notify = require('notify'),
+        -- TODO: Re-enable after fixing nvim-notify startup errors -> https://github.com/mrded/nvim-lsp-notify/issues/11
+        -- notify = require('notify'),
       })
     end
   },

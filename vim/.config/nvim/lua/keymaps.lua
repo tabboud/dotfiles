@@ -146,4 +146,36 @@ vim.api.nvim_create_user_command(
   }
 )
 
+local commands = {
+  {
+    name = "GHOpenRepo",
+    callback = function()
+      if not vim.fn.executable('gh') then
+        print("'gh' executable not found")
+        return
+      end
+      vim.fn.system("gh repo view --web")
+    end,
+    opts = { nargs = "?" }
+  },
+}
+function M.command_select()
+  vim.ui.select(
+    commands,
+    {
+      prompt = "Select a GH command: ",
+      format_item = function(cmd)
+        return cmd.name
+      end
+    }, function(cmd)
+      if cmd == nil then
+        return
+      end
+      cmd.callback()
+    end
+  )
+end
+
+vim.api.nvim_create_user_command("GH", M.command_select, {})
+
 return M

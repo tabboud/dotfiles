@@ -197,10 +197,10 @@ local configure_keymaps = function()
     { desc = "LSP: Go to implementations ignoring tests/mocks" })
 
   -- Find all references + ignore tests/mocks
-  nnoremap("<leader>gr", function() return builtin.lsp_references(ignore_patterns) end,
-    { desc = "LSP: Go to references" })
-  nnoremap("gr", "<cmd>Telescope lsp_references<CR>",
+  nnoremap("gr", function() return builtin.lsp_references(ignore_patterns) end,
     { desc = "LSP: Go to references ignoring tests/mocks" })
+  nnoremap("<leader>gr", "<cmd>Telescope lsp_references<CR>",
+    { desc = "LSP: Go to references" })
 
   -- Edit dotfiles
   nnoremap("<leader>ed", function()
