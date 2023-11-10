@@ -145,10 +145,10 @@ local configure_keymaps = function()
   local nnoremap = require('keymaps').nnoremap
   local themes = require('telescope.themes')
 
-  nnoremap("<leader><Enter>", function() return builtin.buffers({ previewer = false }) end,
+  nnoremap("<leader><Enter>", function() builtin.buffers({ previewer = false }) end,
     { desc = "Telescope: List open buffers" })
   nnoremap("<leader>p", function()
-    return builtin.find_files({
+    builtin.find_files({
       prompt_title = "My Find Files",
       file_ignore_patterns = {
         "^vendor/",
@@ -159,7 +159,7 @@ local configure_keymaps = function()
   end, { desc = "Telescope: Find files" })
 
   -- live_grep with dynamic args for rg
-  nnoremap("<leader>rg", function() return builtin.live_grep() end)
+  nnoremap("<leader>rg", builtin.live_grep)
   nnoremap("rg", function()
     return builtin.live_grep(themes.get_ivy({
       prompt_title = " Live grep (rg) ",
@@ -178,29 +178,18 @@ local configure_keymaps = function()
 
   -- LSP commands through Telescope - These supercede the ones defined in lspconfig.lua
   -- Show symbols for the current document
-  nnoremap("<leader>sd", function() return builtin.lsp_document_symbols() end, { desc = "LSP: Document symbols" })
-  nnoremap("<leader>sw", function() return builtin.lsp_dynamic_workspace_symbols() end,
-    { desc = "LSP: Workspace symbols" })
-  nnoremap("<leader>ss", function()
-    return require('telescopePickers').prettyGrepPicker({ picker = 'live_grep' })
-  end, { desc = "LSP: Document symbols" })
-  nnoremap("<leader>sf", function()
-    return require('telescopePickers').prettyFilesPicker({ picker = 'find_files' })
-  end, { desc = "LSP: Document symbols" })
-  nnoremap("<leader>sb", function()
-    return require('telescopePickers').prettyBuffersPicker()
-  end, { desc = "LSP: Document symbols" })
+  nnoremap("<leader>sd", builtin.lsp_document_symbols, { desc = "LSP: Document symbols" })
+  nnoremap("<leader>sw", builtin.lsp_dynamic_workspace_symbols, { desc = "LSP: Workspace symbols" })
 
   -- Find all implementations + ignore tests/mocks
-  nnoremap("<leader>gi", function() return builtin.lsp_implementations() end, { desc = "LSP: Go to implementations" })
-  nnoremap("gi", function() return builtin.lsp_implementations(ignore_patterns) end,
+  nnoremap("<leader>gi", builtin.lsp_implementations, { desc = "LSP: Go to implementations" })
+  nnoremap("gi", function() builtin.lsp_implementations(ignore_patterns) end,
     { desc = "LSP: Go to implementations ignoring tests/mocks" })
 
   -- Find all references + ignore tests/mocks
-  nnoremap("gr", function() return builtin.lsp_references(ignore_patterns) end,
+  nnoremap("gr", function() builtin.lsp_references(ignore_patterns) end,
     { desc = "LSP: Go to references ignoring tests/mocks" })
-  nnoremap("<leader>gr", "<cmd>Telescope lsp_references<CR>",
-    { desc = "LSP: Go to references" })
+  nnoremap("<leader>gr", builtin.lsp_references, { desc = "LSP: Go to references" })
 
   -- Edit dotfiles
   nnoremap("<leader>ed", function()
@@ -209,7 +198,7 @@ local configure_keymaps = function()
       print("[editDotfiles] $DOTFILES is not configured")
       return
     end
-    return builtin.find_files({
+    builtin.find_files({
       shorten_path = false,
       cwd = dotfilesPath,
       prompt_title = "~ dotfiles ~",
@@ -217,7 +206,7 @@ local configure_keymaps = function()
     })
   end, { desc = "Telescope: Edit dotfiles" })
 
-  nnoremap("<leader>h", function() return builtin.help_tags() end, { desc = "Telescope: help" })
+  nnoremap("<leader>h", builtin.help_tags, { desc = "Telescope: help" })
 end
 
 
