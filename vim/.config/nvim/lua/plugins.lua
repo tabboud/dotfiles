@@ -264,14 +264,14 @@ require('lazy').setup({
 
         -- See ':h diffview-config-hooks'
         hooks = {
-          diff_buf_read = function(bufnr)
+          diff_buf_read = function(_)
             -- Change local options in diff buffers
             -- vim.opt_local.wrap = false
             vim.opt_local.list = false
             vim.opt_local.colorcolumn = { 80 }
           end,
 
-          diff_buf_win_enter = function(bufnr, winid, ctx)
+          diff_buf_win_enter = function(_, _, ctx)
             -- Highlight 'DiffChange' as 'DiffDelete' on the left, and 'DiffAdd' on the right.
             if ctx.layout_name:match("^diff2") then
               if ctx.symbol == "a" then
