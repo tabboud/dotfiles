@@ -249,8 +249,16 @@ require('lazy').setup({
     'tpope/vim-fugitive',
     config = function()
       require('keymaps').nnoremap("<leader>gb", "<cmd>Git blame<cr>", { desc = "Git: blame" })
-      require('keymaps').nnoremap("<leader>gg", "<cmd>Git<cr>", { desc = "Git: Show status pane" })
     end
+  },
+  {
+    'TimUntersberger/neogit',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      local neogit = require('neogit')
+      neogit.setup()
+      require('keymaps').nnoremap("<leader>gg", neogit.open, { desc = "Git: Show status pane" })
+    end,
   },
   {
     'sindrets/diffview.nvim',
