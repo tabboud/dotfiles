@@ -41,8 +41,20 @@ require('lazy').setup({
     version = "v3.*",
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      require("plugins.bufferline")
-    end
+      require("bufferline").setup {
+        options = {
+          diagnostics = "nvim_lsp",
+          separator_style = "padded_slant",
+        }
+      }
+      local keymaps = require("keymaps")
+      keymaps.nnoremap("gn", "<cmd>BufferLineCycleNext<cr>", { desc = "Buffer: Go to next" })
+      keymaps.nnoremap("gp", "<cmd>BufferLineCyclePrev<cr>", { desc = "Buffer: Go to prev" })
+    end,
+    custom_keys = {
+      -- { "gn", "<cmd>Neotree toggle<cr>", desc = "NeoTree" },
+      -- { "gp", "<cmd>Neotree reveal<cr>", desc = "NeoTree" },
+    },
   },
   {
     'nvim-neo-tree/neo-tree.nvim',
@@ -257,7 +269,8 @@ require('lazy').setup({
     config = function()
       local neogit = require('neogit')
       neogit.setup()
-      require('keymaps').nnoremap("<leader>gg", neogit.open, { desc = "Git: Show status pane" })
+      require('keymaps').nnoremap("<leader>gg", function() neogit.open({ kind = "split_above" }) end,
+        { desc = "Git: Show status pane" })
     end,
   },
   {
