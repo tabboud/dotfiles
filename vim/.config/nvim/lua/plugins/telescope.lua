@@ -181,15 +181,8 @@ local configure_keymaps = function()
   nnoremap("<leader>sd", builtin.lsp_document_symbols, { desc = "LSP: Document symbols" })
   nnoremap("<leader>sw", builtin.lsp_dynamic_workspace_symbols, { desc = "LSP: Workspace symbols" })
 
-  -- Find all implementations + ignore tests/mocks
-  nnoremap("<leader>gi", builtin.lsp_implementations, { desc = "LSP: Go to implementations" })
-  nnoremap("gi", function() builtin.lsp_implementations(ignore_patterns) end,
-    { desc = "LSP: Go to implementations ignoring tests/mocks" })
-
-  -- Find all references + ignore tests/mocks
-  nnoremap("gr", function() builtin.lsp_references(ignore_patterns) end,
-    { desc = "LSP: Go to references ignoring tests/mocks" })
-  nnoremap("<leader>gr", builtin.lsp_references, { desc = "LSP: Go to references" })
+  nnoremap("gi", builtin.lsp_implementations, { desc = "LSP: Go to implementations" })
+  nnoremap("gr", builtin.lsp_references, { desc = "LSP: Go to references" })
 
   -- Edit dotfiles
   nnoremap("<leader>ed", function()
