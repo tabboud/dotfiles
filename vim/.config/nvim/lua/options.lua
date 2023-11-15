@@ -42,8 +42,9 @@ opt.updatetime = 300 -- wait configured ms before updating
 opt.signcolumn = "yes" -- always show the sign column
 
 -- Coloring
-local colorscheme = LightMode() and 'github_light' or 'darcula-solid'
-local background = LightMode() and 'light' or 'dark'
+local lightMode = IsLightMode()
+local colorscheme = lightMode and 'github_light' or 'darcula-solid'
+local background = lightMode and 'light' or 'dark'
 if not pcall(vim.cmd.colorscheme, colorscheme) then
   print("colorscheme '" .. colorscheme .. "' not found, using default")
   vim.cmd.colorscheme('default')

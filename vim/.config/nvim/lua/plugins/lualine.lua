@@ -43,16 +43,9 @@ local search_count = function()
   return string.format('%s [%d/%d]', icons.Search, result.current, denominator)
 end
 
-local theme = function()
-  if LightMode() then
-    return "onelight"
-  end
-  return "jellybeans"
-end
-
 require('lualine').setup {
   options = {
-    theme = theme(),
+    theme = IsLightMode() and "onelight" or "jellybeans",
     component_separators = { left = icons.ComponentSeparator, right = icons.ComponentSeparator },
     section_separators = { left = '', right = '' },
   },
