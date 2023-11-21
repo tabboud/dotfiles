@@ -1,0 +1,27 @@
+# vim:ft=bash
+
+set mouse = true
+set main-view = line-number:no,interval=5 id:yes date:relative author:full commit-title:yes,graph,refs,overflow=no
+set wrap-lines = yes
+set ignore-case = smart-case
+
+# --------------------
+# Vim keybindings
+# --------------------
+# bind generic h scroll-left
+bind generic j move-down
+bind generic k move-up
+bind generic l scroll-right
+
+bind generic g none
+bind generic gg move-first-line
+bind main    G move-last-line
+bind generic G move-last-line
+bind generic <C-f> move-page-down
+bind generic <C-b> move-page-up
+
+bind diff       D       >git difftool --tool=vimdiff --trust-exit-code --no-prompt %(commit)^! -- %(file)
+bind stage      D       >sh -c "git difftool --tool=vimdiff --trust-exit-code --no-prompt `expr '%(status)' : 'Staged changes' >/dev/null && echo --cached` -- '%(file)'"
+
+# Colorscheme
+source ~/.config/tig/colorscheme

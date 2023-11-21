@@ -3,6 +3,7 @@ declare -a COMMON=(
     bash
     bin
     git
+    tig
     tmux
     vim
     zsh
