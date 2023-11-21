@@ -192,8 +192,10 @@ local servers = {
       workspace = {
         -- Make the server aware of Neovim runtime files,
         library = {
-          [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-          [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+          -- [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+          -- [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+          -- vim.api.nvim_get_runtime_file("", true),
+          vim.env.VIMRUNTIME,
           -- Load hammerspoon files
           ["/Users/tabboud/.hammerspoon/Spoons/EmmyLua.spoon/annotations"] = true,
         },
