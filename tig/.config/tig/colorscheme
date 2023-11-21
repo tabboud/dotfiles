@@ -2,10 +2,5 @@
 
 # TODO: Source other colorschemes based on light theme: https://github.com/jonas/tig/issues/477
 
-if [[ $(cat ~/.theme) == "light" ]]; then
-    echo "light mode"
-else
-    echo "dark mode"
-    source ~/.config/tig/dark-colorscheme
-fi
+source ~/.config/tig/dark-colorscheme
 
