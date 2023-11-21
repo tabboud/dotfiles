@@ -128,12 +128,6 @@ require('lazy').setup({
     },
   },
   {
-    "simrat39/symbols-outline.nvim",
-    config = function()
-      require("symbols-outline").setup()
-    end
-  },
-  {
     "stevearc/aerial.nvim",
     config = function()
       require('aerial').setup()
@@ -141,13 +135,6 @@ require('lazy').setup({
   },
   {
     'Bekaboo/deadcolumn.nvim'
-  },
-  {
-    'echasnovski/mini.colors',
-    version = false,
-    config = function()
-      require('mini.colors').setup()
-    end
   },
   -- save my last cursor position
   {
