@@ -38,7 +38,12 @@ tm() {
   # list sessions by most recently attached first
   # Uses the "session_last_attached" format as the sorting field but strips off this timestamp
   # before presenting the selection.
-  session=$(tmux list-sessions -F "#{session_last_attached} #{session_name}" | sort -Vr | awk '{print $2}' | fzf --prompt="Select tmux session: " --exit-0 --reverse --height=20 --border)
+  sessions=$(tmux list-sessions -F "#{session_last_attached} #{session_name}" 2>/dev/null)
+  if [[ -z "${sessions}" ]]; then
+      echo "No active sessions"
+      return
+  fi
+  session=$(echo "${sessions}" | sort -Vr | awk '{print $2}' | fzf --prompt="Select tmux session: " --exit-0 --reverse --height=20 --border)
   if [[ -n "${session}" ]]; then
     tmux $change -t "$session" || echo "No sessions found."
   fi
