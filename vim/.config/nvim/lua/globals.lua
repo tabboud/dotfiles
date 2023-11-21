@@ -9,6 +9,7 @@ end
 
 -- Light_mode returns whether light mode settings should be applied
 -- by reading the $HOME/.theme file
+-- Potentially memoize this function: https://www.reddit.com/r/neovim/comments/umq2rs/is_it_possible_to_cache_call_results_with/
 IsLightMode = function()
   local file = io.open(os.getenv("HOME") .. "/.theme", "r")
   if file == nil then
