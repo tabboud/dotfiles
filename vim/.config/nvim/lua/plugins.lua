@@ -154,9 +154,6 @@ require('lazy').setup({
       require('aerial').setup()
     end
   },
-  {
-    'Bekaboo/deadcolumn.nvim'
-  },
   -- save my last cursor position
   {
     "ethanholz/nvim-lastplace",
