@@ -1,10 +1,28 @@
-# Taps
-tap "homebrew/cask"
-tap "homebrew/cask-fonts"
-tap "homebrew/core"
 tap "homebrew/bundle"
+tap "homebrew/core"
+
+if OS.mac?
+  # Taps
+  tap "homebrew/cask"
+  tap "homebrew/cask-fonts"
+
+  # Applications
+  cask "1password"
+  cask "font-jetbrains-mono-nerd-font"
+  cask "hammerspoon"
+  cask "rectangle"    # Window snapping
+  cask "spotify"
+  cask "wezterm"
+  cask "zulu"
+
+  # Packages
+  brew "reattach-to-user-namespace"
+elsif OS.linux?
+  brew "xclip"
+end
 
 # Packages
+brew "bat"          # better cat
 brew "dive"         # Analyze docker image layers
 brew "fd"           # find alternative
 brew "fzf"          # Fuzzy finder
@@ -16,7 +34,6 @@ brew "jq"
 brew "neovim"
 brew "nnn"
 brew "python"
-brew "reattach-to-user-namespace"
 brew "ripgrep"      # grep alternative
 brew "sd"           # sed alternative
 brew "shellcheck"   # diagnostics for shell scripts
@@ -29,14 +46,4 @@ brew "wget"
 brew "yq"           # jq for yaml
 brew "zsh"
 
-# Applications
-cask "1password"
-cask "alacritty"
-cask "hammerspoon"
-cask "iterm2"
-cask "rectangle"    # Window snapping
-cask "spotify"
-cask "zulu"
-
-# Fonts
-cask "font-jetbrains-mono-nerd-font"
+# vim:ft=ruby
