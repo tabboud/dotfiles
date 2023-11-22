@@ -77,7 +77,28 @@ require('lazy').setup({
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
     config = function()
-      require("plugins.indent-blankline").setup()
+      require("ibl").setup({
+        exclude = {
+          buftypes = { "terminal", "nofile" },
+          filetypes = {
+            "help",
+            "startify",
+            "dashboard",
+            "packer",
+            "neogitstatus",
+            "NvimTree",
+            "Trouble",
+            "text",
+          },
+        },
+        indent = {
+          char = "▏",
+        },
+        scope = {
+          show_start = false,
+          show_end = false,
+        },
+      })
     end,
   },
   {
