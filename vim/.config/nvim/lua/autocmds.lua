@@ -12,15 +12,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- Set colorscheme for Diffview separate from other tabs
-vim.api.nvim_create_autocmd('ColorScheme', {
-  group = dotfiles_group,
-  pattern = '*',
-  callback = function()
-    -- https://www.reddit.com/r/neovim/comments/rxbbug/how_do_i_override_a_colorschemes_highlight_in_a/
-  end,
-})
-
 -- Run gofmt/gofmpt, import packages automatically on save
 vim.api.nvim_create_autocmd('BufWritePre', {
   group = vim.api.nvim_create_augroup('setGoFormatting', { clear = true }),

@@ -13,6 +13,3 @@ require("plugins")
 
 -- Options that include plugin settings
 require("options")
-
--- Go specific settings
-require("go")
