@@ -38,17 +38,22 @@ require('lazy').setup({
       require("bufferline").setup {
         options = {
           diagnostics = "nvim_lsp",
-          separator_style = "padded_slant",
+          separator_style = "slant",
+          offsets = {
+            {
+              -- Don't show buffers above neotree
+              filetype = "neo-tree",
+              text = "",
+              text_align = "left",
+              separator = true,
+            }
+          },
         }
       }
       local keymaps = require("keymaps")
       keymaps.nnoremap("gn", "<cmd>BufferLineCycleNext<cr>", { desc = "Buffer: Go to next" })
       keymaps.nnoremap("gp", "<cmd>BufferLineCyclePrev<cr>", { desc = "Buffer: Go to prev" })
     end,
-    custom_keys = {
-      -- { "gn", "<cmd>Neotree toggle<cr>", desc = "NeoTree" },
-      -- { "gp", "<cmd>Neotree reveal<cr>", desc = "NeoTree" },
-    },
   },
   {
     'nvim-neo-tree/neo-tree.nvim',
@@ -76,13 +81,9 @@ require('lazy').setup({
           buftypes = { "terminal", "nofile" },
           filetypes = {
             "help",
-            "startify",
-            "dashboard",
-            "packer",
-            "neogitstatus",
-            "NvimTree",
-            "Trouble",
             "text",
+            "NeogitStatus",
+            "Trouble",
           },
         },
         indent = {
