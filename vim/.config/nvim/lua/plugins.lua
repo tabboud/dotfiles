@@ -19,8 +19,9 @@ require('lazy').setup({
   -----------------
   -- Theme / Tools
   -----------------
-  { 'tpope/vim-surround' },   -- Add surroundings (quotes, parenthesis, etc)
-  { 'Raimondi/delimitMate' }, -- Match parenthesis and quotes
+  'tpope/vim-surround',   -- Add surroundings (quotes, parenthesis, etc)
+  'Raimondi/delimitMate', -- Match parenthesis and quotes
+  'airblade/vim-rooter',  -- Auto cd to root of git repo
   {
     'ntpeters/vim-better-whitespace',
     config = function()
@@ -28,7 +29,6 @@ require('lazy').setup({
       vim.g.better_whitespace_filetypes_blacklist = { 'dashboard' }
     end
   },
-  { 'airblade/vim-rooter' }, -- Auto cd to root of git repo
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-lua/lsp-status.nvim' },
@@ -329,7 +329,6 @@ require('lazy').setup({
   -----------------
   -- Markdown syntax and previewer via glow
   { 'plasticboy/vim-markdown',            ft = { 'markdown' } },
-  { "ellisonleao/glow.nvim",              config = true,                        cmd = "Glow" },
   { "rhysd/vim-go-impl",                  ft = { 'go' } },
 
   -----------------
