@@ -137,7 +137,32 @@ require('lazy').setup({
     cmd = { "TodoTrouble", "TodoTelescope" },
     event = { "BufReadPost", "BufNewFile" },
     config = function()
-      require("plugins.todo-comments")
+      local icons = require('icons')
+      require('todo-comments').setup({
+        keywords = {
+          TDA = { icon = icons.lsp.hint, color = "hint" },
+        },
+        highlight = {
+          -- default pattern
+          -- pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlighting (vim regex)
+          -- pattern to highlight "TODO(author)"
+          pattern = [[(KEYWORDS)\s*(\([^\)]*\))?]],
+        },
+        search = {
+          command = "rg",
+          args = {
+            "--color=never",
+            "--no-heading",
+            "--with-filename",
+            "--line-number",
+            "--column",
+            "--hidden",       -- search hidden files
+            "--glob=!vendor", -- ignore the vendor directory
+          },
+          pattern = [[\b(KEYWORDS)\s*(\([^\)]*\))?:]],
+          -- pattern = [[\b(KEYWORDS)\b]], -- match without the extra colon. You'll likely get false positives
+        },
+      })
     end,
     keys = {
       { "]t",         function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
