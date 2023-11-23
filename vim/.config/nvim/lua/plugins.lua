@@ -425,15 +425,5 @@ require('lazy').setup({
   -----------------
   -- Telescope
   -----------------
-  {
-    'nvim-telescope/telescope.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      -- Allow neovim core to fill the telescope picker (e.g. lua vim.lsp.buf.code_action())
-      'nvim-telescope/telescope-ui-select.nvim',
-    },
-    config = function()
-      require("plugins.telescope").setup()
-    end
-  },
+  { import = "plugins.telescope" },
 })
