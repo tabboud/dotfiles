@@ -97,9 +97,11 @@ require('lazy').setup({
     end,
   },
   {
-    'qpkorr/vim-bufkill', -- Bring sanity to closing buffers
+    'famiu/bufdelete.nvim',
     config = function()
-      require('keymaps').nnoremap("<c-c>", "<cmd>BD<cr>", { desc = "Buffer: Delete" })
+      require('keymaps').nnoremap("<C-c>", function()
+        require('bufdelete').bufdelete(0, false)
+      end, { desc = "Buffer: Delete" })
     end
   },
   {
