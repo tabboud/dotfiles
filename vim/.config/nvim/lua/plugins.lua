@@ -55,22 +55,7 @@ require('lazy').setup({
       keymaps.nnoremap("gp", "<cmd>BufferLineCyclePrev<cr>", { desc = "Buffer: Go to prev" })
     end,
   },
-  {
-    'nvim-neo-tree/neo-tree.nvim',
-    branch = 'v3.x',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-tree/nvim-web-devicons',
-      'MunifTanjim/nui.nvim',
-    },
-    keys = {
-      { "<leader>k", "<cmd>Neotree toggle<cr>", desc = "NeoTree" },
-      { "<leader>f", "<cmd>Neotree reveal<cr>", desc = "NeoTree" },
-    },
-    config = function()
-      require("plugins.neo-tree")
-    end
-  },
+  { import = "plugins.neo-tree" },
   {
     enabled = true,
     "lukas-reineke/indent-blankline.nvim",
