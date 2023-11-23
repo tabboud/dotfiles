@@ -1,4 +1,11 @@
 require('neo-tree').setup({
+  source_selector = {
+    winbar = true,
+    sources = {
+      { source = "filesystem" },
+      { source = "git_status" },
+    },
+  },
   -- hide stats columns when using "width = 'fit_content'
   default_component_configs = {
     file_size = { enabled = false },
