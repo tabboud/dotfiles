@@ -194,8 +194,6 @@ local servers = {
         library = {
           [vim.fn.expand "$VIMRUNTIME/lua"] = true,
           [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-          -- Load hammerspoon files
-          ["/Users/tabboud/.hammerspoon/Spoons/EmmyLua.spoon/annotations"] = true,
         },
         checkThirdParty = false,
         maxPreload = 2000,
