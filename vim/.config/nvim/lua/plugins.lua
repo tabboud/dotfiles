@@ -269,21 +269,6 @@ require('lazy').setup({
               end
             end
           end,
-          view_opened = function(view)
-            print(
-              ("A new %s was opened on tab page %d!")
-              :format(view.class:name(), view.tabpage)
-            )
-          end,
-
-          -- TDA: An attempt to use hooks to set the colorscheme for diffview only.
-          -- It's a bit buggy, but does work.
-          view_enter = function()
-            -- vim.cmd.colorscheme('github_light')
-          end,
-          view_leave = function()
-            -- vim.cmd.colorscheme('darcula-solid')
-          end,
         }
       })
     end
