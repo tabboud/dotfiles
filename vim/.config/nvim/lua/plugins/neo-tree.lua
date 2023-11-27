@@ -45,6 +45,13 @@ return {
           width = 50,
           -- max_width = 50,
           mappings = {
+            ['S'] = function(state)
+              local node = state.tree:get_node()
+              local path = vim.fn.fnamemodify(node.path, ":.")
+              require('telescope.builtin').live_grep({
+                search_dirs = { path },
+              })
+            end,
             ['Y'] = function(state)
               -- NeoTree is based on [NuiTree](https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/tree)
               -- The node is based on [NuiNode](https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/tree#nuitreenode)
