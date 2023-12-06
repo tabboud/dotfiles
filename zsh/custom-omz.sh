@@ -9,7 +9,7 @@ mkdir -p "$ZSH_CACHE_DIR/completions"
 (( ${fpath[(Ie)"$ZSH_CACHE_DIR/completions"]} )) || fpath=("$ZSH_CACHE_DIR/completions" $fpath)
 
 # add a function path
-fpath=($ZSH/functions $ZSH/completions $fpath)
+fpath=("$(brew --prefix)/share/zsh/site-functions" "$ZSH/functions" "$ZSH/completions" $fpath)
 
 # Load all stock functions (from $fpath files) called below.
 autoload -U compaudit compinit
@@ -21,7 +21,6 @@ if [ -z "$ZSH_COMPDUMP" ]; then
   ZSH_COMPDUMP="${ZDOTDIR:-${HOME}}/.zcompdump"
 fi
 compinit -u -C -d "${ZSH_COMPDUMP}"
-
 
 # Load all of library config files
 for config_file ($ZSH/lib/*.zsh); do
