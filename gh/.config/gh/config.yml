@@ -1,3 +1,4 @@
+version: "1"
 # What protocol to use when performing git operations. Supported values: ssh, https
 git_protocol: ssh
 # When to interactively prompt. This is a global config that cannot be overridden by hostname. Supported values: enabled, disabled
