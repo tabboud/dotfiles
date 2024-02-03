@@ -43,7 +43,12 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
-config.font = wezterm.font 'JetBrainsMono Nerd Font'
+config.initial_cols = 200
+config.initial_rows = 30
+config.font = wezterm.font {
+  family = 'JetBrainsMono Nerd Font',
+  harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
+}
 config.color_scheme = getCurrentTheme() == "light" and color_schemes.Light or color_schemes.Dark
 config.hide_tab_bar_if_only_one_tab = true
 config.window_background_opacity = 0.95
