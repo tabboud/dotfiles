@@ -8,7 +8,6 @@ vim.cmd [[iabbrev tda // TDA:]]
 
 opt.synmaxcol = 120     -- disable syntax highlighting after # of chars
 opt.textwidth = 120     -- wrap line after configured # of chars
-opt.colorcolumn = "120" -- draw a cursorline at # of chars
 opt.tabstop = 4         -- visible width of tabs
 opt.softtabstop = 4     -- edit as if the tabs are the configured # of chars wide
 opt.shiftwidth = 4      -- number of spaces to use for indent and unindent
