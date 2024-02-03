@@ -50,7 +50,6 @@ alias trimcopy="tr -d '\n' | pbcopy"
 
 # Recursively delete `.DS_Store` files
 alias cleanup="find . -name '*.DS_Store' -type f -ls -delete"
-alias cleanpyc="find . -name '*.pyc' -type f -ls -delete"
 
 # File size
 alias fs="stat -f \"%z bytes\""
@@ -58,20 +57,7 @@ alias fs="stat -f \"%z bytes\""
 # Empty the Trash on all mounted volumes and the main HDD
 alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; rm -rfv ~/.Trash"
 
-# Hide/show all desktop icons (useful when presenting)
-alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
-alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
-
-# Always use a pager for ag
-alias ag="ag --pager=less"
-
-# Go to go directory quicker
-# alias god='$GOPATH/src/github.com'
-# alias godp='$GOPATH/src/github.palantir.build'
-
 # Open the notes directory in the $EDITOR
 alias notes='cd $NOTES && $EDITOR .'
 
 alias highlight='highlight $1 --out-format xterm256 --style zenburn '
-
-alias ghco='gh pr checkout $1'
