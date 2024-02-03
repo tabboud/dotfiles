@@ -33,3 +33,11 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     vim.lsp.buf.format()
   end
 })
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "*",
+  callback = function()
+    -- Ensure the currently selected search item is a different color than all other search results
+    vim.api.nvim_set_hl(0, "CurSearch", { fg = "#262627", bg = "#ff7c6b" })
+  end
+})
