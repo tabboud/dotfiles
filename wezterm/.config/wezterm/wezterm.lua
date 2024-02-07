@@ -68,6 +68,19 @@ config.keys = {
   { key = "t",          mods = "ALT",  action = wezterm.action_callback(toggleColorscheme) },
   -- Show debug overlay for logs
   { key = "Escape",     mods = "CTRL", action = wezterm.action.ShowDebugOverlay },
+  -- Open URL via quick select mode
+  {
+    key = "Enter",
+    mods = "ALT",
+    action = action.QuickSelectArgs {
+      label = 'open url',
+      patterns = { 'https?://\\S+' },
+      action = wezterm.action_callback(function(window, pane)
+        local url = window:get_selection_text_for_pane(pane)
+        wezterm.open_with(url)
+      end),
+    },
+  },
 }
 config.mouse_bindings = {
   {
