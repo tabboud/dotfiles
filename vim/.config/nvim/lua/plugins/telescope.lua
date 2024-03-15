@@ -50,6 +50,25 @@ local gen_from_quickfix = function(opts)
   end
 end
 
+-- creates filename first in the results output
+-- See: https://github.com/nvim-telescope/telescope.nvim/issues/2014
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "TelescopeResults",
+--   callback = function(ctx)
+--     vim.api.nvim_buf_call(ctx.buf, function()
+--       vim.fn.matchadd("TelescopeParent", "\t\t.*$")
+--       vim.api.nvim_set_hl(0, "TelescopeParent", { link = "Comment" })
+--     end)
+--   end,
+-- })
+
+-- local function filenameFirst(_, path)
+--   local tail = vim.fs.basename(path)
+--   local parent = vim.fs.dirname(path)
+--   if parent == "." then return tail end
+--   return string.format("%s\t\t%s", tail, parent)
+-- end
+
 return {
   {
     'nvim-telescope/telescope.nvim',
@@ -57,6 +76,12 @@ return {
       'nvim-lua/plenary.nvim',
       -- Allow neovim core to fill the telescope picker (e.g. lua vim.lsp.buf.code_action())
       'nvim-telescope/telescope-ui-select.nvim',
+      {
+        "nvim-telescope/telescope-live-grep-args.nvim",
+        -- This will not install any breaking changes.
+        -- For major updates, this must be adjusted manually.
+        version = "^1.0.0",
+      },
     },
     config = function()
       local telescope = require('telescope')
@@ -64,6 +89,11 @@ return {
       local action_layout = require("telescope.actions.layout")
       local themes = require('telescope.themes')
       local trouble = require("trouble.providers.telescope")
+
+      -- Load live_grep_args extension
+      require("telescope").load_extension("live_grep_args")
+      local lga_actions = require("telescope-live-grep-args.actions")
+
       telescope.setup({
         defaults = {
           layout_strategy = 'flex',
@@ -113,6 +143,7 @@ return {
           find_files = themes.get_ivy {
             find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
             hidden = true,
+            -- path_display = filenameFirst,
           },
           buffers = {
             theme = "dropdown",
@@ -137,6 +168,20 @@ return {
           -- requires the 'nvim-telescope/telescope-ui-select.nvim' plugin
           ["ui-select"] = {
             require("telescope.themes").get_dropdown({})
+          },
+          live_grep_args = {
+            auto_quoting = true, -- enable/disable auto-quoting
+            -- define mappings, e.g.
+            mappings = {         -- extend mappings
+              i = {
+                ["<C-k>"] = lga_actions.quote_prompt(),
+                ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+              },
+            },
+            -- ... also accepts theme settings, for example:
+            -- theme = "dropdown", -- use dropdown theme
+            -- theme = { }, -- use own theme spec
+            -- layout_config = { mirror=true }, -- mirror preview pane
           }
         }
       })
@@ -168,7 +213,8 @@ return {
       nnoremap("rg", function()
         require('telescope.builtin').live_grep(themes.get_ivy({
           prompt_title = " Live grep (rg) ",
-          file_ignore_patterns = { "vendor", "^.git/" },
+          -- file_ignore_patterns = { "vendor", "^.git/" },
+          file_ignore_patterns = { "vendor", "^.git/", "%_test.go", "%_mocks.go" },
         }))
       end, { desc = "Telescope: Live grep (rg)" })
 

@@ -61,7 +61,20 @@ require("neotest").setup({
       stop = "u",
       target = "t"
     }
-  }
+  },
+  consumers = {
+    notify = function(client)
+      client.listeners.results = function(adapter_id, results, partial)
+        -- Partial results can be very frequent
+        if partial then
+          return
+        end
+        require("neotest.lib").notify("Tests completed")
+        vim.notify('Tests completed', vim.log.levels.INFO, {})
+      end
+      return {}
+    end,
+  },
 })
 
 keymaps()
