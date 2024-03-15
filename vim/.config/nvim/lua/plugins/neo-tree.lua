@@ -17,7 +17,7 @@ return {
           winbar = true,
           sources = {
             { source = "filesystem" },
-            { source = "git_status" },
+            -- { source = "git_status" },
           },
         },
         -- hide stats columns when using "width = 'fit_content'

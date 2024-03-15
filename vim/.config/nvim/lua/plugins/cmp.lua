@@ -19,6 +19,9 @@ local has_words_before = function()
 end
 
 cmp.setup({
+  -- Disable LSP preselection results to prevent the cursor jumping around in the completion window.
+  -- ref: https://github.com/hrsh7th/nvim-cmp/issues/1809
+  preselect = cmp.PreselectMode.None,
   window = {
     completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
@@ -80,16 +83,16 @@ cmp.setup({
       end
     end, { "i", "s" }),
   },
-  sorting = {
-    comparators = {
-      cmp.config.compare.offset,
-      cmp.config.compare.exact,
-      cmp.config.compare.score,
-      cmp.config.compare.recently_used,
-      -- require("cmp-under-comparator").under,
-      cmp.config.compare.kind,
-    },
-  },
+  -- sorting = {
+  --   comparators = {
+  --     cmp.config.compare.offset,
+  --     cmp.config.compare.exact,
+  --     cmp.config.compare.score,
+  --     cmp.config.compare.recently_used,
+  --     -- require("cmp-under-comparator").under,
+  --     cmp.config.compare.kind,
+  --   },
+  -- },
   cmdline = {
     enable = true,
   },
