@@ -15,17 +15,13 @@ fi
 # my zsh settings
 source "$ZSH/custom-omz.sh"
 
-# History
-export HISTFILE="$HOME/.zsh_history"
-export HISTSIZE=1000
-export SAVEHIST=1000
-
 # FZF config
 #TODO: LAZY LOAD this source
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Custom PROMPT overrides
 [ -f ~/.prompt-overrides.zsh ] && source ~/.prompt-overrides.zsh
+source $ZSH/prompt.zsh
 
 # Load all shell specific settings before the custom settings
 for file in "$DOTFILES"/shell/*; do
