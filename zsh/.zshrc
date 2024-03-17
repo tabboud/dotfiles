@@ -21,6 +21,7 @@ source "$ZSH/custom-omz.sh"
 
 # Custom PROMPT overrides
 [ -f ~/.prompt-overrides.zsh ] && source ~/.prompt-overrides.zsh
+source $ZSH/prompt.zsh
 
 # Load all shell specific settings before the custom settings
 for file in "$DOTFILES"/shell/*; do
