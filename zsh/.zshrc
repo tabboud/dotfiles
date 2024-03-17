@@ -15,11 +15,6 @@ fi
 # my zsh settings
 source "$ZSH/custom-omz.sh"
 
-# History
-export HISTFILE="$HOME/.zsh_history"
-export HISTSIZE=1000
-export SAVEHIST=1000
-
 # FZF config
 #TODO: LAZY LOAD this source
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

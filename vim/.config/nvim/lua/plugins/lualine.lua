@@ -44,6 +44,7 @@ local search_count = function()
 end
 
 -- Show test results
+-- TODO: Only load this if neotest is loaded, otherwise this loads neotest/neotest-go
 local neotest_status = function()
   local status_ok, neotest = pcall(require, "neotest")
   if not status_ok then

@@ -8,7 +8,6 @@
 # Ctrl-c can be used to cancel the selection.
 gocd() {
     local gorepo
-
     gorepo="$(find "${ROOT_CODE_DIR:-$GOPATH/src}" -maxdepth 3 -mindepth 1 -type d | fzf -d / --with-nth=-2.. --reverse --height=20 --border)"
     if [[ -n $gorepo ]]; then
         cd $gorepo
