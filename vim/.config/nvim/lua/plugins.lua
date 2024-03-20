@@ -105,6 +105,11 @@ require('lazy').setup({
       end, { desc = "Toggle terminal" })
     end,
   },
+  {
+    'akinsho/toggleterm.nvim',
+    version = 'v2.*',
+    config = true,
+  },
   -- TODO: Group keys with tool prefix
   -- TODO: Conditionally add keymaps based on current buffer (ex: Go tests and toggle tests only for Go files)
   {
@@ -196,6 +201,16 @@ require('lazy').setup({
       animate = {
         enabled = false,
       },
+      options = {
+        left = { size = 40 },
+      },
+      wo = {
+        winfixwidth = false,
+      },
+      exit_when_last = true,
+      right = {
+        { title = "Neotest Summary", ft = "neotest-summary", size = { height = 15 } },
+      },
       bottom = {
         -- toggleterm / lazyterm at the bottom with a height of 40% of the screen
         {
@@ -215,7 +230,7 @@ require('lazy').setup({
           end,
         },
         "Trouble",
-        { ft = "qf",            title = "QuickFix" },
+        { ft = "qf",             title = "QuickFix" },
         {
           ft = "help",
           size = { height = 20 },
@@ -224,43 +239,29 @@ require('lazy').setup({
             return vim.bo[buf].buftype == "help"
           end,
         },
-        { ft = "spectre_panel", size = { height = 0.4 } },
+        { title = "Test Output", ft = "neotest-output-panel", size = { height = 15 } },
       },
       left = {
-        -- Neo-tree filesystem always takes half the screen height
         {
           title = "Neo-Tree",
           ft = "neo-tree",
           filter = function(buf)
             return vim.b[buf].neo_tree_source == "filesystem"
           end,
-          size = { height = 0.5 },
-        },
-        {
-          title = "Neo-Tree Git",
-          ft = "neo-tree",
-          filter = function(buf)
-            return vim.b[buf].neo_tree_source == "git_status"
-          end,
           pinned = true,
-          open = "Neotree position=right git_status",
+          size = { width = 0.2, height = 0.5 },
+          -- open = function()
+          --   require("neo-tree.command").execute({
+          --     position = "left",
+          --     source = "filesystem",
+          --   })
+          -- end,
         },
-        -- {
-        --   title = "Neo-Tree Buffers",
-        --   ft = "neo-tree",
-        --   filter = function(buf)
-        --     return vim.b[buf].neo_tree_source == "buffers"
-        --   end,
-        --   pinned = true,
-        --   open = "Neotree position=top buffers",
-        -- },
         -- {
         --   ft = "Outline",
         --   pinned = true,
         --   open = "AerialOpen",
         -- },
-        -- any other neo-tree windows
-        "neo-tree",
       },
     },
   },
@@ -283,6 +284,7 @@ require('lazy').setup({
     "nvim-neotest/neotest",
     ft = { 'go' },
     dependencies = {
+      "nvim-neotest/nvim-nio",
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       -- Go test adapter
