@@ -1,0 +1,7 @@
+% base64
+
+# Decode
+echo -n "<string>" | base64 -d
+
+# Encode
+echo -n "<string>" | base64

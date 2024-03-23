@@ -1,0 +1,20 @@
+style:
+  tag:
+    color: cyan
+    width_percentage: 10
+    min_width: 10
+  comment:
+    color: blue
+    width_percentage: 32
+    min_width: 35
+  snippet:
+    color: dark_cyan
+finder:
+  command: fzf
+  overrides: "--height 20 --border"
+cheats:
+  paths:
+    - ~/.config/navi
+    - ~/.navi         # For non git versioned cheatsheets
+shell:
+  command: zsh
