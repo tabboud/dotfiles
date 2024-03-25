@@ -23,6 +23,7 @@ end
 
 # Packages
 brew "bat"          # better cat
+brew "cheat"        # Interactive cheat sheets (similar to "tldr")
 brew "dive"         # Analyze docker image layers
 brew "fd"           # find alternative
 brew "fzf"          # Fuzzy finder
