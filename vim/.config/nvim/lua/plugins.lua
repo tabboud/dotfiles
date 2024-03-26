@@ -315,6 +315,26 @@ require('lazy').setup({
     end,
   },
   {
+    -- TESTING:
+    -- requires libgit2 installed (brew install libgit2)
+    'SuperBo/fugit2.nvim',
+    opts = {},
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+      'nvim-tree/nvim-web-devicons',
+      'nvim-lua/plenary.nvim',
+      {
+        'chrisgrieser/nvim-tinygit', -- optional: for Github PR view
+        dependencies = { 'stevearc/dressing.nvim' }
+      },
+      'sindrets/diffview.nvim' -- optional: for Diffview
+    },
+    cmd = { 'Fugit2', 'Fugit2Graph' },
+    keys = {
+      { '<leader>F', mode = 'n', '<cmd>Fugit2<cr>' }
+    }
+  },
+  {
     'sindrets/diffview.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
     -- only load this plugin on the following commands
