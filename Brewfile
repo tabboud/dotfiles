@@ -10,6 +10,7 @@ if OS.mac?
   cask "1password"
   cask "font-jetbrains-mono-nerd-font"
   cask "hammerspoon"
+  cask "hiddenbar"    # Hide OSX window bar items
   cask "rectangle"    # Window snapping
   cask "spotify"
   cask "wezterm"
