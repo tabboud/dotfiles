@@ -18,6 +18,7 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
 cmp.setup({
   -- Disable LSP preselection results to prevent the cursor jumping around in the completion window.
   -- ref: https://github.com/hrsh7th/nvim-cmp/issues/1809
@@ -112,6 +113,11 @@ cmp.setup({
       })[entry.source.name]
       return item
     end,
+  },
+  experimental = {
+    ghost_text = {
+      hl_group = "CmpGhostText",
+    },
   },
 })
 
