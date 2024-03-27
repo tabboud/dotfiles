@@ -76,15 +76,7 @@ opt.lazyredraw = true -- don't redraw while executing macros
 opt.magic = true      -- set magic on, for regular expressions
 opt.showmatch = true  -- show matching brackets
 opt.pumheight = 20    -- pop up menu height
--- This is not really needed for cmp anymore. See https://github.com/hrsh7th/nvim-cmp/discussions/941
--- TODO: Test removing it and see if anything conflicts
--- noselect is useful for not selecting a first entry in the cmp completion window
--- By "select" this means "foo|<Tab>" would not immediately insert the first completed item, but instead wait
--- for you to press <Tab>
--- opt.completeopt = { "menu", "menuone", "noselect" }
 
--- This is the default (see :h 'backspace')
--- opt.backspace = { "indent", "eol,start" }
 opt.clipboard = { "unnamedplus" }
 
 -- disabled to allow cmp-cmdline to use a popup window
