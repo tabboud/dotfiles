@@ -22,6 +22,7 @@ applications.bind(modKeys, {
   { "IntelliJ IDEA Community Edition", "0" },
   { "Quip",                            "q" },
   { "1Password",                       "1" },
+  { "Obsidian",                        "n" },
 })
 hotkey.bind(modKeys, "v", function() applications.showToggleChooser() end)
 
