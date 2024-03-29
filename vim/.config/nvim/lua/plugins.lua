@@ -456,15 +456,7 @@ require('lazy').setup({
     },
   },
   -- Provides a small window to show diagnostics, telescope results, etc.
-  {
-    "folke/trouble.nvim",
-    dependencies = {
-      'nvim-tree/nvim-web-devicons',
-    },
-    config = function()
-      require("trouble").setup {}
-    end
-  },
+  { import = "plugins.trouble" },
   {
     'mrded/nvim-lsp-notify',
     dependencies = { 'rcarriga/nvim-notify' },

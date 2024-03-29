@@ -88,7 +88,7 @@ return {
       local actions = require("telescope.actions")
       local action_layout = require("telescope.actions.layout")
       local themes = require('telescope.themes')
-      local trouble = require("trouble.providers.telescope")
+      local trouble = require("trouble.sources.telescope")
 
       -- Load live_grep_args extension
       require("telescope").load_extension("live_grep_args")
@@ -116,7 +116,7 @@ return {
           },
           mappings = {
             i = {
-              ["<c-s>"] = trouble.open_with_trouble,
+              ["<c-s>"] = trouble.open,
 
               -- map actions.which_key to <C-h> (default: <C-/>)
               -- actions.which_key shows the mappings for your picker,
@@ -131,7 +131,7 @@ return {
               ["<C-k>"] = actions.move_selection_previous
             },
             n = {
-              ["<c-s>"] = trouble.open_with_trouble,
+              ["<c-s>"] = trouble.open,
               -- Allow using ctrl-{j,k} to move to next selection, similar to fzf
               ["<C-j>"] = actions.move_selection_next,
               ["<C-k>"] = actions.move_selection_previous
