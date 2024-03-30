@@ -1,3 +1,6 @@
+-----------------
+-- Telescope
+-----------------
 -- entry_maker for lsp_references/lsp_implementations
 -- This was copied from telescope.nvim and updates the displayer to no longer
 -- display the preview in the results window. See comment inline below.
