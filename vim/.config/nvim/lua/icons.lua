@@ -1,20 +1,11 @@
 return {
   -- used by gitsigns
   git = {
-    GitSignsAdd = "▍",
-    GitSignsChange = "▍",
-    GitSignsDelete = '_',
-    GitSignsTopDelete = '‾',
-    GitSignsChangedDelete = '~',
-
-    -- from nvim-tree defaults
-    unstaged = "✗",
-    staged = "✓",
-    unmerged = "",
-    renamed = "➜",
-    untracked = "★",
-    deleted = "",
-    ignored = "◌",
+    GitAdd = "▍",
+    GitChange = "▍",
+    GitDelete = '_',
+    GitTopDelete = '‾',
+    GitChangeDelete = '~',
   },
   -- used by nvim-cmp
   kind = {
@@ -72,14 +63,6 @@ return {
     final_child_prefix = "╰",
     non_collapsible = "─",
     running_animated = { "/", "|", "\\", "-", "/", "|", "\\", "-" },
-
-    -- expanded = "",
-    -- child_prefix = "",
-    -- child_indent = "",
-    -- final_child_prefix = "",
-    -- non_collapsible = "",
-    -- collapsed = "",
-
     failed = "",
     passed = "",
     skipped = "◌",

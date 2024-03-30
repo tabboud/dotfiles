@@ -2,17 +2,17 @@ local icons = require("icons")
 
 require('gitsigns').setup {
   signs                        = {
-    add          = { hl = 'GitSignsAdd', text = icons.git.GitSignsAdd, numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-    change       = { hl = 'GitSignsChange', text = icons.git.GitSignsChange, numhl = 'GitSignsChangeNr',
+    add          = { hl = 'GitSignsAdd', text = icons.git.GitAdd, numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+    change       = { hl = 'GitSignsChange', text = icons.git.GitChange, numhl = 'GitSignsChangeNr',
       linehl = 'GitSignsChangeLn' },
-    delete       = { hl = 'GitSignsDelete', text = icons.git.GitSignsDelete, numhl = 'GitSignsDeleteNr',
+    delete       = { hl = 'GitSignsDelete', text = icons.git.GitDelete, numhl = 'GitSignsDeleteNr',
       linehl = 'GitSignsDeleteLn' },
-    topdelete    = { hl = 'GitSignsDelete', text = icons.git.GitSignsTopDelete, numhl = 'GitSignsDeleteNr',
+    topdelete    = { hl = 'GitSignsDelete', text = icons.git.GitTopDelete, numhl = 'GitSignsDeleteNr',
       linehl = 'GitSignsDeleteLn' },
-    changedelete = { hl = 'GitSignsChange', text = icons.git.GitSignsChangedDelete, numhl = 'GitSignsChangeNr',
+    changedelete = { hl = 'GitSignsChange', text = icons.git.GitChangeDelete, numhl = 'GitSignsChangeNr',
       linehl = 'GitSignsChangeLn' },
   },
-  signcolumn                   = true, -- Toggle with `:Gitsigns toggle_signs`
+  signcolumn                   = true,  -- Toggle with `:Gitsigns toggle_signs`
   numhl                        = false, -- Toggle with `:Gitsigns toggle_numhl`
   linehl                       = false, -- Toggle with `:Gitsigns toggle_linehl`
   word_diff                    = false, -- Toggle with `:Gitsigns toggle_word_diff`
@@ -46,7 +46,7 @@ require('gitsigns').setup {
   },
 
   -- Key mappings
-  on_attach = function(bufnr)
+  on_attach                    = function(bufnr)
     local gs = package.loaded.gitsigns
     local nnoremap = require('keymaps').nnoremap
 
