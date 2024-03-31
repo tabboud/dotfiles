@@ -101,8 +101,6 @@ return {
         defaults = {
           layout_strategy = 'flex',
           file_ignore_patterns = {
-            -- Adding this explicitly to the commands that should ignore it instead of being global
-            -- "vendor",
             "^.git/",
           },
           vimgrep_arguments = {
@@ -120,38 +118,29 @@ return {
           mappings = {
             i = {
               ["<c-s>"] = trouble.open,
-
               -- map actions.which_key to <C-h> (default: <C-/>)
               -- actions.which_key shows the mappings for your picker,
               -- e.g. git_{create, delete, ...}_branch for the git_branches picker
               ["<C-h>"] = "which_key",
-
-              -- Toggle preview window (global preview must be set to true)
               ["?"] = action_layout.toggle_preview,
-
-              -- Allow using ctrl-{j,k} to move to next selection, similar to fzf
               ["<C-j>"] = actions.move_selection_next,
               ["<C-k>"] = actions.move_selection_previous
             },
             n = {
               ["<c-s>"] = trouble.open,
-              -- Allow using ctrl-{j,k} to move to next selection, similar to fzf
               ["<C-j>"] = actions.move_selection_next,
               ["<C-k>"] = actions.move_selection_previous
             }
           }
         },
         pickers = {
-          -- find_files with the ivy theme + preview
           find_files = themes.get_ivy {
             find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
             hidden = true,
-            -- path_display = filenameFirst,
           },
           buffers = {
             theme = "dropdown",
             ignore_current_buffer = true,
-            -- sort_lastused = true,
             sort_mru = true,
           },
           lsp_references = themes.get_ivy {
@@ -161,10 +150,6 @@ return {
           lsp_implementations = themes.get_ivy {
             trim_text = false,
             entry_maker = gen_from_quickfix(),
-
-            -- see for below: https://github.com/nvim-telescope/telescope.nvim/issues/2606#issuecomment-1641220136
-            -- disable_coordinates = true,
-            -- path_display = { 'truncate' },
           },
         },
         extensions = {
@@ -173,18 +158,13 @@ return {
             require("telescope.themes").get_dropdown({})
           },
           live_grep_args = {
-            auto_quoting = true, -- enable/disable auto-quoting
-            -- define mappings, e.g.
-            mappings = {         -- extend mappings
+            auto_quoting = true,
+            mappings = {
               i = {
                 ["<C-k>"] = lga_actions.quote_prompt(),
                 ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
               },
             },
-            -- ... also accepts theme settings, for example:
-            -- theme = "dropdown", -- use dropdown theme
-            -- theme = { }, -- use own theme spec
-            -- layout_config = { mirror=true }, -- mirror preview pane
           }
         }
       })

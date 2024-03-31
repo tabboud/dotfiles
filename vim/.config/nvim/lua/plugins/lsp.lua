@@ -232,6 +232,7 @@ return {
   },
   {
     'neovim/nvim-lspconfig',
+    event = "BufReadPost",
     config = function()
       LSP.setup()
     end,
