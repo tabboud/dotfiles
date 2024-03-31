@@ -7,7 +7,9 @@ return {
   { "rhysd/vim-go-impl",       ft = { 'go' } },
   {
     'MeanderingProgrammer/markdown.nvim',
-    name = 'render-markdown', -- Only needed if you have another plugin named markdown.nvim
+    enabled = false,
+    main = 'render-markdown',
+    ft = { 'markdown' },
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
       require('render-markdown').setup({})

@@ -16,6 +16,11 @@ vim.opt.runtimepath:prepend(lazypath)
 
 require('lazy').setup({
   spec = {
+    -- { import = "plugins.colorscheme" },
+    -- { import = "plugins.completion" },
+    -- { import = "plugins.languages" },
+    -- { import = "plugins.git" },
+    -- { import = "plugins.neo-tree" },
     { import = "plugins" },
   },
   -- install = { colorscheme = { "tokyonight", "habamax" } },

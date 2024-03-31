@@ -228,9 +228,7 @@ end
 return {
   {
     "williamboman/mason.nvim",
-    config = function()
-      require("mason").setup()
-    end,
+    build = "MasonUpdate",
   },
   {
     'neovim/nvim-lspconfig',
@@ -258,6 +256,7 @@ return {
   { import = "plugins.trouble" },
   {
     'mrded/nvim-lsp-notify',
+    enabled = false,
     dependencies = { 'rcarriga/nvim-notify' },
     config = function()
       require('lsp-notify').setup({
