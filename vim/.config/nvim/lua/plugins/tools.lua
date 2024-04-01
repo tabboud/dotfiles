@@ -45,4 +45,18 @@ return {
       })
     end,
   },
+  {
+    "NvChad/nvterm",
+    config = function()
+      require("nvterm").setup()
+      require('keymaps').nnoremap('<leader><space>', function()
+        return require("nvterm.terminal").toggle "horizontal"
+      end, { desc = "Toggle terminal" })
+    end,
+  },
+  {
+    'akinsho/toggleterm.nvim',
+    version = 'v2.*',
+    config = true,
+  },
 }
