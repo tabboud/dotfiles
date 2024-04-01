@@ -9,7 +9,7 @@ require("keymaps")
 require("autocmds")
 
 -- Plugin loading / config
-require("plugins")
+require("lazy")
 
 -- Options that include plugin settings
 require("options")
