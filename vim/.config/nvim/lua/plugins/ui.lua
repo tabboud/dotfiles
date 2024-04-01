@@ -203,8 +203,8 @@ return {
             "--with-filename",
             "--line-number",
             "--column",
-            "--hidden",         -- search hidden files
-            "--glob=!vendor",   -- ignore the vendor directory
+            "--hidden",       -- search hidden files
+            "--glob=!vendor", -- ignore the vendor directory
           },
           pattern = [[\b(KEYWORDS)\s*(\([^\)]*\))?:]],
           -- pattern = [[\b(KEYWORDS)\b]], -- match without the extra colon. You'll likely get false positives

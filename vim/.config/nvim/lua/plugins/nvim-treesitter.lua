@@ -15,6 +15,7 @@ return {
           'markdown_inline',
           'rust',
           'vim',
+          'vimdoc',
           'yaml',
         },
 
