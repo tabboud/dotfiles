@@ -9,7 +9,7 @@ return {
     'TimUntersberger/neogit',
     dependencies = { 'nvim-lua/plenary.nvim' },
     keys = {
-      { "<leader>gg", "<cmd>Neogit kind=split_above<cr>", mode = "n", desc = "Git: Show status pane" },
+      { "<leader>gg", function() require("neogit").open({ kind = "split_above" }) end, desc = "Git: Show status pane" },
     },
     config = true,
   },
@@ -76,83 +76,43 @@ return {
   },
   {
     'lewis6991/gitsigns.nvim',
-    config = function()
-      local icons = require("icons")
-      require('gitsigns').setup {
-        signs                        = {
-          add          = { hl = 'GitSignsAdd', text = icons.git.GitAdd, numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
-          change       = { hl = 'GitSignsChange', text = icons.git.GitChange, numhl = 'GitSignsChangeNr',
-            linehl = 'GitSignsChangeLn' },
-          delete       = { hl = 'GitSignsDelete', text = icons.git.GitDelete, numhl = 'GitSignsDeleteNr',
-            linehl = 'GitSignsDeleteLn' },
-          topdelete    = { hl = 'GitSignsDelete', text = icons.git.GitTopDelete, numhl = 'GitSignsDeleteNr',
-            linehl = 'GitSignsDeleteLn' },
-          changedelete = { hl = 'GitSignsChange', text = icons.git.GitChangeDelete, numhl = 'GitSignsChangeNr',
-            linehl = 'GitSignsChangeLn' },
-        },
-        signcolumn                   = true,  -- Toggle with `:Gitsigns toggle_signs`
-        numhl                        = false, -- Toggle with `:Gitsigns toggle_numhl`
-        linehl                       = false, -- Toggle with `:Gitsigns toggle_linehl`
-        word_diff                    = false, -- Toggle with `:Gitsigns toggle_word_diff`
-        watch_gitdir                 = {
-          interval = 1000,
-          follow_files = true
-        },
-        attach_to_untracked          = true,
-        current_line_blame           = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
-        current_line_blame_opts      = {
-          virt_text = true,
-          virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
-          delay = 1000,
-          ignore_whitespace = false,
-        },
-        current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
-        sign_priority                = 6,
-        update_debounce              = 100,
-        status_formatter             = nil, -- Use default
-        max_file_length              = 40000,
-        preview_config               = {
-          -- Options passed to nvim_open_win
-          border = 'single',
-          style = 'minimal',
-          relative = 'cursor',
-          row = 1,
-          col = 1
-        },
-        yadm                         = {
-          enable = false
-        },
+    opts = {
+      signs     = {
+        add          = { text = require("icons").git.GitAdd },
+        change       = { text = require("icons").git.GitChange },
+        delete       = { text = require("icons").git.GitDelete },
+        topdelete    = { text = require("icons").git.GitTopDelete },
+        changedelete = { text = require("icons").git.GitChangeDelete },
+      },
+      -- Key mappings
+      on_attach = function(bufnr)
+        local gs = package.loaded.gitsigns
+        local nnoremap = require('keymaps').nnoremap
 
-        -- Key mappings
-        on_attach                    = function(bufnr)
-          local gs = package.loaded.gitsigns
-          local nnoremap = require('keymaps').nnoremap
+        -- Navigation
+        nnoremap(']c', function()
+          if vim.wo.diff then return ']c' end
+          vim.schedule(function()
+            gs.next_hunk({ preview = false })
+          end)
+          return '<Ignore>'
+        end, { expr = true, buffer = bufnr, desc = "Git: go to next hunk" })
 
-          -- Navigation
-          nnoremap(']c', function()
-            if vim.wo.diff then return ']c' end
-            vim.schedule(function()
-              gs.next_hunk({ preview = false })
-            end)
-            return '<Ignore>'
-          end, { expr = true, buffer = bufnr, desc = "Git: go to next hunk" })
+        nnoremap('[c', function()
+          if vim.wo.diff then return '[c' end
+          vim.schedule(function()
+            gs.prev_hunk({ preview = false })
+          end)
+          return '<Ignore>'
+        end, { expr = true, buffer = bufnr, desc = "Git: go to previous hunk" })
 
-          nnoremap('[c', function()
-            if vim.wo.diff then return '[c' end
-            vim.schedule(function()
-              gs.prev_hunk({ preview = false })
-            end)
-            return '<Ignore>'
-          end, { expr = true, buffer = bufnr, desc = "Git: go to previous hunk" })
-
-          -- Actions
-          -- Using a different prefix rather than "g" since that conflicts with
-          -- some of the "g" native vim commands and subsequent remaps for lspconfig/telescope
-          -- nnoremap('<leader>gb', gs.toggle_current_line_blame, { buffer = bufnr, desc = "Git: Toggle current line blame" })
-          nnoremap('<leader>gd', gs.diffthis, { buffer = bufnr, desc = "Git: diff current file" })
-          nnoremap('<leader>gp', gs.preview_hunk, { buffer = bufnr, desc = "Git: preview hunk" })
-        end
-      }
-    end
+        -- Actions
+        -- Using a different prefix rather than "g" since that conflicts with
+        -- some of the "g" native vim commands and subsequent remaps for lspconfig/telescope
+        -- nnoremap('<leader>gb', gs.toggle_current_line_blame, { buffer = bufnr, desc = "Git: Toggle current line blame" })
+        nnoremap('<leader>gd', gs.diffthis, { buffer = bufnr, desc = "Git: diff current file" })
+        nnoremap('<leader>gp', gs.preview_hunk, { buffer = bufnr, desc = "Git: preview hunk" })
+      end
+    }
   },
 }
