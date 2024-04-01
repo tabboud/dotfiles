@@ -22,11 +22,6 @@ require('lazy').setup({
     -----------------
     -- Theme / Tools
     -----------------
-    'tpope/vim-surround',   -- Add surroundings (quotes, parenthesis, etc)
-    'Raimondi/delimitMate', -- Match parenthesis and quotes
-    'airblade/vim-rooter',  -- Auto cd to root of git repo
-    'ntpeters/vim-better-whitespace',
-    'kevinhwang91/nvim-bqf',
     {
       'nvim-lualine/lualine.nvim',
       dependencies = { 'nvim-lua/lsp-status.nvim' },
@@ -207,20 +202,6 @@ require('lazy').setup({
       end,
     },
     {
-      'famiu/bufdelete.nvim',
-      config = function()
-        require('keymaps').nnoremap("<C-c>", function()
-          require('bufdelete').bufdelete(0, false)
-        end, { desc = "Buffer: Delete" })
-      end
-    },
-    {
-      'tpope/vim-commentary', -- Toggle comments like sublime
-      config = function()
-        require('keymaps').noremap({ 'n', 'v' }, '<leader>/', '<cmd>Commentary<cr>', { desc = "Toggle comment" })
-      end
-    },
-    {
       "NvChad/nvterm",
       config = function()
         require("nvterm").setup()
@@ -233,15 +214,6 @@ require('lazy').setup({
       'akinsho/toggleterm.nvim',
       version = 'v2.*',
       config = true,
-    },
-    -- TODO: Group keys with tool prefix
-    -- TODO: Conditionally add keymaps based on current buffer (ex: Go tests and toggle tests only for Go files)
-    {
-      enabled = true,
-      "folke/which-key.nvim",
-      config = function()
-        require("which-key").setup({})
-      end
     },
     {
       "folke/todo-comments.nvim",
@@ -285,28 +257,6 @@ require('lazy').setup({
         { "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",    desc = "Todo/Fix/Fixme" },
       },
     },
-    -- save my last cursor position
-    {
-      "ethanholz/nvim-lastplace",
-      config = function()
-        require("nvim-lastplace").setup({
-          lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
-          lastplace_ignore_filetype = { "gitcommit", "gitrebase", "svn", "hgcommit" },
-          lastplace_open_folds = true
-        })
-      end,
-    },
-    {
-      "Shatur/neovim-session-manager",
-      dependencies = { 'nvim-lua/plenary.nvim' },
-      config = function()
-        local config = require('session_manager.config')
-        require("session_manager").setup({
-          autoload_mode = config.AutoloadMode.Disabled,
-        })
-      end,
-    },
-
     -- Manage pre-defined window layouts
     {
       "folke/edgy.nvim",
