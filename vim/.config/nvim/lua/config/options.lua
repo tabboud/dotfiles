@@ -94,8 +94,6 @@ opt.listchars = {
   precedes = "❮"
 }
 
--- vim.notify = require('notify')
-
 -- disable built-in plugins I do not use
 vim.g.loaded_zip = 1
 vim.g.loaded_zipPlugin = 1
