@@ -6,4 +6,10 @@ return {
     enabled = false,
     dependencies = { 'rktjmp/lush.nvim' }
   },
+  {
+    "tabboud/darcula-dark.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+  }
 }
