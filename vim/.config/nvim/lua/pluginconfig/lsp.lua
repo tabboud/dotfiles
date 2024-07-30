@@ -82,6 +82,20 @@ local on_attach = function(client, bufnr)
   if lsp_status_ok then
     lsp_status.on_attach(client)
   end
+
+  if vim.fn.has("nvim-0.10") == 1 then
+    -- inlay hints
+    require('keymaps').nnoremap("<leader>dh", function()
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ nil }))
+    end, { buffer = bufnr, desc = "✨LSP toggle inlay hints" })
+
+    -- code lens
+    vim.lsp.codelens.refresh()
+    vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+      buffer = bufnr,
+      callback = vim.lsp.codelens.refresh,
+    })
+  end
 end
 
 -- Diagnostic sign mappings
@@ -171,6 +185,14 @@ local servers = {
         tidy = true,
         upgrade_dependency = true,
         vendor = true,
+      },
+      hints = {
+        assignVariableTypes = false,
+        compositeLiteralFields = true,
+        compositeLiteralTypes = false,
+        constantValues = true,
+        functionTypeParameters = true,
+        parameterNames = true
       },
     },
   },

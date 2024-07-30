@@ -14,8 +14,9 @@ return {
   },
   {
     'tpope/vim-commentary',
+    enabled = false,
     config = function()
-      require('keymaps').noremap({ 'n', 'v' }, '<leader>/', '<cmd>Commentary<cr>', { desc = "Toggle comment" })
+      -- require('keymaps').noremap({ 'n', 'v' }, '<leader>/', '<cmd>Commentary<cr>', { desc = "Toggle comment" })
     end
   },
   {
@@ -43,6 +44,9 @@ return {
       require("session_manager").setup({
         autoload_mode = config.AutoloadMode.Disabled,
       })
+
+      require('keymaps').nnoremap('<leader>sl', '<cmd>SessionManager load_current_dir_session<CR>',
+        { desc = "Load current dir session" })
     end,
   },
   {
@@ -58,5 +62,12 @@ return {
     'akinsho/toggleterm.nvim',
     version = 'v2.*',
     config = true,
+  },
+  {
+    'MagicDuck/grug-far.nvim',
+    config = function()
+      require('grug-far').setup({
+      });
+    end
   },
 }

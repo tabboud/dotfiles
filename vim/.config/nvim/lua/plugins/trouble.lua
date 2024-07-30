@@ -1,5 +1,6 @@
 return {
   "folke/trouble.nvim",
+  tag = "v3.0.0",
   dependencies = {
     'nvim-tree/nvim-web-devicons',
   },

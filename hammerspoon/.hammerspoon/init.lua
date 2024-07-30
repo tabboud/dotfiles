@@ -7,7 +7,7 @@ local modKeys = { "cmd", "ctrl" }
 
 -- Hammerspoon specific keybindings
 hotkey.bind(modKeys, "R", function() hs.reload() end)
-hotkey.bind(modKeys, "C", function() hs.toggleConsole() end)
+-- hotkey.bind(modKeys, "C", function() hs.toggleConsole() end)
 
 -- Setup Application Toggling
 applications.bind(modKeys, {
@@ -15,6 +15,7 @@ applications.bind(modKeys, {
   -- { "iTerm",                           "t" },
   -- { "kitty",                           "t" },
   { "WezTerm",                         "t" },
+  { "Visual Studio Code",              "c" },
   { "Google Chrome",                   "i" },
   { "Slack",                           "s" },
   { "Microsoft Outlook",               "o" },

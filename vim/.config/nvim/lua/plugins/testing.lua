@@ -71,8 +71,8 @@ return {
       end
 
       -- Setup everything
-      configure()       -- Configuration
-      configure_exts()  -- Extensions
+      configure()           -- Configuration
+      configure_exts()      -- Extensions
       configure_debuggers() -- Debugger
       setup_keymaps()
     end,
@@ -91,6 +91,7 @@ return {
       "nvim-treesitter/nvim-treesitter",
       -- Go test adapter
       "nvim-neotest/neotest-go",
+      "fredrikaverpil/neotest-golang",
     },
     config = function()
       local neotest_ns = vim.api.nvim_create_namespace("neotest")
@@ -120,12 +121,13 @@ return {
       require("neotest").setup({
         adapters = {
           -- custom config for neotest-go adapter
-          require("neotest-go")({
-            experimental = {
-              test_table = true,
-            },
-            args = { "-count=1", "-timeout=60s" }
-          })
+          -- require("neotest-go")({
+          --   experimental = {
+          --     test_table = true,
+          --   },
+          --   args = { "-count=1", "-timeout=60s" }
+          -- }),
+          require("neotest-golang"),
         },
         icons = icons,
         status = {
