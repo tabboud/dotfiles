@@ -1,8 +1,8 @@
 return {
-  'tpope/vim-surround',   -- Add surroundings (quotes, parenthesis, etc)
-  'Raimondi/delimitMate', -- Match parenthesis and quotes
-  'airblade/vim-rooter',  -- Auto cd to root of git repo
-  'ntpeters/vim-better-whitespace',
+  'tpope/vim-surround',  -- Add surroundings (quotes, parenthesis, etc)
+  -- 'Raimondi/delimitMate', -- Match parenthesis and quotes
+  'airblade/vim-rooter', -- Auto cd to root of git repo
+  -- 'ntpeters/vim-better-whitespace',
   'kevinhwang91/nvim-bqf',
   {
     'famiu/bufdelete.nvim',
@@ -10,13 +10,6 @@ return {
       require('keymaps').nnoremap("<C-c>", function()
         require('bufdelete').bufdelete(0, false)
       end, { desc = "Buffer: Delete" })
-    end
-  },
-  {
-    'tpope/vim-commentary',
-    enabled = false,
-    config = function()
-      -- require('keymaps').noremap({ 'n', 'v' }, '<leader>/', '<cmd>Commentary<cr>', { desc = "Toggle comment" })
     end
   },
   {
@@ -60,14 +53,8 @@ return {
   },
   {
     'akinsho/toggleterm.nvim',
+    enabled = false,
     version = 'v2.*',
     config = true,
-  },
-  {
-    'MagicDuck/grug-far.nvim',
-    config = function()
-      require('grug-far').setup({
-      });
-    end
   },
 }

@@ -72,16 +72,11 @@ end
 return {
   {
     'nvim-telescope/telescope.nvim',
+    event = 'VimEnter',
     dependencies = {
       'nvim-lua/plenary.nvim',
       -- Allow neovim core to fill the telescope picker (e.g. lua vim.lsp.buf.code_action())
       'nvim-telescope/telescope-ui-select.nvim',
-      {
-        "nvim-telescope/telescope-live-grep-args.nvim",
-        -- This will not install any breaking changes.
-        -- For major updates, this must be adjusted manually.
-        version = "^1.0.0",
-      },
     },
     config = function()
       local telescope = require('telescope')
@@ -89,10 +84,6 @@ return {
       local action_layout = require("telescope.actions.layout")
       local themes = require('telescope.themes')
       local trouble = require("trouble.sources.telescope")
-
-      -- Load live_grep_args extension
-      require("telescope").load_extension("live_grep_args")
-      local lga_actions = require("telescope-live-grep-args.actions")
 
       telescope.setup({
         defaults = {
@@ -153,11 +144,11 @@ return {
           },
           lsp_references = themes.get_ivy {
             trim_text = false,
-            entry_maker = gen_from_quickfix(),
+            -- entry_maker = gen_from_quickfix(),
           },
           lsp_implementations = themes.get_ivy {
             trim_text = false,
-            entry_maker = gen_from_quickfix(),
+            -- entry_maker = gen_from_quickfix(),
 
             -- see for below: https://github.com/nvim-telescope/telescope.nvim/issues/2606#issuecomment-1641220136
             -- disable_coordinates = true,
@@ -167,22 +158,8 @@ return {
         extensions = {
           -- requires the 'nvim-telescope/telescope-ui-select.nvim' plugin
           ["ui-select"] = {
-            require("telescope.themes").get_dropdown({})
+            require("telescope.themes").get_dropdown()
           },
-          live_grep_args = {
-            auto_quoting = true, -- enable/disable auto-quoting
-            -- define mappings, e.g.
-            mappings = {         -- extend mappings
-              i = {
-                ["<C-k>"] = lga_actions.quote_prompt(),
-                ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
-              },
-            },
-            -- ... also accepts theme settings, for example:
-            -- theme = "dropdown", -- use dropdown theme
-            -- theme = { }, -- use own theme spec
-            -- layout_config = { mirror=true }, -- mirror preview pane
-          }
         }
       })
 
@@ -194,8 +171,15 @@ return {
       local ignore_patterns = { file_ignore_patterns = { "%_test.go", "%_mocks.go" } }
       local nnoremap = require('keymaps').nnoremap
 
+      -- fuzzy search current buffer
+      vim.keymap.set('n', '<leader>/', function()
+        builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+          winblend = 10,
+          previewer = false,
+        })
+      end, { desc = '[/] Fuzzily search in current buffer' })
+
       nnoremap("<leader><Enter>", "<cmd>lua require('telescope.builtin').buffers({previewer=false})<CR>",
-        -- builtin.buffers({ previewer = false }),
         { desc = "Telescope: List open buffers" })
       nnoremap("<leader>p", function()
         require('telescope.builtin').find_files({
