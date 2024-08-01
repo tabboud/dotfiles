@@ -64,10 +64,9 @@ return {
       end
 
       local setup_keymaps = function()
-        local keymaps = require('keymaps')
-        keymaps.nnoremap("<leader>dr", "<cmd>lua require('dap-go').debug_test()<CR>",
+        vim.keymap.set("n", "<leader>dr", "<cmd>lua require('dap-go').debug_test()<CR>",
           { desc = "Debug: Run nearest test" })
-        keymaps.nnoremap("<leader>db", "<cmd>DapToggleBreakpoint<CR>", { desc = "Debug: Toggle breakpoint" })
+        vim.keymap.set("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", { desc = "Debug: Toggle breakpoint" })
       end
 
       -- Setup everything
@@ -96,26 +95,6 @@ return {
     config = function()
       local neotest_ns = vim.api.nvim_create_namespace("neotest")
       vim.diagnostic.config({ virtual_text = false }, neotest_ns)
-
-      local keymaps = function()
-        local keymaps = require('keymaps')
-
-        keymaps.nnoremap('<leader>ts', function()
-          return require("neotest").summary.toggle()
-        end, { desc = "Test: Toggle test summary" })
-
-        keymaps.nnoremap('<leader>to', function()
-          return require("neotest").output_panel.toggle()
-        end, { desc = "Test: Toggle test output panel" })
-
-        keymaps.nnoremap('<leader>tr', function()
-          return require("neotest").run.run()
-        end, { desc = 'Test: Run nearest test' })
-
-        keymaps.nnoremap('<leader>tl', function()
-          return require("neotest").run.run_last()
-        end, { desc = 'Test: Run last test' })
-      end
 
       local icons = require('icons').neotest
       require("neotest").setup({
@@ -174,7 +153,22 @@ return {
         },
       })
 
-      keymaps()
+      -- KEYS
+      vim.keymap.set("n", '<leader>ts', function()
+        return require("neotest").summary.toggle()
+      end, { desc = "Test: Toggle test summary" })
+
+      vim.keymap.set("n", '<leader>to', function()
+        return require("neotest").output_panel.toggle()
+      end, { desc = "Test: Toggle test output panel" })
+
+      vim.keymap.set("n", '<leader>tr', function()
+        return require("neotest").run.run()
+      end, { desc = 'Test: Run nearest test' })
+
+      vim.keymap.set("n", '<leader>tl', function()
+        return require("neotest").run.run_last()
+      end, { desc = 'Test: Run last test' })
 
       -- Auto scroll to the bottom of the output-panel
       vim.api.nvim_create_autocmd("FileType", {

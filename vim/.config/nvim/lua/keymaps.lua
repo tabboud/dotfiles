@@ -1,91 +1,44 @@
-local M = {}
-
--- desc returns the the description for a keymapping.
--- If one exists, it will use the provided description.
--- If one does not exist "Dots: not specified" will be returned.
-local desc = function(opts)
-  opts = opts or { desc = "" }
-  if opts.desc == nil or opts.desc == "" then
-    return "Dots: not specified"
-  end
-  return opts.desc
-end
-
--- map is used to configure various :map keymappings.
-function M.map(mode, lhs, rhs, opts)
-  opts = opts or {}
-  opts.noremap = false
-  opts.silent = true
-  opts.desc = desc(opts)
-  vim.keymap.set(mode, lhs, rhs, opts)
-end
-
--- noremap is used to configure various :noremap keymappings.
-function M.noremap(mode, lhs, rhs, opts)
-  opts = opts or {}
-  opts.noremap = true
-  opts.silent = true
-  opts.desc = desc(opts)
-  vim.keymap.set(mode, lhs, rhs, opts)
-end
-
--- nnoremap sets a normal mode noremap keymap
-function M.nnoremap(lhs, rhs, opts)
-  M.noremap({ 'n' }, lhs, rhs, opts)
-end
-
--- vnoremap sets a visual mode noremap keymap
-function M.vnoremap(lhs, rhs, opts)
-  M.noremap({ 'v' }, lhs, rhs, opts)
-end
-
--- nmap sets a normal mode map keymap
-function M.nmap(lhs, rhs, opts)
-  M.map({ 'n' }, lhs, rhs, opts)
-end
+local map = vim.keymap.set
 
 -- Setup leader mappings - normal (n) / visual (x) mode map a space to a noop
--- using noremap to prevent a recursive mapping overwriting this.
 vim.g.mapleader = " "
-M.noremap({ 'n', 'x' }, " ", "", { desc = "Set leader key" })
+map({ 'n', 'x' }, " ", "", { desc = "Set leader key" })
+map("n", "<C-h>", "<Plug>WinMoveLeft", { desc = "Copy or move to file (left)" })
+map("n", "<C-j>", "<Plug>WinMoveDown", { desc = "Copy or move to file (down)" })
+map("n", "<C-k>", "<Plug>WinMoveUp", { desc = "Copy or move to file (up)" })
+map("n", "<C-l>", "<Plug>WinMoveRight", { desc = "Copy or move to file (right)" })
+map("n", "Q", "", { desc = "Disable Ex mode" })
+map("n", "Y", "y$", { desc = "Yank until EOL" })
+map("n", "n", "nzzzv", { desc = "Center screen on search (next)" })
+map("n", "N", "Nzzzv", { desc = "Center screen on search (prev)" })
+map("n", "j", "gj", { desc = "Move down" })
+map("n", "k", "gk", { desc = "Move up" })
+map("n", "^", "g^", { desc = "Move to start" })
+map("n", "$", "g$", { desc = "Move to end" })
+map("n", "tt", "<cmd>tab split<cr>", { desc = "Open current buffer in a new tab (full-screen mode)" })
+map("n", "<Esc>", "<Esc><cmd>noh<cr>", { desc = "Clear all highlighting" })
+map("n", "<C-e>", "3<C-e>", { desc = "Scroll down viewport" })
+map("n", "<C-y>", "3<C-y>", { desc = "Scroll up viewport" })
+map("n", "<C-w><", "10<C-w>>", { desc = "Shift window left" })
+map("n", "<C-w>>", "10<C-w><", { desc = "Shift window right" })
+map("n", "]]", '<cmd>call search("^func")<cr>', { desc = "Jump to next func" })
+map("n", "[[", ':call search("^func", "b")<cr>', { desc = "Jump to prev func" })
+map("n", "<leader>v", "<cmd>set paste!<cr>", { desc = "Toggle paste mode" })
+map("n", "<leader>a", "<cmd>%y+<cr>", { desc = "Copy the entire buffer" })
+map("n", "<leader>w", "<cmd>w<cr>", { desc = "Write file" })
+map("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
+map("n", "Qa", "", { desc = "Quit all" })
+map("n", "<leader>l", "<cmd>set list!<cr>", { desc = "Toggle 'listchars'" })
+map("n", "<leader>n", "<cmd>set nowrap!<cr>", { desc = "Toggle line wrapping" })
+map("n", "<leader>tt", function() return require("go").ToggleTest() end, { desc = "Go: Toggle Go test" })
 
-M.nmap("<C-h>", "<Plug>WinMoveLeft", { desc = "Copy or move to file (left)" })
-M.nmap("<C-j>", "<Plug>WinMoveDown", { desc = "Copy or move to file (down)" })
-M.nmap("<C-k>", "<Plug>WinMoveUp", { desc = "Copy or move to file (up)" })
-M.nmap("<C-l>", "<Plug>WinMoveRight", { desc = "Copy or move to file (right)" })
-
-M.nnoremap("Q", "", { desc = "Disable Ex mode" })
-M.nnoremap("Y", "y$", { desc = "Yank until EOL" })
-M.nnoremap("n", "nzzzv", { desc = "Center screen on search (next)" })
-M.nnoremap("N", "Nzzzv", { desc = "Center screen on search (prev)" })
-M.nnoremap("j", "gj", { desc = "Move down" })
-M.nnoremap("k", "gk", { desc = "Move up" })
-M.nnoremap("^", "g^", { desc = "Move to start" })
-M.nnoremap("$", "g$", { desc = "Move to end" })
-M.nnoremap("tt", "<cmd>tab split<cr>", { desc = "Open current buffer in a new tab (full-screen mode)" })
-M.nnoremap("<Esc>", "<Esc><cmd>noh<cr>", { desc = "Clear all highlighting" })
-M.nnoremap("<C-e>", "3<C-e>", { desc = "Scroll down viewport" })
-M.nnoremap("<C-y>", "3<C-y>", { desc = "Scroll up viewport" })
-M.nnoremap("<C-w><", "10<C-w>>", { desc = "Shift window left" })
-M.nnoremap("<C-w>>", "10<C-w><", { desc = "Shift window right" })
-M.nnoremap("]]", '<cmd>call search("^func")<cr>', { desc = "Jump to next func" })
-M.nnoremap("[[", ':call search("^func", "b")<cr>', { desc = "Jump to prev func" })
-M.nnoremap("<leader>v", "<cmd>set paste!<cr>", { desc = "Toggle paste mode" })
-M.nnoremap("<leader>a", "<cmd>%y+<cr>", { desc = "Copy the entire buffer" })
-M.nnoremap("<leader>w", "<cmd>w<cr>", { desc = "Write file" })
-M.nnoremap("<leader>q", "<cmd>q<cr>", { desc = "Quit" })
-M.nnoremap("Qa", "", { desc = "Quit all" })
-M.nnoremap("<leader>l", "<cmd>set list!<cr>", { desc = "Toggle 'listchars'" })
-M.nnoremap("<leader>n", "<cmd>set nowrap!<cr>", { desc = "Toggle line wrapping" })
-M.nnoremap("<leader>[", "<<", { desc = "Shift left" })
-M.nnoremap("<leader>]", ">>", { desc = "Shift right" })
-M.nnoremap("<leader>tt", function() return require("go").ToggleTest() end, { desc = "Go: Toggle Go test" })
-
-M.vnoremap("*", "<Esc>/\\%V", { desc = "Visual search word under cursor (next)" })
-M.vnoremap("#", "<Esc>?\\%V", { desc = "Visual search word under cursor (prev)" })
-M.vnoremap("<leader>[", "<gv", { desc = "Shift left" })
-M.vnoremap("<leader>]", ">gv", { desc = "Shift right" })
-M.vnoremap("<leader>jq", ":!jq<cr>", { desc = "Format JSON" })
+map("v", "*", "<Esc>/\\%V", { desc = "Visual search word under cursor (next)" })
+map("v", "#", "<Esc>?\\%V", { desc = "Visual search word under cursor (prev)" })
+map("v", "<leader>jq", ":!jq<cr>", { desc = "Format JSON" })
+map("n", "<leader>[", "<<", { desc = "Shift left" })
+map("n", "<leader>]", ">>", { desc = "Shift right" })
+map("v", "<leader>[", "<gv", { desc = "Shift left" })
+map("v", "<leader>]", ">gv", { desc = "Shift right" })
 
 -- Highlight word without jumping
 -- Convert into lua
@@ -93,7 +46,7 @@ M.vnoremap("<leader>jq", ":!jq<cr>", { desc = "Format JSON" })
 --   { desc = "Highlight word without jumping" })
 vim.cmd [[ nnoremap <silent> * :let @/= '\<' . expand('<cword>') . '\>' <bar> set hls <cr> ]]
 
-M.noremap({ "t" }, "<Esc>", "<c-\\><c-n>", { desc = "Terminal: exit terminal mode" })
+map("t", "<Esc>", "<c-\\><c-n>", { desc = "Terminal: exit terminal mode" })
 
 
 -- Custom 'gh' commands
@@ -147,7 +100,7 @@ vim.api.nvim_create_user_command(
 
 local commands = {
   {
-    name = "GHOpenRepo",
+    name = "View Repo",
     callback = function()
       if not vim.fn.executable('gh') then
         print("'gh' executable not found")
@@ -158,23 +111,20 @@ local commands = {
     opts = { nargs = "?" }
   },
 }
-function M.command_select()
-  vim.ui.select(
-    commands,
-    {
-      prompt = "Select a GH command: ",
-      format_item = function(cmd)
-        return cmd.name
-      end
-    }, function(cmd)
-      if cmd == nil then
-        return
-      end
+local function command_select()
+  local opts = {
+    prompt = "Select a GH command: ",
+    format_item = function(cmd)
+      return cmd.name
+    end
+  }
+  local on_choice = function(cmd)
+    if cmd ~= nil then
       cmd.callback()
     end
-  )
+  end
+
+  vim.ui.select(commands, opts, on_choice)
 end
 
-vim.api.nvim_create_user_command("GH", M.command_select, {})
-
-return M
+vim.api.nvim_create_user_command("GH", command_select, {})

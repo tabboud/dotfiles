@@ -66,10 +66,9 @@ return {
       -- Key mappings
       on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
-        local nnoremap = require('keymaps').nnoremap
 
         -- Navigation
-        nnoremap(']c', function()
+        vim.keymap.set("n", ']c', function()
           if vim.wo.diff then return ']c' end
           vim.schedule(function()
             gs.next_hunk({ preview = false })
@@ -77,7 +76,7 @@ return {
           return '<Ignore>'
         end, { expr = true, buffer = bufnr, desc = "Git: go to next hunk" })
 
-        nnoremap('[c', function()
+        vim.keymap.set("n", '[c', function()
           if vim.wo.diff then return '[c' end
           vim.schedule(function()
             gs.prev_hunk({ preview = false })
@@ -89,8 +88,8 @@ return {
         -- Using a different prefix rather than "g" since that conflicts with
         -- some of the "g" native vim commands and subsequent remaps for lspconfig/telescope
         -- nnoremap('<leader>gb', gs.toggle_current_line_blame, { buffer = bufnr, desc = "Git: Toggle current line blame" })
-        nnoremap('<leader>gd', gs.diffthis, { buffer = bufnr, desc = "Git: diff current file" })
-        nnoremap('<leader>gp', gs.preview_hunk, { buffer = bufnr, desc = "Git: preview hunk" })
+        vim.keymap.set("n", '<leader>gd', gs.diffthis, { buffer = bufnr, desc = "Git: diff current file" })
+        vim.keymap.set("n", '<leader>gp', gs.preview_hunk, { buffer = bufnr, desc = "Git: preview hunk" })
       end
     }
   },

@@ -50,7 +50,7 @@ end
 
 local setup_keymaps = function(bufnr)
   local m = function(lhs, rhs, desc)
-    require('keymaps').nnoremap(lhs, rhs, { buffer = bufnr, desc = desc })
+    vim.keymap.set("n", lhs, rhs, { buffer = bufnr, desc = desc })
   end
 
   -- nvim-lspconfig keymaps
@@ -85,7 +85,7 @@ local on_attach = function(client, bufnr)
 
   if vim.fn.has("nvim-0.10") == 1 then
     -- inlay hints
-    require('keymaps').nnoremap("<leader>dh", function()
+    vim.keymap.set("n", "<leader>dh", function()
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ nil }))
     end, { buffer = bufnr, desc = "✨LSP toggle inlay hints" })
 

@@ -7,7 +7,7 @@ return {
   {
     'famiu/bufdelete.nvim',
     config = function()
-      require('keymaps').nnoremap("<C-c>", function()
+      vim.keymap.set("n", "<C-c>", function()
         require('bufdelete').bufdelete(0, false)
       end, { desc = "Buffer: Delete" })
     end
@@ -38,7 +38,7 @@ return {
         autoload_mode = config.AutoloadMode.Disabled,
       })
 
-      require('keymaps').nnoremap('<leader>sl', '<cmd>SessionManager load_current_dir_session<CR>',
+      vim.keymap.set("n", '<leader>sl', '<cmd>SessionManager load_current_dir_session<CR>',
         { desc = "Load current dir session" })
     end,
   },
@@ -46,7 +46,7 @@ return {
     "NvChad/nvterm",
     config = function()
       require("nvterm").setup()
-      require('keymaps').nnoremap('<leader><space>', function()
+      vim.keymap.set("n", '<leader><space>', function()
         return require("nvterm.terminal").toggle "horizontal"
       end, { desc = "Toggle terminal" })
     end,

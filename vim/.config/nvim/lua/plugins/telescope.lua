@@ -169,8 +169,11 @@ return {
       -- Configure keymaps
       local builtin = require('telescope.builtin')
       local ignore_patterns = { file_ignore_patterns = { "%_test.go", "%_mocks.go" } }
-      local nnoremap = require('keymaps').nnoremap
+      local map = function(lhs, rhs, opts)
+        vim.keymap.set("n", lhs, rhs, opts)
+      end
 
+      map("<leader>h", builtin.help_tags, { desc = "Telescope: help" })
       -- fuzzy search current buffer
       vim.keymap.set('n', '<leader>/', function()
         builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
@@ -179,9 +182,9 @@ return {
         })
       end, { desc = '[/] Fuzzily search in current buffer' })
 
-      nnoremap("<leader><Enter>", "<cmd>lua require('telescope.builtin').buffers({previewer=false})<CR>",
+      map("<leader><Enter>", "<cmd>lua require('telescope.builtin').buffers({previewer=false})<CR>",
         { desc = "Telescope: List open buffers" })
-      nnoremap("<leader>p", function()
+      map("<leader>p", function()
         require('telescope.builtin').find_files({
           prompt_title = "My Find Files",
           file_ignore_patterns = {
@@ -193,8 +196,8 @@ return {
       end, { desc = "Telescope: Find files" })
 
       -- live_grep with dynamic args for rg
-      nnoremap("<leader>rg", builtin.live_grep)
-      nnoremap("rg", function()
+      map("<leader>rg", builtin.live_grep)
+      map("rg", function()
         require('telescope.builtin').live_grep(themes.get_ivy({
           prompt_title = " Live grep (rg) ",
           -- file_ignore_patterns = { "vendor", "^.git/" },
@@ -202,25 +205,15 @@ return {
         }))
       end, { desc = "Telescope: Live grep (rg)" })
 
-      -- Add keymap for searching in dirs with glob
-      -- Telescope live_grep search_dirs=cmd/helm glob_pattern=*_test.go
-      -- nnoremap("rg", function()
-      --   return builtin.live_grep(themes.get_ivy({
-      --     prompt_title = " Live grep (rg) ",
-      --     file_ignore_patterns = { "vendor", "^.git/" },
-      --   }))
-      -- end, { desc = "Telescope: Live grep (rg)" })
-
       -- LSP commands through Telescope - These supercede the ones defined in lspconfig.lua
       -- Show symbols for the current document
-      nnoremap("<leader>sd", builtin.lsp_document_symbols, { desc = "LSP: Document symbols" })
-      nnoremap("<leader>sw", builtin.lsp_dynamic_workspace_symbols, { desc = "LSP: Workspace symbols" })
-
-      nnoremap("gi", builtin.lsp_implementations, { desc = "LSP: Go to implementations" })
-      nnoremap("gr", builtin.lsp_references, { desc = "LSP: Go to references" })
+      map("<leader>sd", builtin.lsp_document_symbols, { desc = "LSP: Document symbols" })
+      map("<leader>sw", builtin.lsp_dynamic_workspace_symbols, { desc = "LSP: Workspace symbols" })
+      map("gi", builtin.lsp_implementations, { desc = "LSP: Go to implementations" })
+      map("gr", builtin.lsp_references, { desc = "LSP: Go to references" })
 
       -- Edit dotfiles
-      nnoremap("<leader>ed", function()
+      map("<leader>ed", function()
         local dotfilesPath = vim.env.DOTFILES
         if dotfilesPath == "" then
           print("[editDotfiles] $DOTFILES is not configured")
@@ -229,12 +222,10 @@ return {
         require('telescope.builtin').find_files({
           shorten_path = false,
           cwd = dotfilesPath,
-          prompt_title = "~ dotfiles ~",
+          prompt_title = "dotfiles",
           hidden = true,
         })
       end, { desc = "Telescope: Edit dotfiles" })
-
-      nnoremap("<leader>h", builtin.help_tags, { desc = "Telescope: help" })
     end
   }
 }

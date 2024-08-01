@@ -147,9 +147,8 @@ return {
           },
         }
       }
-      local keymaps = require("keymaps")
-      keymaps.nnoremap("gn", "<cmd>BufferLineCycleNext<cr>", { desc = "Buffer: Go to next" })
-      keymaps.nnoremap("gp", "<cmd>BufferLineCyclePrev<cr>", { desc = "Buffer: Go to prev" })
+      vim.keymap.set("n", "gn", "<cmd>BufferLineCycleNext<cr>", { desc = "Buffer: Go to next" })
+      vim.keymap.set("n", "gp", "<cmd>BufferLineCyclePrev<cr>", { desc = "Buffer: Go to prev" })
     end,
   },
   {
