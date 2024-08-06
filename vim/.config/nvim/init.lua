@@ -5,7 +5,7 @@ if vim.loader and vim.fn.has "nvim-0.9" == 1 then vim.loader.enable() end
 
 -- core
 require("config.globals")
-require("keymaps")
+require("config.keymaps")
 require("config.autocmds")
 
 -- Plugin loading / config
