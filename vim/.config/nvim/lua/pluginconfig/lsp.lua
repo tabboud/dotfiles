@@ -211,6 +211,14 @@ local servers = {
           'vim',
         },
       },
+      hint = {
+        enable = true,
+        setType = false,
+        paramType = true,
+        paramName = "All",
+        semicolon = "Disable",
+        arrayIndex = "Disable",
+      },
       workspace = {
         -- Make the server aware of Neovim runtime files,
         library = {
