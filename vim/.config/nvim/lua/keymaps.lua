@@ -3,10 +3,10 @@ local map = vim.keymap.set
 -- Setup leader mappings - normal (n) / visual (x) mode map a space to a noop
 vim.g.mapleader = " "
 map({ 'n', 'x' }, " ", "", { desc = "Set leader key" })
-map("n", "<C-h>", "<Plug>WinMoveLeft", { desc = "Copy or move to file (left)" })
-map("n", "<C-j>", "<Plug>WinMoveDown", { desc = "Copy or move to file (down)" })
-map("n", "<C-k>", "<Plug>WinMoveUp", { desc = "Copy or move to file (up)" })
-map("n", "<C-l>", "<Plug>WinMoveRight", { desc = "Copy or move to file (right)" })
+map("n", "<C-h>", "<Plug>WinMoveLeft", { desc = "Copy or move to file (left)", silent = true })
+map("n", "<C-j>", "<Plug>WinMoveDown", { desc = "Copy or move to file (down)", silent = true })
+map("n", "<C-k>", "<Plug>WinMoveUp", { desc = "Copy or move to file (up)", silent = true })
+map("n", "<C-l>", "<Plug>WinMoveRight", { desc = "Copy or move to file (right)", silent = true })
 map("n", "Q", "", { desc = "Disable Ex mode" })
 map("n", "Y", "y$", { desc = "Yank until EOL" })
 map("n", "n", "nzzzv", { desc = "Center screen on search (next)" })
@@ -31,7 +31,6 @@ map("n", "Qa", "", { desc = "Quit all" })
 map("n", "<leader>l", "<cmd>set list!<cr>", { desc = "Toggle 'listchars'" })
 map("n", "<leader>n", "<cmd>set nowrap!<cr>", { desc = "Toggle line wrapping" })
 map("n", "<leader>tt", function() return require("go").ToggleTest() end, { desc = "Go: Toggle Go test" })
-
 map("v", "*", "<Esc>/\\%V", { desc = "Visual search word under cursor (next)" })
 map("v", "#", "<Esc>?\\%V", { desc = "Visual search word under cursor (prev)" })
 map("v", "<leader>jq", ":!jq<cr>", { desc = "Format JSON" })
@@ -39,6 +38,7 @@ map("n", "<leader>[", "<<", { desc = "Shift left" })
 map("n", "<leader>]", ">>", { desc = "Shift right" })
 map("v", "<leader>[", "<gv", { desc = "Shift left" })
 map("v", "<leader>]", ">gv", { desc = "Shift right" })
+map("t", "<Esc>", "<c-\\><c-n>", { desc = "Terminal: exit terminal mode" })
 
 -- Highlight word without jumping
 -- Convert into lua
@@ -46,85 +46,55 @@ map("v", "<leader>]", ">gv", { desc = "Shift right" })
 --   { desc = "Highlight word without jumping" })
 vim.cmd [[ nnoremap <silent> * :let @/= '\<' . expand('<cword>') . '\>' <bar> set hls <cr> ]]
 
-map("t", "<Esc>", "<c-\\><c-n>", { desc = "Terminal: exit terminal mode" })
 
 
 -- Custom 'gh' commands
 vim.api.nvim_create_user_command(
-  "GHRepoView",
+  "GH",
   function()
     if not vim.fn.executable('gh') then
       print("'gh' executable not found")
       return
     end
-    vim.fn.system("gh repo view --web")
-  end,
-  { desc = "Open repo in web browser via 'gh'" }
-)
-vim.api.nvim_create_user_command(
-  "GHPRView",
-  function(cmd)
-    if not vim.fn.executable('gh') then
-      print("'gh' executable not found")
-      return
-    end
-    if cmd.args == "" then
-      print("'PR number must be provided'")
-      return
-    end
-    vim.fn.system("gh pr view --web " .. cmd.args)
-  end,
-  {
-    desc = "Open a PR in a web browser via 'gh'",
-    nargs = "?",
-  }
-)
-vim.api.nvim_create_user_command(
-  "GHBrowse",
-  function(cmd)
-    if not vim.fn.executable('gh') then
-      print("'gh' executable not found")
-      return
-    end
-    local currentBufferFilepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":.")
-    if cmd.args ~= "" then
-      currentBufferFilepath = currentBufferFilepath .. ":" .. cmd.args
-    end
-    vim.fn.system("gh browse " .. currentBufferFilepath)
-  end,
-  {
-    desc = "Open the current file in a web browser via 'gh'",
-    nargs = "?",
-  }
-)
 
-local commands = {
-  {
-    name = "View Repo",
-    callback = function()
-      if not vim.fn.executable('gh') then
-        print("'gh' executable not found")
-        return
+    vim.ui.select(
+      {
+        {
+          name = "View Repo",
+          callback = function()
+            vim.fn.system("gh repo view --web")
+          end,
+        },
+        {
+          name = "View PR",
+          callback = function()
+            vim.ui.input(
+              { prompt = "Enter PR #: " },
+              function(input)
+                vim.fn.system("gh pr view --web " .. input)
+              end)
+          end,
+        },
+        {
+          name = "View the current buffer in a web browser",
+          callback = function()
+            local currentBufferFilepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":.")
+            -- if cmd.args ~= "" then
+            --   currentBufferFilepath = currentBufferFilepath .. ":" .. cmd.args
+            -- end
+            vim.fn.system("gh browse " .. currentBufferFilepath)
+          end,
+        },
+      },
+      {
+        prompt = "Select a GH command: ",
+        format_item = function(cmd)
+          return cmd.name
+        end
+      },
+      function(choice)
+        choice.callback()
       end
-      vim.fn.system("gh repo view --web")
-    end,
-    opts = { nargs = "?" }
-  },
-}
-local function command_select()
-  local opts = {
-    prompt = "Select a GH command: ",
-    format_item = function(cmd)
-      return cmd.name
-    end
-  }
-  local on_choice = function(cmd)
-    if cmd ~= nil then
-      cmd.callback()
-    end
-  end
-
-  vim.ui.select(commands, opts, on_choice)
-end
-
-vim.api.nvim_create_user_command("GH", command_select, {})
+    )
+  end,
+  {})
