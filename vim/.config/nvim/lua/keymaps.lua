@@ -3,10 +3,6 @@ local map = vim.keymap.set
 -- Setup leader mappings - normal (n) / visual (x) mode map a space to a noop
 vim.g.mapleader = " "
 map({ 'n', 'x' }, " ", "", { desc = "Set leader key" })
-map("n", "<C-h>", "<Plug>WinMoveLeft", { desc = "Copy or move to file (left)", silent = true })
-map("n", "<C-j>", "<Plug>WinMoveDown", { desc = "Copy or move to file (down)", silent = true })
-map("n", "<C-k>", "<Plug>WinMoveUp", { desc = "Copy or move to file (up)", silent = true })
-map("n", "<C-l>", "<Plug>WinMoveRight", { desc = "Copy or move to file (right)", silent = true })
 map("n", "Q", "", { desc = "Disable Ex mode" })
 map("n", "Y", "y$", { desc = "Yank until EOL" })
 map("n", "n", "nzzzv", { desc = "Center screen on search (next)" })
@@ -98,3 +94,27 @@ vim.api.nvim_create_user_command(
     )
   end,
   {})
+
+---Window Movement Shortcuts
+---Moves to the window in the direction shown or creates a new window
+---@param key string
+local winmove = function(key)
+  local current_window_num = vim.api.nvim_win_get_number(0)
+  -- Try moving to the desired window, if the window number is the same,
+  -- then create a new split before moving into it
+  vim.cmd('wincmd ' .. key)
+  if current_window_num == vim.api.nvim_win_get_number(0) then
+    if key == 'j' or key == 'k' then
+      vim.cmd('wincmd s') -- new horizontal split
+    else
+      vim.cmd('wincmd v') -- new vertical split
+    end
+    -- switch to the new window
+    vim.cmd('wincmd ' .. key)
+  end
+end
+
+map("n", "<C-h>", function() winmove('h') end, { desc = "Copy or move to file (left)", silent = true })
+map("n", "<C-j>", function() winmove('j') end, { desc = "Copy or move to file (down)", silent = true })
+map("n", "<C-k>", function() winmove('k') end, { desc = "Copy or move to file (up)", silent = true })
+map("n", "<C-l>", function() winmove('l') end, { desc = "Copy or move to file (right)", silent = true })
