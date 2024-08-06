@@ -108,6 +108,7 @@ return {
           section_separators = { left = '', right = '' },
         },
         sections = {
+          -- TODO: add `filename` to this when active in case of not in git repo
           lualine_a = { "branch" },
           lualine_b = { "diff" },
           lualine_c = { search_count, neotest_status },

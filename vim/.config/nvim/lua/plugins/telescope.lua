@@ -212,13 +212,15 @@ return {
       map("gi", builtin.lsp_implementations, { desc = "LSP: Go to implementations" })
       map("gr", builtin.lsp_references, { desc = "LSP: Go to references" })
 
-      -- Edit dotfiles
+      -- Edit dotfiles in a new tab page
       map("<leader>ed", function()
         local dotfilesPath = vim.env.DOTFILES
         if dotfilesPath == "" then
           print("[editDotfiles] $DOTFILES is not configured")
           return
         end
+
+        vim.cmd('tabedit')
         require('telescope.builtin').find_files({
           shorten_path = false,
           cwd = dotfilesPath,
