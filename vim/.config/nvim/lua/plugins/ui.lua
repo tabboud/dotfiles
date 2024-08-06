@@ -37,17 +37,6 @@ return {
         return string.format("%s LSP: none ", icons.Lsp)
       end
 
-      -- Show the current search count
-      local search_count = function()
-        if vim.v.hlsearch == 0 then
-          return ''
-        end
-
-        local result = vim.fn.searchcount { maxcount = 999, timeout = 500 }
-        local denominator = math.min(result.total, result.maxcount)
-        return string.format('%s [%d/%d]', icons.Search, result.current, denominator)
-      end
-
       -- Show test results
       -- TODO: Only load this if neotest is loaded, otherwise this loads neotest/neotest-go
       local neotest_status = function()
@@ -109,9 +98,9 @@ return {
         },
         sections = {
           -- TODO: add `filename` to this when active in case of not in git repo
-          lualine_a = { "branch" },
-          lualine_b = { "diff" },
-          lualine_c = { search_count, neotest_status },
+          lualine_a = { "branch", },
+          lualine_b = { "filename" --[["diff"--]] },
+          lualine_c = { "searchcount", neotest_status },
           lualine_x = { get_lsp_status, "diagnostics" },
           lualine_y = {},
           lualine_z = { project_name },
