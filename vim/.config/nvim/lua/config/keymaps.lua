@@ -67,6 +67,9 @@ vim.api.nvim_create_user_command(
             vim.ui.input(
               { prompt = "Enter PR #: " },
               function(input)
+                if input == nil or input == "" then
+                  return
+                end
                 vim.fn.system("gh pr view --web " .. input)
               end)
           end,
@@ -93,7 +96,8 @@ vim.api.nvim_create_user_command(
       end
     )
   end,
-  {})
+  {}
+)
 
 ---Window Movement Shortcuts
 ---Moves to the window in the direction shown or creates a new window
