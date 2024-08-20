@@ -35,6 +35,9 @@ map("n", "<leader>]", ">>", { desc = "Shift right" })
 map("v", "<leader>[", "<gv", { desc = "Shift left" })
 map("v", "<leader>]", ">gv", { desc = "Shift right" })
 map("t", "<Esc>", "<c-\\><c-n>", { desc = "Terminal: exit terminal mode" })
+map("n", "<leader>cr", function()
+  vim.lsp.codelens.run()
+end, { desc = "CodeLens: run" })
 
 -- Highlight word without jumping
 -- Convert into lua
