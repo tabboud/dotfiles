@@ -211,6 +211,11 @@ return {
       map("<leader>sw", builtin.lsp_dynamic_workspace_symbols, { desc = "LSP: Workspace symbols" })
       map("gi", builtin.lsp_implementations, { desc = "LSP: Go to implementations" })
       map("gr", builtin.lsp_references, { desc = "LSP: Go to references" })
+      map("<leader>gr", function()
+        builtin.lsp_references({
+          file_ignore_patterns = { "vendor", "^.git/", "%_test.go", "%_mocks.go" },
+        })
+      end, { desc = "LSP: Go to references ignoring test files" })
 
       -- Edit dotfiles in a new tab page
       map("<leader>ed", function()

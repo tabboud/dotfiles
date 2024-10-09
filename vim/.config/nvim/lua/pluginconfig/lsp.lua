@@ -90,11 +90,11 @@ local on_attach = function(client, bufnr)
     end, { buffer = bufnr, desc = "✨LSP toggle inlay hints" })
 
     -- code lens
-    vim.lsp.codelens.refresh()
-    vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-      buffer = bufnr,
-      callback = vim.lsp.codelens.refresh,
-    })
+    -- vim.lsp.codelens.refresh()
+    -- vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+    --   buffer = bufnr,
+    --   callback = vim.lsp.codelens.refresh,
+    -- })
   end
 end
 
