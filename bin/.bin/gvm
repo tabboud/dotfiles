@@ -176,7 +176,7 @@ function latest() {
         error "jq must be installed to fetch the latest Go versions"
         return
     fi
-    curl -sL "https://golang.org/dl/?mode=json" | jq -c '.[].version'
+    curl -sL "https://golang.org/dl/?mode=json" | jq --raw-output -c '.[].version'
 }
 
 ############################################
