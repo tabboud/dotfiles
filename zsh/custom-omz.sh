@@ -9,7 +9,9 @@ mkdir -p "$ZSH_CACHE_DIR/completions"
 (( ${fpath[(Ie)"$ZSH_CACHE_DIR/completions"]} )) || fpath=("$ZSH_CACHE_DIR/completions" $fpath)
 
 # add a function path
-fpath=("$(brew --prefix)/share/zsh/site-functions" "$ZSH/functions" "$ZSH/completions" $fpath)
+if command -v brew 2>&1 > /dev/null; then
+  fpath=("$(brew --prefix)/share/zsh/site-functions" "$ZSH/functions" "$ZSH/completions" $fpath)
+fi
 
 # Load all stock functions (from $fpath files) called below.
 autoload -U compaudit compinit
