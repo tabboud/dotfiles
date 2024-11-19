@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 declare -a COMMON=(
-    bash
     bin
     cheat
     git
@@ -9,7 +8,6 @@ declare -a COMMON=(
     zsh
 )
 declare -a OSX=(
-    alacritty
     hammerspoon
     raycast
     wezterm
