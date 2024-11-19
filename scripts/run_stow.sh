@@ -9,7 +9,6 @@ declare -a COMMON=(
 )
 declare -a OSX=(
     hammerspoon
-    raycast
     wezterm
 )
 declare -a LINUX=()
