@@ -46,7 +46,9 @@ setopt interactivecomments
 
 # FZF config
 #TODO: LAZY LOAD this source
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if command -v fzf &>/dev/null; then
+    source <(fzf --zsh)
+fi
 
 # Custom PROMPT overrides
 [ -f ~/.prompt-overrides.zsh ] && source ~/.prompt-overrides.zsh
