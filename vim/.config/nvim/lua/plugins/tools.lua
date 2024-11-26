@@ -43,19 +43,11 @@ return {
     end,
   },
   {
-    "NvChad/nvterm",
-    config = function()
-      require("nvterm").setup()
-      vim.keymap.set("n", '<leader><space>', function()
-        return require("nvterm.terminal").toggle "horizontal"
-      end, { desc = "Toggle terminal" })
-    end,
-  },
-  {
     'akinsho/toggleterm.nvim',
-    enabled = false,
-    version = 'v2.*',
-    config = true,
+    version = '*',
+    opts = {
+      open_mapping = { [[<leader><space>]] },
+    },
   },
   {
     'echasnovski/mini.pairs',
