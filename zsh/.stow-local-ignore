@@ -1,4 +1,2 @@
-custom-omz.sh   # custom omz setup logic
-
 lib     # zsh libraries
 cache   # ZSH cache directory
