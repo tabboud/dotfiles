@@ -3,15 +3,7 @@ export DOTFILES=$HOME/.dotfiles
 export ZSH=$DOTFILES/zsh
 export EDITOR=vim
 export PATH=$HOME/.bin:/usr/local/bin:/usr/local/sbin:$PATH
-
-# Use bat for paging if available
-if command -v bat &>/dev/null; then
-  export PAGER='bat -p'
-  export MANPAGER="sh -c 'col -bx | bat -plman'"
-else
-  export PAGER='less -R'
-fi
-
+export PAGER='less -R'
 
 # Set ZSH_CACHE_DIR to the path where cache files should be created
 # or else we will use the default cache/
