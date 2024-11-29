@@ -16,3 +16,6 @@ iterm2/.config/iterm2/AppSupport
 gh/.config/gh/*
 
 .luarc.json
+
+zsh/.config/zsh/.zcompdump
+zsh/.config/zsh/.zsh_history

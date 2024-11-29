@@ -1,15 +1,10 @@
 export DOTFILES=$HOME/.dotfiles
-# export ZSH_DIR=$HOME/.zsh
-export ZSH=$DOTFILES/zsh
-export EDITOR=vim
+export ZSH=$DOTFILES/zsh/.config/zsh
 export PATH=$HOME/.bin:/usr/local/bin:/usr/local/sbin:$PATH
 export PAGER='less -R'
-
-# Set ZSH_CACHE_DIR to the path where cache files should be created
-# or else we will use the default cache/
-if [[ -z "$ZSH_CACHE_DIR" ]]; then
-  ZSH_CACHE_DIR="$ZSH/cache"
-fi
+export EDITOR='nvim'
+export GIT_EDITOR='nvim'
+export HISTFILE="$ZDOTDIR/.zsh_history"
 
 # Create cache and completions dir and add to $fpath
 mkdir -p "$ZSH_CACHE_DIR/completions"
