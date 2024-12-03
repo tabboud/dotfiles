@@ -6,7 +6,6 @@ P = function(v)
   return v
 end
 
-
 -- Light_mode returns whether light mode settings should be applied
 -- by reading the $HOME/.theme file
 IsLightMode = function()

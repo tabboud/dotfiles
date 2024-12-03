@@ -1,17 +1,7 @@
 return {
   'tpope/vim-surround',  -- Add surroundings (quotes, parenthesis, etc)
-  -- 'Raimondi/delimitMate', -- Match parenthesis and quotes
   'airblade/vim-rooter', -- Auto cd to root of git repo
-  -- 'ntpeters/vim-better-whitespace',
   'kevinhwang91/nvim-bqf',
-  {
-    'famiu/bufdelete.nvim',
-    config = function()
-      vim.keymap.set("n", "<C-c>", function()
-        require('bufdelete').bufdelete(0, false)
-      end, { desc = "Buffer: Delete" })
-    end
-  },
   {
     "folke/which-key.nvim",
     config = function()
@@ -43,30 +33,23 @@ return {
     end,
   },
   {
-    'akinsho/toggleterm.nvim',
+    'echasnovski/mini.nvim',
     version = '*',
-    opts = {
-      open_mapping = { [[<leader><space>]] },
-    },
-  },
-  {
-    'echasnovski/mini.pairs',
-    opts = {
-      modes = { insert = true, command = true, terminal = false },
-      -- skip autopair when next character is one of these
-      skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
-      -- skip autopair when the cursor is inside these treesitter nodes
-      skip_ts = { "string" },
-      -- skip autopair when next character is closing pair
-      -- and there are more closing pairs than opening pairs
-      skip_unbalanced = true,
-      -- better deal with markdown code blocks
-      markdown = true,
-    },
-    config = function(_, opts)
-      require('mini.pairs').setup()
+    config = function()
+      require('mini.files').setup()
+      require('mini.pairs').setup({
+        modes = { insert = true, command = true, terminal = false },
+        -- skip autopair when next character is one of these
+        skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
+        -- skip autopair when the cursor is inside these treesitter nodes
+        skip_ts = { "string" },
+        -- skip autopair when next character is closing pair
+        -- and there are more closing pairs than opening pairs
+        skip_unbalanced = true,
+        -- better deal with markdown code blocks
+        markdown = true,
+      })
     end,
-    version = false
   },
   {
     "ibhagwan/fzf-lua",
@@ -78,5 +61,21 @@ return {
         },
       })
     end
+  },
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
+    opts = {
+      terminal = { enabled = true },
+      bufdelete = { enabled = true },
+      statuscolumn = { enabled = false },
+    },
+    keys = {
+      { "<c-/>", function() Snacks.terminal() end,         desc = "Toggle Terminal" },
+      { "<c-_>", function() Snacks.terminal() end,         desc = "which_key_ignore" },
+      { "<c-c>", function() Snacks.bufdelete.delete() end, desc = "delete buffer" },
+    }
   }
 }
