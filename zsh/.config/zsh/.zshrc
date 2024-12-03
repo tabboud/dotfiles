@@ -1,5 +1,4 @@
 export DOTFILES=$HOME/.dotfiles
-export ZSH=$DOTFILES/zsh/.config/zsh
 export PATH=$HOME/.bin:/usr/local/bin:/usr/local/sbin:$PATH
 export PAGER='less -R'
 export EDITOR='nvim'
@@ -12,7 +11,7 @@ mkdir -p "$ZSH_CACHE_DIR/completions"
 
 # Add Homebrew to function path, if available
 if command -v brew 2>&1 > /dev/null; then
-  fpath=("$(brew --prefix)/share/zsh/site-functions" "$ZSH/functions" "$ZSH/completions" $fpath)
+  fpath=("$(brew --prefix)/share/zsh/site-functions" $fpath)
 fi
 
 # Load all stock functions (from $fpath files) called below.
@@ -24,7 +23,7 @@ fi
 compinit -u -C -d "${ZSH_COMPDUMP}"
 
 # Load all of library config files
-for config_file ($ZSH/lib/*.zsh); do
+for config_file ($ZDOTDIR/lib/*.zsh); do
   source $config_file
 done
 
@@ -32,14 +31,13 @@ done
 setopt interactivecomments
 
 # FZF config
-#TODO: LAZY LOAD this source
 if command -v fzf &>/dev/null; then
     source <(fzf --zsh)
 fi
 
 # Custom PROMPT overrides
 [ -f ~/.prompt-overrides.zsh ] && source ~/.prompt-overrides.zsh
-source $ZSH/lib/prompt.zsh
+source $ZDOTDIR/lib/prompt.zsh
 
 # Load all shell specific settings before the custom settings
 for file in "$DOTFILES"/shell/*; do
@@ -57,15 +55,5 @@ for file in ~/.{path,custom.local}; do
 done
 unset file
 
-# os_name=$(uname -s)
-# remap capslock to ctrl on linux
-# if [[ "$os_name" == "Linux" ]]; then
-#     setxkbmap -layout us -option ctrl:nocaps
-# fi
-
-#====================
-# zsh specific alias
-#====================
-
 # Reload the zsh config
-alias reload!='source $HOME/.zshrc'
+alias reload!='source $ZDOTDIR/.zshrc'
