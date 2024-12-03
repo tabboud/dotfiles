@@ -1,9 +1,15 @@
 export DOTFILES=$HOME/.dotfiles
 export PATH=$HOME/.bin:/usr/local/bin:/usr/local/sbin:$PATH
 export PAGER='less -R'
-export EDITOR='nvim'
-export GIT_EDITOR='nvim'
 export HISTFILE="$ZDOTDIR/.zsh_history"
+
+if command -v nvim 2>&1/dev/null; then
+  export EDITOR='nvim'
+  export GIT_EDITOR='nvim'
+else
+  export EDITOR='vim'
+  export GIT_EDITOR='vim'
+fi
 
 # Create cache and completions dir and add to $fpath
 mkdir -p "$ZSH_CACHE_DIR/completions"
