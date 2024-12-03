@@ -37,7 +37,7 @@ function bootstrap() {
     fi
 }
 
-function dotfiles() {
+function link() {
     if [ "$OS" == "Darwin" ]; then
         if [ ! $(type -p stow) ]; then
             echo "stow is not installed. Installing."
@@ -59,7 +59,7 @@ function dotfiles() {
     fi
 }
 
-function uninstall() {
+function unlink() {
     echo "Removing all dotfiles..."
     bash scripts/run_stow.sh all unlink
 }
@@ -68,10 +68,10 @@ function usage() {
 cat<<EOD
 Usage:
     bootstrap   [options] -- Install software packages
-    dotfiles    [options] -- Link all dotfiles
+    link        [options] -- Link all dotfiles
+    unlink      [options] -- Remove all dotfile symlinks
     all         [options] -- Install software and link dotfiles
 
-    uninstall   [options] -- Remove all dotfile symlinks
 EOD
   exit 1
 }
@@ -89,16 +89,16 @@ fi
 case "$command" in
   all)
     bootstrap
-    dotfiles
+    link
     ;;
-  dotfiles)
-    dotfiles
+  link)
+    link
     ;;
   bootstrap)
     bootstrap
     ;;
-  uninstall)
-    uninstall
+  unlink)
+    unlink
     ;;
   *)
     usage
