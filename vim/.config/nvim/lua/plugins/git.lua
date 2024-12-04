@@ -9,7 +9,7 @@ return {
     'TimUntersberger/neogit',
     dependencies = { 'nvim-lua/plenary.nvim' },
     keys = {
-      { "<leader>gg", function() require("neogit").open({ kind = "split_above" }) end, desc = "Git: Show status pane" },
+      { "<leader>gg", function() require("neogit").open({ kind = "floating" }) end, desc = "Git: Show status pane" },
     },
     config = true,
   },
