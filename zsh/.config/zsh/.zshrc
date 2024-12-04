@@ -3,7 +3,7 @@ export PATH=$HOME/.bin:/usr/local/bin:/usr/local/sbin:$PATH
 export PAGER='less -R'
 export HISTFILE="$ZDOTDIR/.zsh_history"
 
-if command -v nvim 2>&1/dev/null; then
+if command -v nvim 2>&1 > /dev/null; then
   export EDITOR='nvim'
   export GIT_EDITOR='nvim'
 else
