@@ -100,7 +100,26 @@ return {
           -- TODO: add `filename` to this when active in case of not in git repo
           lualine_a = { "branch", },
           lualine_b = { "filename" --[["diff"--]] },
-          lualine_c = { "searchcount", neotest_status },
+          lualine_c = {
+            "searchcount",
+            {
+              neotest_status,
+              cond = function()
+                local neotest_loaded, _ = pcall(require, "neotest")
+                return neotest_loaded
+              end
+            },
+            -- show macro recording (for struct definition, see :h lualine - lualine-General-component-options)
+            {
+              function()
+                return 'Recording @' .. vim.fn.reg_recording()
+              end,
+              cond = function()
+                return vim.fn.reg_recording() ~= ''
+              end,
+              color = { fg = 'red' },
+            },
+          },
           lualine_x = { get_lsp_status, "diagnostics" },
           lualine_y = {},
           lualine_z = { project_name },
@@ -238,7 +257,7 @@ return {
           ft = "terminal",
           size = { height = 0.4 },
           -- exclude floating windows
-          filter = function(buf, win)
+          filter = function(_, win)
             return vim.api.nvim_win_get_config(win).relative == ""
           end,
         },

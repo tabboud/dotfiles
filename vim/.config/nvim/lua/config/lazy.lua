@@ -22,6 +22,11 @@ require('lazy').setup({
   -- install = { colorscheme = { "tokyonight", "habamax" } },
   checker = {
     enabled = true, -- whether to automatically check for plugin updates
+    notify = false,
+  },
+  change_detection = {
+    enabled = true,
+    notify = false, -- Do not notify when config reloads
   },
   performance = {
     rtp = {
