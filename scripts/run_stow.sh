@@ -3,6 +3,7 @@ declare -a COMMON=(
     bin
     cheat
     git
+    lazygit
     tmux
     vim
     zsh
