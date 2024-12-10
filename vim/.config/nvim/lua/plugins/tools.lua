@@ -71,6 +71,15 @@ return {
       terminal = { enabled = true },
       bufdelete = { enabled = true },
       statuscolumn = { enabled = false },
+      input = {
+        enabled = true,
+        win = {
+          keys = {
+            -- ESC drops back to normal mode instead of cancel by default
+            i_esc = { "<esc>", "stopinsert", mode = "i" },
+          },
+        }
+      },
     },
     keys = {
       { "<c-/>", function() Snacks.terminal() end,         desc = "Toggle Terminal" },

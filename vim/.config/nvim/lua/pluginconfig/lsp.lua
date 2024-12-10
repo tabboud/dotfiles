@@ -59,11 +59,18 @@ local setup_keymaps = function(bufnr)
 
   -- lsp-saga keymaps
   -- TODO: Use native lsp functions instead and leverage telescope-ui-select as the picker
-  m("<leader>rn", "<cmd>Lspsaga rename<CR>", "LSP: Rename word under cursor")
+  -- m("<leader>rn", "<cmd>Lspsaga rename<CR>", "LSP: Rename word under cursor")
   m("ga", "<cmd>Lspsaga code_action<CR>", "LSP: Code Action")
   m("g]", "<cmd>Lspsaga diagnostic_jump_next<CR>", "LSP: Diagnostics next")
   m("g[", "<cmd>Lspsaga diagnostic_jump_prev<CR>", "LSP: Diagnostics prev")
-  m("K", "<cmd>Lspsaga hover_doc<CR>", "LSP: Hover docs")
+  -- m("K", "<cmd>Lspsaga hover_doc<CR>", "LSP: Hover docs")
+
+  -- An attempt to use native features
+  -- Replaced with default + snacks.input
+  m("<leader>rn", function() vim.lsp.buf.rename(nil, { prompt = "Rename" }) end, "LSP: Rename word under cursor")
+  -- m("ga", function() vim.lsp.buf.code_action() end, "LSP: Code Action")
+  -- This is configured by default
+  -- m("K", function() vim.lsp.buf.hover() end, "LSP: Hover docs")
 end
 
 local on_attach = function(client, bufnr)

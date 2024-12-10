@@ -7,6 +7,15 @@ return {
   {
     'projekt0n/github-nvim-theme',
     enabled = true,
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('github-theme').setup({
+        options = {
+          transparent = true,
+        }
+      })
+    end
   },
   {
     'mcchrish/zenbones.nvim',
