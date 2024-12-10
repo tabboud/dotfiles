@@ -95,12 +95,15 @@ vim.api.nvim_create_user_command(
         end
       },
       function(choice)
-        choice.callback()
+        if choice then
+          choice.callback()
+        end
       end
     )
   end,
   {}
 )
+map("n", "<leader>gh", ":GH<CR>", { desc = "GH commands" })
 
 ---Window Movement Shortcuts
 ---Moves to the window in the direction shown or creates a new window
