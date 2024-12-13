@@ -41,3 +41,25 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     vim.api.nvim_set_hl(0, "CurSearch", { fg = "#262627", bg = "#ff7c6b" })
   end
 })
+
+-- Simple LSP Progress notification
+vim.api.nvim_create_autocmd("LspProgress", {
+  ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+  callback = function(ev)
+    local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+    local client_id = ev.data.client_id
+    local client = vim.lsp.get_client_by_id(client_id)
+    if not client then
+      return
+    end
+
+    vim.notify(string.format('%s: %s', client.name, vim.lsp.status()), vim.log.levels.INFO, {
+      id = "lsp_progress",
+      title = "LSP Progress",
+      opts = function(notif)
+        notif.icon = ev.data.params.value.kind == "end" and " "
+            or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+      end,
+    })
+  end,
+})

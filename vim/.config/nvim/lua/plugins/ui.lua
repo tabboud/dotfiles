@@ -1,13 +1,8 @@
 return {
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-lua/lsp-status.nvim' },
     config = function()
       local icons = require("icons").lualine
-      local ok, lsp_status = pcall(require, 'lsp-status')
-      if ok then
-        lsp_status.register_progress()
-      end
 
       -- projectName returns the name of the containing directory (or project).
       local project_name = function()
@@ -15,21 +10,10 @@ return {
         return string.format("%s %s", icons.Folder, project)
       end
 
-      -- get_lsp_status returns the current status of the LSP server.
-      -- If progress messages are available, then they will be shown in real-time, otherwise
-      -- just the currently attached LSP server will be shown or 'none' if none are attached.
-      -- Progress messages are retrieved from https://github.com/nvim-lua/lsp-status.nvim
-      -- via the "lsp-status.status_progress()" method, which is configured to be attached
-      -- in lspconfig's "on_attach" callback.
-      local get_lsp_status = function()
+      -- returns the currently attached LSP server or 'none' if no server is attached.
+      local get_attached_lsp = function()
         for _, client in ipairs(vim.lsp.get_active_clients()) do
           if client.attached_buffers[vim.api.nvim_get_current_buf()] then
-            local msgs_ok, progress_msg = pcall(function() return require('lsp-status').status_progress() end)
-            if msgs_ok and progress_msg ~= '' then
-              -- show LSP progress message if available
-              return string.format("%s LSP: %s ", icons.Lsp, progress_msg)
-            end
-            -- fallback to just the currently attached LSP server
             return string.format("%s LSP: %s ", icons.Lsp, client.name)
           end
         end
@@ -120,7 +104,7 @@ return {
               color = { fg = 'red' },
             },
           },
-          lualine_x = { get_lsp_status, "diagnostics" },
+          lualine_x = { get_attached_lsp, "diagnostics" },
           lualine_y = {},
           lualine_z = { project_name },
         },

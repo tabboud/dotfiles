@@ -17,9 +17,6 @@ return {
 
       -- Show current code context in the winbar
       "SmiteshP/nvim-navic",
-
-      -- Get LSP loading status in the status bar
-      "nvim-lua/lsp-status.nvim",
     },
     config = function()
       local lspsaga = require('lspsaga')
@@ -99,13 +96,6 @@ return {
           -- turn off semantic token support
           if client.server_capabilities.semanticTokensProvider then
             client.server_capabilities.semanticTokensProvider = nil
-          end
-
-          -- register lsp-status if available to show LSP progress messages
-          -- in the status line. See plugins/lualine.lua for how this is setup.
-          local has_lsp_status, lsp_status = pcall(require, 'lsp-status')
-          if has_lsp_status then
-            lsp_status.on_attach(client)
           end
         end,
       })

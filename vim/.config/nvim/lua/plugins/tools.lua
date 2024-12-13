@@ -74,6 +74,7 @@ return {
       indent = {
         -- char = "▏",
       },
+      notifier = {},
       input = {
         enabled = true,
         win = {
@@ -85,9 +86,10 @@ return {
       },
     },
     keys = {
-      { "<c-/>", function() Snacks.terminal() end,         desc = "Toggle Terminal" },
-      { "<c-_>", function() Snacks.terminal() end,         desc = "which_key_ignore" },
-      { "<c-c>", function() Snacks.bufdelete.delete() end, desc = "delete buffer" },
+      { "<c-/>",      function() Snacks.terminal() end,              desc = "Toggle Terminal" },
+      { "<c-_>",      function() Snacks.terminal() end,              desc = "which_key_ignore" },
+      { "<c-c>",      function() Snacks.bufdelete.delete() end,      desc = "delete buffer" },
+      { "<leader>nh", function() Snacks.notifier.show_history() end, desc = "Show notification history" }
     }
   }
 }
