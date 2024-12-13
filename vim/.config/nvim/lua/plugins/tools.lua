@@ -71,6 +71,9 @@ return {
       terminal = { enabled = true },
       bufdelete = { enabled = true },
       statuscolumn = { enabled = false },
+      indent = {
+        -- char = "▏",
+      },
       input = {
         enabled = true,
         win = {
