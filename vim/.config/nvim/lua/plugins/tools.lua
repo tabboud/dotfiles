@@ -71,9 +71,7 @@ return {
       terminal = { enabled = true },
       bufdelete = { enabled = true },
       statuscolumn = { enabled = false },
-      indent = {
-        -- char = "▏",
-      },
+      indent = {},
       notifier = {},
       input = {
         enabled = true,
