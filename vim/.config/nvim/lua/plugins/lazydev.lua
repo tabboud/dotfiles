@@ -13,6 +13,7 @@ return {
   -- lazydev addition to add cmp completion sources for require statements and module annotations
   {
     "hrsh7th/nvim-cmp",
+    enabled = false,
     opts = function(_, opts)
       opts.sources = opts.sources or {}
       table.insert(opts.sources, {
@@ -22,20 +23,21 @@ return {
     end,
   },
   -- blink addition to add cmp completion sources for require statements and module annotations
-  -- {
-  --   "saghen/blink.cmp",
-  --   opts = {
-  --     sources = {
-  --       -- add lazydev to your completion providers
-  --       completion = {
-  --         enabled_providers = { "lsp", "path", "snippets", "buffer", "lazydev" },
-  --       },
-  --       providers = {
-  --         -- dont show LuaLS require statements when lazydev has items
-  --         lsp = { fallback_for = { "lazydev" } },
-  --         lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
-  --       },
-  --     },
-  --   },
-  -- }
+  {
+    "saghen/blink.cmp",
+    enabled = true,
+    opts = {
+      sources = {
+        -- add lazydev to your completion providers
+        completion = {
+          enabled_providers = { "lsp", "path", "snippets", "buffer", "lazydev" },
+        },
+        providers = {
+          -- dont show LuaLS require statements when lazydev has items
+          lsp = { fallback_for = { "lazydev" } },
+          lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
+        },
+      },
+    },
+  }
 }

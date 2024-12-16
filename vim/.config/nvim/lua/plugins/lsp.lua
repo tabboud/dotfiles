@@ -212,18 +212,31 @@ return {
         },
       })
 
+      local get_cmp_capabilities = function(capabilities)
+        -- nvim-cmp
+        local has_cmp_nvim_lsp, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+        if has_cmp_nvim_lsp then
+          -- apply with overrides
+          vim.notify_once("cmp_nvim_lsp", vim.log.levels.INFO)
+          return cmp_nvim_lsp.default_capabilities(capabilities)
+        else
+          -- blink.nvim
+          local has_blink_cmp, blink_cmp = pcall(require, 'blink.cmp')
+          if has_blink_cmp then
+            vim.notify_once("blink_cmp", vim.log.levels.INFO)
+            return blink_cmp.get_lsp_capabilities(capabilities)
+          end
+        end
+        return capabilities
+      end
+
       local get_capabilities = function()
         local capabilities = vim.lsp.protocol.make_client_capabilities()
         capabilities.textDocument.completion.completionItem.snippetSupport = true
         capabilities.textDocument.completion.completionItem.resolveSupport = {
           properties = { "documentation", "detail", "additionalTextEdits" },
         }
-        local has_cmp_nvim_lsp, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-        if has_cmp_nvim_lsp then
-          -- apply with overrides
-          capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-        end
-        return capabilities
+        return get_cmp_capabilities(capabilities)
       end
 
       mason_lspconfig.setup_handlers {
