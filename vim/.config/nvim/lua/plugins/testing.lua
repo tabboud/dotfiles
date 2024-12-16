@@ -89,8 +89,8 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       -- Go test adapter
-      "nvim-neotest/neotest-go",
-      "fredrikaverpil/neotest-golang",
+      -- "nvim-neotest/neotest-go",
+      { "fredrikaverpil/neotest-golang", version = "*" },
     },
     config = function()
       local neotest_ns = vim.api.nvim_create_namespace("neotest")
@@ -98,45 +98,9 @@ return {
 
       local icons = require('icons').neotest
       require("neotest").setup({
-        adapters = {
-          -- custom config for neotest-go adapter
-          -- require("neotest-go")({
-          --   experimental = {
-          --     test_table = true,
-          --   },
-          --   args = { "-count=1", "-timeout=60s" }
-          -- }),
-          require("neotest-golang"),
-        },
         icons = icons,
-        status = {
-          virtual_text = false,
-          signs = true,
-        },
-        summary = {
-          animated = true,
-          enabled = true,
-          expand_errors = true,
-          follow = true,
-          mappings = {
-            attach = "a",
-            clear_marked = "M",
-            clear_target = "T",
-            expand = { "<CR>", "<2-LeftMouse>" },
-            expand_all = "e",
-            jumpto = "i",
-            mark = "m",
-            next_failed = "J",
-            output = "o",
-            prev_failed = "K",
-            run = "r",
-            debug = "d",
-            run_marked = "R",
-            debug_marked = "D",
-            short = "O",
-            stop = "u",
-            target = "t"
-          }
+        adapters = {
+          require("neotest-golang"),
         },
         consumers = {
           notify = function(client)
@@ -145,8 +109,7 @@ return {
               if partial then
                 return
               end
-              require("neotest.lib").notify("Tests completed")
-              vim.notify('Tests completed', vim.log.levels.INFO, {})
+              require("neotest.lib").notify("Tests completed from neotest-lib")
             end
             return {}
           end,
