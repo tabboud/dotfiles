@@ -9,7 +9,7 @@ return {
       'saadparwaiz1/cmp_luasnip',
       {
         'L3MON4D3/LuaSnip',
-        version = 'v1.*',
+        version = 'v2.*',
         dependencies = {
           "rafamadriz/friendly-snippets",
         },
