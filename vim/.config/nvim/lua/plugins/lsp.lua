@@ -217,13 +217,11 @@ return {
         local has_cmp_nvim_lsp, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
         if has_cmp_nvim_lsp then
           -- apply with overrides
-          vim.notify_once("cmp_nvim_lsp", vim.log.levels.INFO)
           return cmp_nvim_lsp.default_capabilities(capabilities)
         else
           -- blink.nvim
           local has_blink_cmp, blink_cmp = pcall(require, 'blink.cmp')
           if has_blink_cmp then
-            vim.notify_once("blink_cmp", vim.log.levels.INFO)
             return blink_cmp.get_lsp_capabilities(capabilities)
           end
         end
