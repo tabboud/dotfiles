@@ -22,7 +22,7 @@ return {
     opts = {
       signature = { enabled = true },
       keymap = {
-        preset = "enter",
+        preset = "default",
         ["<C-y>"] = { "select_and_accept" },
       },
       snippets = {
