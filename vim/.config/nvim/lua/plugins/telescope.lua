@@ -102,27 +102,19 @@ return {
         vim.keymap.set("n", lhs, rhs, opts)
       end
 
-      map("<leader>h", builtin.help_tags, { desc = "Telescope: help" })
-      -- fuzzy search current buffer
-      vim.keymap.set('n', '<leader>/', function()
-        builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
-          previewer = false,
-        })
-      end, { desc = '[/] Fuzzily search in current buffer' })
-
-      map("<leader><Enter>", "<cmd>lua require('telescope.builtin').buffers({previewer=false})<CR>",
-        { desc = "Telescope: List open buffers" })
-      map("<leader>p", function()
-        require('telescope.builtin').find_files({
-          prompt_title = "My Find Files",
-          file_ignore_patterns = {
-            "^vendor/",
-            "^.git/",
-            "^changelog/"
-          }
-        })
-      end, { desc = "Telescope: Find files" })
+      -- map("<leader>h", builtin.help_tags, { desc = "Telescope: help" })
+      -- map("<leader><Enter>", "<cmd>lua require('telescope.builtin').buffers({previewer=false})<CR>",
+      --   { desc = "Telescope: List open buffers" })
+      -- map("<leader>p", function()
+      --   require('telescope.builtin').find_files({
+      --     prompt_title = "My Find Files",
+      --     file_ignore_patterns = {
+      --       "^vendor/",
+      --       "^.git/",
+      --       "^changelog/"
+      --     }
+      --   })
+      -- end, { desc = "Telescope: Find files" })
 
       -- live_grep with dynamic args for rg
       map("<leader>rg", builtin.live_grep)
@@ -138,13 +130,13 @@ return {
       -- Show symbols for the current document
       map("<leader>sd", builtin.lsp_document_symbols, { desc = "LSP: Document symbols" })
       map("<leader>sw", builtin.lsp_dynamic_workspace_symbols, { desc = "LSP: Workspace symbols" })
-      map("gi", builtin.lsp_implementations, { desc = "LSP: Go to implementations" })
-      map("gr", builtin.lsp_references, { desc = "LSP: Go to references" })
-      map("<leader>gr", function()
-        builtin.lsp_references({
-          file_ignore_patterns = { "vendor", "^.git/", "%_test.go", "%_mocks.go" },
-        })
-      end, { desc = "LSP: Go to references ignoring test files" })
+      -- map("gi", builtin.lsp_implementations, { desc = "LSP: Go to implementations" })
+      map("<leader>gr", builtin.lsp_references, { desc = "LSP: Go to references" })
+      -- map("gr", function()
+      --   builtin.lsp_references({
+      --     file_ignore_patterns = { "vendor", "^.git/", "%_test.go", "%_mocks.go" },
+      --   })
+      -- end, { desc = "LSP: Go to references ignoring test files" })
 
       -- Edit dotfiles in a new tab page
       map("<leader>ed", function()

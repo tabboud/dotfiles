@@ -20,10 +20,17 @@ return {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-      signature = { enabled = true },
+      signature = {
+        enabled = true
+      },
       keymap = {
         preset = "default",
-        ["<C-e>"] = { "select_and_accept" },
+        ["<C-e>"] = { "cancel" },
+        ["<CR>"] = { "accept", "fallback" },
+        ["<C-y>"] = {}, -- disable
+        cmdline = {
+          preset = 'enter',
+        }
       },
       snippets = {
         preset = 'luasnip'
@@ -35,9 +42,6 @@ return {
         -- compat = {},
         -- cmdline = {},
       },
-
-      -- FROM LAZYVIM
-
       appearance = {
         use_nvim_cmp_as_default = false,
         nerd_font_variant = "mono",
@@ -55,13 +59,15 @@ return {
           draw = {
             treesitter = { "lsp" },
           },
+          -- Don't show completion menu automatically in cmdline mode (use the trigger <C-space> to show)
+          auto_show = function(ctx) return ctx.mode ~= 'cmdline' end
         },
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 200,
         },
         ghost_text = {
-          enabled = vim.g.ai_cmp,
+          enabled = true,
         },
       },
 
