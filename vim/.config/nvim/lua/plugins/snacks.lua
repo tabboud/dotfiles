@@ -23,6 +23,19 @@ return {
       ---@type snacks.picker.Config
       picker = {
         enabled = true,
+        formatters = {
+          file = {
+            -- TODO: Try and toggle this or at least show the full path in the preview window?
+            filename_first = true,
+          }
+        },
+        -- Testing layout cycles
+        -- actions = {
+        --   cycle_layouts = function() require("util.snacks_picker").set_next_preferred_layout() end,
+        -- },
+        -- layout = {
+        --   preset = function() return require("util.snacks_picker").preferred_layout() end,
+        -- },
         layout = "vscode",
         win = {
           input = {
@@ -35,6 +48,7 @@ return {
               ["<C-b>"] = { "list_scroll_up", mode = { "i", "n" } },
               -- ["<C-p>"] = { "history_back", mode = { "i", "n" } },
               -- ["<C-n>"] = { "history_forward", mode = { "i", "n" } },
+              ["<a-c>"] = { "cycle_layouts", mode = { "i", "n" } },
             },
           },
         }
