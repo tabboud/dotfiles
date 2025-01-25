@@ -20,7 +20,25 @@ return {
           },
         }
       },
-      picker = { enabled = true },
+      ---@type snacks.picker.Config
+      picker = {
+        enabled = true,
+        layout = "ivy",
+        win = {
+          input = {
+            keys = {
+              ["<Esc>"] = { "close", mode = { "n", "i" } },
+              ["<C-e>"] = { "toggle_preview", mode = { "i", "n" } },
+              ["<C-u>"] = { "preview_scroll_up", mode = { "i", "n" } },
+              ["<C-d>"] = { "preview_scroll_down", mode = { "i", "n" } },
+              ["<C-f>"] = { "list_scroll_down", mode = { "i", "n" } },
+              ["<C-b>"] = { "list_scroll_up", mode = { "i", "n" } },
+              -- ["<C-p>"] = { "history_back", mode = { "i", "n" } },
+              -- ["<C-n>"] = { "history_forward", mode = { "i", "n" } },
+            },
+          },
+        }
+      },
     },
     keys = {
       { "<c-/>",           function() Snacks.terminal() end,                          desc = "Toggle Terminal" },
