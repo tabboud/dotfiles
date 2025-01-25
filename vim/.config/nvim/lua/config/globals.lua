@@ -11,9 +11,9 @@ end
 IsLightMode = function()
   local file = io.open(os.getenv("HOME") .. "/.theme", "r")
   if file == nil then
-    vim.notify_once(
-      'Error running IsLightMode(). Ensure the file, "$HOME/.theme", exists and contains the current theme ("dark" or "light")',
-      vim.log.levels.WARN, {})
+    -- vim.notify_once(
+    --   'Error running IsLightMode(). Ensure the file, "$HOME/.theme", exists and contains the current theme ("dark" or "light")',
+    --   vim.log.levels.WARN, {})
     return false
   end
   local content = file:read("*a")
