@@ -23,7 +23,7 @@ return {
       ---@type snacks.picker.Config
       picker = {
         enabled = true,
-        layout = "ivy",
+        layout = "vscode",
         win = {
           input = {
             keys = {
