@@ -55,21 +55,38 @@ return {
       },
     },
     keys = {
-      { "<c-/>",           function() Snacks.terminal() end,                                  desc = "Toggle Terminal" },
-      { "<c-_>",           function() Snacks.terminal() end,                                  desc = "which_key_ignore" },
-      { "<c-c>",           function() Snacks.bufdelete.delete() end,                          desc = "delete buffer" },
-      { "<leader>nh",      function() Snacks.notifier.show_history() end,                     desc = "Show notification history" },
+      { "<c-/>",           function() Snacks.terminal() end,                                       desc = "Toggle Terminal" },
+      { "<c-_>",           function() Snacks.terminal() end,                                       desc = "which_key_ignore" },
+      { "<c-c>",           function() Snacks.bufdelete.delete() end,                               desc = "delete buffer" },
+      { "<leader>nh",      function() Snacks.notifier.show_history() end,                          desc = "Show notification history" },
 
       -- Picker keymaps
-      { "<leader><Enter>", function() Snacks.picker.buffers({ current = false }) end,         desc = "Buffers" },
+      { "<leader><Enter>", function() Snacks.picker.buffers({ current = false }) end,              desc = "Buffers" },
       -- { "<leader>/",       function() Snacks.picker.grep() end,                                    desc = "Grep" },
       -- { "<leader>:",       function() Snacks.picker.command_history() end,                         desc = "Command History" },
       -- { "<leader><space>", function() Snacks.picker.files() end,                                   desc = "Find Files" },
       -- find
       -- { "<leader>fb",      function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
-      -- { "<leader>fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
+      -- Edit nvim config
+      { "<leader>ed",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
       -- Exclude vendor directory when choosing files
-      { "<leader>p",       function() Snacks.picker.files({ args = { "-E", "vendor" } }) end, desc = "Find Files" },
+      {
+        "<leader>p",
+        function()
+          -- check if we're in git first
+          local in_git = function()
+            return Snacks.git.get_root() ~= nil
+          end
+          if in_git() then
+            Snacks.picker.git_files()
+          else
+            Snacks.picker.files({
+              exclude = { "vendor" },
+            })
+          end
+        end,
+        desc = "Find Files"
+      },
       -- { "<leader>p",       function() Snacks.picker.git_files() end,                  desc = "Find Git Files" },
       -- { "<leader>pr",      function() Snacks.picker.recent() end,         desc = "Recent" },
       -- git
@@ -78,7 +95,9 @@ return {
       -- Grep
       -- { "<leader>sb",      function() Snacks.picker.lines() end,                                   desc = "Buffer Lines" },
       -- { "<leader>sB",      function() Snacks.picker.grep_buffers() end,                            desc = "Grep Open Buffers" },
-      -- { "<leader>sg",      function() Snacks.picker.grep() end,                                    desc = "Grep" },
+      --
+      ---@type snacks.picker.grep.Config
+      { "rg",         function() Snacks.picker.grep({ hidden = true }) end, desc = "Grep (rg)" },
       -- { "<leader>sw",      function() Snacks.picker.grep_word() end,                               desc = "Visual selection or word", mode = { "n", "x" } },
       -- search
       -- { '<leader>s"',      function() Snacks.picker.registers() end,                               desc = "Registers" },
@@ -86,23 +105,23 @@ return {
       -- { "<leader>sc",      function() Snacks.picker.command_history() end,                         desc = "Command History" },
       -- { "<leader>sC",      function() Snacks.picker.commands() end,                                desc = "Commands" },
       -- { "<leader>sd",      function() Snacks.picker.diagnostics() end,                             desc = "Diagnostics" },
-      { "<leader>h",       function() Snacks.picker.help() end,                               desc = "Help Pages" },
+      { "<leader>h",  function() Snacks.picker.help() end,                  desc = "Help Pages" },
       -- { "<leader>sH",      function() Snacks.picker.highlights() end,                              desc = "Highlights" },
       -- { "<leader>sj",      function() Snacks.picker.jumps() end,                                   desc = "Jumps" },
       -- { "<leader>sk",      function() Snacks.picker.keymaps() end,                                 desc = "Keymaps" },
       -- { "<leader>sl",      function() Snacks.picker.loclist() end,                                 desc = "Location List" },
       -- { "<leader>sM",      function() Snacks.picker.man() end,                                     desc = "Man Pages" },
       -- { "<leader>sm",      function() Snacks.picker.marks() end,                                   desc = "Marks" },
-      { "<leader>sR",      function() Snacks.picker.resume() end,                             desc = "Resume" },
+      { "<leader>sR", function() Snacks.picker.resume() end,                desc = "Resume" },
       -- { "<leader>sq",      function() Snacks.picker.qflist() end,                                  desc = "Quickfix List" },
       -- { "<leader>uC",      function() Snacks.picker.colorschemes() end,                            desc = "Colorschemes" },
       -- { "<leader>qp",      function() Snacks.picker.projects() end,                                desc = "Projects" },
       -- LSP
       -- { "gd",              function() Snacks.picker.lsp_definitions() end,                         desc = "Goto Definition" },
-      { "gr",              function() Snacks.picker.lsp_references() end,                     nowait = true,                     desc = "References" },
-      { "gi",              function() Snacks.picker.lsp_implementations() end,                desc = "Goto Implementation" },
+      { "gr",         function() Snacks.picker.lsp_references() end,        nowait = true,                 desc = "References" },
+      { "gi",         function() Snacks.picker.lsp_implementations() end,   desc = "Goto Implementation" },
       -- { "gy",              function() Snacks.picker.lsp_type_definitions() end,                    desc = "Goto T[y]pe Definition" },
-      -- { "<leader>ss",      function() Snacks.picker.lsp_symbols() end,                             desc = "LSP Symbols" },
+      { "<leader>sw", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
     },
     init = function()
       vim.api.nvim_create_autocmd("User", {

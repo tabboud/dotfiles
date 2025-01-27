@@ -1,6 +1,7 @@
 return {
   {
     'nvim-telescope/telescope.nvim',
+    enabled = false,
     event = 'VimEnter',
     dependencies = {
       'nvim-lua/plenary.nvim',
@@ -95,13 +96,6 @@ return {
       -- Load extensions (must come after the setup function)
       require("telescope").load_extension("ui-select")
 
-      -- Configure keymaps
-      local builtin = require('telescope.builtin')
-      local ignore_patterns = { file_ignore_patterns = { "%_test.go", "%_mocks.go" } }
-      local map = function(lhs, rhs, opts)
-        vim.keymap.set("n", lhs, rhs, opts)
-      end
-
       -- map("<leader>h", builtin.help_tags, { desc = "Telescope: help" })
       -- map("<leader><Enter>", "<cmd>lua require('telescope.builtin').buffers({previewer=false})<CR>",
       --   { desc = "Telescope: List open buffers" })
@@ -117,21 +111,21 @@ return {
       -- end, { desc = "Telescope: Find files" })
 
       -- live_grep with dynamic args for rg
-      map("<leader>rg", builtin.live_grep)
-      map("rg", function()
-        require('telescope.builtin').live_grep(themes.get_ivy({
-          prompt_title = " Live grep (rg) ",
-          -- file_ignore_patterns = { "vendor", "^.git/" },
-          file_ignore_patterns = { "vendor", "^.git/", "%_test.go", "%_mocks.go" },
-        }))
-      end, { desc = "Telescope: Live grep (rg)" })
+      -- map("<leader>rg", builtin.live_grep)
+      -- map("rg", function()
+      --   require('telescope.builtin').live_grep(themes.get_ivy({
+      --     prompt_title = " Live grep (rg) ",
+      --     -- file_ignore_patterns = { "vendor", "^.git/" },
+      --     file_ignore_patterns = { "vendor", "^.git/", "%_test.go", "%_mocks.go" },
+      --   }))
+      -- end, { desc = "Telescope: Live grep (rg)" })
 
       -- LSP commands through Telescope - These supercede the ones defined in lspconfig.lua
       -- Show symbols for the current document
-      map("<leader>sd", builtin.lsp_document_symbols, { desc = "LSP: Document symbols" })
-      map("<leader>sw", builtin.lsp_dynamic_workspace_symbols, { desc = "LSP: Workspace symbols" })
+      -- map("<leader>sd", builtin.lsp_document_symbols, { desc = "LSP: Document symbols" })
+      -- map("<leader>sw", builtin.lsp_dynamic_workspace_symbols, { desc = "LSP: Workspace symbols" })
       -- map("gi", builtin.lsp_implementations, { desc = "LSP: Go to implementations" })
-      map("<leader>gr", builtin.lsp_references, { desc = "LSP: Go to references" })
+      -- map("<leader>gr", builtin.lsp_references, { desc = "LSP: Go to references" })
       -- map("gr", function()
       --   builtin.lsp_references({
       --     file_ignore_patterns = { "vendor", "^.git/", "%_test.go", "%_mocks.go" },
@@ -139,21 +133,21 @@ return {
       -- end, { desc = "LSP: Go to references ignoring test files" })
 
       -- Edit dotfiles in a new tab page
-      map("<leader>ed", function()
-        local dotfilesPath = vim.env.DOTFILES
-        if dotfilesPath == "" then
-          print("[editDotfiles] $DOTFILES is not configured")
-          return
-        end
-
-        vim.cmd('tabedit')
-        require('telescope.builtin').find_files({
-          shorten_path = false,
-          cwd = dotfilesPath,
-          prompt_title = "dotfiles",
-          hidden = true,
-        })
-      end, { desc = "Telescope: Edit dotfiles" })
+      -- map("<leader>ed", function()
+      --   local dotfilesPath = vim.env.DOTFILES
+      --   if dotfilesPath == "" then
+      --     print("[editDotfiles] $DOTFILES is not configured")
+      --     return
+      --   end
+      --
+      --   vim.cmd('tabedit')
+      --   require('telescope.builtin').find_files({
+      --     shorten_path = false,
+      --     cwd = dotfilesPath,
+      --     prompt_title = "dotfiles",
+      --     hidden = true,
+      --   })
+      -- end, { desc = "Telescope: Edit dotfiles" })
     end
   }
 }
