@@ -40,7 +40,11 @@ return {
         win = {
           input = {
             keys = {
-              ["<Esc>"] = { "close", mode = { "n", "i" } },
+              ["<Esc>"] = "close",
+              ["<C-c>"] = { "close", mode = "i" },
+              -- to close the picker on ESC instead of going to normal mode,
+              -- add the following keymap to your config
+              -- ["<Esc>"] = { "close", mode = { "n", "i" } },
               ["<C-e>"] = { "toggle_preview", mode = { "i", "n" } },
               ["<C-u>"] = { "preview_scroll_up", mode = { "i", "n" } },
               ["<C-d>"] = { "preview_scroll_down", mode = { "i", "n" } },

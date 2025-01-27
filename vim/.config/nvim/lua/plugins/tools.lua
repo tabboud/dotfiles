@@ -1,11 +1,10 @@
 return {
   'tpope/vim-surround',  -- Add surroundings (quotes, parenthesis, etc)
   'airblade/vim-rooter', -- Auto cd to root of git repo
-  'kevinhwang91/nvim-bqf',
   {
     "folke/which-key.nvim",
     config = function()
-      require("which-key").setup({})
+      require("which-key").setup()
     end
   },
   -- save my last cursor position

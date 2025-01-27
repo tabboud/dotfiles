@@ -1,25 +1,9 @@
 local group = vim.api.nvim_create_augroup("Startup", { clear = true })
 vim.api.nvim_create_autocmd("FileType", { group = group, pattern = "startup", command = "setlocal list&" })
 
-local in_git = function()
+local in_git_repo = function()
   return Snacks.git.get_root() ~= nil
 end
-
--- if in a git directory, open git files, otherwise open all files when pressing the "Find File" shortcut
-local find_command = true and ":Telescope git_files" or ":Telescope find_files"
-
----@module 'snacks'
----
-neovim_art = {
-  [[                                                     ]],
-  [[                                                     ]],
-  [[  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
-  [[  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ]],
-  [[  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ]],
-  [[  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ]],
-  [[  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ]],
-  [[  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ]],
-}
 
 return {
   "folke/snacks.nvim",
@@ -30,10 +14,20 @@ return {
       row = nil,
       col = nil,
       preset = {
-        header = table.concat(neovim_art, "\n"),
         ---@type snacks.dashboard.Item[]
         keys = {
-          { icon = " ", key = "f", desc = "Find File", action = find_command },
+          {
+            icon = " ",
+            key = "f",
+            desc = "Find File",
+            action = function()
+              if in_git_repo() then
+                Snacks.picker.git_files()
+              else
+                Snacks.picker.files()
+              end
+            end
+          },
           { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
           { icon = " ", key = "g", desc = "Search Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
           { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
@@ -50,51 +44,9 @@ return {
       },
       sections = {
         { section = "header" },
-        { pane = 2,          section = "keys" },
-        {
-          pane = 2,
-          icon = " ",
-          desc = "Browse Repo",
-          padding = 1,
-          key = "b",
-          action = function()
-            Snacks.gitbrowse()
-          end,
-        },
+        { section = "keys",  gap = 1, padding = 1 },
         function()
-          local in_git = Snacks.git.get_root() ~= nil
           local cmds = {
-            -- {
-            --   title = "Notifications",
-            --   cmd = "gh notify -s -a -n5",
-            --   action = function()
-            --     vim.ui.open("https://github.com/notifications")
-            --   end,
-            --   key = "n",
-            --   icon = " ",
-            --   height = 5,
-            --   enabled = false,
-            -- },
-            -- {
-            --   title = "Open Issues",
-            --   cmd = "gh issue list -L 3",
-            --   key = "i",
-            --   action = function()
-            --     vim.fn.jobstart("gh issue list --web", { detach = true })
-            --   end,
-            --   icon = " ",
-            --   height = 7,
-            -- },
-            -- {
-            --   icon = " ",
-            --   title = "Open PRs",
-            --   cmd = "gh pr list -L 3",
-            --   key = "p",
-            --   action = function()
-            --     vim.fn.jobstart("gh pr list --web", { detach = true })
-            --   end,
-            --   height = 7,
-            -- },
             {
               icon = " ",
               title = "Git Status",
@@ -106,7 +58,7 @@ return {
             return vim.tbl_extend("force", {
               pane = 2,
               section = "terminal",
-              enabled = in_git,
+              enabled = in_git_repo,
               padding = 1,
               ttl = 5 * 60,
               indent = 3,

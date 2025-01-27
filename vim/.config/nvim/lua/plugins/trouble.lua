@@ -3,9 +3,12 @@ return {
   dependencies = {
     'nvim-tree/nvim-web-devicons',
   },
-  config = function()
-    require("trouble").setup {}
-  end,
+  cmd = "Trouble",
+  ---@type trouble.Config
+  opts = {
+    -- Use "p" to toggle the preview instead of auto showing
+    auto_preview = false,
+  },
   keys = {
     {
       "<leader>xx",
@@ -23,14 +26,30 @@ return {
       desc = "Symbols (Trouble)",
     },
     {
-      "<leader>xL",
-      "<cmd>Trouble loclist toggle<cr>",
-      desc = "Location List (Trouble)",
-    },
-    {
       "<leader>xQ",
       "<cmd>Trouble qflist toggle<cr>",
       desc = "Quickfix List (Trouble)",
     },
+  },
+  -- Add keymaps for sending Snacks picker output to trouble
+  specs = {
+    "folke/snacks.nvim",
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts or {}, {
+        picker = {
+          actions = require("trouble.sources.snacks").actions,
+          win = {
+            input = {
+              keys = {
+                ["<c-t>"] = {
+                  "trouble_open",
+                  mode = { "n", "i" },
+                },
+              },
+            },
+          },
+        },
+      })
+    end,
   },
 }
