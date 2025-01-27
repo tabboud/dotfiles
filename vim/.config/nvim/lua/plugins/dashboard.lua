@@ -33,9 +33,9 @@ return {
         header = table.concat(neovim_art, "\n"),
         ---@type snacks.dashboard.Item[]
         keys = {
-          { icon = " ", key = "t", desc = "Find File", action = find_command },
+          { icon = " ", key = "f", desc = "Find File", action = find_command },
           { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-          { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+          { icon = " ", key = "g", desc = "Search Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
           { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
           {
             icon = " ",
