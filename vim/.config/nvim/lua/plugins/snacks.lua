@@ -7,6 +7,7 @@ return {
     ---@type snacks.Config
     opts = {
       terminal = { enabled = true },
+      bigfile = { enabled = true },
       bufdelete = { enabled = true },
       statuscolumn = { enabled = false },
       indent = {},
