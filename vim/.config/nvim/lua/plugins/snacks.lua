@@ -1,3 +1,22 @@
+local idx = 1
+local layouts = {
+  "vscode",
+  "ivy",
+}
+
+---Get the preferred layout
+---@return string
+local preferred_layout = function()
+  return layouts[idx]
+end
+
+---Cycle the picker layout
+---@param picker snacks.Picker
+local cycle_layout = function(picker)
+  idx = idx % #layouts + 1
+  picker:set_layout(layouts[idx])
+end
+
 return {
   {
     "folke/snacks.nvim",
@@ -31,13 +50,16 @@ return {
           }
         },
         -- Testing layout cycles
-        -- actions = {
-        --   cycle_layouts = function() require("util.snacks_picker").set_next_preferred_layout() end,
-        -- },
-        -- layout = {
-        --   preset = function() return require("util.snacks_picker").preferred_layout() end,
-        -- },
-        layout = "vscode",
+        actions = {
+          cycle_layouts = function(picker)
+            cycle_layout(picker)
+          end,
+        },
+        layout = {
+          preset = function()
+            return preferred_layout()
+          end,
+        },
         win = {
           input = {
             keys = {
