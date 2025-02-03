@@ -30,6 +30,9 @@ return {
         ["<C-y>"] = {}, -- disable
         cmdline = {
           preset = 'enter',
+          -- Use tab/s-tab to show the completion window and traverse up/down through it
+          ['<Tab>'] = { 'show', 'select_next', 'fallback' },
+          ['<S-Tab>'] = { 'select_prev', 'fallback' },
         }
       },
       snippets = {
