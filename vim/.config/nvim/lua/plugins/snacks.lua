@@ -2,6 +2,8 @@ local idx = 1
 local layouts = {
   "vscode",
   "ivy",
+  "ivy_split",
+  "sidebar"
 }
 
 ---Get the preferred layout
@@ -89,6 +91,7 @@ return {
 
       -- Picker keymaps
       { "<leader><Enter>", function() Snacks.picker.buffers({ current = false }) end,              desc = "Buffers" },
+      { "<leader>e",       function() Snacks.picker.explorer() end,                                desc = "Explorer" },
       -- { "<leader>/",       function() Snacks.picker.grep() end,                                    desc = "Grep" },
       -- { "<leader>:",       function() Snacks.picker.command_history() end,                         desc = "Command History" },
       -- { "<leader><space>", function() Snacks.picker.files() end,                                   desc = "Find Files" },
@@ -145,7 +148,18 @@ return {
       -- { "<leader>qp",      function() Snacks.picker.projects() end,                                desc = "Projects" },
       -- LSP
       -- { "gd",              function() Snacks.picker.lsp_definitions() end,                         desc = "Goto Definition" },
-      { "gr",         function() Snacks.picker.lsp_references() end,        nowait = true,                 desc = "References" },
+      {
+        "gr",
+        function()
+          ---@type snacks.picker.lsp.references.Config
+          Snacks.picker.lsp_references({
+            -- TODO(tabboud):  Add keymaps to toggle test files, mock files, etc.
+            pattern = "!*_test.go",
+          })
+        end,
+        nowait = true,
+        desc = "References"
+      },
       { "gi",         function() Snacks.picker.lsp_implementations() end,   desc = "Goto Implementation" },
       -- { "gy",              function() Snacks.picker.lsp_type_definitions() end,                    desc = "Goto T[y]pe Definition" },
       { "<leader>sw", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },

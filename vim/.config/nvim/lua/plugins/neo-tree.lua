@@ -48,9 +48,11 @@ return {
             ['S'] = function(state)
               local node = state.tree:get_node()
               local path = vim.fn.fnamemodify(node.path, ":.")
-              require('telescope.builtin').live_grep({
-                search_dirs = { path },
-              })
+              Snacks.picker.grep(
+              ---@type snacks.picker.Config
+                {
+                  dirs = { path },
+                })
             end,
             ['Y'] = function(state)
               -- NeoTree is based on [NuiTree](https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/tree)
