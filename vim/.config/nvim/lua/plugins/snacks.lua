@@ -44,7 +44,6 @@ return {
       },
       ---@type snacks.picker.Config
       picker = {
-        enabled = true,
         formatters = {
           file = {
             -- TODO: Try and toggle this or at least show the full path in the preview window?
@@ -80,6 +79,11 @@ return {
               ["<a-c>"] = { "cycle_layouts", mode = { "i", "n" } },
             },
           },
+        },
+        sources = {
+          explorer = {
+            hidden = true
+          }
         }
       },
     },
