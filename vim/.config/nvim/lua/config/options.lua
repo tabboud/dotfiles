@@ -1,11 +1,6 @@
 local opt = vim.opt
 local env = vim.env
 
--- " Insert a TODO line by typing "todo<space>"
--- TODO(tabboud): use 'commentstring' to insert the correct comment
-vim.cmd [[iabbrev todo // TODO(tabboud):]]
-vim.cmd [[iabbrev tda // TDA:]]
-
 opt.synmaxcol = 120     -- disable syntax highlighting after # of chars
 opt.textwidth = 120     -- wrap line after configured # of chars
 opt.tabstop = 4         -- visible width of tabs

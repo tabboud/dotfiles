@@ -63,3 +63,17 @@ vim.api.nvim_create_autocmd("LspProgress", {
     })
   end,
 })
+
+-- Configure abbreviations
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function()
+    local comment_string = vim.bo.commentstring
+    -- Remove any format strings and trim spaces
+    comment_string = comment_string:gsub("%%s", ""):gsub("^%s*(.-)%s*$", "%1")
+    -- Create the buffer local abbreviations with the appropriate comment string
+    local todo_text = string.format("iabbrev <buffer> todo %s TODO(tabboud):", comment_string)
+    local tda_text = string.format("iabbrev <buffer> tda %s TDA:", comment_string)
+    vim.cmd(todo_text)
+    vim.cmd(tda_text)
+  end
+})
