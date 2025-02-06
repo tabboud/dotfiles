@@ -21,78 +21,22 @@ return {
         return string.format("%s LSP: none ", icons.Lsp)
       end
 
-      -- Show test results
-      -- TODO: Only load this if neotest is loaded, otherwise this loads neotest/neotest-go
-      local neotest_status = function()
-        local status_ok, neotest = pcall(require, "neotest")
-        if not status_ok then
-          return ""
-        end
-        local adapters = neotest.state.adapter_ids()
-        if #adapters > 0 then
-          local status = neotest.state.status_counts(adapters[1], {
-            buffer = vim.api.nvim_buf_get_name(0),
-          })
-          local sections = {
-            {
-              sign = "",
-              count = status.failed,
-              base = "NeotestFailed",
-              tag = "test_fail",
-            },
-            {
-              sign = "",
-              count = status.running,
-              base = "NeotestRunning",
-              tag = "test_running",
-            },
-            {
-              sign = "",
-              count = status.passed,
-              base = "NeotestPassed",
-              tag = "test_pass",
-            },
-          }
-
-          local result = {}
-          for _, section in ipairs(sections) do
-            if section.count > 0 then
-              table.insert(
-                result,
-                "%#"
-                .. section.base
-                .. "#"
-                .. section.sign
-                .. " "
-                .. section.count
-              )
-            end
-          end
-
-          return table.concat(result, " ")
-        end
-        return ""
-      end
-
       require('lualine').setup {
         options = {
           theme = IsLightMode() and "onelight" or "jellybeans",
           component_separators = { left = icons.ComponentSeparator, right = icons.ComponentSeparator },
           section_separators = { left = '', right = '' },
+          disabled_filetypes = {
+            statusline = {
+              "neo-tree"
+            },
+          },
         },
         sections = {
-          -- TODO: add `filename` to this when active in case of not in git repo
-          lualine_a = { "branch", },
-          lualine_b = { "filename" --[["diff"--]] },
+          lualine_a = { project_name },
+          lualine_b = { "filename" },
           lualine_c = {
             "searchcount",
-            {
-              neotest_status,
-              cond = function()
-                local neotest_loaded, _ = pcall(require, "neotest")
-                return neotest_loaded
-              end
-            },
             -- show macro recording (for struct definition, see :h lualine - lualine-General-component-options)
             {
               function()
@@ -106,10 +50,10 @@ return {
           },
           lualine_x = { get_attached_lsp, "diagnostics" },
           lualine_y = {},
-          lualine_z = { project_name },
+          lualine_z = { "branch" },
         },
         inactive_sections = {
-          lualine_a = { "filename" },
+          lualine_a = { { "filename", file_status = false } },
           lualine_b = {},
           lualine_c = {},
           lualine_x = {},
