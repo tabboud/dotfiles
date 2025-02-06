@@ -249,7 +249,11 @@ return {
       }
 
       -- setup lsp-saga
-      lspsaga.setup()
+      lspsaga.setup({
+        lightbulb = {
+          enable = false,
+        }
+      })
     end,
   },
 }
