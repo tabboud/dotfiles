@@ -92,24 +92,5 @@ return {
         vim.keymap.set("n", '<leader>gp', gs.preview_hunk, { buffer = bufnr, desc = "Git: preview hunk" })
       end
     }
-  },
-  {
-    'tanvirtin/vgit.nvim',
-    -- TODO(tabboud): Disabled since a default keymap overrides <ESC> (e.g. ":noh")
-    enabled = false,
-    branch = 'v1.0.x',
-    -- or               , tag = 'v1.0.2',
-    dependencies = { 'nvim-lua/plenary.nvim', 'nvim-tree/nvim-web-devicons' },
-    -- Lazy loading on 'VimEnter' event is necessary.
-    event = 'VimEnter',
-    config = function()
-      require("vgit").setup({
-        settings = {
-          live_blame = {
-            enabled = false,
-          },
-        }
-      })
-    end,
   }
 }

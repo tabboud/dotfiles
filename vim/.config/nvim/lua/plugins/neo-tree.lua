@@ -13,6 +13,13 @@ return {
     },
     config = function()
       require('neo-tree').setup({
+        use_default_mappings = true,
+        nesting_rules = {
+          ["go"] = {
+            pattern = "(.*)%.go$",    -- <-- Lua pattern with capture
+            files = { "%1_test.go" }, -- <-- glob pattern with capture
+          },
+        },
         source_selector = {
           winbar = true,
           sources = {
@@ -39,48 +46,54 @@ return {
               '.DS_Store',
             },
           },
-        },
-        window = {
-          -- width = 'fit_content',
-          width = 50,
-          -- max_width = 50,
-          mappings = {
-            ['S'] = function(state)
-              local node = state.tree:get_node()
-              local path = vim.fn.fnamemodify(node.path, ":.")
-              Snacks.picker.grep(
-              ---@type snacks.picker.Config
-                {
-                  dirs = { path },
-                })
-            end,
-            ['Y'] = function(state)
-              -- NeoTree is based on [NuiTree](https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/tree)
-              -- The node is based on [NuiNode](https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/tree#nuitreenode)
-              local node = state.tree:get_node()
-              local filepath = node:get_id()
-              local modify = vim.fn.fnamemodify
+          window = {
+            -- width = 'fit_content',
+            width = 50,
+            -- max_width = 50,
+            mappings = {
+              ['S'] = {
+                desc = "Search in path",
+                command = function(state)
+                  local node = state.tree:get_node()
+                  local path = vim.fn.fnamemodify(node.path, ":.")
+                  Snacks.picker.grep(
+                  ---@type snacks.picker.Config
+                    {
+                      dirs = { path },
+                    })
+                end,
+              },
+              ['Y'] = {
+                desc = "Yank filepath",
+                command = function(state)
+                  -- NeoTree is based on [NuiTree](https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/tree)
+                  -- The node is based on [NuiNode](https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/tree#nuitreenode)
+                  local node = state.tree:get_node()
+                  local filepath = node:get_id()
+                  local modify = vim.fn.fnamemodify
 
-              local results = {
-                filepath,               -- absolute path to file (e.g. /Users/user/project/cmd/main.go)
-                modify(filepath, ':.'), -- path relative to CWD, usually the root of a git repo (e.g. cmd/main.go)
+                  local results = {
+                    filepath,               -- absolute path to file (e.g. /Users/user/project/cmd/main.go)
+                    modify(filepath, ':.'), -- path relative to CWD, usually the root of a git repo (e.g. cmd/main.go)
+                  }
+
+                  -- absolute path to clipboard
+                  local i = vim.fn.inputlist({
+                    'Select a path to copy:',
+                    string.format('1. Absolute path: "%s"', results[1]),
+                    string.format('2. Project root:  "%s"', results[2]),
+                  })
+
+                  if i > 0 then
+                    local result = results[i]
+                    if not result then return print('Invalid choice: ' .. i) end
+                    -- store value into system clipboard register
+                    vim.fn.setreg('+', result)
+                  end
+                end
               }
-
-              -- absolute path to clipboard
-              local i = vim.fn.inputlist({
-                'Select a path to copy:',
-                string.format('1. Absolute path: "%s"', results[1]),
-                string.format('2. Project root:  "%s"', results[2]),
-              })
-
-              if i > 0 then
-                local result = results[i]
-                if not result then return print('Invalid choice: ' .. i) end
-                -- store value into system clipboard register
-                vim.fn.setreg('+', result)
-              end
-            end
-          }
+            }
+          },
         },
       })
     end
