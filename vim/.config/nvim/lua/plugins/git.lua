@@ -90,6 +90,7 @@ return {
         -- nnoremap('<leader>gb', gs.toggle_current_line_blame, { buffer = bufnr, desc = "Git: Toggle current line blame" })
         vim.keymap.set("n", '<leader>gd', gs.diffthis, { buffer = bufnr, desc = "Git: diff current file" })
         vim.keymap.set("n", '<leader>gp', gs.preview_hunk, { buffer = bufnr, desc = "Git: preview hunk" })
+        vim.keymap.set("n", '<leader>gs', gs.stage_hunk, { buffer = bufnr, desc = "Git: stage hunk" })
       end
     }
   }
