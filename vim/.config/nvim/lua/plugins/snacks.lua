@@ -131,7 +131,15 @@ return {
       -- { "<leader>sB",      function() Snacks.picker.grep_buffers() end,                            desc = "Grep Open Buffers" },
       --
       ---@type snacks.picker.grep.Config
-      { "rg",         function() Snacks.picker.grep({ hidden = true }) end, desc = "Grep (rg)" },
+      {
+        "rg",
+        function()
+          Snacks.picker.grep({
+            hidden = true
+          })
+        end,
+        desc = "Grep (rg)"
+      },
       -- { "<leader>sw",      function() Snacks.picker.grep_word() end,                               desc = "Visual selection or word", mode = { "n", "x" } },
       -- search
       -- { '<leader>s"',      function() Snacks.picker.registers() end,                               desc = "Registers" },
@@ -139,14 +147,14 @@ return {
       -- { "<leader>sc",      function() Snacks.picker.command_history() end,                         desc = "Command History" },
       -- { "<leader>sC",      function() Snacks.picker.commands() end,                                desc = "Commands" },
       -- { "<leader>sd",      function() Snacks.picker.diagnostics() end,                             desc = "Diagnostics" },
-      { "<leader>h",  function() Snacks.picker.help() end,                  desc = "Help Pages" },
+      { "<leader>h",  function() Snacks.picker.help() end,   desc = "Help Pages" },
       -- { "<leader>sH",      function() Snacks.picker.highlights() end,                              desc = "Highlights" },
       -- { "<leader>sj",      function() Snacks.picker.jumps() end,                                   desc = "Jumps" },
       -- { "<leader>sk",      function() Snacks.picker.keymaps() end,                                 desc = "Keymaps" },
       -- { "<leader>sl",      function() Snacks.picker.loclist() end,                                 desc = "Location List" },
       -- { "<leader>sM",      function() Snacks.picker.man() end,                                     desc = "Man Pages" },
       -- { "<leader>sm",      function() Snacks.picker.marks() end,                                   desc = "Marks" },
-      { "<leader>sR", function() Snacks.picker.resume() end,                desc = "Resume" },
+      { "<leader>sR", function() Snacks.picker.resume() end, desc = "Resume" },
       -- { "<leader>sq",      function() Snacks.picker.qflist() end,                                  desc = "Quickfix List" },
       -- { "<leader>uC",      function() Snacks.picker.colorschemes() end,                            desc = "Colorschemes" },
       -- { "<leader>qp",      function() Snacks.picker.projects() end,                                desc = "Projects" },

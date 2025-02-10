@@ -89,7 +89,6 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       -- Go test adapter
-      -- "nvim-neotest/neotest-go",
       { "fredrikaverpil/neotest-golang", version = "*" },
     },
     config = function()
@@ -97,10 +96,18 @@ return {
       vim.diagnostic.config({ virtual_text = false }, neotest_ns)
 
       local icons = require('icons').neotest
+      ---@type neotest.Config
       require("neotest").setup({
         icons = icons,
         adapters = {
-          require("neotest-golang"),
+          require("neotest-golang")({
+            runner = "go",
+            go_test_args = {
+              "-v",
+              "-count=1",
+              "-race",
+            },
+          }),
         },
         consumers = {
           notify = function(client)
