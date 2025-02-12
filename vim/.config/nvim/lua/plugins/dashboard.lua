@@ -5,6 +5,27 @@ local in_git_repo = function()
   return Snacks.git.get_root() ~= nil
 end
 
+local terminal_cmds = function()
+  local cmds = {
+    {
+      icon = " ",
+      title = "Git Status",
+      cmd = "git --no-pager diff --stat -B -M -C",
+      height = 10,
+    },
+  }
+  return vim.tbl_map(function(cmd)
+    return vim.tbl_extend("force", {
+      pane = 2,
+      section = "terminal",
+      enabled = in_git_repo,
+      padding = 1,
+      ttl = 5 * 60,
+      indent = 3,
+    }, cmd)
+  end, cmds)
+end
+
 return {
   "folke/snacks.nvim",
   ---@type snacks.Config
@@ -33,9 +54,9 @@ return {
           { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
           {
             icon = " ",
-            key = "c",
-            desc = "Config",
-            action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
+            key = "d",
+            desc = "Dotfiles",
+            action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.getenv('DOTFILES'), hidden=true})",
           },
           { icon = " ", key = "s", desc = "Restore Session", section = "session" },
           { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
@@ -44,27 +65,8 @@ return {
       },
       sections = {
         { section = "header" },
-        { section = "keys",  gap = 1, padding = 1 },
-        function()
-          local cmds = {
-            {
-              icon = " ",
-              title = "Git Status",
-              cmd = "git --no-pager diff --stat -B -M -C",
-              height = 10,
-            },
-          }
-          return vim.tbl_map(function(cmd)
-            return vim.tbl_extend("force", {
-              pane = 2,
-              section = "terminal",
-              enabled = in_git_repo,
-              padding = 1,
-              ttl = 5 * 60,
-              indent = 3,
-            }, cmd)
-          end, cmds)
-        end,
+        { section = "keys",   gap = 1, padding = 1 },
+        -- terminal_cmds(),
         { section = "startup" },
       },
     },

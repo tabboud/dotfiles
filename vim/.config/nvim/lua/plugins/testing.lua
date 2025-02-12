@@ -105,7 +105,7 @@ return {
             go_test_args = {
               "-v",
               "-count=1",
-              "-race",
+              -- "-race",
             },
           }),
         },
