@@ -78,13 +78,13 @@ vim.api.nvim_create_user_command(
           end,
         },
         {
-          name = "View the current buffer in a web browser",
+          name = "Browse the current buffer in GH",
           callback = function()
+            local currentLine = vim.fn.line(".")
             local currentBufferFilepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":.")
-            -- if cmd.args ~= "" then
-            --   currentBufferFilepath = currentBufferFilepath .. ":" .. cmd.args
-            -- end
-            vim.fn.system("gh browse " .. currentBufferFilepath)
+            local fileAndLine = string.format("%s:%s", currentBufferFilepath, currentLine)
+            vim.notify("Opening " .. fileAndLine .. " in the browser")
+            vim.fn.system("gh browse " .. fileAndLine)
           end,
         },
       },
