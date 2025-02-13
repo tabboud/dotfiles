@@ -51,15 +51,31 @@ return {
           map("<leader>rn", function() vim.lsp.buf.rename(nil, { prompt = "Rename" }) end,
             "LSP: Rename word under cursor")
 
-          -- prefix diagnostics with the name of the client
           local ns = vim.lsp.diagnostic.get_namespace(client_id)
-          vim.diagnostic.config({
-            virtual_text = {
-              format = function(d)
-                return string.format('%s: %s', client.name, d.message)
-              end,
-            },
-          }, ns)
+          vim.diagnostic.config(
+          ---@type vim.diagnostic.Opts?
+            {
+              virtual_text = {
+                format = function(d)
+                  -- prefix diagnostics with the name of the client
+                  return string.format('%s: %s', client.name, d.message)
+                end,
+              },
+              signs = {
+                text = {
+                  [vim.diagnostic.severity.WARN] = icons.lsp.warn,
+                  [vim.diagnostic.severity.ERROR] = icons.lsp.error,
+                  [vim.diagnostic.severity.INFO] = icons.lsp.info,
+                  [vim.diagnostic.severity.HINT] = icons.lsp.hint,
+                },
+                numhl = {
+                  [vim.diagnostic.severity.WARN] = "WarningMsg",
+                  [vim.diagnostic.severity.ERROR] = "ErrorMsg",
+                  [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+                  [vim.diagnostic.severity.HINT] = "DiagnosticHint",
+                }
+              },
+            }, ns)
 
           -- turn on document highlight
           if client.server_capabilities.documentHighlightProvider then
@@ -100,26 +116,6 @@ return {
         end,
       })
 
-      -- Diagnostic sign mappings
-      local diagnostic_signs = {
-        { name = "LspDiagnosticsSignError",       text = icons.lsp.error },
-        { name = "LspDiagnosticsSignWarning",     text = icons.lsp.warning },
-        { name = "LspDiagnosticsSignHint",        text = icons.lsp.hint },
-        { name = "LspDiagnosticsSignInformation", text = icons.lsp.info },
-        { name = "DiagnosticSignError",           text = icons.lsp.error },
-        { name = "DiagnosticSignWarn",            text = icons.lsp.warning },
-        { name = "DiagnosticSignHint",            text = icons.lsp.hint },
-        { name = "DiagnosticSignInfo",            text = icons.lsp.info },
-      }
-      for _, sign in ipairs(diagnostic_signs) do
-        vim.fn.sign_define(sign.name, {
-          text = sign.text,
-          texthl = sign.name,
-          linehl = "",
-          numhl = sign.name,
-        })
-      end
-
       -- nvim-navic: add in the winbar extension after loading
       vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
 
@@ -139,6 +135,7 @@ return {
               useany = true,
             },
             codelenses = {
+              gc_details = false,
               test = true,
               tidy = true,
               upgrade_dependency = true,
