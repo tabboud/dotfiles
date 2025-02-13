@@ -1,9 +1,9 @@
 local idx = 1
 local layouts = {
-  "vscode",
   "ivy",
-  "ivy_split",
-  "sidebar"
+  "vscode",
+  -- "ivy_split",
+  -- "sidebar"
 }
 
 ---Get the preferred layout

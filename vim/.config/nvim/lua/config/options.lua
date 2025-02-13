@@ -1,5 +1,4 @@
 local opt = vim.opt
-local env = vim.env
 
 opt.synmaxcol = 120     -- disable syntax highlighting after # of chars
 opt.textwidth = 120     -- wrap line after configured # of chars
@@ -21,7 +20,7 @@ opt.guicursor =
 "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 opt.scrolloff = 3 -- set # of lines to the cursors - when moving vertical
 opt.confirm = true -- prompt to save, rather than raise an error
-opt.shell = env.SHELL
+opt.shell = vim.env.SHELL
 opt.cmdheight = 1 -- bottom command bar height
 opt.modeline = true -- enable modeline to get per-file settings (i.e. # vim:syntax=bash)
 opt.cursorline = true -- enable the cursorline
@@ -71,15 +70,7 @@ opt.lazyredraw = true -- don't redraw while executing macros
 opt.magic = true      -- set magic on, for regular expressions
 opt.showmatch = true  -- show matching brackets
 opt.pumheight = 20    -- pop up menu height
-
 opt.clipboard = { "unnamedplus" }
-
--- disabled to allow cmp-cmdline to use a popup window
--- opt.wildmode = { -- complete files like a shell
---   "list",
---   "longest"
--- }
--- opt.wildmenu=true
 opt.showbreak = "↪"
 opt.listchars = {
   tab = "→ ",
