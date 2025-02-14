@@ -107,6 +107,8 @@ return {
           },
 
           -- FIXME: Highlight the files in "internal/generated" and "vendor" differently so it's clear what is a dependency
+          --
+          -- V1 - highlight the bufferline icon for vendor files with a different color
           -- get_element_icon = function(element)
           --   local icon, hl = require('nvim-web-devicons').get_icon_by_filetype(element.filetype, { default = false })
           --   -- highlight vendor code with a red logo
@@ -116,8 +118,16 @@ return {
           --   end
           --   return icon, hl
           -- end
+          --
+          -- V2: Use groups for vendor files to make it clear
+          -- This is not bad, but needs to be right aligned since it's hard to see
+          -- Could also try grouping to the right. See :h bufferline-ordering-groups
+          --
+          -- Maybe we need a default group for everything else and then set the
+          -- priority to make it come at the end
           groups = {
             items = {
+              require('bufferline.groups').builtin.ungrouped, -- the ungrouped buffers will be in the middle of the grouped ones
               {
                 name = "Vendor",
                 highlight = {

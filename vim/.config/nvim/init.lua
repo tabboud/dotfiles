@@ -13,3 +13,5 @@ require("config.lazy")
 
 -- Options that include plugin settings
 require("config.options")
+
+require("virtual-text")
