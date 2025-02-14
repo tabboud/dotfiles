@@ -147,6 +147,7 @@ return {
       -- { "<leader>sc",      function() Snacks.picker.command_history() end,                         desc = "Command History" },
       -- { "<leader>sC",      function() Snacks.picker.commands() end,                                desc = "Commands" },
       -- { "<leader>sd",      function() Snacks.picker.diagnostics() end,                             desc = "Diagnostics" },
+      -- TODO(tabboud): Figure out how to make the help full screen
       { "<leader>h",  function() Snacks.picker.help() end,   desc = "Help Pages" },
       -- { "<leader>sH",      function() Snacks.picker.highlights() end,                              desc = "Highlights" },
       -- { "<leader>sj",      function() Snacks.picker.jumps() end,                                   desc = "Jumps" },

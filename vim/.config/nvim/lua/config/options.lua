@@ -79,3 +79,23 @@ opt.listchars = {
   extends = "❯",
   precedes = "❮"
 }
+-- Function to set highlight groups for clearer separators
+local function set_separator_colors()
+  -- Define the highlight groups for separators
+  vim.api.nvim_set_hl(0, 'VertSplit', { fg = '#ff0000', bg = 'none' })    -- Red color for vertical splits
+  vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#ff0000', bg = 'none' }) -- Red color for window separators
+end
+
+-- Call the function to apply the highlight settings
+set_separator_colors()
+
+-- Set custom fillchars for clearer separators
+vim.opt.fillchars = {
+  vert = '│',
+  horiz = '─',
+  horizup = '┴',
+  horizdown = '┬',
+  vertleft = '┤',
+  vertright = '├',
+  verthoriz = '┼'
+}

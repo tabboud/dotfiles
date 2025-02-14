@@ -1,3 +1,15 @@
+local colors = {
+  black        = '#282828',
+  white        = '#ebdbb2',
+  red          = '#fb4934',
+  green        = '#b8bb26',
+  blue         = '#83a598',
+  yellow       = '#fe8019',
+  gray         = '#a89984',
+  darkgray     = '#3c3836',
+  lightgray    = '#504945',
+  inactivegray = '#7c6f64',
+}
 return {
   {
     'nvim-lualine/lualine.nvim',
@@ -20,10 +32,21 @@ return {
         -- no clients attached
         return string.format("%s LSP: none ", icons.Lsp)
       end
-
+      local custom_jellybeans = require 'lualine.themes.jellybeans'
+      -- Change the background of lualine_c section for normal mode
+      custom_jellybeans.inactive.c.bg = colors.inactivegray
       require('lualine').setup {
         options = {
-          theme = IsLightMode() and "onelight" or "jellybeans",
+          theme = custom_jellybeans,
+          -- TODO(tabboud): Make the status-line / window separators clearer when split horizontal
+          -- theme = IsLightMode() and "onelight" or "jellybeans",
+          -- theme = {
+          --   inactive = {
+          --     a = { bg = colors.red, fg = colors.gray, gui = 'bold' },
+          --     b = { bg = colors.red, fg = colors.gray },
+          --     c = { bg = colors.red, fg = colors.gray }
+          --   },
+          -- },
           component_separators = { left = icons.ComponentSeparator, right = icons.ComponentSeparator },
           section_separators = { left = '', right = '' },
           disabled_filetypes = {
@@ -81,6 +104,48 @@ return {
               text_align = "left",
               separator = true,
             }
+          },
+
+          -- FIXME: Highlight the files in "internal/generated" and "vendor" differently so it's clear what is a dependency
+          --
+          -- V1 - highlight the bufferline icon for vendor files with a different color
+          -- get_element_icon = function(element)
+          --   local icon, hl = require('nvim-web-devicons').get_icon_by_filetype(element.filetype, { default = false })
+          --   -- highlight vendor code with a red logo
+          --   print(element.path)
+          --   if vim.startswith(element.path, "vendor") then
+          --     return icon, "DevIconRedHat"
+          --   end
+          --   return icon, hl
+          -- end
+          --
+          -- V2: Use groups for vendor files to make it clear
+          -- This is not bad, but needs to be right aligned since it's hard to see
+          -- Could also try grouping to the right. See :h bufferline-ordering-groups
+          --
+          -- Maybe we need a default group for everything else and then set the
+          -- priority to make it come at the end
+          groups = {
+            items = {
+              require('bufferline.groups').builtin.ungrouped, -- the ungrouped buffers will be in the middle of the grouped ones
+              {
+                name = "Vendor",
+                highlight = {
+                  underline = true,
+                  italic = true,
+                  bold = false,
+                  fg = colors.green,
+                  -- bg = colors.inactivegray,
+                  sp = "green",
+                },
+                matcher = function(buf)
+                  if buf.path == nil then
+                    return false
+                  end
+                  return buf.path:match('/vendor/')
+                end
+              }
+            },
           },
         }
       }
