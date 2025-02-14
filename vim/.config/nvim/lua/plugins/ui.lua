@@ -130,6 +130,7 @@ return {
               require('bufferline.groups').builtin.ungrouped, -- the ungrouped buffers will be in the middle of the grouped ones
               {
                 name = "Vendor",
+                auto_close = true,
                 highlight = {
                   underline = true,
                   italic = true,
