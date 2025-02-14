@@ -132,7 +132,7 @@ return {
                 name = "Vendor",
                 auto_close = true,
                 highlight = {
-                  underline = true,
+                  underline = false,
                   italic = true,
                   bold = false,
                   fg = colors.green,
@@ -143,7 +143,8 @@ return {
                   if buf.path == nil then
                     return false
                   end
-                  return buf.path:match('/vendor/')
+                  local luaDataDir = vim.fn.stdpath("data")
+                  return buf.path:match('/vendor/') or buf.path:match(luaDataDir)
                 end
               }
             },
