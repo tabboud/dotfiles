@@ -7,37 +7,58 @@ set -e
 
 COLOR_NONE='\033[0m'
 COLOR_YELLOW='\033[1;33m'
+SYMBOL="${COLOR_YELLOW}▶${COLOR_NONE}"
 
-# Use gum (https://github.com/charmbracelet/gum) if it exists
-GUM_EXISTS=
+# Check if gum is available
+GUM_EXISTS=0
 if command -v gum &>/dev/null; then
     GUM_EXISTS=1
 fi
 
+# Store the current branch to switch back to it later
+ORIGINAL_BRANCH=$(git branch --show-current)
+
+# Function to ensure we return to the original branch on exit
+function cleanup() {
+    # Check if there are any uncommitted changes
+    if git diff-index --quiet HEAD --; then
+        echo -e "${SYMBOL} Switching back to the original branch (${ORIGINAL_BRANCH})"
+        git switch "$ORIGINAL_BRANCH"
+    else
+        echo -e "${SYMBOL} Uncommitted changes detected. Staying on the current branch."
+    fi
+}
+trap cleanup EXIT
+
 function continueOrExit() {
-    continueMsg="$1"
+    local continueMsg="$1"
+    local exitMetadata="${2:-""}"
+
     if [ $GUM_EXISTS -eq 1 ]; then
-        gum confirm "$continueMsg" && return || echo "Stopping review" && exit 0
+        gum confirm "$continueMsg" && return || {
+            echo -e "${SYMBOL} Stopping review"
+            [ -n "$exitMetadata" ] && echo -e "${SYMBOL} $exitMetadata"
+            exit 0
+        }
     else
         read -r -n 1 -p "Press (c) to continue reviewing: " c
+        echo
         case "$c" in
-            [Cc]*)
-                return
-                ;;
+            [Cc]*) return ;;
             *)
-                echo "Stopping review"
+                echo -e "${SYMBOL} Stopping review"
+                [ -n "$exitMetadata" ] && echo -e "${SYMBOL} $exitMetadata"
                 exit 0
                 ;;
         esac
     fi
 }
 
-# TODO: Show the PR preview below when selecting one to review
-# TODO: Sort by recency
-# TODO: Add URL hyperlink for PR:   gh issue list --json title,url --template '{{range .}}{{hyperlink .url .title}}{{"\n"}}{{end}}'
-# TODO: Show symbol for PRs where I am explicitly the "reviewer"
-# Select PR number, branch and base branch from currently open PRs
-selection=$(gh pr list --json number,baseRefName,headRefName,title,url --template '{{range .}}{{tablerow (printf "%-5v %-30v %-10v %v" .number .headRefName .baseRefName .url)}}{{end}}' | fzf --reverse --height=20 --border --reverse --prompt="Select PR to review: ")
+# Select PR number, branch, and base branch from currently open PRs
+selection=$(gh pr list --json number,baseRefName,headRefName,title,url \
+    --template '{{range .}}{{tablerow (printf "%-5v %-30v %-10v %v" .number .headRefName .baseRefName .url)}}{{end}}' \
+    | fzf --reverse --height=20 --border --prompt="Select PR to review: ")
+
 if [[ -z $selection ]]; then
     echo -e "${COLOR_YELLOW}No PR selected${COLOR_NONE}"
     exit 0
@@ -48,19 +69,16 @@ PR_BRANCH=$(echo "$selection" | awk '{print $2}')
 PR_BASE_BRANCH=$(echo "$selection" | awk '{print $3}')
 PR_URL=$(echo "$selection" | awk '{print $4}')
 
-echo -e "${COLOR_YELLOW}Starting review for PR #${PR_NUMBER} (${PR_URL}) ${COLOR_NONE}"
+echo -e "${SYMBOL} Starting review for PR #${PR_NUMBER} (${PR_URL})"
 
-# Update origin base branch so review is correct
-# TODO: Fail hard if updating fails (i.e. divergent branches)
-echo -e "${COLOR_YELLOW}Updating base branch (${PR_BASE_BRANCH}) from origin ${COLOR_NONE}"
+# Update origin base branch so the review is correct
+echo -e "${SYMBOL} Updating base branch (${PR_BASE_BRANCH}) from origin"
 git fetch origin
 git switch "$PR_BASE_BRANCH"
 git pull origin "$PR_BASE_BRANCH"
 
-# TODO: checkout the original branch when exiting, especially when we reset things below
-
-# checkout the desired review branch and show stats
-echo -e "${COLOR_YELLOW}Checking out PR #${PR_NUMBER} ${COLOR_NONE}"
+# Checkout the desired review branch and show stats
+echo -e "${SYMBOL} Checking out PR #${PR_NUMBER}"
 gh pr checkout "$PR_NUMBER"
 
 # Show stats from PR branch to remote origin default branch
@@ -70,11 +88,10 @@ continueOrExit "Review PR?"
 # Reset PR branch to merge point and open in vim
 mergeCommit=$(git merge-base HEAD origin/"$PR_BASE_BRANCH")
 git reset --soft "$mergeCommit"
-git reset               # to make everything unstaged
-nvim -c :DiffviewOpen   # to use fugitive for the review
+git reset  # to make everything unstaged
+nvim -c :DiffviewOpen  # to use fugitive for the review
 
-continueOrExit "Reset PR branch back to origin?"
+continueOrExit "Reset PR branch back to origin?" "Run the following to reset: \"git reset --hard origin/${PR_BRANCH}\""
 
 # Reset PR branch back to remote
 git reset --hard origin/"$PR_BRANCH"
-
