@@ -1,4 +1,6 @@
-# Config relating to the Lazygit UI
+# yaml-language-server: $schema=https://raw.githubusercontent.com/jesseduffield/lazygit/master/schema/config.json
+
+# # Config relating to the Lazygit UI
 gui:
   # The number of lines you scroll by when scrolling the main window
   scrollHeight: 2
