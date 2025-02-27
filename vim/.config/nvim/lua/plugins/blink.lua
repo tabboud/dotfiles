@@ -28,7 +28,9 @@ return {
         ["<C-e>"] = { "cancel" },
         ["<CR>"] = { "accept", "fallback" },
         ["<C-y>"] = {}, -- disable
-        cmdline = {
+      },
+      cmdline = {
+        keymap = {
           preset = 'enter',
           -- Use tab/s-tab to show the completion window and traverse up/down through it
           ['<Tab>'] = { 'show', 'select_next', 'fallback' },
