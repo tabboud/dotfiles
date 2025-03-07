@@ -1,3 +1,4 @@
+-- Your nvim-dap config
 return {
   {
     'mfussenegger/nvim-dap',
@@ -79,6 +80,7 @@ return {
       'leoluz/nvim-dap-go',
       'rcarriga/nvim-dap-ui',
       'theHamsta/nvim-dap-virtual-text',
+      "igorlfs/nvim-dap-view",
     },
   },
   {
