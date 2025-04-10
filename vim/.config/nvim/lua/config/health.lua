@@ -26,6 +26,11 @@ function M.check()
       type = "error",
       msg = "Used for Telescope",
     },
+    {
+      cmd = { "npm" },
+      type = "error",
+      msg = "Used for vim-language-server and yaml-language-server",
+    },
   }
 
   for _, program in ipairs(programs) do
