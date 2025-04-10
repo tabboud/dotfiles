@@ -7,15 +7,24 @@ local color_schemes = {
   Dark = "Tomorrow Night Eighties",
 }
 
+--- Returns the current colorscheme defined in the $HOME/.theme file.
+--- Returns "light" if the file does not exist.
+---@return string
 local function getCurrentTheme()
-  local file = assert(io.open(os.getenv("HOME") .. "/.theme", "r"), 'Failed to open "$HOME/.theme"')
+  local file = io.open(os.getenv("HOME") .. "/.theme", "r")
+  if not file then
+    return "light"
+  end
   local content = file:read("*a")
   file:close()
   return content
 end
 
 local function setDesiredTheme(theme)
-  local file = assert(io.open(os.getenv("HOME") .. "/.theme", "w+"), 'Failed to open "$HOME/.theme"')
+  local file = io.open(os.getenv("HOME") .. "/.theme", "w+")
+  if not file then
+    return
+  end
   file:write(theme)
   file:close()
 end
