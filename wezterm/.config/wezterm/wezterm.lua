@@ -2,6 +2,10 @@
 local wezterm = require 'wezterm'
 local action = wezterm.action
 
+-- https://github.com/wez/wezterm/discussions/4728
+local is_darwin <const> = wezterm.target_triple:find("darwin") ~= nil
+-- local is_linux <const> = wezterm.target_triple:find("linux") ~= nil
+
 local color_schemes = {
   Light = "One Light (Gogh)",
   Dark = "Tomorrow Night Eighties",
@@ -54,17 +58,18 @@ end
 
 config.initial_cols = 200
 config.initial_rows = 30
-config.font = wezterm.font {
-  family = 'JetBrainsMono Nerd Font',
-  harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
-}
+if is_darwin then
+  config.font = wezterm.font {
+    family = 'JetBrainsMono Nerd Font',
+    harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
+  }
+end
 config.color_scheme = getCurrentTheme() == "light" and color_schemes.Light or color_schemes.Dark
 config.hide_tab_bar_if_only_one_tab = true
 config.window_background_opacity = 0.95
 -- config.macos_window_background_blur = 50 -- blur background windows (useful when opacity is low)
 config.audible_bell = "Disabled"
 config.window_decorations = "RESIZE"
-config.integrated_title_button_style = "MacOsNative"
 config.integrated_title_buttons = { 'Close' }
 config.keys = {
   -- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word
