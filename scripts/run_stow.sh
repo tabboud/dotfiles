@@ -12,7 +12,9 @@ declare -a OSX=(
     hammerspoon
     wezterm
 )
-declare -a LINUX=()
+declare -a LINUX=(
+    wezterm
+    )
 
 function all() {
     runStow $1 "${COMMON[@]}"
