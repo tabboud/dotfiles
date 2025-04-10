@@ -11,10 +11,11 @@ if OS.mac?
   cask "font-jetbrains-mono-nerd-font"
   cask "hammerspoon"
   cask "hiddenbar"    # Hide OSX window bar items
+  cask "raycast"      # Spotlight replacement
   cask "rectangle"    # Window snapping
   cask "spotify"
   cask "wezterm"
-  cask "zulu"
+  cask "zulu"         # Java install
 
   # Packages
   brew "reattach-to-user-namespace"
@@ -33,6 +34,7 @@ brew "glow"         # markdown TUI
 brew "gum"          # shell script utility
 brew "htop"
 brew "jq"
+brew "lazygit"
 brew "neovim"
 brew "nnn"
 brew "python"
