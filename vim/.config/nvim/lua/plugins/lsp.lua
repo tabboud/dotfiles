@@ -1,15 +1,35 @@
 return {
   {
-    "williamboman/mason.nvim",
-    build = ":MasonUpdate",
-    config = true,
+    "mason-org/mason.nvim",
+    opts = {
+      providers = {
+        -- Use client providers instead of registry-api due to SSL issues using a VPN
+        -- ref: https://github.com/williamboman/mason.nvim/issues/633
+        "mason.providers.client",
+        "mason.providers.registry-api" -- This is the default provider used as a fallback
+      },
+    }
+  },
+  {
+    "mason-org/mason-lspconfig.nvim",
+    opts = {
+      ensure_installed = {
+        "gopls",
+        "lua_ls",
+        "yamlls",
+      },
+    },
+    dependencies = {
+      "mason-org/mason.nvim",
+      "neovim/nvim-lspconfig",
+    },
   },
   {
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSP/tools to stdpath
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
+      "mason-org/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
 
       -- Better UI for hover, code-actions, and diagnostics
@@ -20,8 +40,6 @@ return {
     },
     config = function()
       local lspsaga = require('lspsaga')
-      local mason = require('mason')
-      local mason_lspconfig = require('mason-lspconfig')
       local mason_tool_installer = require('mason-tool-installer')
       local icons = require("icons")
 
@@ -119,70 +137,12 @@ return {
       -- nvim-navic: add in the winbar extension after loading
       vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
 
-      -- LSP server settings
-      local server_settings = {
-        -- gopls settings: https://github.com/golang/tools/blob/master/gopls/doc/settings.md
-        gopls = {
-          gopls = {
-            usePlaceholders = true,
-            gofumpt = false,
-            staticcheck = false,
-            analyses = {
-              shadow = false,
-              unusedparams = false,
-              nilness = true,
-              unusedwrite = true,
-              useany = true,
-            },
-            codelenses = {
-              gc_details = false,
-              test = true,
-              tidy = true,
-              upgrade_dependency = true,
-              vendor = true,
-            },
-            hints = {
-              assignVariableTypes = false,
-              compositeLiteralFields = true,
-              compositeLiteralTypes = false,
-              constantValues = true,
-              functionTypeParameters = true,
-              parameterNames = true
-            },
-          },
-        },
-
-        -- lua-language-server settings
-        lua_ls = {
-          Lua = {
-            runtime = {
-              version = 'LuaJIT',
-            },
-            workspace = {
-              checkThirdParty = false,
-              maxPreload = 2000,
-              library = {
-                vim.env.VIMRUNTIME,
-              },
-            },
-          },
-        },
-      }
-
       -- Setup mason so it can manage external tooling
-      mason.setup({
-        providers = {
-          -- Use client providers instead of registry-api due to SSL issues using a VPN
-          -- ref: https://github.com/williamboman/mason.nvim/issues/633
-          "mason.providers.client",
-          "mason.providers.registry-api" -- This is the default provider used as a fallback
-        },
-      })
+      -- mason.setup()
       mason_tool_installer.setup({
         ensure_installed = {
           -- go
           "delve",
-          "gofumpt",
           "goimports",
           "golangci-lint",
           "gopls",
@@ -200,13 +160,6 @@ return {
           'vim-language-server',
           'shellcheck',
         }
-      })
-      mason_lspconfig.setup({
-        ensure_installed = {
-          "gopls",
-          "lua_ls",
-          "yamlls",
-        },
       })
 
       local get_cmp_capabilities = function(capabilities)
@@ -234,16 +187,11 @@ return {
         return get_cmp_capabilities(capabilities)
       end
 
-      mason_lspconfig.setup_handlers {
-        -- The first entry (without a key) will be the default handler and will
-        -- be called for each installed server that doesn't have a dedicated handler.
-        function(server_name)
-          require('lspconfig')[server_name].setup {
-            capabilities = get_capabilities(),
-            settings = server_settings[server_name],
-          }
-        end,
-      }
+      -- Add the same capabilities to ALL server configurations.
+      -- Refer to :h vim.lsp.config() for more information.
+      vim.lsp.config("*", {
+        capabilities = get_capabilities(),
+      })
 
       -- setup lsp-saga
       lspsaga.setup({
