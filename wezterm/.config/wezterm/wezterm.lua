@@ -3,11 +3,12 @@ local wezterm = require 'wezterm'
 local action = wezterm.action
 
 -- https://github.com/wez/wezterm/discussions/4728
-local is_darwin <const> = wezterm.target_triple:find("darwin") ~= nil
+local is_darwin = wezterm.target_triple:find("darwin") ~= nil
 -- local is_linux <const> = wezterm.target_triple:find("linux") ~= nil
 
 local color_schemes = {
-  Light = "One Light (Gogh)",
+  -- Light = "One Light (Gogh)",
+  Light = "zenbones",
   Dark = "Tomorrow Night Eighties",
 }
 
@@ -15,7 +16,7 @@ local color_schemes = {
 --- Returns "light" if the file does not exist.
 ---@return string
 local function getCurrentTheme()
-  local file = io.open(os.getenv("HOME") .. "/.theme", "r")
+  local file = io.open(wezterm.home_dir .. "/.theme", "r")
   if not file then
     return "light"
   end
@@ -25,7 +26,7 @@ local function getCurrentTheme()
 end
 
 local function setDesiredTheme(theme)
-  local file = io.open(os.getenv("HOME") .. "/.theme", "w+")
+  local file = io.open(wezterm.home_dir .. "/.theme", "w+")
   if not file then
     return
   end

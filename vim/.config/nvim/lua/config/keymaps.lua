@@ -35,6 +35,8 @@ map("n", "<leader>]", ">>", { desc = "Shift right" })
 map("v", "<leader>[", "<gv", { desc = "Shift left" })
 map("v", "<leader>]", ">gv", { desc = "Shift right" })
 map("t", "<Esc>", "<c-\\><c-n>", { desc = "Terminal: exit terminal mode" })
+map("n", "<leader>td", function() return vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end,
+  { desc = "LSP: Toggle diagnostics" })
 map("n", "<leader>cr", function()
   vim.lsp.codelens.run()
 end, { desc = "CodeLens: run" })

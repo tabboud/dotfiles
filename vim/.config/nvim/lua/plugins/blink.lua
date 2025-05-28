@@ -29,14 +29,14 @@ return {
         ["<CR>"] = { "accept", "fallback" },
         ["<C-y>"] = {}, -- disable
       },
-      cmdline = {
-        keymap = {
-          preset = 'enter',
-          -- Use tab/s-tab to show the completion window and traverse up/down through it
-          ['<Tab>'] = { 'show', 'select_next', 'fallback' },
-          ['<S-Tab>'] = { 'select_prev', 'fallback' },
-        }
-      },
+      -- cmdline = {
+      --   keymap = {
+      --     preset = 'enter',
+      --     -- Use tab/s-tab to show the completion window and traverse up/down through it
+      --     ['<Tab>'] = { 'show', 'select_next', 'fallback' },
+      --     ['<S-Tab>'] = { 'select_prev', 'fallback' },
+      --   }
+      -- },
       snippets = {
         preset = 'luasnip'
       },
