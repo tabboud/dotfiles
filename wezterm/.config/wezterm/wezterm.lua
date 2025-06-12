@@ -38,9 +38,8 @@ end
 local function toggleColorscheme(window, pane)
   wezterm.log_info('WindowID:', window:window_id(), 'PaneID:', pane:pane_id())
   local overrides = window:get_config_overrides() or {}
-  local currentTheme = getCurrentTheme()
 
-  if currentTheme == "dark" then
+  if overrides.color_scheme == color_schemes.Dark then
     setDesiredTheme("light")
     overrides.color_scheme = color_schemes.Light
   else
@@ -62,6 +61,7 @@ config.initial_rows = 30
 if is_darwin then
   config.font = wezterm.font {
     family = 'JetBrainsMono Nerd Font',
+    weight = 'Regular',
     harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
   }
 end
