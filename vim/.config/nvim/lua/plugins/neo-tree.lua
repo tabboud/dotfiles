@@ -14,12 +14,13 @@ return {
     config = function()
       require('neo-tree').setup({
         use_default_mappings = true,
-        nesting_rules = {
-          ["go"] = {
-            pattern = "(.*)%.go$",    -- <-- Lua pattern with capture
-            files = { "%1_test.go" }, -- <-- glob pattern with capture
-          },
-        },
+        -- Disable since it's hard to parse on large projects
+        -- nesting_rules = {
+        --   ["go"] = {
+        --     pattern = "(.*)%.go$",    -- <-- Lua pattern with capture
+        --     files = { "%1_test.go" }, -- <-- glob pattern with capture
+        --   },
+        -- },
         source_selector = {
           winbar = true,
           sources = {

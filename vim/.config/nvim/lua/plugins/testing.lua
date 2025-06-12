@@ -118,7 +118,8 @@ return {
               if partial then
                 return
               end
-              require("neotest.lib").notify("Tests completed from neotest-lib")
+              -- Skip logging for now
+              -- require("neotest.lib").notify("Tests completed from neotest-lib")
             end
             return {}
           end,

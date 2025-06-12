@@ -27,7 +27,7 @@ return {
 
     ---@type snacks.Config
     opts = {
-      terminal = { enabled = true },
+      terminal = { enabled = false },
       bigfile = { enabled = true },
       bufdelete = { enabled = true },
       statuscolumn = { enabled = false },
@@ -88,14 +88,14 @@ return {
       },
     },
     keys = {
-      { "<c-/>",           function() Snacks.terminal() end,                                       desc = "Toggle Terminal" },
+      -- { "<c-/>",           function() Snacks.terminal() end,                                       desc = "Toggle Terminal" },
       { "<c-_>",           function() Snacks.terminal() end,                                       desc = "which_key_ignore" },
       { "<c-c>",           function() Snacks.bufdelete.delete() end,                               desc = "delete buffer" },
       { "<leader>nh",      function() Snacks.notifier.show_history() end,                          desc = "Show notification history" },
 
       -- Picker keymaps
       { "<leader><Enter>", function() Snacks.picker.buffers({ current = false }) end,              desc = "Buffers" },
-      { "<leader>e",       function() Snacks.picker.explorer() end,                                desc = "Explorer" },
+      -- { "<leader>e",       function() Snacks.picker.explorer() end,                                desc = "Explorer" },
       -- { "<leader>/",       function() Snacks.picker.grep() end,                                    desc = "Grep" },
       -- { "<leader>:",       function() Snacks.picker.command_history() end,                         desc = "Command History" },
       -- { "<leader><space>", function() Snacks.picker.files() end,                                   desc = "Find Files" },
