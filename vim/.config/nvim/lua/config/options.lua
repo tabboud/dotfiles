@@ -33,7 +33,7 @@ opt.autoindent = true -- automatically set indent of new line
 opt.smartindent = true
 opt.updatetime = 300 -- wait configured ms before updating
 opt.signcolumn = "yes" -- always show the sign column
-
+opt.fixendofline = false -- Do not include new line at end of file
 -- Coloring
 local lightMode = IsLightMode()
 local colorscheme = lightMode and 'github_light' or 'github_dark_dimmed'
