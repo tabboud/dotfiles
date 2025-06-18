@@ -89,6 +89,21 @@ vim.api.nvim_create_user_command(
             vim.fn.system("gh browse " .. fileAndLine)
           end,
         },
+        -- # gh+git
+        -- gh browse README.md:3-5 --no-browser --commit=$(git rev-parse HEAD)
+        -- # https://github.com/cli/cli/blob/2a4160a3a38d3c05a1395b32cd422d5fe1a8e92d/README.md?plain=1#L3-L5
+        {
+          name = "Permalink current line",
+          callback = function()
+            local currentLine = vim.fn.line(".")
+            local currentBufferFilepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":.")
+            local fileAndLine = string.format("%s:%s", currentBufferFilepath, currentLine)
+            local out = vim.fn.system("gh browse " .. fileAndLine .. " --no-browser --commit=$(git rev-parse HEAD)")
+            -- notify ans copy the permalink
+            vim.notify("Copied permalink")
+            vim.fn.setreg('+', out)
+          end,
+        },
       },
       {
         prompt = "Select a GH command: ",
