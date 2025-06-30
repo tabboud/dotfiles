@@ -93,5 +93,22 @@ return {
         vim.keymap.set("n", '<leader>gs', gs.stage_hunk, { buffer = bufnr, desc = "Git: stage hunk" })
       end
     }
+  },
+  -- Testing for GH PR reviews
+  {
+    'pwntester/octo.nvim',
+    enabled = false,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'folke/snacks.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function()
+      require("octo").setup({
+        picker = "snacks",
+        github_hostname = "github.palantir.build",
+      })
+    end
+
   }
 }
