@@ -4,8 +4,6 @@
 
 local M = {}
 
-local health = vim.health
-
 function M.check()
   vim.health.start("Checking requirements")
   vim.health.info("Neovim Version: v" .. vim.fn.matchstr(vim.fn.execute "version", "NVIM v\\zs[^\n]*"))
@@ -30,6 +28,11 @@ function M.check()
       cmd = { "npm" },
       type = "error",
       msg = "Used for vim-language-server and yaml-language-server",
+    },
+    {
+      cmd = { "gh" },
+      type = "error",
+      msg = "Used for GH commands",
     },
   }
 
