@@ -59,13 +59,11 @@ end
 local appChooser = nil
 
 -- Bind application keys
----@param mods table
----@param apps table
+---@param mods table<string>
+---@param apps table<string, string>
 function M.bind(mods, apps)
-  for _, app in ipairs(apps) do
-    local name = app[1]
-    local key = app[2]
-    table.insert(bindings, bindApp(mods, name, key))
+  for key, app in pairs(apps) do
+    table.insert(bindings, bindApp(mods, app, key))
   end
   appChooser = getAppChooserForBindings()
 end

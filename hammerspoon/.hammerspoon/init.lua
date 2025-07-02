@@ -9,22 +9,21 @@ local modKeys = { "cmd", "ctrl" }
 hotkey.bind(modKeys, "R", function() hs.reload() end)
 -- hotkey.bind(modKeys, "C", function() hs.toggleConsole() end)
 
+local applicationKeymaps = {
+  t = "WezTerm",
+  c = "Visual Studio Code",
+  i = "Google Chrome",
+  s = "Slack",
+  o = "Microsoft Outlook",
+  g = "GoLand",
+  q = "Quip",
+  n = "Obsidian",
+  ["0"] = "IntelliJ IDEA",
+  ["1"] = "1Password",
+}
+
 -- Setup Application Toggling
-applications.bind(modKeys, {
-  -- { "Alacritty",                       "t" },
-  -- { "iTerm",                           "t" },
-  -- { "kitty",                           "t" },
-  { "WezTerm",            "t" },
-  { "Visual Studio Code", "c" },
-  { "Google Chrome",      "i" },
-  { "Slack",              "s" },
-  { "Microsoft Outlook",  "o" },
-  { "GoLand",             "g" },
-  { "IntelliJ IDEA",      "0" },
-  { "Quip",               "q" },
-  { "1Password",          "1" },
-  { "Obsidian",           "n" },
-})
+applications.bind(modKeys, applicationKeymaps)
 hotkey.bind(modKeys, "v", function() applications.showToggleChooser() end)
 
 -- Load ControlEscape which maps capslock to ESC when tapped and ctrl when held
