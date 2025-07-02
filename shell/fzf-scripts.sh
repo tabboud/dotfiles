@@ -99,18 +99,26 @@ gswitch() {
     [ $r = 0 ] && git switch $choice
 }
 
-# Checkout a PR via gh APIs.
-pr-checkout() {
-  local pr_number
+ghco() {
+#  local help_message="Usage: ghco [PR_NUMBER]
+#
+#Options:
+#  -h, --help     Show this help message and exit
+#
+#Description:
+#  Use ghco to checkout a specified pull request (PR) using the GitHub CLI.
+#  If no PR_NUMBER is provided, you will be prompted to select from a list of open PRs."
+#  check_help "$help_message" "$@" && return
 
-  pr_number=$(
-    gh api 'repos/:owner/:repo/pulls' |
-    jq --raw-output '.[] | "#\(.number) \(.title)"' |
-    fzf |
-    sed 's/^#\([0-9]\+\).*/\1/'
-  )
+  local PR_NUMBER=$1
 
-  if [ -n "$pr_number" ]; then
-    gh pr checkout "$pr_number"
+  if [[ -z $PR_NUMBER ]]; then
+    local selection=$(gh pr list --json number,baseRefName,headRefName,title,url --template '{{range .}}{{tablerow (printf "%-5v %-30v %-10v %v" .number .headRefName .baseRefName .url)}}{{end}}' | fzf --reverse --height=20 --border --reverse --prompt="Select PR to checkout: ")
+    if [[ -z $selection ]]; then
+        echo -e "${COLOR_YELLOW}No PR selected${COLOR_NONE}"
+        return
+    fi
+    PR_NUMBER=$(echo "$selection" | awk '{print $1}')
   fi
+  gh pr checkout "$PR_NUMBER"
 }

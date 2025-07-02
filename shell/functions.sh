@@ -1,6 +1,21 @@
 # Cross platform utility functions
 #
 
+# Function to check for help flag and display help message
+# Usage: check_help "help message"
+check_help() {
+  local help_message="$1"
+
+  for arg in "$@"; do
+    if [[ "$arg" == "-h" || "$arg" == "--help" ]]; then
+      echo "$help_message"
+      return 0
+    fi
+  done
+
+  return 1
+}
+
 # Append a path to $PATH IFF it doesn't exist.
 #
 # Ex: pathappend path1 -> $PATH:path1
@@ -20,22 +35,26 @@ function pathprepend() {
     fi
 }
 
-# print available colors and their numbers
-function colours() {
-    for i in {0..255}; do
-        printf "\x1b[38;5;${i}m colour${i}"
-        if (( $i % 5 == 0 )); then
-            printf "\n"
-        else
-            printf "\t"
-        fi
-    done
-}
-
 # Create a new directory and enter it
-function md() {
-    echo "mkdir -p \"$@\" && cd \"$@\""
-    mkdir -p "$@" && cd "$@"
+# Function to create a new directory and cd into it
+function mkcd() {
+  local help_message="Usage: mkcd <directory-name>
+
+Options:
+  -h, --help     Show this help message and exit
+
+Description:
+  Creates a new directory and changes the current directory to the newly created one."
+  check_help "$help_message" "$@" && return
+
+  if [[ -z $1 ]]; then
+    echo "Error: Directory name required."
+    echo "$help_message"
+    return 1
+  fi
+
+  # Create the directory if it does not exist, and change into it
+  mkdir -p "$1" && cd "$1"
 }
 
 function hist() {
@@ -45,15 +64,6 @@ function hist() {
 # find shorthand
 function f() {
     find . -name "$1"
-}
-
-# find piped to grep
-function findinfiles() {
-    if [[ "$#" -ne 2 ]]; then
-        echo "USAGE: findinfiles <file_pattern> <grep_pattern>"
-        return
-    fi
-    find . -type f -iname "$1" -print0 | xargs -0 ag "$2"
 }
 
 # get gzipped size
@@ -87,17 +97,6 @@ function extract() {
     fi
 }
 
-# Run either gradlew or godelw
-# function gd() {
-#     # check for gradlew
-#     if [ -f "godelw" ]; then
-#         ./godelw $@
-#     elif [ -f "gradlew" ]; then
-#         ./gradlew $@
-#     else
-#         echo "neither ./gradlew or ./godelw found!"
-#     fi
-# }
 # Run gradlew
 function gra() {
     ./gradlew $@
@@ -275,20 +274,6 @@ function _internalClone() {
     fi
 
     git clone git@"$account":"$repo" "$dest" && cd "$dest"
-}
-
-# Returns 0 if the provided arguments contains
-# a help flag (-h) and 1 otherwise.
-hasHelpFlag() {
-    while getopts h option; do
-       case $option in
-          h)
-             return 0;;
-          *)
-             return 1;;
-       esac
-    done
-    return 1
 }
 
 # Convert a .mov file to a .gif
