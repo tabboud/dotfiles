@@ -36,7 +36,6 @@ end
 
 -- toggle the current theme to/from dark and light.
 local function toggleColorscheme(window, pane)
-  wezterm.log_info('WindowID:', window:window_id(), 'PaneID:', pane:pane_id())
   local overrides = window:get_config_overrides() or {}
 
   if overrides.color_scheme == color_schemes.Dark then
@@ -47,7 +46,6 @@ local function toggleColorscheme(window, pane)
     overrides.color_scheme = color_schemes.Dark
   end
 
-  wezterm.log_info(string.format("Current: %s Desired: %s", currentTheme, overrides.color_scheme))
   window:set_config_overrides(overrides)
 end
 
