@@ -8,6 +8,12 @@ local application = require("hs.application")
 local hotkey = require("hs.hotkey")
 local chooser = require("hs.chooser")
 
+---@class AppBinding
+---@field name string
+---@field hotkey function
+---@field enabled boolean
+
+---@type AppBinding[]
 local bindings = {}
 
 -- Toggle application keybindings with a UI
@@ -16,11 +22,12 @@ local function getAppChooserForBindings()
     if result and result.bindingsIdx then
       local binding = bindings[result.bindingsIdx]
       if binding.enabled then
-        binding.hotkey:disable()
+        -- prefer the binding.enabled field to allow for showing an alert when a keymap is disabled
+        -- binding.hotkey:disable()
         binding.enabled = false
         alert.show("Disabled " .. binding.name)
       else
-        binding.hotkey:enable()
+        -- binding.hotkey:enable()
         binding.enabled = true
         alert.show("Enabled " .. binding.name)
       end
@@ -29,17 +36,19 @@ local function getAppChooserForBindings()
 
   local function getChoices()
     local choices = {}
+
     for i, binding in ipairs(bindings) do
-      -- TODO: Use hs.chooser:refreshChoicesCallback() to refresh symbols
       local symbol = "✅"
+      local status = "Enabled"
       if not binding.enabled then
         symbol = "⛔"
+        status = "Disabled"
       end
       table.insert(choices,
         {
-          ["text"] = binding.name,
-          ["subText"] = string.format("%s Toggle %s keybinding", symbol, binding.name),
-          ["bindingsIdx"] = i,
+          text = binding.name,
+          subText = string.format("%s %s", symbol, status),
+          bindingsIdx = i,
         })
     end
     return choices
@@ -48,10 +57,28 @@ local function getAppChooserForBindings()
   return chooser.new(completionFn):choices(getChoices)
 end
 
+--- Bind an application to a keymap.
+--- Wraps a hammerspoon hotkey that shows an alert if the keymap is disabled.
+---
+---@param mods table<string>
+---@param name string
+---@param key string
+---@return AppBinding
 local function bindApp(mods, name, key)
+  local hk = hotkey.bind(mods, key, function()
+    for _, binding in ipairs(bindings) do
+      if binding.name == name and not binding.enabled then
+        alert.show(string.format("%s is disabled", binding.name))
+        return
+      end
+    end
+    application.launchOrFocus(name)
+  end
+  )
+
   return {
     name = name,
-    hotkey = hotkey.bind(mods, key, function() application.launchOrFocus(name) end),
+    hotkey = hk,
     enabled = true,
   }
 end
@@ -70,6 +97,8 @@ end
 
 function M.showToggleChooser()
   if appChooser then
+    -- refresh before showing to ensure symbols update
+    appChooser:refreshChoicesCallback()
     appChooser:show()
   end
 end
