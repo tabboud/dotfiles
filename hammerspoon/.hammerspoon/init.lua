@@ -1,6 +1,7 @@
 local hotkey = require("hs.hotkey")
 local applications = require("applications")
 local notify = require("hs.notify")
+local log = require("hs.logger").new('dotfiles')
 
 ---@class Config
 ---@field modKeys? table<string> Modifier keys
@@ -29,13 +30,17 @@ local ok, overrides = pcall(dofile, overridesPath)
 if ok and type(overrides) == "table" then
   -- modKey overrides
   if overrides.modKeys ~= nil then
+    log.wf("ModKeys override found: Original (%s) Override (%s)", config.modKeys, overrides.modKeys)
     config.modKeys = overrides.modKeys
   end
 
   -- keymap overrides
   for key, app in pairs(overrides.keymaps or {}) do
+    log.wf("Application override: %s -> %s - Key: %s", config.keymaps[key], app, key)
     config.keymaps[key] = app
   end
+else
+  log.wf("No overrides found")
 end
 
 -- Setup Application Toggling
