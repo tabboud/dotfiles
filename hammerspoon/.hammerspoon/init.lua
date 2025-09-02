@@ -51,8 +51,14 @@ hotkey.bind(config.modKeys, "v", function() applications.showToggleChooser() end
 -- Load ControlEscape which maps capslock to ESC when tapped and ctrl when held
 hs.loadSpoon('ControlEscape'):start()
 
--- Hammerspoon specific keybindings
-hotkey.bind(config.modKeys, "R", function() hs.reload() end)
+-- reload config with "config.modKeys + shift"
+local reloadModKeys = {}
+for _, v in ipairs(config.modKeys) do
+  table.insert(reloadModKeys, v)
+end
+table.insert(reloadModKeys, "shift")
+
+hotkey.bind(reloadModKeys, "R", function() hs.reload() end)
 -- hotkey.bind(modKeys, "C", function() hs.toggleConsole() end)
 
 notify.new({ title = 'Hammerspoon', informativeText = 'Ready to rock 🤘' }):send()
