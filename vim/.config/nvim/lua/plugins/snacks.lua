@@ -48,6 +48,7 @@ return {
           file = {
             -- TODO: Try and toggle this or at least show the full path in the preview window?
             filename_first = true,
+            truncate = 80,
           }
         },
         -- Testing layout cycles
