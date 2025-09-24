@@ -72,28 +72,20 @@ return {
 									-- The node is based on [NuiNode](https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/tree#nuitreenode)
 									local node = state.tree:get_node()
 									local filepath = node:get_id()
-									local modify = vim.fn.fnamemodify
 
 									local results = {
 										filepath, -- absolute path to file (e.g. /Users/user/project/cmd/main.go)
-										modify(filepath, ":."), -- path relative to CWD, usually the root of a git repo (e.g. cmd/main.go)
+										vim.fn.fnamemodify(filepath, ":."), -- path relative to CWD, usually the root of a git repo (e.g. cmd/main.go)
+										vim.fn.fnamemodify(filepath, ":t"), -- Just the file name (main.go if given a path of cmd/main.go)
 									}
 
-									-- absolute path to clipboard
-									local i = vim.fn.inputlist({
-										"Select a path to copy:",
-										string.format('1. Absolute path: "%s"', results[1]),
-										string.format('2. Project root:  "%s"', results[2]),
-									})
-
-									if i > 0 then
-										local result = results[i]
-										if not result then
-											return print("Invalid choice: " .. i)
+									vim.ui.select(results, { prompt = "Select a path to copy" }, function(choice)
+										if not choice then
+											vim.notify("Invalid Choice", vim.log.levels.ERROR)
 										end
 										-- store value into system clipboard register
-										vim.fn.setreg("+", result)
-									end
+										vim.fn.setreg("+", choice)
+									end)
 								end,
 							},
 						},
