@@ -3,6 +3,8 @@ set main-view = line-number:no,interval=5 id:yes date:relative author:full commi
 set wrap-lines = yes
 set ignore-case = smart-case
 
+# Copy commit hash with "9" key
+bind generic 9 +@sh -c "printf '%s' $(git rev-parse --short %(commit)) | pbcopy && echo Copied %(commit) to clipboard"
 # --------------------
 # Vim keybindings
 # --------------------
