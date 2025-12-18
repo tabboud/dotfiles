@@ -1,23 +1,23 @@
 local opt = vim.opt
 
-opt.synmaxcol = 120     -- disable syntax highlighting after # of chars
-opt.textwidth = 120     -- wrap line after configured # of chars
-opt.tabstop = 4         -- visible width of tabs
-opt.softtabstop = 4     -- edit as if the tabs are the configured # of chars wide
-opt.shiftwidth = 4      -- number of spaces to use for indent and unindent
-opt.shiftround = true   -- round indent to a multiple of 'shiftwidth'
+opt.synmaxcol = 120 -- disable syntax highlighting after # of chars
+opt.textwidth = 120 -- wrap line after configured # of chars
+opt.tabstop = 4 -- visible width of tabs
+opt.softtabstop = 4 -- edit as if the tabs are the configured # of chars wide
+opt.shiftwidth = 4 -- number of spaces to use for indent and unindent
+opt.shiftround = true -- round indent to a multiple of 'shiftwidth'
 opt.expandtab = true
-opt.mouse = "a"         -- set mouse mode to all modes
-opt.backup = false      -- don't use backup files
+opt.mouse = "a" -- set mouse mode to all modes
+opt.backup = false -- don't use backup files
 opt.writebackup = false -- don't backup the file while editing
-opt.swapfile = false    -- don't create swap files for new buffers
-opt.updatecount = 0     -- don't write swap files after some number of updates
-opt.showmode = false    -- don't show the vim mode (normal, insert, etc)
+opt.swapfile = false -- don't create swap files for new buffers
+opt.updatecount = 0 -- don't write swap files after some number of updates
+opt.showmode = false -- don't show the vim mode (normal, insert, etc)
 
 -- Appearance
 opt.termguicolors = true
 opt.guicursor =
-"n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
+	"n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 opt.scrolloff = 3 -- set # of lines to the cursors - when moving vertical
 opt.confirm = true -- prompt to save, rather than raise an error
 opt.shell = vim.env.SHELL
@@ -36,23 +36,17 @@ opt.signcolumn = "yes" -- always show the sign column
 opt.fixendofline = false -- Do not include new line at end of file
 -- Coloring
 local lightMode = IsLightMode()
-local colorscheme = lightMode and 'github_light' or 'github_dark_dimmed'
-local background = lightMode and 'light' or 'dark'
+local colorscheme = lightMode and "github_light" or "github_dark_dimmed"
+local background = lightMode and "light" or "dark"
 if not pcall(vim.cmd.colorscheme, colorscheme) then
-  print("colorscheme '" .. colorscheme .. "' not found, using default")
-  vim.cmd.colorscheme('default')
+	print("colorscheme '" .. colorscheme .. "' not found, using default")
+	vim.cmd.colorscheme("default")
 end
 opt.background = background
 
-
 -- Code folding
--- Enable nvim-treesitter code folding if available
-if pcall(require, 'nvim-treesitter') then
-  opt.foldmethod = "expr"
-  opt.foldexpr = "nvim_treesitter#foldexpr()"
-end
 opt.foldlevelstart = 99
-opt.foldnestmax = 10   -- deepest fold is 10 levels
+opt.foldnestmax = 10 -- deepest fold is 10 levels
 opt.foldenable = false -- don't fold by default
 opt.foldlevel = 1
 
@@ -63,27 +57,27 @@ opt.timeoutlen = 500
 
 -- Search
 opt.ignorecase = true -- case insensitive searching
-opt.smartcase = true  -- case-sensitive if expresson contains a capital letter
-opt.hlsearch = true   -- highlight search results
-opt.incsearch = true  -- set incremental search, like modern browsers
+opt.smartcase = true -- case-sensitive if expresson contains a capital letter
+opt.hlsearch = true -- highlight search results
+opt.incsearch = true -- set incremental search, like modern browsers
 opt.lazyredraw = true -- don't redraw while executing macros
-opt.magic = true      -- set magic on, for regular expressions
-opt.showmatch = true  -- show matching brackets
-opt.pumheight = 20    -- pop up menu height
+opt.magic = true -- set magic on, for regular expressions
+opt.showmatch = true -- show matching brackets
+opt.pumheight = 20 -- pop up menu height
 opt.clipboard = { "unnamedplus" }
 opt.showbreak = "↪"
 opt.listchars = {
-  tab = "→ ",
-  eol = "¬",
-  trail = "⋅",
-  extends = "❯",
-  precedes = "❮"
+	tab = "→ ",
+	eol = "¬",
+	trail = "⋅",
+	extends = "❯",
+	precedes = "❮",
 }
 -- Function to set highlight groups for clearer separators
 local function set_separator_colors()
-  -- Define the highlight groups for separators
-  vim.api.nvim_set_hl(0, 'VertSplit', { fg = '#ff0000', bg = 'none' })    -- Red color for vertical splits
-  vim.api.nvim_set_hl(0, 'WinSeparator', { fg = '#ff0000', bg = 'none' }) -- Red color for window separators
+	-- Define the highlight groups for separators
+	vim.api.nvim_set_hl(0, "VertSplit", { fg = "#ff0000", bg = "none" }) -- Red color for vertical splits
+	vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#ff0000", bg = "none" }) -- Red color for window separators
 end
 
 -- Call the function to apply the highlight settings
@@ -91,11 +85,11 @@ set_separator_colors()
 
 -- Set custom fillchars for clearer separators
 vim.opt.fillchars = {
-  vert = '│',
-  horiz = '─',
-  horizup = '┴',
-  horizdown = '┬',
-  vertleft = '┤',
-  vertright = '├',
-  verthoriz = '┼'
+	vert = "│",
+	horiz = "─",
+	horizup = "┴",
+	horizdown = "┬",
+	vertleft = "┤",
+	vertright = "├",
+	verthoriz = "┼",
 }
