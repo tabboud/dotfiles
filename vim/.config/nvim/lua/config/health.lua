@@ -39,6 +39,11 @@ function M.check()
       type = "error",
       msg = "Required to install Go tooling via Mason",
     },
+		{
+			cmd = { "tree-sitter" },
+			type = "error",
+			msg = "Required for nvim-treesitter",
+		},
   }
 
   for _, program in ipairs(programs) do
