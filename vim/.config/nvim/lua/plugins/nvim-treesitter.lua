@@ -1,3 +1,22 @@
+local languages = {
+	"go",
+	"json",
+	"lua",
+	"markdown",
+	"markdown_inline",
+	"rust",
+	"vim",
+	"vimdoc",
+	"yaml",
+}
+-- Map languages to filetype patterns
+local filetypes = vim.iter(languages)
+	:map(function(lang)
+		return vim.treesitter.language.get_filetypes(lang)
+	end)
+	:flatten()
+	:totable()
+
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -7,23 +26,16 @@ return {
 		lazy = false,
 		cmd = { "TSUpdate", "TSInstall" },
 		opts = {
-			ensure_installed = {
-				"go",
-				"json",
-				"lua",
-				"markdown",
-				"markdown_inline",
-				"rust",
-				"vim",
-				"vimdoc",
-				"yaml",
-			},
+			ensure_installed = languages,
 		},
 		config = function(_, opts)
 			require("nvim-treesitter").setup(opts)
 
+			-- Enable tree-sitter after opening a file for a target language
 			vim.api.nvim_create_autocmd("FileType", {
+				desc = "Setup treesitter for a buffer",
 				group = vim.api.nvim_create_augroup("dotfiles_treesitter", { clear = true }),
+				pattern = filetypes,
 				callback = function(event)
 					local ok, nvim_treesitter = pcall(require, "nvim-treesitter")
 					if not ok then
