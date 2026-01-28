@@ -34,6 +34,11 @@ function M.check()
       type = "error",
       msg = "Used for GH commands",
     },
+    {
+      cmd = { "go" },
+      type = "error",
+      msg = "Required to install Go tooling via Mason",
+    },
   }
 
   for _, program in ipairs(programs) do
