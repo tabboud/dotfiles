@@ -52,6 +52,14 @@ return {
 					{ icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
 					{ icon = " ", key = "g", desc = "Grep", action = ":lua Snacks.dashboard.pick('live_grep')" },
 					{
+						icon = " ",
+						key = "h",
+						desc = "Git",
+						action = function()
+							require("neogit").open({ kind = "floating" })
+						end,
+					},
+					{
 						icon = " ",
 						key = "r",
 						desc = "Recent Files",
