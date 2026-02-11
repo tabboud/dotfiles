@@ -203,14 +203,14 @@ return {
           end
           vim.print = _G.dd -- Override print to use snacks -> `:=<thing-to-print>` command
 
-          -- Create some toggle mappings
-          Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
-          Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
-          Snacks.toggle.diagnostics():map("<leader>ud")
-          Snacks.toggle.line_number():map("<leader>ul")
-          Snacks.toggle.treesitter():map("<leader>uT")
-          Snacks.toggle.inlay_hints():map("<leader>uh")
-          Snacks.toggle.indent():map("<leader>ug")
+          -- Toggle Mappings
+          Snacks.toggle.diagnostics():map("<leader>td")
+          Snacks.toggle.line_number():map("<leader>tl")
+          Snacks.toggle.inlay_hints():map("<leader>th")
+          Snacks.toggle.indent():map("<leader>ti")
+          Snacks.toggle.option("list", {name = "List Chars"})
+          Snacks.toggle.option("wrap", { name = "Line Wrap" }):map("<leader>tw")
+          Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>tL")
         end,
       })
     end,

@@ -1,5 +1,7 @@
 local map = vim.keymap.set
 
+-- TODO: Add all plugin keymaps here and import or call a method to use
+
 -- Setup leader mappings - normal (n) / visual (x) mode map a space to a noop
 vim.g.mapleader = " "
 map({ 'n', 'x' }, " ", "", { desc = "Set leader key" })
@@ -24,8 +26,6 @@ map("n", "<leader>a", "<cmd>%y+<cr>", { desc = "Copy the entire buffer" })
 map("n", "<leader>w", "<cmd>w<cr>", { desc = "Write file" })
 map("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
 map("n", "Qa", "", { desc = "Quit all" })
-map("n", "<leader>l", "<cmd>set list!<cr>", { desc = "Toggle 'listchars'" })
-map("n", "<leader>n", "<cmd>set nowrap!<cr>", { desc = "Toggle line wrapping" })
 map("n", "<leader>tt", function() return require("go").ToggleTest(false) end, { desc = "Go: Toggle Go test" })
 map("v", "*", "<Esc>/\\%V", { desc = "Visual search word under cursor (next)" })
 map("v", "#", "<Esc>?\\%V", { desc = "Visual search word under cursor (prev)" })
@@ -35,8 +35,6 @@ map("n", "<leader>]", ">>", { desc = "Shift right" })
 map("v", "<leader>[", "<gv", { desc = "Shift left" })
 map("v", "<leader>]", ">gv", { desc = "Shift right" })
 map("t", "<Esc>", "<c-\\><c-n>", { desc = "Terminal: exit terminal mode" })
-map("n", "<leader>td", function() return vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end,
-  { desc = "LSP: Toggle diagnostics" })
 map("n", "<leader>cr", function()
   vim.lsp.codelens.run()
 end, { desc = "CodeLens: run" })
