@@ -16,6 +16,7 @@ return {
       ensure_installed = {
         "gopls",
         "lua_ls",
+				"pylsp",
         "yamlls",
       },
     },
@@ -108,12 +109,18 @@ return {
           end
 
           -- turn on document formatting
-          if client.server_capabilities.documentFormattingProvider then
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              buffer = bufnr,
-              command = "lua vim.lsp.buf.format()",
-            })
-          end
+					-- TODO: Add a toggle to enable / disable formatting
+					-- Similar to https://github.com/AstroNvim/AstroNvim/blob/main/lua/astronvim/plugins/_astrolsp_autocmds.lua#L69
+					-- turn on document formatting
+					if client.server_capabilities.documentFormattingProvider then
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							buffer = bufnr,
+							-- command = "lua vim.lsp.buf.format()",
+							callback = function(ev)
+								-- vim.lsp.buf.format()
+							end,
+						})
+					end
 
           -- turn on breadcrumbs if document symbols are supported
           if client.server_capabilities.documentSymbolProvider then
@@ -155,6 +162,10 @@ return {
 
           -- rust
           'rust-analyzer',
+
+					-- python
+					"python-lsp-server",
+					"mypy", -- type checking for python
 
           -- vim
           'vim-language-server',
