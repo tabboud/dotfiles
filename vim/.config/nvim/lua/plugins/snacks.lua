@@ -211,6 +211,11 @@ return {
           Snacks.toggle.option("list", {name = "List Chars"})
           Snacks.toggle.option("wrap", { name = "Line Wrap" }):map("<leader>tw")
           Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>tL")
+          Snacks.toggle({
+            name = "Auto Format",
+            get = function() return vim.g.autoformat end,
+            set = function(state) vim.g.autoformat = state end,
+          }):map("<leader>tf")
         end,
       })
     end,
