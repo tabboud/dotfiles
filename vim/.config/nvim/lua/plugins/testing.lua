@@ -109,6 +109,7 @@ return {
               "-count=1",
               -- "-race",
             },
+            warn_test_name_dupes = false,
           }),
         },
         consumers = {
