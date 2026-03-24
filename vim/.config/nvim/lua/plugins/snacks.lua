@@ -166,22 +166,7 @@ return {
         "gr",
         function()
           ---@type snacks.picker.lsp.references.Config
-          Snacks.picker.lsp_references({
-            title = "LSP References",
-            -- TODO(tabboud):  Add keymaps to toggle test files, mock files, etc.
-            -- pattern = function(picker)
-            --   return "!ingress.go"
-            -- end,
-            ---@type snacks.picker.filter.Config
-            filter = {
-              filter = function(item, filter)
-                if item.file:match("_test.go") or item.file:match("conjure.go") then
-                  return false
-                end
-                return true
-              end
-            },
-          })
+          Snacks.picker.lsp_references()
         end,
         nowait = true,
         desc = "References"

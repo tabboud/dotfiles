@@ -56,7 +56,7 @@ return {
 						key = "h",
 						desc = "Git",
 						action = function()
-							require("neogit").open({ kind = "floating" })
+							require("neogit").open()
 						end,
 					},
 					{

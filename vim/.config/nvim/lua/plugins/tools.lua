@@ -31,4 +31,10 @@ return {
         { desc = "Load current dir session" })
     end,
   },
+  {
+    'MagicDuck/grug-far.nvim',
+    config = function()
+      require('grug-far').setup();
+    end
+  },
 }
