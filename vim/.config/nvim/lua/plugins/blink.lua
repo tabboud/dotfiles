@@ -1,6 +1,7 @@
 return {
   {
     "saghen/blink.cmp",
+    enabled = false,
     version = "*",
     opts_extend = {
       "sources.completion.enabled_providers",
