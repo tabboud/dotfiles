@@ -136,7 +136,14 @@ local opts = {
           desc = "Dotfiles",
           action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.getenv('DOTFILES'), hidden=true})",
         },
-        { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+        {
+          icon = " ",
+          key = "s",
+          desc = "Restore Session",
+          action = function()
+            vim.cmd("SessionManager load_current_dir_session")
+          end,
+        },
         { icon = " ", key = "q", desc = "Quit", action = ":qa" },
       },
     },

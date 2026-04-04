@@ -104,6 +104,22 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
 -- nvim-navic: add in the winbar extension after loading
 vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
 
+-- Initialize mason
+require("mason").setup()
+
+-- Ensure LSP servers are installed and enable them via nvim 0.12 native vim.lsp.enable().
+-- automatic_enable = true calls vim.lsp.enable() for each managed server, which picks up
+-- server config from after/lsp/*.lua files automatically.
+require("mason-lspconfig").setup({
+  ensure_installed = {
+    "gopls",
+    "lua_ls",
+    "pylsp",
+    "yamlls",
+  },
+  automatic_enable = true,
+})
+
 -- Setup mason so it can manage external tooling
 mason_tool_installer.setup({
 	ensure_installed = {
