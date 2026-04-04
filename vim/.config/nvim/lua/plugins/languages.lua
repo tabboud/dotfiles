@@ -1,13 +1,3 @@
-return {
-  { 'plasticboy/vim-markdown', ft = { 'markdown' } },
-  {
-    "OXY2DEV/markview.nvim",
-    enabled = true,
-    lazy = false, -- Recommended
-    ft = { 'markdown' },
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons"
-    }
-  }
-}
+-- languages.lua
+require('markview').setup()
+-- vim-markdown requires no setup; filetype detection works via rtp

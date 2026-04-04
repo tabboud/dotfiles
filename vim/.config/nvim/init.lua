@@ -1,17 +1,31 @@
 -- init.lua
 
--- If supported, compile lua to bytecode (e.g. cache modules).
-if vim.loader and vim.fn.has "nvim-0.9" == 1 then vim.loader.enable() end
+-- Enable Lua bytecode caching for faster startup
+vim.loader.enable()
 
 -- core
 require("config.globals")
 require("config.keymaps")
 require("config.autocmds")
 
--- Plugin loading / config
-require("config.lazy")
+-- Load all plugins via vim.pack
+require("config.pack")
 
--- Options that include plugin settings
+-- Configure each plugin group (order matters: colorscheme first)
+require("plugins.colorscheme")
+require("plugins.lsp")
+require("plugins.snacks")
+require("plugins.ui")
+require("plugins.nvim-treesitter")
+require("plugins.neo-tree")
+require("plugins.trouble")
+require("plugins.git")
+require("plugins.testing")
+require("plugins.tools")
+require("plugins.mini")
+require("plugins.languages")
+
+-- Options (colorscheme must be loaded before this)
 require("config.options")
 
 require("virtual-text")
