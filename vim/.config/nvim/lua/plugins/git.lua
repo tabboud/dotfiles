@@ -1,114 +1,73 @@
-return {
-  {
-    'tpope/vim-fugitive',
-    keys = {
-      { '<leader>gb', mode = 'n', '<cmd>Git blame<cr>', desc = "Git: blame" },
-    },
-  },
-  {
-    'TimUntersberger/neogit',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    keys = {
-      { "<leader>gg", function() require("neogit").open({ kind = "tab" }) end, desc = "Git: Show status pane" },
-    },
-    config = true,
-  },
-  {
-    'sindrets/diffview.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    -- only load this plugin on the following commands
-    cmd = { 'DiffviewOpen', 'DiffviewFileHistory', 'DiffViewLog' },
-    opts = {
-      -- See ':h diffview-config-enhanced_diff_hl'
-      enhanced_diff_hl = true,
+-- git.lua
+local icons = require("icons")
 
-      -- See ':h diffview-config-hooks'
-      hooks = {
-        diff_buf_read = function(_)
-          -- Change local options in diff buffers
-          -- vim.opt_local.wrap = false
-          vim.opt_local.list = false
-          vim.opt_local.colorcolumn = { 80 }
-        end,
+-- vim-fugitive
+vim.keymap.set("n", "<leader>gb", "<cmd>Git blame<cr>", { desc = "Git: blame" })
 
-        diff_buf_win_enter = function(_, _, ctx)
-          -- Highlight 'DiffChange' as 'DiffDelete' on the left, and 'DiffAdd' on the right.
-          if ctx.layout_name:match("^diff2") then
-            if ctx.symbol == "a" then
-              vim.opt_local.winhl = table.concat({
-                "DiffAdd:DiffviewDiffAddAsDelete",
-                "DiffDelete:DiffviewDiffDelete",
-                "DiffChange:DiffAddAsDelete",
-                "DiffText:DiffDeleteText",
-              }, ",")
-            elseif ctx.symbol == "b" then
-              vim.opt_local.winhl = table.concat({
-                "DiffDelete:DiffviewDiffDelete",
-                "DiffChange:DiffAdd",
-                "DiffText:DiffAddText",
-              }, ",")
-            end
-          end
-        end,
-      }
-    },
-  },
-  {
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      signs     = {
-        add          = { text = require("icons").git.GitAdd },
-        change       = { text = require("icons").git.GitChange },
-        delete       = { text = require("icons").git.GitDelete },
-        topdelete    = { text = require("icons").git.GitTopDelete },
-        changedelete = { text = require("icons").git.GitChangeDelete },
-      },
-      -- Key mappings
-      on_attach = function(bufnr)
-        local gs = package.loaded.gitsigns
+-- neogit
+require("neogit").setup({})
+vim.keymap.set("n", "<leader>gg", function() require("neogit").open({ kind = "tab" }) end, { desc = "Git: Show status pane" })
 
-        -- Navigation
-        vim.keymap.set("n", ']c', function()
-          if vim.wo.diff then return ']c' end
-          vim.schedule(function()
-            gs.next_hunk({ preview = false })
-          end)
-          return '<Ignore>'
-        end, { expr = true, buffer = bufnr, desc = "Git: go to next hunk" })
+-- diffview
+require("diffview").setup({
+  enhanced_diff_hl = true,
+  hooks = {
+    diff_buf_read = function(_)
+      vim.opt_local.list = false
+      vim.opt_local.colorcolumn = { 80 }
+    end,
 
-        vim.keymap.set("n", '[c', function()
-          if vim.wo.diff then return '[c' end
-          vim.schedule(function()
-            gs.prev_hunk({ preview = false })
-          end)
-          return '<Ignore>'
-        end, { expr = true, buffer = bufnr, desc = "Git: go to previous hunk" })
-
-        -- Actions
-        -- Using a different prefix rather than "g" since that conflicts with
-        -- some of the "g" native vim commands and subsequent remaps for lspconfig/telescope
-        -- nnoremap('<leader>gb', gs.toggle_current_line_blame, { buffer = bufnr, desc = "Git: Toggle current line blame" })
-        vim.keymap.set("n", '<leader>gd', gs.diffthis, { buffer = bufnr, desc = "Git: diff current file" })
-        vim.keymap.set("n", '<leader>gp', gs.preview_hunk, { buffer = bufnr, desc = "Git: preview hunk" })
-        vim.keymap.set("n", '<leader>gs', gs.stage_hunk, { buffer = bufnr, desc = "Git: stage hunk" })
+    diff_buf_win_enter = function(_, _, ctx)
+      if ctx.layout_name:match("^diff2") then
+        if ctx.symbol == "a" then
+          vim.opt_local.winhl = table.concat({
+            "DiffAdd:DiffviewDiffAddAsDelete",
+            "DiffDelete:DiffviewDiffDelete",
+            "DiffChange:DiffAddAsDelete",
+            "DiffText:DiffDeleteText",
+          }, ",")
+        elseif ctx.symbol == "b" then
+          vim.opt_local.winhl = table.concat({
+            "DiffDelete:DiffviewDiffDelete",
+            "DiffChange:DiffAdd",
+            "DiffText:DiffAddText",
+          }, ",")
+        end
       end
-    }
-  },
-  -- Testing for GH PR reviews
-  {
-    'pwntester/octo.nvim',
-    enabled = false,
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'folke/snacks.nvim',
-      'nvim-tree/nvim-web-devicons',
-    },
-    config = function()
-      require("octo").setup({
-        picker = "snacks",
-        github_hostname = "github.palantir.build",
-      })
-    end
-
+    end,
   }
-}
+})
+
+-- gitsigns
+require("gitsigns").setup({
+  signs = {
+    add          = { text = icons.git.GitAdd },
+    change       = { text = icons.git.GitChange },
+    delete       = { text = icons.git.GitDelete },
+    topdelete    = { text = icons.git.GitTopDelete },
+    changedelete = { text = icons.git.GitChangeDelete },
+  },
+  on_attach = function(bufnr)
+    local gs = package.loaded.gitsigns
+
+    vim.keymap.set("n", ']c', function()
+      if vim.wo.diff then return ']c' end
+      vim.schedule(function()
+        gs.next_hunk({ preview = false })
+      end)
+      return '<Ignore>'
+    end, { expr = true, buffer = bufnr, desc = "Git: go to next hunk" })
+
+    vim.keymap.set("n", '[c', function()
+      if vim.wo.diff then return '[c' end
+      vim.schedule(function()
+        gs.prev_hunk({ preview = false })
+      end)
+      return '<Ignore>'
+    end, { expr = true, buffer = bufnr, desc = "Git: go to previous hunk" })
+
+    vim.keymap.set("n", '<leader>gd', gs.diffthis, { buffer = bufnr, desc = "Git: diff current file" })
+    vim.keymap.set("n", '<leader>gp', gs.preview_hunk, { buffer = bufnr, desc = "Git: preview hunk" })
+    vim.keymap.set("n", '<leader>gs', gs.stage_hunk, { buffer = bufnr, desc = "Git: stage hunk" })
+  end
+})
