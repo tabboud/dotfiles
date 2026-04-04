@@ -196,10 +196,7 @@ vim.keymap.set("n", "<leader>nh",      function() Snacks.notifier.show_history()
 vim.keymap.set("n", "<leader><Enter>", function() Snacks.picker.buffers({ current = false }) end,              { desc = "Buffers" })
 vim.keymap.set("n", "<leader>ed",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, { desc = "Find Config File" })
 vim.keymap.set("n", "<leader>p", function()
-  local in_git = function()
-    return Snacks.git.get_root() ~= nil
-  end
-  if in_git() then
+  if in_git_repo() then
     Snacks.picker.git_files()
   else
     Snacks.picker.files({ exclude = { "vendor" } })
