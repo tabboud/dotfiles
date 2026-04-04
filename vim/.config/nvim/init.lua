@@ -13,6 +13,7 @@ require("config.pack")
 
 -- Configure each plugin group (order matters: colorscheme first)
 require("plugins.colorscheme")
+require("plugins.blink")   -- load before lsp so blink capabilities are picked up
 require("plugins.lsp")
 require("plugins.snacks")
 require("plugins.ui")

@@ -38,8 +38,11 @@ vim.pack.add({
   'https://github.com/glepnir/lspsaga.nvim',
   'https://github.com/SmiteshP/nvim-navic',
 
-  -- Completion / snippets
-  'https://github.com/L3MON4D3/LuaSnip',
+  -- Completion
+  { src = 'https://github.com/saghen/blink.cmp', version = 'stable' },
+
+  -- Snippets
+  { src = 'https://github.com/L3MON4D3/LuaSnip', version = 'v2.*' },
   'https://github.com/rafamadriz/friendly-snippets',
 
   -- Treesitter (track main branch explicitly)
