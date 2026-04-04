@@ -15,13 +15,19 @@ vim.g.loaded_tutor = 1
 vim.g.loaded_vimball = 1
 vim.g.loaded_vimballPlugin = 1
 
--- PackChanged hook MUST be registered before vim.pack.add() so it fires on first install
+-- PackChanged hooks MUST be registered before vim.pack.add() so they fire on first install too
 vim.api.nvim_create_autocmd('PackChanged', {
   callback = function(ev)
     local name, kind = ev.data.spec.name, ev.data.kind
+
     if name == 'nvim-treesitter' and kind == 'update' then
       if not ev.data.active then vim.cmd.packadd('nvim-treesitter') end
       vim.cmd('TSUpdate')
+    end
+
+    if name == 'blink.cmp' and (kind == 'install' or kind == 'update') then
+      if not ev.data.active then vim.cmd.packadd('blink.cmp') end
+      vim.cmd('BlinkCmp build')
     end
   end
 })
