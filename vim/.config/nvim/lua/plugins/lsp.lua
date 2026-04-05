@@ -17,7 +17,6 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
 		local map = function(lhs, rhs, desc)
 			vim.keymap.set("n", lhs, rhs, { desc = desc, noremap = true, silent = true, buffer = bufnr })
 		end
-		-- nvim-lspconfig keymaps
 		map("gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", "LSP: Workspace symbols")
 		map("<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", "LSP: Go to definition")
 		-- lsp-saga keymaps
