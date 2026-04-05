@@ -71,7 +71,7 @@ vim.pack.add({
 
   -- Git
   'https://github.com/tpope/vim-fugitive',
-  'https://github.com/TimUntersberger/neogit',
+  'https://github.com/NeogitOrg/neogit',
   'https://github.com/sindrets/diffview.nvim',
   'https://github.com/lewis6991/gitsigns.nvim',
 
