@@ -44,6 +44,11 @@ function M.check()
 			type = "error",
 			msg = "Required for nvim-treesitter",
 		},
+    {
+      cmd = { "cargo" },
+      type = "error",
+      msg = "Cargo and rust are required to run ':BlinkCmp build'",
+    },
   }
 
   for _, program in ipairs(programs) do
