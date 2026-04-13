@@ -7,7 +7,6 @@ return {
     GitTopDelete = '‾',
     GitChangeDelete = '~',
   },
-  -- used by nvim-cmp
   kind = {
     Text = "   (Text) ",
     Method = "   (Method)",

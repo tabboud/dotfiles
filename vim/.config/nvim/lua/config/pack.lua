@@ -41,7 +41,6 @@ vim.pack.add({
   'https://github.com/mason-org/mason.nvim',
   'https://github.com/mason-org/mason-lspconfig.nvim',
   'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim',
-  'https://github.com/glepnir/lspsaga.nvim',
   'https://github.com/SmiteshP/nvim-navic',
 
   -- Completion
@@ -52,7 +51,7 @@ vim.pack.add({
   'https://github.com/rafamadriz/friendly-snippets',
 
   -- Treesitter (track main branch explicitly)
-  { src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'main' },
+  { src = 'https://github.com/nvim-treesitter/nvim-treesitter', branch = 'main' },
 
   -- UI
   'https://github.com/nvim-lualine/lualine.nvim',

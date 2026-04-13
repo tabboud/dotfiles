@@ -1,5 +1,4 @@
 -- lsp.lua
-local lspsaga = require("lspsaga")
 local mason_tool_installer = require("mason-tool-installer")
 local icons = require("icons")
 
@@ -17,14 +16,9 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
 		local map = function(lhs, rhs, desc)
 			vim.keymap.set("n", lhs, rhs, { desc = desc, noremap = true, silent = true, buffer = bufnr })
 		end
-		-- nvim-lspconfig keymaps
 		map("gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", "LSP: Workspace symbols")
 		map("<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", "LSP: Go to definition")
-		-- lsp-saga keymaps
-		map("ga", "<cmd>Lspsaga code_action<CR>", "LSP: Code Action")
-		map("g]", "<cmd>Lspsaga diagnostic_jump_next<CR>", "LSP: Diagnostics next")
-		map("g[", "<cmd>Lspsaga diagnostic_jump_prev<CR>", "LSP: Diagnostics prev")
-		map("K", "<cmd>Lspsaga hover_doc<CR>", "LSP: Hover docs")
+		map("ga", vim.lsp.buf.code_action, "LSP: Code Action")
 		-- default + snacks.input
 		map("<leader>rn", function()
 			vim.lsp.buf.rename(nil, { prompt = "Rename" })
@@ -168,9 +162,3 @@ vim.lsp.config("*", {
 	capabilities = get_capabilities(),
 })
 
--- setup lsp-saga
-lspsaga.setup({
-	lightbulb = {
-		enable = false,
-	},
-})

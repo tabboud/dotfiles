@@ -3,6 +3,11 @@
 -- Enable Lua bytecode caching for faster startup
 vim.loader.enable()
 
+-- New UI opt-in
+require("vim._core.ui2").enable({
+  enable = true
+})
+
 -- core
 require("config.globals")
 require("config.keymaps")
