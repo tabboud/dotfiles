@@ -12,17 +12,12 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
 			return
 		end
 
-		-- Configure keymaps
-		local map = function(lhs, rhs, desc)
-			vim.keymap.set("n", lhs, rhs, { desc = desc, noremap = true, silent = true, buffer = bufnr })
-		end
-		map("gW", "<cmd>lua vim.lsp.buf.workspace_symbol()<CR>", "LSP: Workspace symbols")
-		map("<c-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", "LSP: Go to definition")
-		map("ga", vim.lsp.buf.code_action, "LSP: Code Action")
-		-- default + snacks.input
-		map("<leader>rn", function()
-			vim.lsp.buf.rename(nil, { prompt = "Rename" })
-		end, "LSP: Rename word under cursor")
+		-- Keymaps
+    local opts = { noremap = true, silent = true, buffer = bufnr }
+		vim.keymap.set("n", "gW", vim.lsp.buf.workspace_symbol, opts)
+		vim.keymap.set("n", "<c-]>", vim.lsp.buf.definition, opts)
+		vim.keymap.set("n", "ga", vim.lsp.buf.code_action, opts)
+		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 
 		local ns = vim.lsp.diagnostic.get_namespace(client_id)
 		vim.diagnostic.config(
