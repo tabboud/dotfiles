@@ -87,6 +87,11 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
 		if client.server_capabilities.semanticTokensProvider then
 			client.server_capabilities.semanticTokensProvider = nil
 		end
+
+    -- enable code-lens if supported
+    if client.server_capabilities.codeLensProvider then
+      vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled())
+    end
 	end,
 })
 
