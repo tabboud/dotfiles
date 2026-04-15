@@ -1,5 +1,6 @@
 # Theme Settings
-theme = dark:Github Dark Dimmed,light:Github Light Default
+# theme = dark:Github Dark Dimmed,light:Github Light Default
+theme = Github Dark Dimmed
 background-opacity = 0.90
 background-blur-radius = true
 
