@@ -4,8 +4,6 @@ vim/.vim/.netrwhist
 vim/.vim/autoload
 vim/.vim/session
 vim/.config/nvim/.netrwhist
-!hammerspoon/.hammerspoon/Spoons/SpoonInstall.spoon/
-hammerspoon/.hammerspoon/Spoons/*
 
 zsh/cache
 
@@ -19,3 +17,8 @@ gh/.config/gh/*
 
 zsh/.config/zsh/.zcompdump
 zsh/.config/zsh/.zsh_history
+
+# hammerspoon - ignore spoons and overrides
+!hammerspoon/.hammerspoon/Spoons/SpoonInstall.spoon/
+hammerspoon/.hammerspoon/Spoons/*
+hammerspoon/.hammerspoon/overrides.lua

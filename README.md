@@ -63,6 +63,17 @@ should be placed in the prompt override file mentioned above.
 export PROMPT_OVERRIDE_USER="[PROD]"
 ```
 
+## Overrides
+
+### Hammerspoon
+
+Overrides can be supplied by creating an `overrides.lua` module at the following path. This path is already in
+`.gitignore` so all changes will not be tracked. The lua module should return a Config object with all expected overrides set.
+
+```
+hammerspoon/.hammerspoon/overrides.lua
+```
+
 ## Un-Install
 
 - To remove all linked dotfiles, run the following: `./install.sh uninstall`

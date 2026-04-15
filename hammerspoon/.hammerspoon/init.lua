@@ -5,10 +5,10 @@ local log = require("hs.logger").new('dotfiles')
 
 ---@class Config
 ---@field modKeys? table<string> Modifier keys
----@field keymaps? table<string, string> Key to application mappings
+---@field apps? table<string, string> Map of key to app name (e.g. t = "terminal")
 local config = {
   modKeys = { "cmd", "ctrl" },
-  keymaps = {
+  apps = {
     t = "WezTerm",
     c = "Visual Studio Code",
     i = "Google Chrome",
@@ -22,12 +22,12 @@ local config = {
   }
 }
 
--- Load overrides from an external file
--- Example overrides.lua file:
---  return { keymaps = { n = "Notes" } }
-local overridesPath = os.getenv("HOME") .. "/.local/dotfiles/hammerspoon/overrides.lua"
-local ok, overrides = pcall(dofile, overridesPath)
-if ok and type(overrides) == "table" then
+-- Load overrides from a local overrides.lua file (gitignored)
+---@type boolean, Config
+local ok, overrides = pcall(require, "overrides")
+if not ok then
+  log.wf("No overrides found")
+else
   -- modKey overrides
   if overrides.modKeys ~= nil then
     log.wf("ModKeys override found: Original (%s) Override (%s)", config.modKeys, overrides.modKeys)
@@ -35,16 +35,15 @@ if ok and type(overrides) == "table" then
   end
 
   -- keymap overrides
-  for key, app in pairs(overrides.keymaps or {}) do
-    log.wf("Application override: %s -> %s - Key: %s", config.keymaps[key], app, key)
-    config.keymaps[key] = app
+  for key, app in pairs(overrides.apps or {}) do
+    log.wf("App override: %s -> %s - Key: %s", config.apps[key], app, key)
+    config.apps[key] = app
   end
-else
-  log.wf("No overrides found")
 end
 
 -- Setup Application Toggling
-applications.bind(config.modKeys, config.keymaps)
+applications.bind(config.modKeys, config.apps)
+
 -- Toggle chooser to enable/disable application keymaps
 hotkey.bind(config.modKeys, "v", function() applications.showToggleChooser() end)
 
