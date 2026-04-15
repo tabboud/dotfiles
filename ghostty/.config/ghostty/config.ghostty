@@ -1,0 +1,6 @@
+# Theme Settings
+theme = dark:Github Dark Dimmed,light:Github Light Default
+background-opacity = 0.90
+background-blur-radius = true
+
+# vim:syn=bash
