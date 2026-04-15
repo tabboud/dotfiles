@@ -4,4 +4,7 @@ theme = Github Dark Dimmed
 background-opacity = 0.90
 background-blur-radius = true
 
+# Mouse settings
+mouse-hide-while-typing = true
+
 # vim:syn=bash
