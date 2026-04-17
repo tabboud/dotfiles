@@ -12,6 +12,10 @@ if [[ -n "$(command -v nvim)" ]]; then
     alias vim="nvim"
 fi
 
+if [[ -n "$(command -v rg)" ]]; then
+    alias rg="rg -i"
+fi
+
 # Filesystem aliases
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -35,7 +39,6 @@ alias df='df -h' # disk free, in Gigabytes, not bytes
 alias du='du -h -c' # calculate disk usage for a folder
 
 # IP addresses
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
 
 # Trim new lines and copy to clipboard

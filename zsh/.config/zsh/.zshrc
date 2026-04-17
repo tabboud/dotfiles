@@ -50,6 +50,21 @@ setopt interactivecomments
 # FZF config
 if command -v fzf &>/dev/null; then
     source <(fzf --zsh)
+
+    # FZF custom settings
+    # These were pulled directly from the FZF github README
+    # ref: https://github.com/junegunn/fzf#respecting-gitignore
+    #
+    # Set fd as the default source for fzf
+    # Search hidden files (-H) and exclude (-E) vendor and .git
+    OS="$(uname)"
+    if [[ "$OS" == "Darwin" ]]; then
+        export FZF_DEFAULT_COMMAND='fd --type f -H -E "vendor" -E "**/.git/"'
+    elif [[ "$OS" == "Linux" ]]; then
+        export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix -H -E "vendor" -E "**/.git/"'
+    fi
+    # Apply the command to CTRL-T as well
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
 
 # Custom PROMPT overrides

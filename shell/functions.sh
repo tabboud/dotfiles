@@ -104,6 +104,11 @@ function god() {
     ./godelw $@
 }
 
+# Preview a CSV in the terminal.
+function previewCSV() {
+    sed 's/,/ ,/g' < "$1" | column -t -s, | less -S
+}
+
 #=========================================
 # Git functions
 #=========================================
