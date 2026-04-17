@@ -14,6 +14,10 @@ gocd() {
     fi
 }
 
+c () {
+    gocd "$@"
+}
+
 dots() {
     cd $DOTFILES
     files=$(fzf --reverse --height=20 --border)

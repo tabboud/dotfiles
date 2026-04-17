@@ -1,4 +1,15 @@
 export DOTFILES=$HOME/.dotfiles
+
+# Load common functions first
+source "$ZDOTDIR/functions.zsh"
+
+# Setup PATH
+prepend_path /usr/local/sbin
+prepend_path /usr/local/bin
+prepend_path $HOME/.local/bin
+prepend_path $HOME/.bin
+prepend_path $HOME/.gvm/go/bin     
+
 export PATH=$HOME/.bin:/usr/local/bin:/usr/local/sbin:$PATH
 export PAGER='less -R'
 export HISTFILE="$ZDOTDIR/.zsh_history"
