@@ -7,6 +7,11 @@ else # OS X `ls`
     colorflag="-G"
 fi
 
+# Alias neovim if it exists
+if [[ -n "$(command -v nvim)" ]]; then
+    alias vim="nvim"
+fi
+
 # Filesystem aliases
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -19,8 +24,10 @@ alias ltr="ls -ltrh ${colorflag}"
 alias ls="ls ${colorflag}"
 alias rmf="rm -rf"
 
+# Git
 alias g="git"
 alias gs="git status"
+alias lg="lazygit log"
 
 # Helpers
 alias grep='grep --color=auto'

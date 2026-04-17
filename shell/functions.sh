@@ -16,25 +16,6 @@ check_help() {
   return 1
 }
 
-# Append a path to $PATH IFF it doesn't exist.
-#
-# Ex: pathappend path1 -> $PATH:path1
-function pathappend() {
-    if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
-        PATH="${PATH:+"$PATH:"}$ARG"
-    fi
-}
-
-# Prepend a path to $PATH IFF it doesn't exist.
-#
-# Ex: pathprepend path1 -> path1:$PATH
-function pathprepend() {
-    ARG=$1
-    if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
-        PATH="$ARG${PATH:+":$PATH"}"
-    fi
-}
-
 # Create a new directory and enter it
 # Function to create a new directory and cd into it
 function mkcd() {
@@ -97,10 +78,27 @@ function extract() {
     fi
 }
 
-# Run gradlew
-function gra() {
-    ./gradlew $@
+# mkdirDate creates a new director with the current date
+# ex: 2019-11-01
+function mkdirDate() {
+    mkdir $(date +%Y-%m-%d)
 }
+
+# etmp creates a new temp file and opens it using the $EDITOR.
+# The filename will be printed out before opening.
+function etmp() {
+    tempFile=$(mktemp)
+    echo "Tempfile: $tempFile"
+    $EDITOR $tempFile
+}
+
+# Convert a .mov file to a .gif
+function movToGif() {
+    # Based on https://gist.github.com/SheldonWangRJT/8d3f44a35c8d1386a396b9b49b43c385
+    output_file="$1.gif"
+    ffmpeg -i $1 -pix_fmt rgb8 -r 10 $output_file && gifsicle -O3 $output_file -o $output_file
+}
+
 # Run godlew
 function god() {
     ./godelw $@
@@ -154,73 +152,11 @@ function changedFiles() {
     git status --porcelain | sed -ne 's/^ M //p'
 }
 
-#=========================================
-# Go functions
-#=========================================
-# list out directly imported packages for an entire project
-function getGoImportsForAll() {
-    getGoImportsForPkg ./...
-}
-
-# list directly imported packages for a given pkg.
-function getGoImportsForPkg() {
-    if [[ "$#" -ne 1 ]]; then
-        echo "USAGE: getGoImportsForPkg <pkg> (Ex: getGoImportsForPkg ./internal/server)"
-        return
-    fi
-
-    go list -f '{{ join .Imports "\n" }}' $1
-}
-
-# List dependencies for go pkgs
-# deps ./... | grep palantir | vim -
-function deps() {
-    go list -f '{{ join .Deps  "\n"}}' $1 | sort | uniq
-}
-
-# List dependencies for go pkgs by the pkg name
-# deps ./... | grep palantir | vim -
-function depsByPkg() {
-    go list -f '{{.ImportPath}}:{{"\n\t"}}{{ join .Deps  "\n\t"}}' $1
-}
-
-goImportsByPkg() {
-    local helpText=$( printf "USAGE: %s <pkgs>
-
-        Lists directly imported packages, by import path, for the provided packages.
-        Example: goImportsByPkg ./...\n" "$0")
-    if hasHelpFlag "$@"; then
-        echo $helpText
-        return 1
-    fi
-    if [[ $# -ne 1 ]]; then
-        echo "Not enough arguments"
-        echo $helpText
-        return 1
-    fi
-    go list -f '{{.ImportPath}}:{{"\n\t"}}{{join .Imports "\n\t"}}' "$1"
-}
-
 # listDeleted lists the local branches that
 # are removed from the remote tracking repo.
 function listDeleted() {
     git fetch -p && git branch -vv | awk '/: gone]/{print $1}'
 }
-
-# mkdirDate creates a new director with the current date
-# ex: 2019-11-01
-function mkdirDate() {
-    mkdir $(date +%Y-%m-%d)
-}
-
-# etmp creates a new temp file and opens it using the $EDITOR.
-# The filename will be printed out before opening.
-function etmp() {
-    tempFile=$(mktemp)
-    echo "Tempfile: $tempFile"
-    $EDITOR $tempFile
-}
-
 
 # gheclone will run git clone from anywhere on the system
 # from the configured $GHE_ORG and place the repo in the following locatioins:
@@ -274,11 +210,4 @@ function _internalClone() {
     fi
 
     git clone git@"$account":"$repo" "$dest" && cd "$dest"
-}
-
-# Convert a .mov file to a .gif
-function movToGif() {
-    # Based on https://gist.github.com/SheldonWangRJT/8d3f44a35c8d1386a396b9b49b43c385
-    output_file="$1.gif"
-    ffmpeg -i $1 -pix_fmt rgb8 -r 10 $output_file && gifsicle -O3 $output_file -o $output_file
 }
