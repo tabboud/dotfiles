@@ -46,6 +46,11 @@ end, { desc = "CodeLens: run" })
 vim.cmd [[ nnoremap <silent> * :let @/= '\<' . expand('<cword>') . '\>' <bar> set hls <cr> ]]
 
 
+-- Pack commands
+vim.api.nvim_create_user_command("PackUpdate", function ()
+  vim.pack.update()
+end, {})
+
 
 -- Custom 'gh' commands
 vim.api.nvim_create_user_command(
