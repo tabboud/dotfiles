@@ -1,0 +1,6 @@
+function pathprepend() {
+    local ARG=$1
+    if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+        PATH="$ARG${PATH:+":$PATH"}"
+    fi
+}

@@ -1,0 +1,7 @@
+function gupdate() {
+    local current=$(git_current_branch)
+
+    git checkout $1 && \
+    gpull && \
+    git checkout $current
+}

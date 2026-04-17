@@ -1,0 +1,8 @@
+function gheclone() {
+    if [[ "$#" -ne 1 ]]; then
+        echo "USAGE: gheclone <org>/<repo>"
+        return
+    fi
+
+    _internalClone "${GHE_ORG}" "$1"
+}

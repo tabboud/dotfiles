@@ -1,0 +1,5 @@
+function etmp() {
+    tempFile=$(mktemp)
+    echo "Tempfile: $tempFile"
+    $EDITOR $tempFile
+}

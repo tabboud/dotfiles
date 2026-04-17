@@ -1,0 +1,3 @@
+function changedFiles() {
+    git status --porcelain | sed -ne 's/^ M //p'
+}

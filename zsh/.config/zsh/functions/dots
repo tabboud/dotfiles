@@ -1,0 +1,7 @@
+dots() {
+    cd $DOTFILES
+    files=$(fzf --reverse --height=20 --border)
+    if [[ -n "$files" ]]; then
+        ${EDITOR:-vim} "${files[@]}"
+    fi
+}

@@ -1,0 +1,3 @@
+function gpushf() {
+    git push -f origin $(git_current_branch)
+}

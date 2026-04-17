@@ -1,0 +1,12 @@
+function check_help() {
+  local help_message="$1"
+
+  for arg in "$@"; do
+    if [[ "$arg" == "-h" || "$arg" == "--help" ]]; then
+      echo "$help_message"
+      return 0
+    fi
+  done
+
+  return 1
+}

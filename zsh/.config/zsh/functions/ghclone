@@ -1,0 +1,8 @@
+function ghclone() {
+    if [[ "$#" -ne 1 ]]; then
+        echo "USAGE: ghclone <org>/<repo>"
+        return
+    fi
+
+    _internalClone "github.com" "$1"
+}

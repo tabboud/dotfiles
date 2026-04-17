@@ -1,5 +1,13 @@
 export DOTFILES=$HOME/.dotfiles
-export PATH=$HOME/.bin:/usr/local/bin:/usr/local/sbin:$PATH
+
+# Autoload all custom functions early so they are available throughout this file
+fpath=("$ZDOTDIR/functions" $fpath)
+autoload -Uz $ZDOTDIR/functions/*(.:t)
+
+pathprepend /usr/local/sbin
+pathprepend /usr/local/bin
+pathprepend $HOME/.bin
+
 export PAGER='less -R'
 export HISTFILE="$ZDOTDIR/.zsh_history"
 
@@ -36,7 +44,7 @@ done
 # Allow '#' to be used for comments in interactive shells
 setopt interactivecomments
 
-# FZF config
+# Ensure FZF keyboard completions work     
 if command -v fzf &>/dev/null; then
     source <(fzf --zsh)
 fi
@@ -45,16 +53,9 @@ fi
 [ -f ~/.prompt-overrides.zsh ] && source ~/.prompt-overrides.zsh
 source $ZDOTDIR/lib/prompt.zsh
 
-# Load all shell specific settings before the custom settings
-for file in "$DOTFILES"/shell/*; do
-    source "$file"
-done
-unset file
-
 # Load all custom settings
-# ~/.path   -> extend the PATH env variable
 # ~/.custom -> custom settings
-for file in ~/.{path,custom.local}; do
+for file in ~/.{custom.local}; do
 	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
 		source "$file"
 	fi

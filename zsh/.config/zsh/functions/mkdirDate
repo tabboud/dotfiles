@@ -1,0 +1,3 @@
+function mkdirDate() {
+    mkdir $(date +%Y-%m-%d)
+}
