@@ -1,0 +1,19 @@
+#!/usr/bin/env zsh
+
+theme_file="$HOME/.theme"
+
+if [[ -f "$theme_file" ]]; then
+    current=$(<"$theme_file")
+else
+    current="light"
+fi
+
+if [[ "$current" == "dark" ]]; then
+    new="light"
+else
+    new="dark"
+fi
+
+print -r -- "current: $current"
+print -r -- "new: $new"
+print -r -- "$new" > "$theme_file"
