@@ -44,14 +44,14 @@ vim.pack.add({
   'https://github.com/SmiteshP/nvim-navic',
 
   -- Completion
-  { src = 'https://github.com/saghen/blink.cmp', branch = 'v1' },
+  { src = 'https://github.com/saghen/blink.cmp', version = 'v1' },
 
   -- Snippets
   { src = 'https://github.com/L3MON4D3/LuaSnip', version = vim.version.range('v2.*') },
   'https://github.com/rafamadriz/friendly-snippets',
 
   -- Treesitter (track main branch explicitly)
-  { src = 'https://github.com/nvim-treesitter/nvim-treesitter', branch = 'main' },
+  { src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'main' },
 
   -- UI
   'https://github.com/nvim-lualine/lualine.nvim',
