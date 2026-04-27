@@ -29,7 +29,7 @@ require("plugins.git")
 require("plugins.testing")
 require("plugins.tools")
 require("plugins.mini")
-require("plugins.languages")
+require("plugins.markview")
 
 -- Options (colorscheme must be loaded before this)
 require("config.options")
