@@ -178,6 +178,8 @@ vim.api.nvim_create_autocmd("VimEnter", {
       Snacks.toggle.option("list", {name = "List Chars"})
       Snacks.toggle.option("wrap", { name = "Line Wrap" }):map("<leader>tw")
       Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>tL")
+      Snacks.toggle.option("cursorcolumn", { name = "Cursor Column" }):map("<leader>tcc")
+      Snacks.toggle.option("cursorline", { name = "Cursor Line" }):map("<leader>tcl")
       Snacks.toggle({
         name = "Auto Format",
         get = function() return vim.g.autoformat end,
