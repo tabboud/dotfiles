@@ -12,5 +12,7 @@ mouse-hide-while-typing = true
 # https://ghostty.org/docs/config/reference#shell-integration-features
 shell-integration-features = ssh-env,ssh-terminfo
 
+# Disable ligatures
+font-feature = -calt
 
 # vim:syn=bash
