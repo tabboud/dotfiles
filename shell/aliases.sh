@@ -40,6 +40,7 @@ alias du='du -h -c' # calculate disk usage for a folder
 
 # IP addresses
 alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
+alias whoami="dig +short txt ch whoami.cloudflare"
 
 # Trim new lines and copy to clipboard
 alias trimcopy="tr -d '\n' | pbcopy"
