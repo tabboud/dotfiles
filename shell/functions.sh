@@ -216,3 +216,8 @@ function _internalClone() {
 
     git clone git@"$account":"$repo" "$dest" && cd "$dest"
 }
+
+function whoami2() {
+    print -r -- "user: " $(/usr/bin/env whoami)
+    print -r -- "ip: " $(dig +short txt ch whoami.cloudflare)
+}
