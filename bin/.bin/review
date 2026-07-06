@@ -15,17 +15,41 @@ if command -v gum &>/dev/null; then
     GUM_EXISTS=1
 fi
 
-# Store the current branch to switch back to it later
-ORIGINAL_BRANCH=$(git branch --show-current)
+# Remember where we started so we can return and clean up on exit
+ORIGINAL_DIR=$(pwd)
+REPO_ROOT=$(git rev-parse --show-toplevel)
+WORKTREE_DIR=""
 
-# Function to ensure we return to the original branch on exit
-function cleanup() {
-    # Check if there are any uncommitted changes
-    if git diff-index --quiet HEAD --; then
-        echo -e "${SYMBOL} Switching back to the original branch (${ORIGINAL_BRANCH})"
-        git switch "$ORIGINAL_BRANCH"
+# Yes/no prompt that does not exit; returns 0 for yes, 1 for no
+function confirmYesNo() {
+    local msg="$1"
+    if [ $GUM_EXISTS -eq 1 ]; then
+        gum confirm "$msg"
     else
-        echo -e "${SYMBOL} Uncommitted changes detected. Staying on the current branch."
+        read -r -n 1 -p "$msg (y/N): " yn
+        echo
+        [[ "$yn" =~ ^[Yy]$ ]]
+    fi
+}
+
+# Function to tear down the review worktree on exit
+function cleanup() {
+    # Leave the worktree before removing it
+    cd "$ORIGINAL_DIR" 2>/dev/null || cd "$REPO_ROOT" 2>/dev/null || true
+
+    if [ -n "$WORKTREE_DIR" ] && [ -d "$WORKTREE_DIR" ]; then
+        if confirmYesNo "Remove review worktree (${WORKTREE_DIR})?"; then
+            echo -e "${SYMBOL} Removing review worktree (${WORKTREE_DIR})"
+            git -C "$REPO_ROOT" worktree remove --force "$WORKTREE_DIR" 2>/dev/null \
+                || rm -rf "$WORKTREE_DIR"
+            git -C "$REPO_ROOT" worktree prune
+            rmdir "$(dirname "$WORKTREE_DIR")" 2>/dev/null || true
+        else
+            echo -e "${SYMBOL} Keeping review worktree. Re-open the review with:"
+            echo -e "${SYMBOL}   cd \"${WORKTREE_DIR}\" && nvim -c :DiffviewOpen"
+            echo -e "${SYMBOL} Remove it later with:"
+            echo -e "${SYMBOL}   git -C \"${REPO_ROOT}\" worktree remove --force \"${WORKTREE_DIR}\""
+        fi
     fi
 }
 trap cleanup EXIT
@@ -71,27 +95,28 @@ PR_URL=$(echo "$selection" | awk '{print $4}')
 
 echo -e "${SYMBOL} Starting review for PR #${PR_NUMBER} (${PR_URL})"
 
-# Update origin base branch so the review is correct
+# Update the base branch from origin so the review diff is correct
 echo -e "${SYMBOL} Updating base branch (${PR_BASE_BRANCH}) from origin"
-git fetch origin
-git switch "$PR_BASE_BRANCH"
-git pull origin "$PR_BASE_BRANCH"
+git fetch origin "$PR_BASE_BRANCH"
 
-# Checkout the desired review branch and show stats
+# Create an isolated worktree so the current directory is never touched
+WORKTREE_DIR="$(mktemp -d -t review-pr-XXXXXX)/worktree"
+echo -e "${SYMBOL} Creating review worktree (${WORKTREE_DIR})"
+git worktree add --detach "$WORKTREE_DIR" "origin/${PR_BASE_BRANCH}"
+cd "$WORKTREE_DIR"
+
+# Checkout the desired review branch (detached, to avoid local branch collisions)
 echo -e "${SYMBOL} Checking out PR #${PR_NUMBER}"
-gh pr checkout "$PR_NUMBER"
+gh pr checkout "$PR_NUMBER" --detach
 
-# Show stats from PR branch to remote origin default branch
-env REVIEW_BASE="${PR_BASE_BRANCH}" git stat
+# Show stats from PR branch to the remote base branch
+env REVIEW_BASE="origin/${PR_BASE_BRANCH}" git stat
 continueOrExit "Review PR?"
 
-# Reset PR branch to merge point and open in vim
+# Reset the worktree HEAD to the merge point so the full PR shows as a working-tree diff
 mergeCommit=$(git merge-base HEAD origin/"$PR_BASE_BRANCH")
 git reset --soft "$mergeCommit"
 git reset  # to make everything unstaged
-nvim -c :DiffviewOpen  # to use fugitive for the review
+nvim -c :DiffviewOpen  # to use diffview for the review
 
-continueOrExit "Reset PR branch back to origin?" "Run the following to reset: \"git reset --hard origin/${PR_BRANCH}\""
-
-# Reset PR branch back to remote
-git reset --hard origin/"$PR_BRANCH"
+# The worktree is disposable and removed on exit; nothing to reset on the real branch.
