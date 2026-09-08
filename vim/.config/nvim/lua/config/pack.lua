@@ -73,6 +73,7 @@ vim.pack.add({
   'https://github.com/TimUntersberger/neogit',
   'https://github.com/sindrets/diffview.nvim',
   'https://github.com/lewis6991/gitsigns.nvim',
+  'https://github.com/kdheepak/lazygit.nvim',
 
   -- Tools
   'https://github.com/tpope/vim-surround',

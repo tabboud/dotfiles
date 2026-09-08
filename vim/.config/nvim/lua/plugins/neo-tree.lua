@@ -5,6 +5,7 @@ require("neo-tree").setup({
 		winbar = true,
 		sources = {
 			{ source = "filesystem" },
+      { source = "git_status" },
 		},
 	},
 	default_component_configs = {
@@ -66,5 +67,6 @@ require("neo-tree").setup({
 	},
 })
 
-vim.keymap.set("n", "<leader>k", "<cmd>Neotree toggle<cr>", { desc = "NeoTree" })
-vim.keymap.set("n", "<leader>f", "<cmd>Neotree reveal<cr>", { desc = "NeoTree" })
+vim.keymap.set("n", "<leader>k", "<cmd>Neotree toggle<cr>", { desc = "NeoTree: Toggle" })
+vim.keymap.set("n", "<leader>f", "<cmd>Neotree reveal<cr>", { desc = "NeoTree: Reveal file" })
+vim.keymap.set("n", "<leader>gf", "<cmd>Neotree reveal git_status<cr>", { desc = "NeoTree: Reveal git" })
