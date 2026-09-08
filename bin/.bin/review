@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-# Review pull-requests entirely in vim using "sindrets/diffview.nvim".
+# Review pull-requests or local branches entirely in vim using "sindrets/diffview.nvim".
+#
+# Usage:
+#   review              Prompt for review mode (GitHub PR or local branch)
+#   review -p|--pr       Review a GitHub PR
+#   review -l|--local     Review a local branch against another local branch
 
 # Ensure we fail on errors
 set -e
@@ -29,6 +34,17 @@ function confirmYesNo() {
         read -r -n 1 -p "$msg (y/N): " yn
         echo
         [[ "$yn" =~ ^[Yy]$ ]]
+    fi
+}
+
+# Single-choice prompt; prints the chosen option (or nothing if cancelled)
+function chooseOne() {
+    local header="$1"
+    shift
+    if [ $GUM_EXISTS -eq 1 ]; then
+        gum choose --header "$header" "$@"
+    else
+        printf '%s\n' "$@" | fzf --reverse --height=20 --border --prompt="${header} "
     fi
 }
 
@@ -78,45 +94,126 @@ function continueOrExit() {
     fi
 }
 
-# Select PR number, branch, and base branch from currently open PRs
-selection=$(gh pr list --json number,baseRefName,headRefName,title,url \
-    --template '{{range .}}{{tablerow (printf "%-5v %-30v %-10v %v" .number .headRefName .baseRefName .url)}}{{end}}' \
-    | fzf --reverse --height=20 --border --prompt="Select PR to review: ")
+# Shared tail of the review flow: HEAD in $WORKTREE_DIR is the change to
+# review, and $1 is the ref to diff it against.
+function runReview() {
+    local baseRef="$1"
 
-if [[ -z $selection ]]; then
-    echo -e "${COLOR_YELLOW}No PR selected${COLOR_NONE}"
-    exit 0
-fi
+    env REVIEW_BASE="$baseRef" git stat
+    continueOrExit "Review?"
 
-PR_NUMBER=$(echo "$selection" | awk '{print $1}')
-PR_BRANCH=$(echo "$selection" | awk '{print $2}')
-PR_BASE_BRANCH=$(echo "$selection" | awk '{print $3}')
-PR_URL=$(echo "$selection" | awk '{print $4}')
+    # Reset the worktree HEAD to the merge point so the full change shows as a working-tree diff
+    local mergeCommit
+    mergeCommit=$(git merge-base HEAD "$baseRef")
+    git reset --soft "$mergeCommit"
+    git reset  # to make everything unstaged
+    nvim -c :DiffviewOpen  # to use diffview for the review
 
-echo -e "${SYMBOL} Starting review for PR #${PR_NUMBER} (${PR_URL})"
+    # The worktree is disposable and removed on exit; nothing to reset on the real branch.
+}
 
-# Update the base branch from origin so the review diff is correct
-echo -e "${SYMBOL} Updating base branch (${PR_BASE_BRANCH}) from origin"
-git fetch origin "$PR_BASE_BRANCH"
+function reviewPr() {
+    # Select PR number, branch, and base branch from currently open PRs
+    local selection
+    selection=$(gh pr list --json number,baseRefName,headRefName,title,url \
+        --template '{{range .}}{{tablerow (printf "%-5v %-30v %-10v %v" .number .headRefName .baseRefName .url)}}{{end}}' \
+        | fzf --reverse --height=20 --border --prompt="Select PR to review: ")
 
-# Create an isolated worktree so the current directory is never touched
-WORKTREE_DIR="$(mktemp -d -t review-pr-XXXXXX)/worktree"
-echo -e "${SYMBOL} Creating review worktree (${WORKTREE_DIR})"
-git worktree add --detach "$WORKTREE_DIR" "origin/${PR_BASE_BRANCH}"
-cd "$WORKTREE_DIR"
+    if [[ -z $selection ]]; then
+        echo -e "${COLOR_YELLOW}No PR selected${COLOR_NONE}"
+        exit 0
+    fi
 
-# Checkout the desired review branch (detached, to avoid local branch collisions)
-echo -e "${SYMBOL} Checking out PR #${PR_NUMBER}"
-gh pr checkout "$PR_NUMBER" --detach
+    local prNumber prBaseBranch prUrl
+    prNumber=$(echo "$selection" | awk '{print $1}')
+    prBaseBranch=$(echo "$selection" | awk '{print $3}')
+    prUrl=$(echo "$selection" | awk '{print $4}')
 
-# Show stats from PR branch to the remote base branch
-env REVIEW_BASE="origin/${PR_BASE_BRANCH}" git stat
-continueOrExit "Review PR?"
+    echo -e "${SYMBOL} Starting review for PR #${prNumber} (${prUrl})"
 
-# Reset the worktree HEAD to the merge point so the full PR shows as a working-tree diff
-mergeCommit=$(git merge-base HEAD origin/"$PR_BASE_BRANCH")
-git reset --soft "$mergeCommit"
-git reset  # to make everything unstaged
-nvim -c :DiffviewOpen  # to use diffview for the review
+    # Update the base branch from origin so the review diff is correct
+    echo -e "${SYMBOL} Updating base branch (${prBaseBranch}) from origin"
+    git fetch origin "$prBaseBranch"
 
-# The worktree is disposable and removed on exit; nothing to reset on the real branch.
+    # Create an isolated worktree so the current directory is never touched
+    WORKTREE_DIR="$(mktemp -d -t review-pr-XXXXXX)/worktree"
+    echo -e "${SYMBOL} Creating review worktree (${WORKTREE_DIR})"
+    git worktree add --detach "$WORKTREE_DIR" "origin/${prBaseBranch}"
+    cd "$WORKTREE_DIR"
+
+    # Checkout the desired review branch (detached, to avoid local branch collisions)
+    echo -e "${SYMBOL} Checking out PR #${prNumber}"
+    gh pr checkout "$prNumber" --detach
+
+    runReview "origin/${prBaseBranch}"
+}
+
+function reviewLocalBranch() {
+    # Select the branch to review from local branches
+    local reviewBranch
+    reviewBranch=$(git -C "$REPO_ROOT" for-each-ref --format='%(refname:short)' refs/heads/ \
+        | fzf --reverse --height=20 --border --prompt="Select branch to review: ")
+
+    if [[ -z $reviewBranch ]]; then
+        echo -e "${COLOR_YELLOW}No branch selected${COLOR_NONE}"
+        exit 0
+    fi
+
+    # Select the base branch to diff against
+    local baseBranch
+    baseBranch=$(git -C "$REPO_ROOT" for-each-ref --format='%(refname:short)' refs/heads/ \
+        | grep -v -x "$reviewBranch" \
+        | fzf --reverse --height=20 --border --prompt="Select base branch: ")
+
+    if [[ -z $baseBranch ]]; then
+        echo -e "${COLOR_YELLOW}No base branch selected${COLOR_NONE}"
+        exit 0
+    fi
+
+    echo -e "${SYMBOL} Starting review of branch (${reviewBranch}) against (${baseBranch})"
+
+    # Prefer the up-to-date remote-tracking ref for the base branch, if one exists
+    local baseRef="$baseBranch"
+    if git -C "$REPO_ROOT" show-ref --verify --quiet "refs/remotes/origin/${baseBranch}"; then
+        echo -e "${SYMBOL} Updating base branch (${baseBranch}) from origin"
+        git -C "$REPO_ROOT" fetch origin "$baseBranch"
+        baseRef="origin/${baseBranch}"
+    fi
+
+    # Create an isolated worktree so the current directory is never touched
+    WORKTREE_DIR="$(mktemp -d -t review-branch-XXXXXX)/worktree"
+    echo -e "${SYMBOL} Creating review worktree (${WORKTREE_DIR})"
+    git worktree add --detach "$WORKTREE_DIR" "$baseRef"
+    cd "$WORKTREE_DIR"
+
+    # Checkout the desired review branch (detached, to avoid local branch collisions)
+    echo -e "${SYMBOL} Checking out branch (${reviewBranch})"
+    git checkout --detach "$reviewBranch"
+
+    runReview "$baseRef"
+}
+
+mode="${1:-}"
+case "$mode" in
+    -p|--pr)
+        reviewPr
+        ;;
+    -l|--local)
+        reviewLocalBranch
+        ;;
+    "")
+        choice=$(chooseOne "What would you like to review?" "GitHub PR" "Local branch")
+        case "$choice" in
+            "GitHub PR") reviewPr ;;
+            "Local branch") reviewLocalBranch ;;
+            *)
+                echo -e "${COLOR_YELLOW}No selection made${COLOR_NONE}"
+                exit 0
+                ;;
+        esac
+        ;;
+    *)
+        echo "Usage: review [-p|--pr] [-l|--local]" >&2
+        exit 1
+        ;;
+esac
