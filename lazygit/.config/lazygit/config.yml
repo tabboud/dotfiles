@@ -168,18 +168,12 @@ gui:
 # Config relating to git
 git:
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Pagers.md
-  pagers:
+  diffRenderers:
     - # Value of the --color arg in the git diff command. Some pagers want this to be set to 'always' and some want it set to 'never'
       colorArg: always
-      # e.g.
-      # diff-so-fancy
-      # delta --dark --paging=never
-      # ydiff -p cat -s --wrap --width={{columnWidth}}
-      pager: ""
       # If true, Lazygit will use whatever pager is specified in `$GIT_PAGER`, `$PAGER`, or your *git config*. If the pager ends with something like ` | less` we will strip that part out, because less doesn't play nice with our rendering approach. If the custom pager uses less under the hood, that will also break rendering (hence the `--paging=never` flag for the `delta` pager).
       useConfig: false
-      # e.g. 'difft --color=always'
-      externalDiffCommand: ""
+      type: rawGit
   # Config relating to committing
   commit:
     # If true, pass '--signoff' flag when committing
@@ -217,7 +211,7 @@ git:
   # Command used when displaying the current branch git log in the main window
   branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --
   # If true, do not spawn a separate process when using GPG
-  overrideGpg: false
+  overrideGpg: true
   # If true, do not allow force pushes
   disableForcePushing: false
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#predefined-commit-message-prefix
@@ -398,6 +392,7 @@ keybinding:
     increaseRenameSimilarityThreshold: )
     decreaseRenameSimilarityThreshold: (
     openDiffTool: <c-t>
+    newWorktree: w
   status:
     checkForUpdate: u
     recentRepos: <enter>
@@ -436,8 +431,6 @@ keybinding:
     setUpstream: u
     fetchRemote: f
     sortOrder: s
-  worktrees:
-    viewWorktreeOptions: w
   commits:
     squashDown: s
     renameCommit: r
@@ -457,7 +450,6 @@ keybinding:
     markCommitAsBaseForRebase: B
     tagCommit: T
     checkoutCommit: <space>
-    resetCherryPick: <c-R>
     copyCommitAttributeToClipboard: "y"
     openLogMenu: <c-l>
     openInBrowser: o
