@@ -1,24 +1,19 @@
-vim/.vim/bundle/*
-vim/.vim/view
-vim/.vim/.netrwhist
-vim/.vim/autoload
-vim/.vim/session
-vim/.config/nvim/.netrwhist
-
-zsh/cache
-
-iterm2/.config/iterm2/AppSupport
+config/nvim/.netrwhist
 
 # gh CLI
-!gh/.config/gh/config.yml
-gh/.config/gh/*
+config/gh/*
+!config/gh/config.yml
 
 .luarc.json
 
-zsh/.config/zsh/.zcompdump
-zsh/.config/zsh/.zsh_history
+# Old locations of local state, kept ignored on machines that still have files there.
+config/zsh/.zcompdump
+config/zsh/.zsh_history
+/gh/
+/hammerspoon/
+/zsh/
 
 # hammerspoon - ignore spoons and overrides
-!hammerspoon/.hammerspoon/Spoons/SpoonInstall.spoon/
-hammerspoon/.hammerspoon/Spoons/*
-hammerspoon/.hammerspoon/overrides.lua
+home/.hammerspoon/Spoons/*
+!home/.hammerspoon/Spoons/SpoonInstall.spoon/
+home/.hammerspoon/overrides.lua

@@ -1,18 +1,28 @@
-export DOTFILES=$HOME/.dotfiles
+# Resolve the repo from this file's real path, since $ZDOTDIR is a symlink into it.
+export DOTFILES="${${(%):-%N}:A:h:h:h}"
 
 # Load common functions first
 source "$ZDOTDIR/functions.zsh"
 
 # Setup PATH
+# Snap packages on Ubuntu, such as Neovim. Only bash adds this by default.
+prepend_path /snap/bin
 prepend_path /usr/local/sbin
 prepend_path /usr/local/bin
 prepend_path $HOME/.local/bin
 prepend_path $HOME/.bin
-prepend_path $HOME/.gvm/go/bin     
+prepend_path $HOME/.gvm/go/bin
 
 export PATH=$HOME/.bin:/usr/local/bin:/usr/local/sbin:$PATH
 export PAGER='less -R'
-export HISTFILE="$ZDOTDIR/.zsh_history"
+export HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/zsh/history"
+mkdir -p "${HISTFILE:h}"
+
+# Merge history left at its old locations inside the repo.
+for old in "$ZDOTDIR/.zsh_history" "$DOTFILES/zsh/.config/zsh/.zsh_history"; do
+  [[ -f "$old" ]] && cat "$old" >> "$HISTFILE" && rm "$old"
+done
+unset old
 
 if command -v nvim 2>&1 > /dev/null; then
   export EDITOR='nvim'
@@ -35,7 +45,7 @@ fi
 autoload -U compaudit compinit
 # Save the location of the current completion dump file.
 if [ -z "$ZSH_COMPDUMP" ]; then
-  ZSH_COMPDUMP="${ZDOTDIR:-${HOME}}/.zcompdump"
+  ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 fi
 compinit -u -C -d "${ZSH_COMPDUMP}"
 
@@ -49,7 +59,15 @@ setopt interactivecomments
 
 # FZF config
 if command -v fzf &>/dev/null; then
-    source <(fzf --zsh)
+    # fzf --zsh needs fzf 0.48, which is newer than Ubuntu ships, so fall back to its packaged scripts.
+    if fzf --zsh &>/dev/null; then
+        source <(fzf --zsh)
+    else
+        for file in /usr/share/doc/fzf/examples/{key-bindings,completion}.zsh; do
+            [[ -f "$file" ]] && source "$file"
+        done
+        unset file
+    fi
 
     # FZF custom settings
     # These were pulled directly from the FZF github README
