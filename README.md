@@ -9,7 +9,7 @@ Configurations for:
 + git and tig
 + Ghostty
 + Hammerspoon (macOS only)
-+ lazygit, gh, and cheat
++ lazygit and gh
 
 Scripts in `home/.bin` are linked to `~/.bin`, which is on the `PATH`.
 
