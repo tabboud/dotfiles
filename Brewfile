@@ -1,27 +1,15 @@
-tap "homebrew/bundle"
-tap "homebrew/core"
+# macOS packages installed by dots bootstrap. Ubuntu uses the Aptfile instead.
 
-if OS.mac?
-  # Taps
-  tap "homebrew/cask"
-  tap "homebrew/cask-fonts"
-
-  # Applications
-  cask "1password"
-  cask "font-jetbrains-mono-nerd-font"
-  cask "hammerspoon"
-  cask "hiddenbar"    # Hide OSX window bar items
-  cask "raycast"      # Spotlight replacement
-  cask "rectangle"    # Window snapping
-  cask "spotify"
-  cask "wezterm"
-  cask "zulu"         # Java install
-
-  # Packages
-  brew "reattach-to-user-namespace"
-elsif OS.linux?
-  brew "xclip"
-end
+# Applications
+cask "1password"
+cask "font-jetbrains-mono-nerd-font"
+cask "ghostty"
+cask "hammerspoon"
+cask "hiddenbar"    # Hide OSX window bar items
+cask "raycast"      # Spotlight replacement
+cask "rectangle"    # Window snapping
+cask "spotify"
+cask "zulu"         # Java install
 
 # Packages
 brew "bat"          # better cat
@@ -38,10 +26,10 @@ brew "lazygit"
 brew "neovim"
 brew "nnn"
 brew "python"
+brew "reattach-to-user-namespace"
 brew "ripgrep"      # grep alternative
 brew "sd"           # sed alternative
 brew "shellcheck"   # diagnostics for shell scripts
-brew "stow"         # linking tool
 brew "tig"          # git TUI
 brew "tmux"
 brew "tree"

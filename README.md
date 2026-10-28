@@ -3,22 +3,52 @@
 ## Contents
 
 Configurations for:
-+ git
++ zsh, with aliases and functions in `shell/`
++ neovim and vim
 + tmux
-+ neovim
-+ zsh
++ git and tig
++ Ghostty
++ Hammerspoon (macOS only)
++ lazygit, gh, cheat, and navi
+
+Scripts in `home/.bin` are linked to `~/.bin`, which is on the `PATH`.
 
 ## Install
 
 1. `git clone https://github.com/tdabboud/dotfiles.git ~/.dotfiles`
-2. `cd ~/.dotfiles`
-3. `./install.sh <command>`
+2. `~/.dotfiles/install.sh`
+
+`install.sh` installs software packages and links the dotfiles. Afterwards, open a new shell and use
+`dots <command>` from any directory to manage them:
 ```
 Where <command> is one of:
   * bootstrap -- install software packages
-  * dotfiles  -- link all dotfiles
-  * all       -- all of the above
+  * link      -- link all dotfiles
+  * unlink    -- remove all dotfile symlinks
+  * status    -- show the state of every link
+  * all       -- install software packages and link all dotfiles
+  * update    -- pull the latest dotfiles, then run all
+  * edit      -- fuzzy-find a dotfile and open it in $EDITOR
  ```
+
+Pass `-n` or `--dry-run` to any command, or to `install.sh`, to print the commands it would run without changing
+anything.
+
+Software packages come from the `Brewfile` on macOS. On Ubuntu, `dots bootstrap` installs the `Aptfile` packages with
+apt instead, skipping any the release does not provide. It also installs Neovim with snap and makes zsh the login
+shell.
+
+## Linking
+
+`dots link` symlinks the dotfiles into `$HOME` using only bash and `ln`, so nothing needs to be installed first.
+
+- Every entry in `config/` is linked into `~/.config`. For example, `config/nvim` links to `~/.config/nvim`.
+- Every dotfile in `home/` is linked into `$HOME`. For example, `home/.zshenv` links to `~/.zshenv`.
+
+To add a config, create it under `config/` or `home/` and run `dots link`. Paths listed in `DARWIN_ONLY` in
+`scripts/link.sh` are only linked on macOS. Existing files at a link target are moved to a timestamped `.bak` file
+before being replaced, and broken links that point into this repo, for example after a config is moved or deleted,
+are removed.
 
 ## Custom Settings
 
@@ -71,9 +101,9 @@ Overrides can be supplied by creating an `overrides.lua` module at the following
 `.gitignore` so all changes will not be tracked. The lua module should return a Config object with all expected overrides set.
 
 ```
-hammerspoon/.hammerspoon/overrides.lua
+home/.hammerspoon/overrides.lua
 ```
 
 ## Un-Install
 
-- To remove all linked dotfiles, run the following: `./install.sh uninstall`
+- To remove all linked dotfiles, run the following: `dots unlink`

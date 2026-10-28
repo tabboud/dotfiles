@@ -18,14 +18,6 @@ c () {
     gocd "$@"
 }
 
-dots() {
-    cd $DOTFILES
-    files=$(fzf --reverse --height=20 --border)
-    if [[ -n "$files" ]]; then
-        ${EDITOR:-vim} "${files[@]}"
-    fi
-}
-
 # Create a new tmux session or switch to an existing one by selecting one of the
 # listed sessions sorted by most recently attached.
 #

@@ -13,3 +13,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 
+# Ubuntu's /etc/zsh/zshrc runs its own compinit, dumping into $ZDOTDIR, unless this is set.
+# Export it since shells that inherit ZDOTDIR, like new tmux panes, do not read this file.
+export skip_global_compinit=1
+

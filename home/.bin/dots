@@ -1,0 +1,225 @@
+#!/usr/bin/env bash
+
+# dots installs software packages and links the dotfiles in this repo.
+# install.sh runs it on a fresh machine. Afterwards it is on the PATH via ~/.bin.
+
+# Resolve the repo physically since ~/.bin is a symlink into it.
+DOTFILES="$(cd -P "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+
+COLOR_RED='\033[0;31m'
+COLOR_GREEN='\033[0;32m'
+COLOR_NONE='\033[0m'
+COLOR_YELLOW='\033[1;33m'
+
+OS="$(uname)"
+DRY_RUN=false
+FLAGS=()
+
+# Runs a command that changes the system, or prints it in dry-run mode.
+function run() {
+    if [[ "$DRY_RUN" == true ]]; then
+        printf '$'
+        printf ' %q' "$@"
+        echo
+    else
+        "$@"
+    fi
+}
+
+# Ensure homebrew is installed and on the PATH.
+function ensure_homebrew() {
+    if test ! "$(command -v brew)"; then
+        echo "Homebrew is not installed. Installing."
+        # Run as a login shell (non-interactive) so that the script doesn't pause for user input
+        run bash -c 'curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash --login'
+
+        # A fresh install is not on the PATH yet. Apple Silicon uses /opt/homebrew and Intel uses /usr/local.
+        local prefix
+        for prefix in /opt/homebrew /usr/local; do
+            if [[ -x "$prefix/bin/brew" ]]; then
+                eval "$("$prefix/bin/brew" shellenv)"
+                break
+            fi
+        done
+    fi
+}
+
+# Setup terminfo for tmux usage with italics support.
+# Write to ~/.terminfo explicitly since terminals like Ghostty point $TERMINFO at their app bundle.
+function setup_terminfo() {
+    run tic -x -o "$HOME/.terminfo" "$DOTFILES/terminfo/tmux.terminfo"
+    run tic -x -o "$HOME/.terminfo" "$DOTFILES/terminfo/xterm-256color-italic.terminfo"
+}
+
+# Installs the Aptfile packages plus the setup Ubuntu needs beyond them.
+function bootstrap_ubuntu() {
+    if ! command -v apt-get >/dev/null; then
+        echo "apt-get not found. Only Ubuntu is supported on Linux."
+        exit 1
+    fi
+
+    echo "Installing apt packages..."
+    run sudo apt-get update
+    local line pkg pair name real
+    local packages=()
+    while read -r line; do
+        pkg="${line%%#*}"
+        pkg="${pkg//[[:space:]]/}"
+        [[ -z "$pkg" ]] && continue
+        if apt-cache show "$pkg" >/dev/null 2>&1; then
+            packages+=("$pkg")
+        else
+            echo "Skipping $pkg, which this Ubuntu release does not provide"
+        fi
+    done < "$DOTFILES/Aptfile"
+    run sudo apt-get install -y "${packages[@]}"
+
+    # Ubuntu installs fd and bat as fdfind and batcat, so link the usual names.
+    run mkdir -p "$HOME/.local/bin"
+    for pair in fd:fdfind bat:batcat; do
+        name="${pair%%:*}"
+        real="${pair#*:}"
+        if ! command -v "$name" >/dev/null && command -v "$real" >/dev/null; then
+            run ln -sf "$(command -v "$real")" "$HOME/.local/bin/$name"
+        fi
+    done
+
+    # The Neovim config needs 0.12, which is newer than apt provides.
+    if ! nvim --clean --headless -c 'if has("nvim-0.12") | qa | else | cq | endif' >/dev/null 2>&1; then
+        echo "Installing Neovim..."
+        if command -v snap >/dev/null; then
+            run sudo snap install nvim --classic
+        else
+            echo "snap not found. Install Neovim 0.12 or newer manually."
+        fi
+    fi
+
+    # The zsh config is what puts ~/.bin, and so dots, on the PATH.
+    if [[ "${SHELL##*/}" != "zsh" ]]; then
+        echo "Setting the login shell to zsh..."
+        # Use sudo so the password prompt from apt covers this too.
+        run sudo chsh -s "$(command -v zsh || echo /usr/bin/zsh)" "$(id -un)" || echo "Could not change the login shell. Set it to zsh manually."
+    fi
+}
+
+function bootstrap() {
+    echo "Bootstrapping the system"
+    if [ "$OS" == "Darwin" ]; then
+        echo "Brewing Everything..."
+        ensure_homebrew
+        run brew bundle --file="$DOTFILES/Brewfile"
+    elif [ "$OS" == "Linux" ]; then
+        bootstrap_ubuntu
+    fi
+}
+
+function link() {
+    echo "Linking dotfiles..."
+    bash "$DOTFILES/scripts/link.sh" link "${FLAGS[@]}"
+
+    if [ "$OS" == "Darwin" ]; then
+        echo "Configuring terminfo"
+        setup_terminfo
+    fi
+}
+
+function unlink() {
+    echo "Removing all dotfiles..."
+    bash "$DOTFILES/scripts/link.sh" unlink "${FLAGS[@]}"
+
+    # Unlinking removes ~/.bin, so dots is no longer on the PATH.
+    if [[ "$DRY_RUN" == false ]]; then
+        echo -e "${COLOR_YELLOW}To relink, run: $DOTFILES/home/.bin/dots link${COLOR_NONE}"
+    fi
+}
+
+# Fuzzy-finds a file in the repo and opens it in $EDITOR.
+function edit() {
+    if ! command -v fzf >/dev/null; then
+        echo "dots edit needs fzf."
+        exit 1
+    fi
+    cd "$DOTFILES" || exit 1
+    local file
+    file="$(fzf --reverse --height=20 --border)" || exit 0
+    # $EDITOR may include arguments, so leave it unquoted.
+    # shellcheck disable=SC2086
+    exec ${EDITOR:-vim} "$file"
+}
+
+function usage() {
+cat<<EOD
+Usage: dots <command> [-n|--dry-run]
+
+Commands:
+    bootstrap -- Install software packages
+    link      -- Link all dotfiles
+    unlink    -- Remove all dotfile symlinks
+    status    -- Show the state of every link
+    all       -- Install software and link dotfiles
+    update    -- Pull the latest dotfiles, then run all
+    edit      -- Fuzzy-find a dotfile and open it in \$EDITOR
+
+Options:
+    -n, --dry-run -- Print the commands that would run without changing anything
+
+EOD
+  exit 1
+}
+
+if [[ "$#" == "0" ]]; then
+  usage
+fi
+
+command="$1"
+if [[ "$command" == "" ]]; then
+  echo "first argument must be a command"
+  usage
+fi
+shift
+
+for arg in "$@"; do
+  case "$arg" in
+    -n|--dry-run)
+      DRY_RUN=true
+      FLAGS=(--dry-run)
+      ;;
+    *)
+      usage
+      ;;
+  esac
+done
+
+case "$command" in
+  status)
+    exec bash "$DOTFILES/scripts/link.sh" status
+    ;;
+  edit)
+    edit
+    ;;
+  all)
+    bootstrap
+    link
+    ;;
+  link)
+    link
+    ;;
+  bootstrap)
+    bootstrap
+    ;;
+  unlink)
+    unlink
+    ;;
+  update)
+    echo "Pulling the latest dotfiles..."
+    run git -C "$DOTFILES" pull --ff-only || exit 1
+    # Finish with the pulled version of dots, since the pull may have changed it.
+    exec "$DOTFILES/home/.bin/dots" all "${FLAGS[@]}"
+    ;;
+  *)
+    usage
+    ;;
+esac
+
+echo -e "${COLOR_GREEN}✔ All Done!${COLOR_NONE}"
+exit 0
