@@ -1,4 +1,0 @@
-% kubectl
-
-# Get pods for a namespace
-kubectl get pods -n <namespace>
