@@ -6,13 +6,6 @@ config/gh/*
 
 .luarc.json
 
-# Old locations of local state, kept ignored on machines that still have files there.
-config/zsh/.zcompdump
-config/zsh/.zsh_history
-/gh/
-/hammerspoon/
-/zsh/
-
 # hammerspoon - ignore spoons and overrides
 home/.hammerspoon/Spoons/*
 !home/.hammerspoon/Spoons/SpoonInstall.spoon/
