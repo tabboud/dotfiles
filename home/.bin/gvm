@@ -15,10 +15,11 @@ GO_DL_BASE=${GO_DOWNLOAD_BASE:-"https://go.dev/dl"}
 ############################################
 # Coloring/Logging for terminal output
 ############################################
-RED=$(tput setaf 1)
-YELLOW=$(tput setaf 3)
-GREEN=$(tput setaf 2)
-NORMAL=$(tput sgr0)
+# tput fails without a usable $TERM, such as when Coder runs setup scripts, so fall back to no color.
+RED=$(tput setaf 1 2>/dev/null || true)
+YELLOW=$(tput setaf 3 2>/dev/null || true)
+GREEN=$(tput setaf 2 2>/dev/null || true)
+NORMAL=$(tput sgr0 2>/dev/null || true)
 
 # success/info/error/warn {{{
 function msg() {

@@ -43,6 +43,27 @@ function ensure_homebrew() {
     fi
 }
 
+# Installs the latest Neovim release into ~/.local, for systems that cannot run snap such as containers.
+function install_neovim_release() {
+    local arch url
+    case "$(uname -m)" in
+        x86_64) arch=x86_64 ;;
+        aarch64|arm64) arch=arm64 ;;
+        *)
+            echo "No Neovim release for $(uname -m). Install Neovim 0.12 or newer manually."
+            return
+            ;;
+    esac
+    url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-$arch.tar.gz"
+    run rm -rf "$HOME/.local/opt/nvim"
+    run mkdir -p "$HOME/.local/opt/nvim" "$HOME/.local/bin"
+    if ! run bash -c "set -o pipefail; curl -fsSL '$url' | tar -xz -C '$HOME/.local/opt/nvim' --strip-components=1"; then
+        echo "Could not download Neovim from $url"
+        return 1
+    fi
+    run ln -sf "$HOME/.local/opt/nvim/bin/nvim" "$HOME/.local/bin/nvim"
+}
+
 # Setup terminfo for tmux usage with italics support.
 # Write to ~/.terminfo explicitly since terminals like Ghostty point $TERMINFO at their app bundle.
 function setup_terminfo() {
@@ -86,10 +107,8 @@ function bootstrap_ubuntu() {
     # The Neovim config needs 0.12, which is newer than apt provides.
     if ! nvim --clean --headless -c 'if has("nvim-0.12") | qa | else | cq | endif' >/dev/null 2>&1; then
         echo "Installing Neovim..."
-        if command -v snap >/dev/null; then
-            run sudo snap install nvim --classic
-        else
-            echo "snap not found. Install Neovim 0.12 or newer manually."
+        if ! { command -v snap >/dev/null && run sudo snap install nvim --classic; }; then
+            install_neovim_release
         fi
     fi
 
