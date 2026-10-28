@@ -13,6 +13,7 @@ cask "zulu"         # Java install
 
 # Packages
 brew "bat"          # better cat
+brew "difftastic"   # structural diffs for the git dl, ds, and dft aliases
 brew "dive"         # Analyze docker image layers
 brew "fd"           # find alternative
 brew "fzf"          # Fuzzy finder

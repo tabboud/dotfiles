@@ -5,6 +5,8 @@
 # apt's version is too old for the config.
 bat             # better cat, installed as batcat
 build-essential
+curl
+difftastic      # structural diffs for the git dl, ds, and dft aliases
 fd-find         # find alternative, installed as fdfind
 fzf             # Fuzzy finder
 gh              # Github CLI
