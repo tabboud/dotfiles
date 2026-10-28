@@ -18,12 +18,6 @@ export PAGER='less -R'
 export HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/zsh/history"
 mkdir -p "${HISTFILE:h}"
 
-# Merge history left at its old locations inside the repo.
-for old in "$ZDOTDIR/.zsh_history" "$DOTFILES/zsh/.config/zsh/.zsh_history"; do
-  [[ -f "$old" ]] && cat "$old" >> "$HISTFILE" && rm "$old"
-done
-unset old
-
 if command -v nvim 2>&1 > /dev/null; then
   export EDITOR='nvim'
   export GIT_EDITOR='nvim'

@@ -1,8 +1,8 @@
 # Ubuntu packages installed by dots bootstrap. macOS uses the Brewfile instead.
 #
-# Packages that the running Ubuntu release does not provide are skipped. cheat, dive,
-# glow, gum, and yq are not available from Ubuntu, and Neovim is installed with snap
-# since apt's version is too old for the config.
+# Packages that the running Ubuntu release does not provide are skipped. dive, glow,
+# gum, and yq are not available from Ubuntu, and Neovim is installed with snap since
+# apt's version is too old for the config.
 bat             # better cat, installed as batcat
 build-essential
 fd-find         # find alternative, installed as fdfind
