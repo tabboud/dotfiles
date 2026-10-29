@@ -25,7 +25,6 @@ brew "lazygit"
 brew "neovim"
 brew "nnn"
 brew "python"
-brew "reattach-to-user-namespace"
 brew "ripgrep"      # grep alternative
 brew "sd"           # sed alternative
 brew "shellcheck"   # diagnostics for shell scripts
