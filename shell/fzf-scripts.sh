@@ -22,26 +22,29 @@ c () {
 # listed sessions sorted by most recently attached.
 #
 # Commands:
-# tm: select an open tmux session via fzf
+# tm: select an open tmux session via fzf, or type a new name to create one
 # tm <session-name>: Attaches to <session-name> or creates it
 tm() {
   [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
   if [ $1 ]; then
-    tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
+    tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s "$1" && tmux $change -t "$1"); return
   fi
 
   # list sessions by most recently attached first
   # Uses the "session_last_attached" format as the sorting field but strips off this timestamp
   # before presenting the selection.
-  sessions=$(tmux list-sessions -F "#{session_last_attached} #{session_name}" 2>/dev/null)
-  if [[ -z "${sessions}" ]]; then
-      echo "No active sessions"
-      return
-  fi
-  session=$(echo "${sessions}" | sort -Vr | awk '{print $2}' | fzf --prompt="Select tmux session: " --exit-0 --reverse --height=20 --border)
-  if [[ -n "${session}" ]]; then
-    tmux $change -t "$session" || echo "No sessions found."
-  fi
+  # With --print-query the typed query is the first line and the selection (if any) the second,
+  # so a query that matches nothing, or alt-enter, falls through to creating a new session.
+  local out session
+  out=$(tmux list-sessions -F "#{session_last_attached} #{session_name}" 2>/dev/null \
+    | sort -Vr | cut -d' ' -f2- \
+    | fzf --print-query --bind=alt-enter:print-query \
+        --prompt="Select tmux session: " --header="enter: select or create, alt-enter: create from query" \
+        --reverse --height=20 --border)
+  # 0 is a selection, 1 is no match, anything else is a cancel or error
+  (( $? > 1 )) && return
+  session=$(echo "${out}" | tail -1)
+  [[ -n "${session}" ]] && tm "${session}"
 }
 
 # Delete git branches.
