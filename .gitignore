@@ -1,5 +1,8 @@
 config/nvim/.netrwhist
 
+# zsh history lives in $XDG_STATE_HOME, but macOS /etc/zshrc and older configs put it in $ZDOTDIR.
+config/zsh/.zsh_history*
+
 # gh CLI
 config/gh/*
 !config/gh/config.yml
