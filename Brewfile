@@ -6,7 +6,6 @@ cask "font-jetbrains-mono-nerd-font"
 cask "ghostty"
 cask "hammerspoon"
 cask "hiddenbar"    # Hide OSX window bar items
-cask "raycast"      # Spotlight replacement
 cask "rectangle"    # Window snapping
 cask "spotify"
 cask "zulu"         # Java install
