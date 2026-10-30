@@ -1,12 +1,9 @@
 local map = vim.keymap.set
 
--- TODO: Add all plugin keymaps here and import or call a method to use
-
 -- Setup leader mappings - normal (n) / visual (x) mode map a space to a noop
 vim.g.mapleader = " "
 map({ 'n', 'x' }, " ", "", { desc = "Set leader key" })
 map("n", "Q", "", { desc = "Disable Ex mode" })
-map("n", "Y", "y$", { desc = "Yank until EOL" })
 map("n", "n", "nzzzv", { desc = "Center screen on search (next)" })
 map("n", "N", "Nzzzv", { desc = "Center screen on search (prev)" })
 map("n", "j", "gj", { desc = "Move down" })
@@ -20,13 +17,12 @@ map("n", "<C-y>", "3<C-y>", { desc = "Scroll up viewport" })
 map("n", "<C-w><", "10<C-w>>", { desc = "Shift window left" })
 map("n", "<C-w>>", "10<C-w><", { desc = "Shift window right" })
 map("n", "]]", '<cmd>call search("^func")<cr>', { desc = "Jump to next func" })
-map("n", "[[", ':call search("^func", "b")<cr>', { desc = "Jump to prev func" })
-map("n", "<leader>v", "<cmd>set paste!<cr>", { desc = "Toggle paste mode" })
+map("n", "[[", '<cmd>call search("^func", "b")<cr>', { desc = "Jump to prev func" })
 map("n", "<leader>a", "<cmd>%y+<cr>", { desc = "Copy the entire buffer" })
 map("n", "<leader>w", "<cmd>w<cr>", { desc = "Write file" })
 map("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
-map("n", "Qa", "", { desc = "Quit all" })
-map("n", "<leader>tt", function() return require("go").ToggleTest(false) end, { desc = "Go: Toggle Go test" })
+map("n", "*", "<cmd>let @/ = '\\<' .. expand('<cword>') .. '\\>' | set hlsearch<cr>",
+  { desc = "Highlight word under cursor without jumping" })
 map("v", "*", "<Esc>/\\%V", { desc = "Visual search word under cursor (next)" })
 map("v", "#", "<Esc>?\\%V", { desc = "Visual search word under cursor (prev)" })
 map("v", "<leader>jq", ":!jq<cr>", { desc = "Format JSON" })
@@ -35,104 +31,12 @@ map("n", "<leader>]", ">>", { desc = "Shift right" })
 map("v", "<leader>[", "<gv", { desc = "Shift left" })
 map("v", "<leader>]", ">gv", { desc = "Shift right" })
 map("t", "<Esc>", "<c-\\><c-n>", { desc = "Terminal: exit terminal mode" })
-map("n", "<leader>m", "<cmd>Markview toggle<cr>", { desc = "Toggle Markview" })
-map("n", "<leader>cr", function()
-  vim.lsp.codelens.run()
-end, { desc = "CodeLens: run" })
+map("n", "<leader>gh", "<cmd>GH<cr>", { desc = "GH commands" })
 
--- Highlight word without jumping
--- Convert into lua
--- M.nnoremap("*", "<cmd>let @/= '<' . expand('<cword>') . '>' <bar> set hls <cr>",
---   { desc = "Highlight word without jumping" })
-vim.cmd [[ nnoremap <silent> * :let @/= '\<' . expand('<cword>') . '\>' <bar> set hls <cr> ]]
-
-
--- Pack commands
-vim.api.nvim_create_user_command("PackUpdate", function ()
-  vim.pack.update()
-end, {})
-
-
--- Custom 'gh' commands
-vim.api.nvim_create_user_command(
-  "GH",
-  function()
-    if not vim.fn.executable('gh') then
-      print("'gh' executable not found")
-      return
-    end
-
-    vim.ui.select(
-      {
-        {
-          name = "View Repo",
-          callback = function()
-            vim.fn.system("gh repo view --web")
-          end,
-        },
-        {
-          name = "View PR",
-          callback = function()
-            vim.ui.input(
-              { prompt = "Enter PR #: " },
-              function(input)
-                if input == nil or input == "" then
-                  return
-                end
-                vim.fn.system("gh pr view --web " .. input)
-              end)
-          end,
-        },
-        {
-          name = "Browse the current buffer in GH",
-          callback = function()
-            local currentLine = vim.fn.line(".")
-            local currentBufferFilepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":.")
-            local fileAndLine = string.format("%s:%s", currentBufferFilepath, currentLine)
-            vim.notify("Opening " .. fileAndLine .. " in the browser")
-            vim.fn.system("gh browse " .. fileAndLine)
-          end,
-        },
-        -- # gh+git
-        -- gh browse README.md:3-5 --no-browser --commit=$(git rev-parse HEAD)
-        -- # https://github.com/cli/cli/blob/2a4160a3a38d3c05a1395b32cd422d5fe1a8e92d/README.md?plain=1#L3-L5
-        {
-          name = "Permalink current line",
-          callback = function()
-            local currentLine = vim.fn.line(".")
-            local currentBufferFilepath = vim.fn.fnamemodify(vim.fn.expand("%"), ":.")
-            local fileAndLine = string.format("%s:%s", currentBufferFilepath, currentLine)
-            local out = vim.fn.system("gh browse " .. fileAndLine .. " --no-browser --commit=$(git rev-parse HEAD)")
-            -- notify ans copy the permalink
-            vim.notify("Copied permalink")
-            vim.fn.setreg('+', out)
-          end,
-        },
-      },
-      {
-        prompt = "Select a GH command: ",
-        format_item = function(cmd)
-          return cmd.name
-        end
-      },
-      function(choice)
-        if choice then
-          choice.callback()
-        end
-      end
-    )
-  end,
-  {}
-)
-map("n", "<leader>gh", ":GH<CR>", { desc = "GH commands" })
-
----Window Movement Shortcuts
----Moves to the window in the direction shown or creates a new window
+---Moves to the window in the direction of key, creating a split if there is none.
 ---@param key string
 local winmove = function(key)
   local current_window_num = vim.api.nvim_win_get_number(0)
-  -- Try moving to the desired window, if the window number is the same,
-  -- then create a new split before moving into it
   vim.cmd('wincmd ' .. key)
   if current_window_num == vim.api.nvim_win_get_number(0) then
     if key == 'j' or key == 'k' then
@@ -140,12 +44,11 @@ local winmove = function(key)
     else
       vim.cmd('wincmd v') -- new vertical split
     end
-    -- switch to the new window
     vim.cmd('wincmd ' .. key)
   end
 end
 
-map("n", "<C-h>", function() winmove('h') end, { desc = "Copy or move to file (left)", silent = true })
-map("n", "<C-j>", function() winmove('j') end, { desc = "Copy or move to file (down)", silent = true })
-map("n", "<C-k>", function() winmove('k') end, { desc = "Copy or move to file (up)", silent = true })
-map("n", "<C-l>", function() winmove('l') end, { desc = "Copy or move to file (right)", silent = true })
+map("n", "<C-h>", function() winmove('h') end, { desc = "Move to or create window (left)", silent = true })
+map("n", "<C-j>", function() winmove('j') end, { desc = "Move to or create window (down)", silent = true })
+map("n", "<C-k>", function() winmove('k') end, { desc = "Move to or create window (up)", silent = true })
+map("n", "<C-l>", function() winmove('l') end, { desc = "Move to or create window (right)", silent = true })

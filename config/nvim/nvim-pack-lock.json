@@ -34,14 +34,6 @@
       "rev": "91b7e58b6ffc6ddad5acb7a7c1df21257724449e",
       "src": "https://github.com/MagicDuck/grug-far.nvim"
     },
-    "lazygit.nvim": {
-      "rev": "9ffc6103926718f7070fb4017694543cd7dc9718",
-      "src": "https://github.com/kdheepak/lazygit.nvim"
-    },
-    "lspsaga.nvim": {
-      "rev": "cf6fc9473bba1d332eda9887855ea29ed9b37701",
-      "src": "https://github.com/glepnir/lspsaga.nvim"
-    },
     "lualine.nvim": {
       "rev": "221ce6b2d999187044529f49da6554a92f740a96",
       "src": "https://github.com/nvim-lualine/lualine.nvim"
@@ -74,7 +66,7 @@
     },
     "neogit": {
       "rev": "697ad3ee86a73cf6b6758b838d7a7d76cf3b9f86",
-      "src": "https://github.com/TimUntersberger/neogit"
+      "src": "https://github.com/NeogitOrg/neogit"
     },
     "neotest": {
       "rev": "27bf921498043f7ecd821d6db68d05de244bbd02",
@@ -104,10 +96,6 @@
     "nvim-dap-ui": {
       "rev": "cc9dd33aade7f20bae414d0cba163bc60d4d4b43",
       "src": "https://github.com/rcarriga/nvim-dap-ui"
-    },
-    "nvim-dap-view": {
-      "rev": "b4486a6e83c45db4712849c09a76ef95b41a2133",
-      "src": "https://github.com/igorlfs/nvim-dap-view"
     },
     "nvim-dap-virtual-text": {
       "rev": "fbdb48c2ed45f4a8293d0d483f7730d24467ccb6",
@@ -153,10 +141,6 @@
     "vim-fugitive": {
       "rev": "3b753cf8c6a4dcde6edee8827d464ba9b8c4a6f0",
       "src": "https://github.com/tpope/vim-fugitive"
-    },
-    "vim-markdown": {
-      "rev": "1bc9d0cd8e1cc3e901b0a49c2b50a843f1c89397",
-      "src": "https://github.com/preservim/vim-markdown"
     },
     "vim-rooter": {
       "rev": "51402fb77c4d6ae94994e37dc7ca13bec8f4afcc",

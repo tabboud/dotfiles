@@ -48,23 +48,23 @@ require("gitsigns").setup({
     changedelete = { text = icons.git.GitChangeDelete },
   },
   on_attach = function(bufnr)
-    local gs = package.loaded.gitsigns
+    local gs = require("gitsigns")
 
     vim.keymap.set("n", ']c', function()
-      if vim.wo.diff then return ']c' end
-      vim.schedule(function()
-        gs.next_hunk({ preview = false })
-      end)
-      return '<Ignore>'
-    end, { expr = true, buffer = bufnr, desc = "Git: go to next hunk" })
+      if vim.wo.diff then
+        vim.cmd.normal({ ']c', bang = true })
+      else
+        gs.nav_hunk('next')
+      end
+    end, { buffer = bufnr, desc = "Git: go to next hunk" })
 
     vim.keymap.set("n", '[c', function()
-      if vim.wo.diff then return '[c' end
-      vim.schedule(function()
-        gs.prev_hunk({ preview = false })
-      end)
-      return '<Ignore>'
-    end, { expr = true, buffer = bufnr, desc = "Git: go to previous hunk" })
+      if vim.wo.diff then
+        vim.cmd.normal({ '[c', bang = true })
+      else
+        gs.nav_hunk('prev')
+      end
+    end, { buffer = bufnr, desc = "Git: go to previous hunk" })
 
     vim.keymap.set("n", '<leader>gd', gs.diffthis, { buffer = bufnr, desc = "Git: diff current file" })
     vim.keymap.set("n", '<leader>gp', gs.preview_hunk, { buffer = bufnr, desc = "Git: preview hunk" })

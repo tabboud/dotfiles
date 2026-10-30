@@ -1,3 +1,3 @@
-" Disable editorconfig enforcement for Python files
+" Disable editorconfig enforcement for Python buffers.
 " Disabling prevents automatic format on save.
-let g:editorconfig = v:false
+let b:editorconfig = v:false

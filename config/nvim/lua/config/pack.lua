@@ -5,15 +5,7 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_matchparen = 1
-vim.g.loaded_2html_plugin = 1
-vim.g.loaded_getscript = 1
-vim.g.loaded_getscriptPlugin = 1
-vim.g.loaded_logiPat = 1
-vim.g.loaded_rrhelper = 1
-vim.g.loaded_tohtml = 1
-vim.g.loaded_tutor = 1
-vim.g.loaded_vimball = 1
-vim.g.loaded_vimballPlugin = 1
+vim.g.loaded_tutor_mode_plugin = 1
 
 -- PackChanged hooks MUST be registered before vim.pack.add() so they fire on first install too
 vim.api.nvim_create_autocmd('PackChanged', {
@@ -70,10 +62,9 @@ vim.pack.add({
 
   -- Git
   'https://github.com/tpope/vim-fugitive',
-  'https://github.com/TimUntersberger/neogit',
+  'https://github.com/NeogitOrg/neogit',
   'https://github.com/sindrets/diffview.nvim',
   'https://github.com/lewis6991/gitsigns.nvim',
-  'https://github.com/kdheepak/lazygit.nvim',
 
   -- Tools
   'https://github.com/tpope/vim-surround',
@@ -89,8 +80,7 @@ vim.pack.add({
   -- Mini
   { src = 'https://github.com/echasnovski/mini.nvim', version = 'stable' },
 
-  -- Languages
-  'https://github.com/preservim/vim-markdown',
+  -- Markdown
   'https://github.com/OXY2DEV/markview.nvim',
 })
 

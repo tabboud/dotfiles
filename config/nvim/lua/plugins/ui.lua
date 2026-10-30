@@ -1,14 +1,6 @@
 -- ui.lua
 local colors = {
-  black        = '#282828',
-  white        = '#ebdbb2',
-  red          = '#fb4934',
   green        = '#b8bb26',
-  blue         = '#83a598',
-  yellow       = '#fe8019',
-  gray         = '#a89984',
-  darkgray     = '#3c3836',
-  lightgray    = '#504945',
   inactivegray = '#7c6f64',
 }
 
@@ -21,12 +13,8 @@ local project_name = function()
 end
 
 local get_attached_lsp = function()
-  for _, client in ipairs(vim.lsp.get_clients()) do
-    if client.attached_buffers[vim.api.nvim_get_current_buf()] then
-      return string.format("%s LSP: %s ", icons.Lsp, client.name)
-    end
-  end
-  return string.format("%s LSP: none ", icons.Lsp)
+  local client = vim.lsp.get_clients({ bufnr = 0 })[1]
+  return string.format("%s LSP: %s ", icons.Lsp, client and client.name or "none")
 end
 
 local custom_jellybeans = require 'lualine.themes.jellybeans'
@@ -68,8 +56,6 @@ require('lualine').setup {
     lualine_y = {},
     lualine_z = {},
   },
-  tabline = {},
-  extensions = {},
 }
 
 -- Bufferline

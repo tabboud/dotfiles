@@ -1,5 +1,4 @@
 -- mini.lua
-require('mini.files').setup()
 require('mini.pairs').setup({
   modes = { insert = true, command = true, terminal = false },
   -- skip autopair when next character is one of these
